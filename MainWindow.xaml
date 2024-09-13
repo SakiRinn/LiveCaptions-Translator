@@ -6,14 +6,14 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:local="clr-namespace:LiveCaptionsTranslator"
         mc:Ignorable="d"
-        Title="LiveCaptionsTranslator" Height="450" Width="800"
+        Title="LiveCaptionsTranslator" Height="150" Width="600"
         ResizeMode="CanResizeWithGrip" Background="Transparent" WindowStyle="None">
     <Grid>
-        <ui:Card Margin="10" Padding="10" Background="#202020">
+        <ui:Card Height="150" Width="600" Background="#202020">
             <Grid>
                 <!-- Central TextBox (transparent when necessary) -->
                 <TextBox VerticalAlignment="Center" HorizontalAlignment="Center"
-                         Height="100" Width="600" Background="#303030" BorderThickness="1"
+                         Height="100" Width="500" Background="#303030" BorderThickness="1"
                          BorderBrush="#505050" Text="" IsReadOnly="True"/>
 
                 <!-- StackPanel for top-right buttons -->

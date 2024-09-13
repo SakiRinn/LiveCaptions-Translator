@@ -80,7 +80,7 @@ namespace LiveCaptionsTranslator
             }
             else
             {
-                return $"Error: {response.StatusCode}";
+                return $"HTTP Error: {response.StatusCode}";
             }
         }
     }
