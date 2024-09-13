@@ -1,0 +1,35 @@
+﻿<Window x:Class="LiveCaptionsTranslator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:local="clr-namespace:LiveCaptionsTranslator"
+        mc:Ignorable="d"
+        Title="LiveCaptionsTranslator" Height="450" Width="800"
+        ResizeMode="CanResizeWithGrip" Background="Transparent" WindowStyle="None">
+    <Grid>
+        <ui:Card Margin="10" Padding="10" Background="#202020">
+            <Grid>
+                <!-- Central TextBox (transparent when necessary) -->
+                <TextBox VerticalAlignment="Center" HorizontalAlignment="Center"
+                         Height="100" Width="600" Background="#303030" BorderThickness="1"
+                         BorderBrush="#505050" Text="" IsReadOnly="True"/>
+
+                <!-- StackPanel for top-right buttons -->
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Top">
+                    <!-- Settings Button (gear icon) -->
+                    <ui:Button Width="30" Height="30" Appearance="Transparent"
+                               HorizontalAlignment="Right"
+                               Margin="0,5,5,0"/>
+                    <!-- Close Button (X icon) -->
+                    <ui:Button Width="30" Height="30" Appearance="Transparent" 
+                               HorizontalAlignment="Right"
+                               Margin="0,5,5,0"/>
+                </StackPanel>
+            </Grid>
+        </ui:Card>
+    </Grid>
+</Window>
