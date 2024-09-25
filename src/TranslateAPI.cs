@@ -4,20 +4,21 @@ using System.Text.Json;
 
 namespace LiveCaptionsTranslator
 {
-    class TranslateAPI
+    internal class TranslateAPI
     {
-        private static readonly HttpClient client = new HttpClient();
-        private const string modelName = "";
-        private const string apiKey = "";
-        private const string apiUrl = "";
+        public const string modelName = "";
+        public const string apiKey = "";
+        public const string apiUrl = "";
 
-        public class Message
+        private static readonly HttpClient client = new HttpClient();
+
+        private class Message
         {
             public string role { get; set; }
             public string content { get; set; }
         }
 
-        public class Choice
+        private class Choice
         {
             public int index { get; set; }
             public Message message { get; set; }
@@ -25,7 +26,7 @@ namespace LiveCaptionsTranslator
             public string finish_reason { get; set; }
         }
 
-        public class Usage
+        private class Usage
         {
             public int prompt_tokens { get; set; }
             public int completion_tokens { get; set; }
@@ -34,7 +35,7 @@ namespace LiveCaptionsTranslator
             public int prompt_cache_miss_tokens { get; set; }
         }
 
-        public class OpenAIResponse
+        private class OpenAIResponse
         {
             public string id { get; set; }
             public string @object { get; set; }

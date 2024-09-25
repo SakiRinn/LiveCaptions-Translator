@@ -1,66 +1,48 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Windows.Automation;
+﻿using System.Windows.Automation;
 using System.Text;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace LiveCaptionsTranslator
 {
-    class Program
+    class Caption : INotifyPropertyChanged
     {
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        private const int SW_MINIMIZE = 6;
-        private const int GWL_EXSTYLE = -20;
-        private const int WS_EX_TOOLWINDOW = 0x00000080;
+        public static int translationInterval = 2;
 
         private static readonly char[] PUNC_EOS = ".?!。？！".ToCharArray();
         private static readonly char[] PUNC_COMMA = ",，、—\n".ToCharArray();
-        private static readonly string PROCESS_NAME = "LiveCaptions";
 
-        public static int translationInterval = 2;
+        private string _original;
+        private string _translated;
 
-        public static async Task Main()
+        public string Original
         {
-            AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
-            var window = LaunchLiveCaptions();
-            await Translate(window);
-        }
-
-        static AutomationElement LaunchLiveCaptions()
-        {
-            // Init
-            KillAllProcessesByName(PROCESS_NAME);
-            var process = Process.Start(PROCESS_NAME);
-            AutomationElement windowElement = FindWindowByPID(process.Id);
-
-            // Search window
-            AutomationElement window = null;
-            int attempt_count = 0;
-            while (window == null)
+            get => _original;
+            set
             {
-                window = FindWindowByPID(process.Id);
-                attempt_count++;
-                if (attempt_count > 10000)
-                    throw new Exception("Failed to launch!");
+                _original = value;
+                OnPerpertyChanged("Original");
             }
-
-            // Hide window
-            IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
-            ShowWindow(hWnd, SW_MINIMIZE);
-            int exStyle = GetWindowLong(hWnd, GWL_EXSTYLE);
-            SetWindowLong(hWnd, GWL_EXSTYLE, exStyle | WS_EX_TOOLWINDOW);
-
-            return window;
         }
 
-        static async Task Translate(AutomationElement window)
+        public string Translated
+        {
+            get => _translated;
+            set
+            {
+                _translated = value;
+                OnPerpertyChanged("Translated");
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void OnPerpertyChanged([CallerMemberName] string propName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
+
+        public async Task Translate(AutomationElement window)
         {
             string translatedCaption = "";
             string caption = "";
@@ -107,9 +89,8 @@ namespace LiveCaptionsTranslator
                     else
                         idle_count++;
 
-                    Console.Clear();
-                    Console.WriteLine($"{caption}");
-                    Console.WriteLine($"[Translated] {translatedCaption}");
+                    this.Original = caption;
+                    this.Translated = translatedCaption;
                 }
                 else
                 {
@@ -119,36 +100,12 @@ namespace LiveCaptionsTranslator
                         translatedCaption = await TranslateAPI.OpenAI(caption);
                         idle_count = 0;
 
-                        Console.Clear();
-                        Console.WriteLine($"{caption}");
-                        Console.WriteLine($"[Translated] {translatedCaption}");
+                        this.Original = caption;
+                        this.Translated = translatedCaption;
                     }
                 }
                 Thread.Sleep(50);
             }
-        }
-
-        static void OnProcessExit(object sender, EventArgs e)
-        {
-            KillAllProcessesByName(PROCESS_NAME);
-        }
-
-        static void KillAllProcessesByName(string processName)
-        {
-            var processes = Process.GetProcessesByName(processName);
-            if (processes.Length == 0)
-                return;
-            foreach (Process process in processes)
-            {
-                process.Kill();
-                process.WaitForExit();
-            }
-        }
-
-        static AutomationElement FindWindowByPID(int processId)
-        {
-            var condition = new PropertyCondition(AutomationElement.ProcessIdProperty, processId);
-            return AutomationElement.RootElement.FindFirst(TreeScope.Children, condition);
         }
 
         static string GetCaptions(AutomationElement window)
