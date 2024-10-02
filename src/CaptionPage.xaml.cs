@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace LiveCaptionsTranslator
 {
@@ -8,9 +9,7 @@ namespace LiveCaptionsTranslator
         {
             InitializeComponent();
 
-            var caption = new Caption();
-            this.DataContext = caption;
-            Task.Run(() => caption.Translate(App.Window));
+            DataContext = App.Captions;
         }
     }
 }

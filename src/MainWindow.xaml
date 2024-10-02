@@ -14,6 +14,7 @@
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
     ResizeMode="NoResize"
+    Topmost="True"
     WindowBackdropType="Mica"
     WindowStartupLocation="Manual"
     WindowStyle="None"
@@ -36,7 +37,7 @@
                     Appearance="Transparent"
                     Click="TopmostButton_Click"
                     Icon="{ui:SymbolIcon Pin24,
-                                         Filled=False}" />
+                                         Filled=True}" />
             </ui:TitleBar.Header>
         </ui:TitleBar>
         <ui:NavigationView

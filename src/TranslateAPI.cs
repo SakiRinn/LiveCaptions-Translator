@@ -64,7 +64,7 @@ namespace LiveCaptionsTranslator
                 },
                 stream = false,
                 max_tokens = 64,
-                temperature = 1.1
+                temperature = 1.0
             };
 
             string jsonContent = JsonSerializer.Serialize(requestData);

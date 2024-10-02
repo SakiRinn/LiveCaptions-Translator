@@ -5,49 +5,77 @@ using System.Runtime.CompilerServices;
 
 namespace LiveCaptionsTranslator
 {
-    class Caption : INotifyPropertyChanged
+    public class Caption : INotifyPropertyChanged
     {
-        public static int translationInterval = 2;
+        private static Caption? instance = null;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private static readonly char[] PUNC_EOS = ".?!。？！".ToCharArray();
         private static readonly char[] PUNC_COMMA = ",，、—\n".ToCharArray();
 
-        private string _original;
-        private string _translated;
+        private string original = "";
+        private string translated = "";
+        private char _lastChar = '\0';
+
+        private int maxIdleInterval;
+        private int maxSyncInterval;
+        private int _idleCount = 0;
+        private int _syncCount = 0;
 
         public string Original
         {
-            get => _original;
+            get => original;
             set
             {
-                _original = value;
+                original = value;
                 OnPerpertyChanged("Original");
             }
         }
-
         public string Translated
         {
-            get => _translated;
+            get => translated;
             set
             {
-                _translated = value;
+                translated = value;
                 OnPerpertyChanged("Translated");
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        private Caption()
+        {
+            maxIdleInterval = 10;
+            maxSyncInterval = 5;
+        }
+
+        private Caption(int maxIdleInterval, int maxSyncInterval)
+        {
+            this.maxIdleInterval = maxIdleInterval;
+            this.maxSyncInterval = maxSyncInterval;
+        }
+
+        public static Caption GetInstance()
+        {
+            if (instance != null)
+                return instance;
+            instance = new Caption();
+            return instance;
+        }
+
+        public static Caption GetInstance(int maxIdleInterval, int maxSyncInterval)
+        {
+            if (instance != null)
+                return instance;
+            instance = new Caption(maxIdleInterval, maxSyncInterval);
+            return instance;
+        }
 
         public void OnPerpertyChanged([CallerMemberName] string propName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
-        public async Task Translate(AutomationElement window)
+        public void Sync(AutomationElement window)
         {
-            string translatedCaption = "";
-            string caption = "";
-            int wait_count = 0;
-            int idle_count = 0;
             while (true)
             {
                 string fullText = GetCaptions(window).Trim();
@@ -76,33 +104,32 @@ namespace LiveCaptionsTranslator
                 }
                 latestCaption = latestCaption.Replace("\n", "——");
 
-                if (caption.CompareTo(latestCaption) != 0)
+                if (Original.CompareTo(latestCaption) != 0)
                 {
-                    wait_count = 0;
-                    caption = latestCaption;
-                    if (idle_count > translationInterval || Array.IndexOf(PUNC_EOS, caption[^1]) != -1 ||
-                        Array.IndexOf(PUNC_COMMA, caption[^1]) != -1)
-                    {
-                        translatedCaption = await TranslateAPI.OpenAI(caption);
-                        idle_count = 0;
-                    }
-                    else
-                        idle_count++;
-
-                    this.Original = caption;
-                    this.Translated = translatedCaption;
+                    _idleCount = 0;
+                    _syncCount++;
+                    Original = latestCaption;
+                    _lastChar = latestCaption[^1];
                 }
                 else
                 {
-                    wait_count++;
-                    if (wait_count == 10)
-                    {
-                        translatedCaption = await TranslateAPI.OpenAI(caption);
-                        idle_count = 0;
+                    _idleCount++;
+                }
+                Thread.Sleep(50);
+            }
+        }
 
-                        this.Original = caption;
-                        this.Translated = translatedCaption;
-                    }
+        public async Task Translate()
+        {
+            while (true)
+            {
+                if (_idleCount == maxIdleInterval || _syncCount > maxSyncInterval ||
+                    Array.IndexOf(PUNC_EOS, _lastChar) != -1 || Array.IndexOf(PUNC_COMMA, _lastChar) != -1)
+                {
+                    _syncCount = 0;
+                    Translated = await TranslateAPI.OpenAI(Original);
+                    if (Array.IndexOf(PUNC_EOS, _lastChar) != -1)
+                        Thread.Sleep(1000);
                 }
                 Thread.Sleep(50);
             }

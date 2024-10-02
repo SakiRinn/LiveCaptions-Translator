@@ -15,22 +15,27 @@
 
     <Grid>
         <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+            <StackPanel.Resources>
+                <Style x:Key="CaptionBlockStyle" TargetType="ui:TextBlock">
+                    <Setter Property="Height" Value="60" />
+                    <Setter Property="Padding" Value="8" />
+                    <Setter Property="Background" Value="#3a3a3a" />
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="Foreground" Value="White" />
+                </Style>
+            </StackPanel.Resources>
             <ui:TextBlock
-                x:Name="Caption"
-                Height="60"
+                x:Name="OriginalCaption"
                 Margin="20,5,20,2.5"
-                Background="#3a3a3a"
-                FontSize="16"
-                Foreground="White"
-                Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}" />
+                Style="{StaticResource CaptionBlockStyle}"
+                Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
             <ui:TextBlock
                 x:Name="TranslatedCaption"
-                Height="60"
                 Margin="20,2.5,20,5"
-                Background="#3a3a3a"
-                FontSize="16"
-                Foreground="White"
-                Text="{Binding Translated, UpdateSourceTrigger=PropertyChanged}" />
+                Style="{StaticResource CaptionBlockStyle}"
+                Text="{Binding Translated, UpdateSourceTrigger=PropertyChanged}"
+                TextWrapping="Wrap" />
         </StackPanel>
     </Grid>
 </Page>

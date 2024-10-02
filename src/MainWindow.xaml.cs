@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows;
-using System.Windows.Automation;
+﻿using System.Windows;
 using Wpf.Ui.Controls;
 
 namespace LiveCaptionsTranslator
@@ -10,7 +8,6 @@ namespace LiveCaptionsTranslator
         public MainWindow()
         {
             InitializeComponent();
-            //RootNavigation.Navigate(typeof(CaptionPage));
 
             Loaded += (sender, args) =>
             {
