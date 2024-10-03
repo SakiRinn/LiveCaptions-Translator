@@ -3,10 +3,14 @@ using System.Text;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace LiveCaptionsTranslator
+namespace LiveCaptionsTranslator.models
 {
     public class Caption : INotifyPropertyChanged
     {
+        public bool PauseFlag { get; set; } = false;
+        private bool CountFlag { get; set; } = false;
+        private bool EOSFlag { get; set; } = false;
+
         private static Caption? instance = null;
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -15,12 +19,9 @@ namespace LiveCaptionsTranslator
 
         private string original = "";
         private string translated = "";
-        private char _lastChar = '\0';
 
         private int maxIdleInterval;
         private int maxSyncInterval;
-        private int _idleCount = 0;
-        private int _syncCount = 0;
 
         public string Original
         {
@@ -76,6 +77,9 @@ namespace LiveCaptionsTranslator
 
         public void Sync(AutomationElement window)
         {
+            int idleCount = 0;
+            int syncCount = 0;
+
             while (true)
             {
                 string fullText = GetCaptions(window).Trim();
@@ -106,15 +110,28 @@ namespace LiveCaptionsTranslator
 
                 if (Original.CompareTo(latestCaption) != 0)
                 {
-                    _idleCount = 0;
-                    _syncCount++;
+                    idleCount = 0;
+                    syncCount++;
                     Original = latestCaption;
-                    _lastChar = latestCaption[^1];
+
+                    if (Array.IndexOf(PUNC_EOS, latestCaption[^1]) != -1 || 
+                        Array.IndexOf(PUNC_COMMA, latestCaption[^1]) != -1)
+                    {
+                        syncCount = 0;
+                        EOSFlag = true;
+                    }
+                    else
+                        EOSFlag = false;
                 }
                 else
+                    idleCount++;
+
+                if (idleCount == maxIdleInterval || syncCount > maxSyncInterval)
                 {
-                    _idleCount++;
+                    syncCount = 0;
+                    CountFlag = true;
                 }
+
                 Thread.Sleep(50);
             }
         }
@@ -123,25 +140,32 @@ namespace LiveCaptionsTranslator
         {
             while (true)
             {
-                if (_idleCount == maxIdleInterval || _syncCount > maxSyncInterval ||
-                    Array.IndexOf(PUNC_EOS, _lastChar) != -1 || Array.IndexOf(PUNC_COMMA, _lastChar) != -1)
+                if (PauseFlag)
                 {
-                    _syncCount = 0;
+                    Thread.Sleep(1000);
+                    continue;
+                }
+                if (EOSFlag)
+                {
                     Translated = await TranslateAPI.OpenAI(Original);
-                    if (Array.IndexOf(PUNC_EOS, _lastChar) != -1)
-                        Thread.Sleep(1000);
+                    Thread.Sleep(1000);
+                }
+                if (CountFlag)
+                {
+                    Translated = await TranslateAPI.OpenAI(Original);
+                    CountFlag = false;
                 }
                 Thread.Sleep(50);
             }
         }
 
-        static string GetCaptions(AutomationElement window)
+        public static string GetCaptions(AutomationElement window)
         {
             var treeWalker = TreeWalker.RawViewWalker;
             return GetCaptions(treeWalker, window);
         }
 
-        static string GetCaptions(TreeWalker walker, AutomationElement window)
+        public static string GetCaptions(TreeWalker walker, AutomationElement window)
         {
             var stack = new Stack<AutomationElement>();
             stack.Push(window);

@@ -8,9 +8,9 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="LiveCaptionsTranslator"
     Width="800"
-    Height="165"
+    Height="166"
     MinWidth="800"
-    MinHeight="165"
+    MinHeight="166"
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
     ResizeMode="NoResize"
@@ -29,15 +29,23 @@
         <ui:TitleBar
             Title="LiveCaptionsTranslator"
             Grid.Row="0"
-            Height="27">
+            Height="27"
+            ShowMaximize="False">
             <ui:TitleBar.Header>
-                <ui:Button
-                    x:Name="topmost"
-                    HorizontalAlignment="Right"
-                    Appearance="Transparent"
-                    Click="TopmostButton_Click"
-                    Icon="{ui:SymbolIcon Pin24,
-                                         Filled=True}" />
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <ui:Button
+                        x:Name="pause"
+                        Margin="0,0,5,0"
+                        Appearance="Transparent"
+                        Click="PauseButton_Click"
+                        Icon="{ui:SymbolIcon Pause24, Filled=False}" />
+                    <ui:Button
+                        x:Name="topmost"
+                        Margin="0,0,5,0"
+                        Appearance="Transparent"
+                        Click="TopmostButton_Click"
+                        Icon="{ui:SymbolIcon Pin24, Filled=True}" />
+                </StackPanel>
             </ui:TitleBar.Header>
         </ui:TitleBar>
         <ui:NavigationView
@@ -59,7 +67,8 @@
                     Content="Setting"
                     FontFamily="Bahnschrift"
                     Icon="{ui:SymbolIcon Settings24}"
-                    NavigationCacheMode="Enabled" />
+                    NavigationCacheMode="Enabled"
+                    TargetPageType="{x:Type local:SettingPage}" />
             </ui:NavigationView.MenuItems>
         </ui:NavigationView>
     </Grid>

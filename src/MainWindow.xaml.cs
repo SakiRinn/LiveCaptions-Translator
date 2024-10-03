@@ -35,5 +35,21 @@ namespace LiveCaptionsTranslator
                 symbolIcon.Filled = true;
             }
         }
+
+        void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
+            if (App.Captions.PauseFlag)
+            {
+                App.Captions.PauseFlag = false;
+                symbolIcon.Filled = false;
+            }
+            else
+            {
+                App.Captions.PauseFlag = true;
+                symbolIcon.Filled = true;
+            }
+        }
     }
 }

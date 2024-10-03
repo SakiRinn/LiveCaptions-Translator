@@ -1,8 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace LiveCaptionsTranslator
+namespace LiveCaptionsTranslator.models
 {
-    internal class WindowsAPI
+    internal static class WindowsAPI
     {
         public const int SW_MINIMIZE = 6;
         public const int GWL_EXSTYLE = -20;

@@ -2,22 +2,22 @@
 using System.Text;
 using System.Text.Json;
 
-namespace LiveCaptionsTranslator
+namespace LiveCaptionsTranslator.models
 {
-    internal class TranslateAPI
+    internal static class TranslateAPI
     {
-        public const string modelName = "";
-        public const string apiKey = "";
-        public const string apiUrl = "";
-
         private static readonly HttpClient client = new HttpClient();
+
+        public static string ModelName { get; set; } = "";
+        public static string ApiKey { get; set; } = "";
+        public static string ApiUrl { get; set; } = "";
+        public static double Temperature { get; set; } = 1.0;
 
         private class Message
         {
             public string role { get; set; }
             public string content { get; set; }
         }
-
         private class Choice
         {
             public int index { get; set; }
@@ -25,7 +25,6 @@ namespace LiveCaptionsTranslator
             public string logprobs { get; set; }
             public string finish_reason { get; set; }
         }
-
         private class Usage
         {
             public int prompt_tokens { get; set; }
@@ -34,7 +33,6 @@ namespace LiveCaptionsTranslator
             public int prompt_cache_hit_tokens { get; set; }
             public int prompt_cache_miss_tokens { get; set; }
         }
-
         private class OpenAIResponse
         {
             public string id { get; set; }
@@ -50,7 +48,7 @@ namespace LiveCaptionsTranslator
         {
             var requestData = new
             {
-                model = modelName,
+                model = ModelName,
                 messages = new Message[]
                 {
                     new Message { role = "system", content =
@@ -62,17 +60,17 @@ namespace LiveCaptionsTranslator
                     },
                     new Message { role = "user", content = $"🔤 {text} 🔤" }
                 },
-                stream = false,
+                temperature = Temperature,
                 max_tokens = 64,
-                temperature = 1.0
+                stream = false
             };
 
             string jsonContent = JsonSerializer.Serialize(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
 
-            var response = await client.PostAsync(apiUrl, content);
+            var response = await client.PostAsync(ApiUrl, content);
             if (response.IsSuccessStatusCode)
             {
                 string responseString = await response.Content.ReadAsStringAsync();

@@ -2,13 +2,11 @@
 
 namespace LiveCaptionsTranslator
 {
-    public partial class CaptionPage : Page
+    public partial class SettingPage : Page
     {
-        public CaptionPage()
+        public SettingPage()
         {
             InitializeComponent();
-
-            DataContext = App.Captions;
         }
     }
 }
