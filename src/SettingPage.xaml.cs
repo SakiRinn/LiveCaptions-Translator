@@ -7,6 +7,7 @@ namespace LiveCaptionsTranslator
         public SettingPage()
         {
             InitializeComponent();
+            DataContext = App.Settings;
         }
     }
 }

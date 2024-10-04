@@ -4,15 +4,8 @@ using System.Text.Json;
 
 namespace LiveCaptionsTranslator.models
 {
-    internal static class TranslateAPI
+    public static class TranslateAPI
     {
-        private static readonly HttpClient client = new HttpClient();
-
-        public static string ModelName { get; set; } = "";
-        public static string ApiKey { get; set; } = "";
-        public static string ApiUrl { get; set; } = "";
-        public static double Temperature { get; set; } = 1.0;
-
         private class Message
         {
             public string role { get; set; }
@@ -44,11 +37,14 @@ namespace LiveCaptionsTranslator.models
             public string system_fingerprint { get; set; }
         }
 
+        private static readonly HttpClient client = new HttpClient();
+
         internal static async Task<string> OpenAI(string text)
         {
+            var config = App.Settings.CurrentAPIConfig as OpenAIConfig;  
             var requestData = new
             {
-                model = ModelName,
+                model = config?.ModelName,
                 messages = new Message[]
                 {
                     new Message { role = "system", content =
@@ -60,7 +56,7 @@ namespace LiveCaptionsTranslator.models
                     },
                     new Message { role = "user", content = $"🔤 {text} 🔤" }
                 },
-                temperature = Temperature,
+                temperature = config?.Temperature,
                 max_tokens = 64,
                 stream = false
             };
@@ -68,9 +64,17 @@ namespace LiveCaptionsTranslator.models
             string jsonContent = JsonSerializer.Serialize(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {ApiKey}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
 
-            var response = await client.PostAsync(ApiUrl, content);
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.PostAsync(config?.ApiUrl, content);
+            }
+            catch (InvalidOperationException ex) {
+                return $"[Translation Failed] Empty API Url.";
+            }
+
             if (response.IsSuccessStatusCode)
             {
                 string responseString = await response.Content.ReadAsStringAsync();
@@ -78,9 +82,7 @@ namespace LiveCaptionsTranslator.models
                 return responseObj.choices[0].message.content;
             }
             else
-            {
-                return $"HTTP Error: {response.StatusCode}";
-            }
+                return $"[Translation Failed] HTTP Error - {response.StatusCode}.";
         }
     }
 }

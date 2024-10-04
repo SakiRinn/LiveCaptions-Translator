@@ -10,10 +10,6 @@
     Title="CaptionPage"
     mc:Ignorable="d">
 
-    <Page.DataContext>
-        <localModel:Caption />
-    </Page.DataContext>
-
     <Grid>
         <StackPanel VerticalAlignment="Center" Orientation="Vertical">
             <StackPanel.Resources>
@@ -27,13 +23,13 @@
             </StackPanel.Resources>
             <ui:TextBlock
                 x:Name="OriginalCaption"
-                Margin="20,5,20,2.5"
+                Margin="15,5,20,2.5"
                 Style="{StaticResource CaptionBlockStyle}"
                 Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap" />
             <ui:TextBlock
                 x:Name="TranslatedCaption"
-                Margin="20,2.5,20,5"
+                Margin="15,2.5,20,5"
                 Style="{StaticResource CaptionBlockStyle}"
                 Text="{Binding Translated, UpdateSourceTrigger=PropertyChanged}"
                 TextWrapping="Wrap" />

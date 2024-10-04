@@ -2,13 +2,11 @@
 
 namespace LiveCaptionsTranslator.models
 {
-    internal static class WindowsAPI
+    public static class WindowsAPI
     {
         public const int SW_MINIMIZE = 6;
         public const int GWL_EXSTYLE = -20;
         public const int WS_EX_TOOLWINDOW = 0x00000080;
-
-        public static readonly string PROCESS_NAME = "LiveCaptions";
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);

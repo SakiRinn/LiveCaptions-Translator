@@ -7,10 +7,6 @@ namespace LiveCaptionsTranslator.models
 {
     public class Caption : INotifyPropertyChanged
     {
-        public bool PauseFlag { get; set; } = false;
-        private bool CountFlag { get; set; } = false;
-        private bool EOSFlag { get; set; } = false;
-
         private static Caption? instance = null;
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -22,6 +18,10 @@ namespace LiveCaptionsTranslator.models
 
         private int maxIdleInterval;
         private int maxSyncInterval;
+
+        public bool PauseFlag { get; set; } = false;
+        public bool TranslateFlag { get; set; } = false;
+        private bool EOSFlag { get; set; } = false;
 
         public string Original
         {
@@ -118,6 +118,7 @@ namespace LiveCaptionsTranslator.models
                         Array.IndexOf(PUNC_COMMA, latestCaption[^1]) != -1)
                     {
                         syncCount = 0;
+                        TranslateFlag = true;
                         EOSFlag = true;
                     }
                     else
@@ -129,7 +130,7 @@ namespace LiveCaptionsTranslator.models
                 if (idleCount == maxIdleInterval || syncCount > maxSyncInterval)
                 {
                     syncCount = 0;
-                    CountFlag = true;
+                    TranslateFlag = true;
                 }
 
                 Thread.Sleep(50);
@@ -145,15 +146,12 @@ namespace LiveCaptionsTranslator.models
                     Thread.Sleep(1000);
                     continue;
                 }
-                if (EOSFlag)
+                if (TranslateFlag)
                 {
                     Translated = await TranslateAPI.OpenAI(Original);
-                    Thread.Sleep(1000);
-                }
-                if (CountFlag)
-                {
-                    Translated = await TranslateAPI.OpenAI(Original);
-                    CountFlag = false;
+                    TranslateFlag = false;
+                    if (EOSFlag)
+                        Thread.Sleep(1000);
                 }
                 Thread.Sleep(50);
             }
