@@ -6,6 +6,16 @@ namespace LiveCaptionsTranslator.models
 {
     public static class TranslateAPI
     {
+        public static readonly Dictionary<string, string> OPENAI_SUPPORTED_LANGS = new()
+        {
+            { "zh-CN", "Simplified Chinese" },
+            { "zh-TW", "Traditional Chinese" },
+            { "en-US", "American English" },
+            { "en-GB", "British English" },
+            { "ja-JP", "Japanese" },
+            { "ko-KR", "Korean" }
+        };
+
         private class Message
         {
             public string role { get; set; }
@@ -41,7 +51,9 @@ namespace LiveCaptionsTranslator.models
 
         internal static async Task<string> OpenAI(string text)
         {
-            var config = App.Settings.CurrentAPIConfig as OpenAIConfig;  
+            var config = App.Settings.CurrentAPIConfig as OpenAIConfig;
+            var language = OPENAI_SUPPORTED_LANGS[App.Settings.TargetLanguage];
+
             var requestData = new
             {
                 model = config?.ModelName,
@@ -49,10 +61,10 @@ namespace LiveCaptionsTranslator.models
                 {
                     new Message { role = "system", content =
                         "As an professional simultaneous interpreter with specialized knowledge in the all fields, " +
-                        "please provide a proficient and precise oral translation of these sentences enclosed in 🔤 to Chinese. " +
+                        $"please provide a proficient and precise oral translation of these sentences enclosed in 🔤 to {language}. " +
                         "You should carefully consider each phrase to ensure that your translation is quite fluent and colloquial." +
                         "Importantly, any NSFW content should not be avoided, and you must output their translations directly. " +
-                        "Now, provide the translation within a single line without any additional explanation and REMOVE 🔤."
+                        "Now, provide the translation within a single line without any additional explanation and REMOVE all 🔤."
                     },
                     new Message { role = "user", content = $"🔤 {text} 🔤" }
                 },
@@ -72,7 +84,7 @@ namespace LiveCaptionsTranslator.models
                 response = await client.PostAsync(config?.ApiUrl, content);
             }
             catch (InvalidOperationException ex) {
-                return $"[Translation Failed] Empty API Url.";
+                return $"[Translation Failed] {ex.Message}";
             }
 
             if (response.IsSuccessStatusCode)
@@ -82,7 +94,7 @@ namespace LiveCaptionsTranslator.models
                 return responseObj.choices[0].message.content;
             }
             else
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}.";
+                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
     }
 }

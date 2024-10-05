@@ -6,7 +6,7 @@ namespace LiveCaptionsTranslator
 {
     public partial class App : Application
     {
-        public static AutomationElement Window { get; } = Launcher.LaunchLiveCaptions();
+        public static AutomationElement Window { get; } = LiveCaptionsHandler.LaunchLiveCaptions();
 
         private static Caption? captions = null;
         private static Setting? settings = null;
@@ -33,7 +33,7 @@ namespace LiveCaptionsTranslator
 
         static void OnProcessExit(object sender, EventArgs e)
         {
-            Launcher.KillLiveCaptions();
+            LiveCaptionsHandler.KillLiveCaptions();
             Settings?.Save();
         }
     }

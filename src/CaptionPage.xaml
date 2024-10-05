@@ -11,28 +11,34 @@
     mc:Ignorable="d">
 
     <Grid>
-        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-            <StackPanel.Resources>
-                <Style x:Key="CaptionBlockStyle" TargetType="ui:TextBlock">
-                    <Setter Property="Height" Value="60" />
-                    <Setter Property="Padding" Value="8" />
-                    <Setter Property="Background" Value="#3a3a3a" />
-                    <Setter Property="FontSize" Value="16" />
-                    <Setter Property="Foreground" Value="White" />
-                </Style>
-            </StackPanel.Resources>
-            <ui:TextBlock
-                x:Name="OriginalCaption"
-                Margin="15,5,20,2.5"
-                Style="{StaticResource CaptionBlockStyle}"
-                Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
-            <ui:TextBlock
-                x:Name="TranslatedCaption"
-                Margin="15,2.5,20,5"
-                Style="{StaticResource CaptionBlockStyle}"
-                Text="{Binding Translated, UpdateSourceTrigger=PropertyChanged}"
-                TextWrapping="Wrap" />
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <Style x:Key="CaptionBlockStyle" TargetType="ui:TextBlock">
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="Background" Value="#3a3a3a" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+        </Grid.Resources>
+        <ui:TextBlock
+            x:Name="OriginalCaption"
+            Grid.Row="0"
+            Margin="15,5,20,2.5"
+            VerticalAlignment="Stretch"
+            Style="{StaticResource CaptionBlockStyle}"
+            Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
+        <ui:TextBlock
+            x:Name="TranslatedCaption"
+            Grid.Row="1"
+            Margin="15,2.5,20,5"
+            VerticalAlignment="Stretch"
+            Style="{StaticResource CaptionBlockStyle}"
+            Text="{Binding Translated, UpdateSourceTrigger=PropertyChanged}"
+            TextWrapping="Wrap" />
     </Grid>
 </Page>

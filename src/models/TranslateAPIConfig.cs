@@ -58,7 +58,7 @@ namespace LiveCaptionsTranslator.models
             set
             {
                 temperature = value;
-                OnPropertyChanged("temperature");
+                OnPropertyChanged("Temperature");
             }
         }
     }

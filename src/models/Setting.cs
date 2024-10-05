@@ -13,7 +13,6 @@ namespace LiveCaptionsTranslator.models
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private string apiName;
-        private string sourceLanguage;
         private string targetLanguage;
         private Dictionary<string, TranslateAPIConfig> configs;
 
@@ -27,15 +26,6 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("CurrentAPIConfig");
             }
         }
-        public string SourceLanguage
-        {
-            get => sourceLanguage;
-            set
-            {
-                sourceLanguage = value;
-                OnPropertyChanged("SourceLanguage");
-            }
-        }
         public string TargetLanguage
         {
             get => targetLanguage;
@@ -47,7 +37,7 @@ namespace LiveCaptionsTranslator.models
         }
 
         [JsonInclude]
-        private Dictionary<string, TranslateAPIConfig> Configs
+        public Dictionary<string, TranslateAPIConfig> Configs
         {
             get => configs;
             set
@@ -66,19 +56,17 @@ namespace LiveCaptionsTranslator.models
         public Setting()
         {
             apiName = "OpenAI";
-            sourceLanguage = "";
-            targetLanguage = "";
+            targetLanguage = "zh-CN";
             configs = new Dictionary<string, TranslateAPIConfig>
             {
                 { "OpenAI", new OpenAIConfig() }
             };
         }
 
-        public Setting(string apiName, string sourceLanguage, string targetLanguage, 
+        public Setting(string apiName, string sourceLanguage, string targetLanguage,
             Dictionary<string, TranslateAPIConfig> configs)
         {
             this.apiName = apiName;
-            this.sourceLanguage = sourceLanguage;
             this.targetLanguage = targetLanguage;
             this.configs = configs;
         }
@@ -118,8 +106,8 @@ namespace LiveCaptionsTranslator.models
         {
             using (FileStream fileStream = File.Create(jsonPath))
             {
-                var options = new JsonSerializerOptions 
-                { 
+                var options = new JsonSerializerOptions
+                {
                     WriteIndented = true,
                     Converters = { new ConfigDictConverter() }
                 };

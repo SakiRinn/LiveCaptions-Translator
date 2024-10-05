@@ -159,29 +159,10 @@ namespace LiveCaptionsTranslator.models
 
         public static string GetCaptions(AutomationElement window)
         {
-            var treeWalker = TreeWalker.RawViewWalker;
-            return GetCaptions(treeWalker, window);
-        }
-
-        public static string GetCaptions(TreeWalker walker, AutomationElement window)
-        {
-            var stack = new Stack<AutomationElement>();
-            stack.Push(window);
-
-            while (stack.Count > 0)
-            {
-                var element = stack.Pop();
-                if (element.Current.AutomationId.CompareTo("CaptionsTextBlock") == 0)
-                    return element.Current.Name;
-
-                var child = walker.GetFirstChild(element);
-                while (child != null)
-                {
-                    stack.Push(child);
-                    child = walker.GetNextSibling(child);
-                }
-            }
-            return string.Empty;
+            var captionsTextBlock = LiveCaptionsHandler.FindElementByAId(window, "CaptionsTextBlock");
+            if (captionsTextBlock == null)
+                return string.Empty;
+            return captionsTextBlock.Current.Name;
         }
     }
 }
