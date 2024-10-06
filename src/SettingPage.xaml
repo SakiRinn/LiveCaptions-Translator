@@ -10,7 +10,7 @@
     Title="SettingPage"
     mc:Ignorable="d">
 
-    <Grid Cursor="">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -27,10 +27,7 @@
             Grid.Column="0"
             Margin="15,10,0,0"
             Orientation="Vertical">
-            <TextBlock
-                Margin="2.5,0,0,5"
-                Foreground="White"
-                Text="LiveCaptions Setting" />
+            <TextBlock Margin="2.5,0,0,5" Text="LiveCaptions Setting" />
             <ui:Button
                 Width="145"
                 Height="30"
@@ -43,10 +40,7 @@
             Grid.Column="1"
             Margin="15,10,0,0"
             Orientation="Vertical">
-            <TextBlock
-                Margin="2.5,0,0,5"
-                Foreground="White"
-                Text="Translate API" />
+            <TextBlock Margin="2.5,0,0,5" Text="Translate API" />
             <ComboBox
                 x:Name="translateAPIBox"
                 Width="140"
@@ -60,10 +54,7 @@
             Grid.Column="1"
             Margin="15,10,0,0"
             Orientation="Vertical">
-            <TextBlock
-                Margin="2.5,0,0,5"
-                Foreground="White"
-                Text="Target Language" />
+            <TextBlock Margin="2.5,0,0,5" Text="Target Language" />
             <ComboBox
                 x:Name="targetLangBox"
                 Width="140"
@@ -77,10 +68,7 @@
             Grid.Column="2"
             Margin="15,10,0,0"
             Orientation="Vertical">
-            <TextBlock
-                Margin="2.5,0,0,5"
-                Foreground="White"
-                Text="Model Name" />
+            <TextBlock Margin="2.5,0,0,5" Text="Model Name" />
             <ui:TextBox
                 Width="130"
                 Height="30"
@@ -93,10 +81,7 @@
             Grid.Column="2"
             Margin="15,10,0,0"
             Orientation="Vertical">
-            <TextBlock
-                Margin="2.5,0,0,5"
-                Foreground="White"
-                Text="Temperature" />
+            <TextBlock Margin="2.5,0,0,5" Text="Temperature" />
             <ui:NumberBox
                 Width="130"
                 Height="30"
@@ -113,10 +98,7 @@
             Grid.Column="3"
             Margin="15,10,0,0"
             Orientation="Vertical">
-            <TextBlock
-                Margin="2.5,0,0,5"
-                Foreground="White"
-                Text="API Url" />
+            <TextBlock Margin="2.5,0,0,5" Text="API Url" />
             <ui:TextBox
                 Width="185"
                 Height="30"
@@ -129,10 +111,7 @@
             Grid.Column="3"
             Margin="15,10,0,0"
             Orientation="Vertical">
-            <TextBlock
-                Margin="2.5,0,0,5"
-                Foreground="White"
-                Text="API Key" />
+            <TextBlock Margin="2.5,0,0,5" Text="API Key" />
             <ui:TextBox
                 Width="185"
                 Height="30"

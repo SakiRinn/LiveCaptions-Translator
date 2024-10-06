@@ -12,33 +12,37 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
         <Grid.Resources>
-            <Style x:Key="CaptionBlockStyle" TargetType="ui:TextBlock">
-                <Setter Property="Padding" Value="8" />
-                <Setter Property="Background" Value="#3a3a3a" />
-                <Setter Property="FontSize" Value="16" />
-                <Setter Property="Foreground" Value="White" />
+            <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
+                <Setter Property="TextWrapping" Value="Wrap" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
             </Style>
         </Grid.Resources>
-        <ui:TextBlock
-            x:Name="OriginalCaption"
+
+        <ui:Card
             Grid.Row="0"
-            Margin="15,5,20,2.5"
-            VerticalAlignment="Stretch"
-            Style="{StaticResource CaptionBlockStyle}"
-            Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}"
-            TextWrapping="Wrap" />
-        <ui:TextBlock
-            x:Name="TranslatedCaption"
+            Margin="15,3,20,1"
+            Padding="8"
+            VerticalAlignment="Stretch">
+            <TextBlock
+                x:Name="OriginalCaption"
+                FontSize="15"
+                Style="{StaticResource CaptionBlockStyle}"
+                Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}" />
+        </ui:Card>
+        <ui:Card
             Grid.Row="1"
-            Margin="15,2.5,20,5"
-            VerticalAlignment="Stretch"
-            Style="{StaticResource CaptionBlockStyle}"
-            Text="{Binding Translated, UpdateSourceTrigger=PropertyChanged}"
-            TextWrapping="Wrap" />
+            Margin="15,1,20,3"
+            Padding="8"
+            VerticalAlignment="Stretch">
+            <TextBlock
+                x:Name="TranslatedCaption"
+                FontSize="18"
+                Style="{StaticResource CaptionBlockStyle}"
+                Text="{Binding Translated, UpdateSourceTrigger=PropertyChanged}" />
+        </ui:Card>
     </Grid>
 </Page>

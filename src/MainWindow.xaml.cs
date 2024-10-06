@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace LiveCaptionsTranslator
@@ -11,27 +12,29 @@ namespace LiveCaptionsTranslator
 
             Loaded += (sender, args) =>
             {
-                Wpf.Ui.Appearance.SystemThemeWatcher.Watch(
+                SystemThemeWatcher.Watch(
                     this,                                   // Window class
                     WindowBackdropType.Mica,                // Background type
                     true                                    // Whether to change accents automatically
                 );
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
+
+            ApplicationThemeManager.ApplySystemTheme();
         }
 
         void TopmostButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
-            if (this.Topmost)
+            if (Topmost)
             {
-                this.Topmost = false;
+                Topmost = false;
                 symbolIcon.Filled = false;
             }
             else
             {
-                this.Topmost = true;
+                Topmost = true;
                 symbolIcon.Filled = true;
             }
         }

@@ -13,7 +13,8 @@ namespace LiveCaptionsTranslator.models
             { "en-US", "American English" },
             { "en-GB", "British English" },
             { "ja-JP", "Japanese" },
-            { "ko-KR", "Korean" }
+            { "ko-KR", "Korean" },
+            { "fr-FR", "French" }
         };
 
         private class Message

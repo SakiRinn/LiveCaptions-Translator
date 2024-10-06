@@ -132,7 +132,6 @@ namespace LiveCaptionsTranslator.models
                     syncCount = 0;
                     TranslateFlag = true;
                 }
-
                 Thread.Sleep(50);
             }
         }

@@ -34,7 +34,6 @@ namespace LiveCaptionsTranslator
         static void OnProcessExit(object sender, EventArgs e)
         {
             LiveCaptionsHandler.KillLiveCaptions();
-            Settings?.Save();
         }
     }
 }

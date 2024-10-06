@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.ComponentModel;
+using System.Text;
+using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace LiveCaptionsTranslator
 {
@@ -8,6 +11,28 @@ namespace LiveCaptionsTranslator
         {
             InitializeComponent();
             DataContext = App.Captions;
+            App.Captions.PropertyChanged += TranslatedChanged;
+        }
+
+        private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(App.Captions.Translated))
+            {
+                if (Encoding.UTF8.GetByteCount(App.Captions.Translated) > 150)
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        TranslatedCaption.FontSize = 15;
+                    }), DispatcherPriority.Background);
+                } 
+                else
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        TranslatedCaption.FontSize = 18;
+                    }), DispatcherPriority.Background);
+                }
+            }
         }
     }
 }

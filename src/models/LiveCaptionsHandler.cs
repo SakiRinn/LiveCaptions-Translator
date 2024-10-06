@@ -87,11 +87,8 @@ namespace LiveCaptionsTranslator.models
             while (stack.Count > 0)
             {
                 var element = stack.Pop();
-                //if (!string.IsNullOrEmpty(element.Current.AutomationId))
-                //{
-                //    Console.WriteLine(element.Current.AutomationId);
-                //}
-                Console.WriteLine(element.Current.AutomationId);
+                if (!string.IsNullOrEmpty(element.Current.AutomationId))
+                    Console.WriteLine(element.Current.AutomationId);
 
                 var child = treeWalker.GetFirstChild(element);
                 while (child != null)

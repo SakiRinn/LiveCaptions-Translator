@@ -8,10 +8,10 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="LiveCaptionsTranslator"
     Width="750"
-    Height="166"
+    Height="167"
     MinWidth="750"
-    MinHeight="166"
-    MaxHeight="166"
+    MinHeight="167"
+    MaxHeight="167"
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
     ResizeMode="CanResizeWithGrip"
@@ -51,22 +51,25 @@
                 </StackPanel>
             </ui:TitleBar.Header>
         </ui:TitleBar>
+
         <ui:NavigationView
             x:Name="RootNavigation"
             Grid.Row="1"
+            Height="140"
+            HeaderVisibility="Collapsed"
             IsBackButtonVisible="Collapsed"
             IsPaneToggleVisible="False"
             PaneDisplayMode="LeftFluent">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
-                    Margin="0,5,0,2.5"
+                    Margin="0,6,0,3"
                     Content="Caption"
                     FontFamily="Bahnschrift"
                     Icon="{ui:SymbolIcon Home24}"
                     NavigationCacheMode="Enabled"
                     TargetPageType="{x:Type local:CaptionPage}" />
                 <ui:NavigationViewItem
-                    Margin="0,2.5,0,0"
+                    Margin="0,3,0,0"
                     Content="Setting"
                     FontFamily="Bahnschrift"
                     Icon="{ui:SymbolIcon Settings24}"
