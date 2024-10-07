@@ -75,31 +75,39 @@ namespace LiveCaptionsTranslator.models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
-        public void Sync(AutomationElement window)
+        public void Sync()
         {
             int idleCount = 0;
             int syncCount = 0;
 
             while (true)
             {
-                string fullText = GetCaptions(window).Trim();
+                if (PauseFlag || App.Window == null)
+                {
+                    Thread.Sleep(1000);
+                    continue;
+                }
+
+                string fullText = GetCaptions(App.Window).Trim();
                 if (string.IsNullOrEmpty(fullText))
                     continue;
                 foreach (char eos in PUNC_EOS)
                     fullText = fullText.Replace($"{eos}\n", $"{eos}");
 
-                int lastEOSIndex = -1;
-                for (int i = fullText.Length; i > 0; i--)
+                int lastEOSIndex;
+                if (Array.IndexOf(PUNC_EOS, fullText[^1]) != -1)
+                    lastEOSIndex = fullText[0..^1].LastIndexOfAny(PUNC_EOS);
+                else
+                    lastEOSIndex = fullText.LastIndexOfAny(PUNC_EOS);
+                string latestCaption = fullText.Substring(lastEOSIndex + 1);
+
+                while (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 15)
                 {
-                    if (Array.IndexOf(PUNC_EOS, fullText[i - 1]) == -1)
-                    {
-                        lastEOSIndex = fullText[0..i].LastIndexOfAny(PUNC_EOS);
-                        break;
-                    }
+                    lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(PUNC_EOS);
+                    latestCaption = fullText.Substring(lastEOSIndex + 1);
                 }
 
-                string latestCaption = fullText.Substring(lastEOSIndex + 1);
-                while (Encoding.UTF8.GetByteCount(latestCaption) > 100)
+                while (Encoding.UTF8.GetByteCount(latestCaption) > 150)
                 {
                     int commaIndex = latestCaption.IndexOfAny(PUNC_COMMA);
                     if (commaIndex < 0 || commaIndex + 1 == latestCaption.Length)
@@ -140,11 +148,16 @@ namespace LiveCaptionsTranslator.models
         {
             while (true)
             {
-                if (PauseFlag)
+                for (int pauseCount = 0; PauseFlag; pauseCount++)
                 {
+                    if (pauseCount > 60 && App.Window != null)
+                    {
+                        App.Window = null;
+                        LiveCaptionsHandler.KillLiveCaptions();
+                    }
                     Thread.Sleep(1000);
-                    continue;
                 }
+
                 if (TranslateFlag)
                 {
                     Translated = await TranslateAPI.OpenAI(Original);

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using LiveCaptionsTranslator.models;
+using System.Windows;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -45,6 +46,8 @@ namespace LiveCaptionsTranslator
             var symbolIcon = button?.Icon as SymbolIcon;
             if (App.Captions.PauseFlag)
             {
+                if (App.Window == null)
+                    App.Window = LiveCaptionsHandler.LaunchLiveCaptions();
                 App.Captions.PauseFlag = false;
                 symbolIcon.Filled = false;
             }

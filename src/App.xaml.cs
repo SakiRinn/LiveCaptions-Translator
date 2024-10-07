@@ -6,11 +6,15 @@ namespace LiveCaptionsTranslator
 {
     public partial class App : Application
     {
-        public static AutomationElement Window { get; } = LiveCaptionsHandler.LaunchLiveCaptions();
-
+        private static AutomationElement? window = null;
         private static Caption? captions = null;
         private static Setting? settings = null;
 
+        public static AutomationElement? Window
+        {
+            get => window;
+            set => window = value;
+        }
         public static Caption? Captions
         {
             get => captions;
@@ -24,10 +28,11 @@ namespace LiveCaptionsTranslator
         {
             AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
 
+            window = LiveCaptionsHandler.LaunchLiveCaptions();
             captions = Caption.GetInstance();
             settings = Setting.Load();
 
-            Task.Run(() => Captions?.Sync(Window));
+            Task.Run(() => Captions?.Sync());
             Task.Run(() => Captions?.Translate());
         }
 

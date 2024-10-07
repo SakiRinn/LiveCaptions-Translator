@@ -14,13 +14,13 @@ namespace LiveCaptionsTranslator.models
             var process = Process.Start(PROCESS_NAME);
 
             // Search window
-            AutomationElement window = null;
-            int attempt_count = 0;
-            while (window == null)
+            AutomationElement? window = null;
+            for (int attemptCount = 0; 
+                 window == null || window.Current.ClassName.CompareTo("LiveCaptionsDesktopWindow") != 0;
+                 attemptCount++)
             {
                 window = FindWindowByPId(process.Id);
-                attempt_count++;
-                if (attempt_count > 10000)
+                if (attemptCount > 10000)
                     throw new Exception("Failed to launch!");
             }
 
