@@ -19,7 +19,7 @@ namespace LiveCaptionsTranslator.models
 
         public const int OLLAMA_PORT = 11434;
 
-        private static readonly HttpClient client = new HttpClient();
+        private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromSeconds(5) };
 
         public static async Task<string> OpenAI(string text)
         {
