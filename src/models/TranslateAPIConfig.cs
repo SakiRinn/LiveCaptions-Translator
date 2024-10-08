@@ -1,35 +1,15 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
-using System.Text.Json;
 
 namespace LiveCaptionsTranslator.models
 {
-    public class TranslateAPIConfig : INotifyPropertyChanged
+    public abstract class TranslateAPIConfig : INotifyPropertyChanged
     {
+        [JsonIgnore]
+        public abstract Dictionary<string, string> SupportedLanguages { get; }
+
         public event PropertyChangedEventHandler? PropertyChanged;
-
-        private string apiKey = "";
-        private string apiUrl = "";
-
-        public string ApiKey
-        {
-            get => apiKey;
-            set
-            {
-                apiKey = value;
-                OnPropertyChanged("ApiKey");
-            }
-        }
-        public string ApiUrl
-        {
-            get => apiUrl;
-            set
-            {
-                apiUrl = value;
-                OnPropertyChanged("ApiUrl");
-            }
-        }
 
         public void OnPropertyChanged([CallerMemberName] string propName = "")
         {
@@ -38,8 +18,44 @@ namespace LiveCaptionsTranslator.models
         }
     }
 
-    public class OpenAIConfig : TranslateAPIConfig
+    public class OllamaConfig : TranslateAPIConfig
     {
+        public static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new() 
+        {
+            { "zh-CN", "Simplified Chinese" },
+            { "zh-TW", "Traditional Chinese" },
+            { "en-US", "American English" },
+            { "en-GB", "British English" },
+            { "ja-JP", "Japanese" },
+            { "ko-KR", "Korean" },
+            { "fr-FR", "French" }
+        };
+
+        [JsonIgnore]
+        public override Dictionary<string, string> SupportedLanguages
+        {
+            get => SUPPORTED_LANGUAGES;
+        }
+        
+        public class Message
+        {
+            public string role { get; set; }
+            public string content { get; set; }
+        }
+        public class Response
+        {
+            public string model { get; set; }
+            public DateTime created_at { get; set; }
+            public Message message { get; set; }
+            public bool done { get; set; }
+            public long total_duration { get; set; }
+            public int load_duration { get; set; }
+            public int prompt_eval_count { get; set; }
+            public long prompt_eval_duration { get; set; }
+            public int eval_count { get; set; }
+            public long eval_duration { get; set; }
+        }
+
         private string modelName = "";
         private double temperature = 1.0;
 
@@ -63,50 +79,54 @@ namespace LiveCaptionsTranslator.models
         }
     }
 
-    public class ConfigDictConverter : JsonConverter<Dictionary<string, TranslateAPIConfig>>
+    public class OpenAIConfig : OllamaConfig
     {
-        public override Dictionary<string, TranslateAPIConfig> Read(
-            ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public class Choice
         {
-            var configs = new Dictionary<string, TranslateAPIConfig>();
-            if (reader.TokenType != JsonTokenType.StartObject)
-                throw new JsonException("Expected a StartObject token.");
-
-            reader.Read();
-            while (reader.TokenType == JsonTokenType.PropertyName)
-            {
-                string key = reader.GetString();
-                reader.Read();
-
-                TranslateAPIConfig config;
-                if (key == "OpenAI")
-                    config = JsonSerializer.Deserialize<OpenAIConfig>(ref reader, options);
-                else
-                    throw new JsonException($"Unknown config type for key: {key}");
-
-                configs[key] = config;
-                reader.Read();
-            }
-
-            if (reader.TokenType != JsonTokenType.EndObject)
-                throw new JsonException("Expected an EndObject token.");
-            return configs;
+            public int index { get; set; }
+            public Message message { get; set; }
+            public string logprobs { get; set; }
+            public string finish_reason { get; set; }
+        }
+        public class Usage
+        {
+            public int prompt_tokens { get; set; }
+            public int completion_tokens { get; set; }
+            public int total_tokens { get; set; }
+            public int prompt_cache_hit_tokens { get; set; }
+            public int prompt_cache_miss_tokens { get; set; }
+        }
+        public new class Response
+        {
+            public string id { get; set; }
+            public string @object { get; set; }
+            public int created { get; set; }
+            public string model { get; set; }
+            public List<Choice> choices { get; set; }
+            public Usage usage { get; set; }
+            public string system_fingerprint { get; set; }
         }
 
-        public override void Write(
-            Utf8JsonWriter writer, Dictionary<string, TranslateAPIConfig> value, JsonSerializerOptions options)
-        {
-            writer.WriteStartObject();
-            foreach (var kvp in value)
-            {
-                writer.WritePropertyName(kvp.Key);
+        private string apiKey = "";
+        private string apiUrl = "";
 
-                if (kvp.Value is OpenAIConfig openAIConfig)
-                    JsonSerializer.Serialize(writer, openAIConfig, options);
-                else
-                    throw new JsonException($"Unknown config type for key: {kvp.Key}");
+        public string ApiKey
+        {
+            get => apiKey;
+            set
+            {
+                apiKey = value;
+                OnPropertyChanged("ApiKey");
             }
-            writer.WriteEndObject();
+        }
+        public string ApiUrl
+        {
+            get => apiUrl;
+            set
+            {
+                apiUrl = value;
+                OnPropertyChanged("ApiUrl");
+            }
         }
     }
 }

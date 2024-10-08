@@ -41,6 +41,24 @@ namespace LiveCaptionsTranslator.models
                 OnPerpertyChanged("Translated");
             }
         }
+        public int MaxIdleInterval
+        {
+            get => maxIdleInterval;
+            set
+            {
+                maxIdleInterval = value;
+                OnPerpertyChanged("MaxIdleInterval");
+            }
+        }
+        public int MaxSyncInterval
+        {
+            get => maxSyncInterval;
+            set
+            {
+                maxSyncInterval = value;
+                OnPerpertyChanged("MaxSyncInterval");
+            }
+        }
 
         private Caption()
         {
@@ -122,7 +140,7 @@ namespace LiveCaptionsTranslator.models
                     syncCount++;
                     Original = latestCaption;
 
-                    if (Array.IndexOf(PUNC_EOS, latestCaption[^1]) != -1 || 
+                    if (Array.IndexOf(PUNC_EOS, latestCaption[^1]) != -1 ||
                         Array.IndexOf(PUNC_COMMA, latestCaption[^1]) != -1)
                     {
                         syncCount = 0;
@@ -135,7 +153,7 @@ namespace LiveCaptionsTranslator.models
                 else
                     idleCount++;
 
-                if (idleCount == maxIdleInterval || syncCount > maxSyncInterval)
+                if (idleCount == MaxIdleInterval || syncCount > MaxSyncInterval)
                 {
                     syncCount = 0;
                     TranslateFlag = true;
@@ -160,7 +178,7 @@ namespace LiveCaptionsTranslator.models
 
                 if (TranslateFlag)
                 {
-                    Translated = await TranslateAPI.OpenAI(Original);
+                    Translated = await TranslateAPI.TranslateFunc(Original);
                     TranslateFlag = false;
                     if (EOSFlag)
                         Thread.Sleep(1000);

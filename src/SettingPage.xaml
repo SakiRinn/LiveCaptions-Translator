@@ -10,22 +10,17 @@
     Title="SettingPage"
     mc:Ignorable="d">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <Grid x:Name="PageGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <StackPanel
-            Grid.Row="0"
             Grid.Column="0"
-            Margin="15,10,0,0"
+            Margin="15,0,0,0"
+            VerticalAlignment="Center"
             Orientation="Vertical">
             <TextBlock Margin="2.5,0,0,5" Text="LiveCaptions Setting" />
             <ui:Button
@@ -35,89 +30,137 @@
                 <TextBlock Text="Open" />
             </ui:Button>
         </StackPanel>
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="15,10,0,0"
-            Orientation="Vertical">
-            <TextBlock Margin="2.5,0,0,5" Text="Translate API" />
-            <ComboBox
-                x:Name="translateAPIBox"
-                Width="140"
-                Height="30"
-                Padding="10,4,10,7"
-                FontSize="13.3"
-                SelectedItem="{Binding ApiName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Translate API" />
+                <ComboBox
+                    x:Name="translateAPIBox"
+                    Width="140"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    SelectedItem="{Binding ApiName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionChanged="translateAPIBox_SelectionChanged" />
+            </StackPanel>
+            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Target Language" />
+                <ComboBox
+                    x:Name="targetLangBox"
+                    Width="140"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    SelectedItem="{Binding TargetLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
         </StackPanel>
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="15,10,0,0"
-            Orientation="Vertical">
-            <TextBlock Margin="2.5,0,0,5" Text="Target Language" />
-            <ComboBox
-                x:Name="targetLangBox"
-                Width="140"
-                Height="30"
-                Padding="10,4,10,7"
-                FontSize="13.3"
-                SelectedItem="{Binding TargetLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        </StackPanel>
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="2"
-            Margin="15,10,0,0"
-            Orientation="Vertical">
-            <TextBlock Margin="2.5,0,0,5" Text="Model Name" />
-            <ui:TextBox
-                Width="130"
-                Height="30"
-                Padding="10,4,10,7"
-                FontSize="13.3"
-                Text="{Binding CurrentAPIConfig.ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        </StackPanel>
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="2"
-            Margin="15,10,0,0"
-            Orientation="Vertical">
-            <TextBlock Margin="2.5,0,0,5" Text="Temperature" />
-            <ui:NumberBox
-                Width="130"
-                Height="30"
-                Padding="10,4,10,7"
-                FontSize="13.3"
-                LargeChange="1"
-                Maximum="2"
-                Minimum="0"
-                SmallChange="0.1"
-                Value="{Binding CurrentAPIConfig.Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        </StackPanel>
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="3"
-            Margin="15,10,0,0"
-            Orientation="Vertical">
-            <TextBlock Margin="2.5,0,0,5" Text="API Url" />
-            <ui:TextBox
-                Width="185"
-                Height="30"
-                Padding="10,4,10,7"
-                FontSize="13.3"
-                Text="{Binding CurrentAPIConfig.ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        </StackPanel>
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="3"
-            Margin="15,10,0,0"
-            Orientation="Vertical">
-            <TextBlock Margin="2.5,0,0,5" Text="API Key" />
-            <ui:TextBox
-                Width="185"
-                Height="30"
-                Padding="10,4,10,7"
-                FontSize="13.3"
-                Text="{Binding CurrentAPIConfig.ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        </StackPanel>
+
+        <Grid x:Name="OpenAIGrid" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="15,10,0,0"
+                Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Model Name" />
+                <ui:TextBox
+                    Width="130"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    Text="{Binding CurrentAPIConfig.ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="15,10,0,0"
+                Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Temperature" />
+                <ui:NumberBox
+                    Width="130"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    LargeChange="1"
+                    Maximum="2"
+                    Minimum="0"
+                    SmallChange="0.1"
+                    Value="{Binding CurrentAPIConfig.Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="15,10,0,0"
+                Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="API Url" />
+                <ui:TextBox
+                    Width="185"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    Text="{Binding CurrentAPIConfig.ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="15,10,0,0"
+                Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="API Key" />
+                <ui:TextBox
+                    Width="185"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    Text="{Binding CurrentAPIConfig.ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="OllamaGrid" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Margin="15,10,0,0"
+                Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Model Name" />
+                <ui:TextBox
+                    Width="130"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    Text="{Binding CurrentAPIConfig.ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="1"
+                Margin="15,10,0,0"
+                Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Temperature" />
+                <ui:NumberBox
+                    Width="130"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    LargeChange="1"
+                    Maximum="2"
+                    Minimum="0"
+                    SmallChange="0.1"
+                    Value="{Binding CurrentAPIConfig.Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

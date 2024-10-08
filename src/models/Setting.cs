@@ -55,16 +55,17 @@ namespace LiveCaptionsTranslator.models
 
         public Setting()
         {
-            apiName = "OpenAI";
+            apiName = "Ollama";
             targetLanguage = "zh-CN";
             configs = new Dictionary<string, TranslateAPIConfig>
             {
+                { "Ollama", new OllamaConfig() },
                 { "OpenAI", new OpenAIConfig() }
             };
         }
 
         public Setting(string apiName, string sourceLanguage, string targetLanguage,
-            Dictionary<string, TranslateAPIConfig> configs)
+                       Dictionary<string, TranslateAPIConfig> configs)
         {
             this.apiName = apiName;
             this.targetLanguage = targetLanguage;
@@ -93,7 +94,10 @@ namespace LiveCaptionsTranslator.models
                 }
             }
             else
+            {
                 setting = new Setting();
+                setting.Save();
+            }
             return setting;
         }
 

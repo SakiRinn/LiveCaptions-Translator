@@ -10,6 +10,7 @@ namespace LiveCaptionsTranslator
         public MainWindow()
         {
             InitializeComponent();
+            ApplicationThemeManager.ApplySystemTheme();
 
             Loaded += (sender, args) =>
             {
@@ -20,8 +21,6 @@ namespace LiveCaptionsTranslator
                 );
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
-
-            ApplicationThemeManager.ApplySystemTheme();
         }
 
         void TopmostButton_Click(object sender, RoutedEventArgs e)
