@@ -17,18 +17,28 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel
-            Grid.Column="0"
-            Margin="15,0,0,0"
-            VerticalAlignment="Center"
-            Orientation="Vertical">
-            <TextBlock Margin="2.5,0,0,5" Text="LiveCaptions Setting" />
-            <ui:Button
-                Width="145"
-                Height="30"
-                Click="Setting_Click">
-                <TextBlock Text="Open" />
-            </ui:Button>
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="LiveCaptions Setting" />
+                <ui:Button
+                    Width="145"
+                    Height="30"
+                    Click="Setting_Click">
+                    <TextBlock Text="Open" />
+                </ui:Button>
+            </StackPanel>
+            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Translation Interval" />
+                <StackPanel Orientation="Horizontal">
+                    <Slider
+                        Width="140"
+                        Margin="0,0,5,0"
+                        AutoToolTipPlacement="TopLeft"
+                        AutoToolTipPrecision="0"
+                        Maximum="20"
+                        Value="{Binding MaxSyncInterval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Orientation="Vertical">

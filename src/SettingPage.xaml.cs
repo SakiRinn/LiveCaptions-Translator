@@ -36,12 +36,6 @@ namespace LiveCaptionsTranslator
             }
             var settingGrid = this.FindName($"{App.Settings.ApiName}Grid") as Grid;
             settingGrid.Visibility = Visibility.Visible;
-
-            // TODO: Bind it with the GUI.
-            if (App.Settings.ApiName.CompareTo("Ollama") == 0)
-                App.Captions.MaxSyncInterval = 3;
-            else if (App.Settings.ApiName.CompareTo("OpenAI") == 0)
-                App.Captions.MaxSyncInterval = 5;
         }
 
         private void translateAPIBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

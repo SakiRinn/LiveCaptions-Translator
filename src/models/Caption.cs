@@ -16,9 +16,6 @@ namespace LiveCaptionsTranslator.models
         private string original = "";
         private string translated = "";
 
-        private int maxIdleInterval;
-        private int maxSyncInterval;
-
         public bool PauseFlag { get; set; } = false;
         public bool TranslateFlag { get; set; } = false;
         private bool EOSFlag { get; set; } = false;
@@ -29,7 +26,7 @@ namespace LiveCaptionsTranslator.models
             set
             {
                 original = value;
-                OnPerpertyChanged("Original");
+                OnPropertyChanged("Original");
             }
         }
         public string Translated
@@ -38,39 +35,11 @@ namespace LiveCaptionsTranslator.models
             set
             {
                 translated = value;
-                OnPerpertyChanged("Translated");
-            }
-        }
-        public int MaxIdleInterval
-        {
-            get => maxIdleInterval;
-            set
-            {
-                maxIdleInterval = value;
-                OnPerpertyChanged("MaxIdleInterval");
-            }
-        }
-        public int MaxSyncInterval
-        {
-            get => maxSyncInterval;
-            set
-            {
-                maxSyncInterval = value;
-                OnPerpertyChanged("MaxSyncInterval");
+                OnPropertyChanged("Translated");
             }
         }
 
-        private Caption()
-        {
-            maxIdleInterval = 10;
-            maxSyncInterval = 5;
-        }
-
-        private Caption(int maxIdleInterval, int maxSyncInterval)
-        {
-            this.maxIdleInterval = maxIdleInterval;
-            this.maxSyncInterval = maxSyncInterval;
-        }
+        private Caption() { }
 
         public static Caption GetInstance()
         {
@@ -80,15 +49,7 @@ namespace LiveCaptionsTranslator.models
             return instance;
         }
 
-        public static Caption GetInstance(int maxIdleInterval, int maxSyncInterval)
-        {
-            if (instance != null)
-                return instance;
-            instance = new Caption(maxIdleInterval, maxSyncInterval);
-            return instance;
-        }
-
-        public void OnPerpertyChanged([CallerMemberName] string propName = "")
+        public void OnPropertyChanged([CallerMemberName] string propName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
@@ -153,7 +114,8 @@ namespace LiveCaptionsTranslator.models
                 else
                     idleCount++;
 
-                if (idleCount == MaxIdleInterval || syncCount > MaxSyncInterval)
+                if (syncCount > App.Settings.MaxSyncInterval || 
+                    idleCount == App.Settings.MaxIdleInterval)
                 {
                     syncCount = 0;
                     TranslateFlag = true;

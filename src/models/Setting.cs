@@ -16,6 +16,9 @@ namespace LiveCaptionsTranslator.models
         private string targetLanguage;
         private Dictionary<string, TranslateAPIConfig> configs;
 
+        private int maxIdleInterval = 10;
+        private int maxSyncInterval = 5;
+
         public string ApiName
         {
             get => apiName;
@@ -33,6 +36,19 @@ namespace LiveCaptionsTranslator.models
             {
                 targetLanguage = value;
                 OnPropertyChanged("TargetLanguage");
+            }
+        }
+        public int MaxIdleInterval
+        {
+            get => maxIdleInterval;
+        }
+        public int MaxSyncInterval
+        {
+            get => maxSyncInterval;
+            set
+            {
+                maxSyncInterval = value;
+                OnPropertyChanged("MaxSyncInterval");
             }
         }
 
