@@ -27,22 +27,26 @@
             Margin="15,3,20,1"
             Padding="8"
             VerticalAlignment="Stretch">
-            <TextBlock
+            <TextBox
                 x:Name="OriginalCaption"
                 FontSize="15"
-                Style="{StaticResource CaptionBlockStyle}"
-                Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="True"
+                Background="Transparent"
+                BorderThickness="0" />
         </ui:Card>
         <ui:Card
             Grid.Row="1"
             Margin="15,1,20,3"
             Padding="8"
             VerticalAlignment="Stretch">
-            <TextBlock
+            <TextBox
                 x:Name="TranslatedCaption"
                 FontSize="18"
-                Style="{StaticResource CaptionBlockStyle}"
-                Text="{Binding Translated, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Translated, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="True"
+                Background="Transparent"
+                BorderThickness="0" />
         </ui:Card>
     </Grid>
 </Page>
