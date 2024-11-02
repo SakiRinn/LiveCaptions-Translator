@@ -1,0 +1,25 @@
+﻿<Page x:Class="LiveCaptionsTranslator.HistoryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:LiveCaptionsTranslator"
+      mc:Ignorable="d"
+      Title="HistoryPage" Height="450" Width="800">
+    <Grid>
+        <DataGrid x:Name="HistoryDataGrid" 
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  Margin="10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}" Width="*" />
+                <DataGridTextColumn Header="Source Text" Binding="{Binding SourceText}" Width="2*" />
+                <DataGridTextColumn Header="Translated Text" Binding="{Binding TranslatedText}" Width="2*" />
+                <DataGridTextColumn Header="Target Language" Binding="{Binding TargetLanguage}" Width="*" />
+                <DataGridTextColumn Header="API Used" Binding="{Binding ApiUsed}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
