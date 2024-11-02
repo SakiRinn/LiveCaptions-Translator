@@ -3,6 +3,8 @@ using System.Text;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
+using LiveCaptionsTranslator.controllers;
+
 namespace LiveCaptionsTranslator.models
 {
     public class Caption : INotifyPropertyChanged
@@ -126,6 +128,7 @@ namespace LiveCaptionsTranslator.models
 
         public async Task Translate()
         {
+            var controller = new TranslationController();
             while (true)
             {
                 for (int pauseCount = 0; PauseFlag; pauseCount++)
@@ -140,7 +143,7 @@ namespace LiveCaptionsTranslator.models
 
                 if (TranslateFlag)
                 {
-                    Translated = await TranslateAPI.TranslateFunc(Original);
+                    Translated = await controller.TranslateAndLogAsync(Original);
                     TranslateFlag = false;
                     if (EOSFlag)
                         Thread.Sleep(1000);
