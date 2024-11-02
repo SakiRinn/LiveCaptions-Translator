@@ -6,8 +6,7 @@ namespace LiveCaptionsTranslator.models
 {
     public abstract class TranslateAPIConfig : INotifyPropertyChanged
     {
-        [JsonIgnore]
-        public abstract Dictionary<string, string> SupportedLanguages { get; }
+        [JsonIgnore] public abstract Dictionary<string, string> SupportedLanguages { get; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -20,7 +19,7 @@ namespace LiveCaptionsTranslator.models
 
     public class OllamaConfig : TranslateAPIConfig
     {
-        public static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new() 
+        public static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
         {
             { "zh-CN", "Simplified Chinese" },
             { "zh-TW", "Traditional Chinese" },
@@ -36,12 +35,13 @@ namespace LiveCaptionsTranslator.models
         {
             get => SUPPORTED_LANGUAGES;
         }
-        
+
         public class Message
         {
             public string role { get; set; }
             public string content { get; set; }
         }
+
         public class Response
         {
             public string model { get; set; }
@@ -68,6 +68,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("ModelName");
             }
         }
+
         public double Temperature
         {
             get => temperature;
@@ -128,5 +129,23 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("ApiUrl");
             }
         }
+    }
+
+    public class GoogleTranslateConfig : TranslateAPIConfig
+    {
+        private static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
+        {
+            { "zh-CN", "Simplified Chinese" },
+            { "zh-TW", "Traditional Chinese" },
+            { "en-US", "American English" },
+            { "en-GB", "British English" },
+            { "ja-JP", "Japanese" },
+            { "ko-KR", "Korean" },
+            { "fr-FR", "French" }
+        };
+
+        [JsonIgnore]
+        public override Dictionary<string, string> SupportedLanguages => SUPPORTED_LANGUAGES;
+        
     }
 }

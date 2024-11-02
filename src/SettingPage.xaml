@@ -172,5 +172,8 @@
                     Value="{Binding CurrentAPIConfig.Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </Grid>
+        
+        <Grid x:Name="GoogleTranslateGrid" Grid.Column="2" />
+        
     </Grid>
 </Page>

@@ -10,7 +10,8 @@ namespace LiveCaptionsTranslator.models
         public static readonly Dictionary<string, Func<string, Task<string>>> TRANSLATE_FUNCS = new()
         {
             { "Ollama", Ollama },
-            { "OpenAI", OpenAI }
+            { "OpenAI", OpenAI },
+            { "GoogleTranslate", GoogleTranslate }
         };
         public static Func<string, Task<string>> TranslateFunc
         {
@@ -118,6 +119,38 @@ namespace LiveCaptionsTranslator.models
             else
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
+        
+        private static async Task<string> GoogleTranslate(string text)
+        {
+            var config = App.Settings?.CurrentAPIConfig as GoogleTranslateConfig;
+            var language = App.Settings?.TargetLanguage;
+
+            string encodedText = Uri.EscapeDataString(text);
+            var url = $"https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl={language}&q={encodedText}";
+
+            try
+            {
+                var response = await client.GetAsync(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseString = await response.Content.ReadAsStringAsync();
+
+                    var responseObj = JsonSerializer.Deserialize<List<List<string>>>(responseString);
+                    
+                    string translatedText = responseObj[0][0];
+                    return translatedText;
+                }
+                else
+                {
+                    return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"[Translation Failed] {ex.Message}";
+            }
+        }
+
     }
 
     public class ConfigDictConverter : JsonConverter<Dictionary<string, TranslateAPIConfig>>
