@@ -72,7 +72,7 @@
                     Margin="0,3,0,0"
                     Content="History"
                     FontFamily="Bahnschrift"
-                    Icon="{ui:SymbolIcon Globe24}"
+                    Icon="{ui:SymbolIcon History24}"
                     NavigationCacheMode="Enabled"
                     TargetPageType="{x:Type local:HistoryPage}" />
                 <ui:NavigationViewItem
