@@ -17,6 +17,7 @@
 		<Authors>SakiRinn</Authors>
 		<ApplicationIcon>src\LiveCaptions.ico</ApplicationIcon>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<Platforms>AnyCPU;ARM64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
