@@ -55,7 +55,7 @@
         <ui:NavigationView
             x:Name="RootNavigation"
             Grid.Row="1"
-            Height="140"
+            Height="Auto"
             HeaderVisibility="Collapsed"
             IsBackButtonVisible="Collapsed"
             IsPaneToggleVisible="False"
@@ -65,9 +65,16 @@
                     Margin="0,6,0,3"
                     Content="Caption"
                     FontFamily="Bahnschrift"
-                    Icon="{ui:SymbolIcon Home24}"
+                    Icon="{ui:SymbolIcon Home24}"   
                     NavigationCacheMode="Enabled"
                     TargetPageType="{x:Type local:CaptionPage}" />
+                <ui:NavigationViewItem
+                    Margin="0,3,0,0"
+                    Content="History"
+                    FontFamily="Bahnschrift"
+                    Icon="{ui:SymbolIcon History24}"
+                    NavigationCacheMode="Enabled"
+                    TargetPageType="{x:Type local:HistoryPage}" />
                 <ui:NavigationViewItem
                     Margin="0,3,0,0"
                     Content="Setting"
