@@ -76,7 +76,8 @@ namespace LiveCaptionsTranslator.models
             configs = new Dictionary<string, TranslateAPIConfig>
             {
                 { "Ollama", new OllamaConfig() },
-                { "OpenAI", new OpenAIConfig() }
+                { "OpenAI", new OpenAIConfig() },
+                { "GoogleTranslate", new GoogleTranslateConfig() },
             };
         }
 
