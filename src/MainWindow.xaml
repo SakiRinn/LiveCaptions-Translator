@@ -14,7 +14,7 @@
     MaxHeight="167"
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
-    ResizeMode="CanResize"
+    ResizeMode="CanResizeWithGrip"
     Topmost="True"
     WindowBackdropType="Mica"
     WindowStartupLocation="Manual"
