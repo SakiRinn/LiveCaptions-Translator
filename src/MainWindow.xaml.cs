@@ -19,6 +19,7 @@ namespace LiveCaptionsTranslator
         private Point startPoint;
         private Size startSize;
         private Point startLocation;
+        private Window? translationOnlyWindow = null;
 
         public MainWindow()
         {
@@ -281,9 +282,156 @@ namespace LiveCaptionsTranslator
             }
         }
 
+        void TranslationOnlyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not WpfButton button || button.Icon is not SymbolIcon symbolIcon) return;
+            
+            if (translationOnlyWindow == null)
+            {
+                translationOnlyWindow = new Window
+                {
+                    Title = "Translation Only Mode",
+                    Width = 800,
+                    Height = 80,
+                    MinWidth = 400,
+                    MinHeight = 50,
+                    WindowStyle = WindowStyle.None,
+                    AllowsTransparency = true,
+                    Background = new SolidColorBrush(Colors.Transparent),
+                    Topmost = true,
+                    ShowInTaskbar = false,
+                    ResizeMode = ResizeMode.CanResize
+                };
+
+                var resizeGrid = new SystemControls.Grid();
+                
+                var border = new SystemControls.Border
+                {
+                    Background = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0)),
+                    CornerRadius = new CornerRadius(8),
+                    Margin = new Thickness(5)
+                };
+
+                var translatedText = new SystemControls.TextBlock
+                {
+                    Foreground = new SolidColorBrush(Colors.White),
+                    TextWrapping = TextWrapping.Wrap,
+                    Padding = new Thickness(10),
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("Translated") { Source = App.Captions });
+
+                void UpdateFontSize(SystemControls.TextBlock textBlock, double containerHeight)
+                {
+                    textBlock.FontSize = Math.Max(12, Math.Min(24, containerHeight / 4));
+                }
+
+                translationOnlyWindow.SizeChanged += (s, e) =>
+                {
+                    UpdateFontSize(translatedText, translationOnlyWindow.ActualHeight);
+                };
+
+                border.Child = translatedText;
+                resizeGrid.Children.Add(border);
+
+                const int resizeMargin = 8;
+                resizeGrid.MouseMove += (s, e) =>
+                {
+                    if (isResizing)
+                    {
+                        var currentPos = e.GetPosition(translationOnlyWindow);
+                        double diffX = currentPos.X - startPoint.X;
+                        double diffY = currentPos.Y - startPoint.Y;
+                        
+                        if (resizeGrid.Cursor == Cursors.SizeWE)
+                        {
+                            if (startPoint.X < resizeGrid.ActualWidth / 2)
+                            {
+                                double newWidth = Math.Max(translationOnlyWindow.MinWidth, startSize.Width - diffX);
+                                translationOnlyWindow.Left = startLocation.X + (startSize.Width - newWidth);
+                                translationOnlyWindow.Width = newWidth;
+                            }
+                            else
+                            {
+                                translationOnlyWindow.Width = Math.Max(translationOnlyWindow.MinWidth, startSize.Width + diffX);
+                            }
+                        }
+                        else if (resizeGrid.Cursor == Cursors.SizeNS)
+                        {
+                            if (startPoint.Y < resizeGrid.ActualHeight / 2)
+                            {
+                                double newHeight = Math.Max(translationOnlyWindow.MinHeight, startSize.Height - diffY);
+                                translationOnlyWindow.Top = startLocation.Y + (startSize.Height - newHeight);
+                                translationOnlyWindow.Height = newHeight;
+                            }
+                            else
+                            {
+                                translationOnlyWindow.Height = Math.Max(translationOnlyWindow.MinHeight, startSize.Height + diffY);
+                            }
+                        }
+                        return;
+                    }
+
+                    var pos = e.GetPosition(resizeGrid);
+                    bool left = pos.X < resizeMargin;
+                    bool right = pos.X > resizeGrid.ActualWidth - resizeMargin;
+                    bool top = pos.Y < resizeMargin;
+                    bool bottom = pos.Y > resizeGrid.ActualHeight - resizeMargin;
+
+                    if (left || right)
+                        resizeGrid.Cursor = Cursors.SizeWE;
+                    else if (top || bottom)
+                        resizeGrid.Cursor = Cursors.SizeNS;
+                    else if (pos.Y <= 30)
+                        resizeGrid.Cursor = Cursors.Hand;
+                    else
+                        resizeGrid.Cursor = null;
+                };
+
+                resizeGrid.MouseLeftButtonDown += (s, e) =>
+                {
+                    var pos = e.GetPosition(resizeGrid);
+                    bool isEdge = pos.X < resizeMargin || pos.X > resizeGrid.ActualWidth - resizeMargin ||
+                                  pos.Y < resizeMargin || pos.Y > resizeGrid.ActualHeight - resizeMargin;
+
+                    if (isEdge)
+                    {
+                        isResizing = true;
+                        startPoint = pos;
+                        startSize = new Size(translationOnlyWindow.Width, translationOnlyWindow.Height);
+                        startLocation = new Point(translationOnlyWindow.Left, translationOnlyWindow.Top);
+                        resizeGrid.CaptureMouse();
+                        e.Handled = true;
+                    }
+                    else if (pos.Y <= 30)
+                    {
+                        translationOnlyWindow?.DragMove();
+                    }
+                };
+
+                resizeGrid.MouseLeftButtonUp += (s, e) =>
+                {
+                    isResizing = false;
+                    resizeGrid.ReleaseMouseCapture();
+                };
+
+                translationOnlyWindow.Content = resizeGrid;
+                translationOnlyWindow.Show();
+                
+                symbolIcon.Filled = true;
+            }
+            else
+            {
+                translationOnlyWindow.Close();
+                translationOnlyWindow = null;
+                symbolIcon.Filled = false;
+            }
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             subtitleWindow?.Close();
+            translationOnlyWindow?.Close();
             base.OnClosed(e);
         }
     }

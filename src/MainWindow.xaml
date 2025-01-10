@@ -49,6 +49,13 @@
                         Icon="{ui:SymbolIcon TextT24,
                                              Filled=False}" />
                     <ui:Button
+                        x:Name="translationOnlyMode"
+                        Margin="0,0,5,0"
+                        Appearance="Transparent"
+                        Click="TranslationOnlyButton_Click"
+                        Icon="{ui:SymbolIcon Document24,
+                                             Filled=False}" />
+                    <ui:Button
                         x:Name="topmost"
                         Margin="0,0,5,0"
                         Appearance="Transparent"
