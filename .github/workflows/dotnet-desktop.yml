@@ -1,0 +1,34 @@
+name: Build C# Project
+
+on:
+  push:
+    branches: [ "master" ] #  当推送到 main 分支时触发
+  pull_request:
+    branches: [ "master" ] # 当有针对 main 分支的 Pull Request 时触发
+
+jobs:
+  build:
+    runs-on: windows-latest #  指定运行在 Windows 环境，因为要生成 EXE 文件
+
+    steps:
+      - uses: actions/checkout@v4 #  检出代码
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x' #  指定要使用的 .NET SDK 版本，根据你的项目调整
+
+      - name: Restore dependencies
+        run: dotnet restore #  还原 NuGet 包依赖
+
+      - name: Build
+        run: dotnet build --configuration Release #  构建项目，使用 Release 配置
+
+      - name: Publish
+        run: dotnet publish -c Release -o ${{ github.workspace }}/publish #  发布项目，将结果输出到 publish 目录
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: ${{ github.workspace }}/publish #  上传 publish 目录作为构建产物
