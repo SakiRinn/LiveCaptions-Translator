@@ -11,6 +11,7 @@
     Height="167"
     MinWidth="750"
     MinHeight="167"
+    MaxHeight="167"
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
     ResizeMode="CanResizeWithGrip"
