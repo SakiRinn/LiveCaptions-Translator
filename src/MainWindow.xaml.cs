@@ -15,6 +15,10 @@ namespace LiveCaptionsTranslator
     public partial class MainWindow : FluentWindow
     {
         private Window? subtitleWindow = null;
+        private bool isResizing = false;
+        private Point startPoint;
+        private Size startSize;
+        private Point startLocation;
 
         public MainWindow()
         {
@@ -79,24 +83,35 @@ namespace LiveCaptionsTranslator
                     Title = "Subtitle Mode",
                     Width = 800,
                     Height = 150,
+                    MinWidth = 400,
+                    MinHeight = 100,
                     WindowStyle = WindowStyle.None,
                     AllowsTransparency = true,
                     Background = new SolidColorBrush(Colors.Transparent),
                     Topmost = true,
-                    ShowInTaskbar = false
+                    ShowInTaskbar = false,
+                    ResizeMode = ResizeMode.CanResize
                 };
 
-                var grid = new SystemControls.Grid();
-                grid.RowDefinitions.Add(new SystemControls.RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                grid.RowDefinitions.Add(new SystemControls.RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                var resizeGrid = new SystemControls.Grid();
+                
+                var border = new SystemControls.Border
+                {
+                    Background = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0)),
+                    CornerRadius = new CornerRadius(8),
+                    Margin = new Thickness(5)
+                };
+
+                var contentGrid = new SystemControls.Grid();
+                contentGrid.RowDefinitions.Add(new SystemControls.RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                contentGrid.RowDefinitions.Add(new SystemControls.RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 
                 var originalText = new SystemControls.TextBlock
                 {
                     Foreground = new SolidColorBrush(Colors.White),
-                    FontSize = 18,
                     TextWrapping = TextWrapping.Wrap,
-                    Background = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0)),
-                    Padding = new Thickness(10)
+                    Padding = new Thickness(10),
+                    VerticalAlignment = VerticalAlignment.Center
                 };
                 originalText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("Original") { Source = App.Captions });
                 SystemControls.Grid.SetRow(originalText, 0);
@@ -104,20 +119,156 @@ namespace LiveCaptionsTranslator
                 var translatedText = new SystemControls.TextBlock
                 {
                     Foreground = new SolidColorBrush(Colors.White),
-                    FontSize = 18,
                     TextWrapping = TextWrapping.Wrap,
-                    Background = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0)),
-                    Padding = new Thickness(10)
+                    Padding = new Thickness(10),
+                    VerticalAlignment = VerticalAlignment.Center
                 };
                 translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("Translated") { Source = App.Captions });
                 SystemControls.Grid.SetRow(translatedText, 1);
 
-                grid.Children.Add(originalText);
-                grid.Children.Add(translatedText);
-                
-                grid.MouseLeftButtonDown += (s, e) => subtitleWindow?.DragMove();
+                void UpdateFontSize(SystemControls.TextBlock textBlock, double containerHeight)
+                {
+                    textBlock.FontSize = Math.Max(12, Math.Min(24, containerHeight / 4));
+                }
 
-                subtitleWindow.Content = grid;
+                subtitleWindow.SizeChanged += (s, e) =>
+                {
+                    double rowHeight = subtitleWindow.ActualHeight / 2;
+                    UpdateFontSize(originalText, rowHeight);
+                    UpdateFontSize(translatedText, rowHeight);
+                };
+
+                contentGrid.Children.Add(originalText);
+                contentGrid.Children.Add(translatedText);
+                border.Child = contentGrid;
+                resizeGrid.Children.Add(border);
+
+                const int resizeMargin = 8;
+                resizeGrid.MouseMove += (s, e) =>
+                {
+                    if (isResizing)
+                    {
+                        var currentPos = e.GetPosition(subtitleWindow);
+                        double diffX = currentPos.X - startPoint.X;
+                        double diffY = currentPos.Y - startPoint.Y;
+                        
+                        if (resizeGrid.Cursor == Cursors.SizeWE)
+                        {
+                            if (startPoint.X < resizeGrid.ActualWidth / 2)
+                            {
+                                double newWidth = Math.Max(subtitleWindow.MinWidth, startSize.Width - diffX);
+                                subtitleWindow.Left = startLocation.X + (startSize.Width - newWidth);
+                                subtitleWindow.Width = newWidth;
+                            }
+                            else
+                            {
+                                subtitleWindow.Width = Math.Max(subtitleWindow.MinWidth, startSize.Width + diffX);
+                            }
+                        }
+                        else if (resizeGrid.Cursor == Cursors.SizeNS)
+                        {
+                            if (startPoint.Y < resizeGrid.ActualHeight / 2)
+                            {
+                                double newHeight = Math.Max(subtitleWindow.MinHeight, startSize.Height - diffY);
+                                subtitleWindow.Top = startLocation.Y + (startSize.Height - newHeight);
+                                subtitleWindow.Height = newHeight;
+                            }
+                            else
+                            {
+                                subtitleWindow.Height = Math.Max(subtitleWindow.MinHeight, startSize.Height + diffY);
+                            }
+                        }
+                        else if (resizeGrid.Cursor == Cursors.SizeNWSE)
+                        {
+                            if (startPoint.X < resizeGrid.ActualWidth / 2)
+                            {
+                                double newWidth = Math.Max(subtitleWindow.MinWidth, startSize.Width - diffX);
+                                double newHeight = Math.Max(subtitleWindow.MinHeight, startSize.Height - diffY);
+                                subtitleWindow.Left = startLocation.X + (startSize.Width - newWidth);
+                                subtitleWindow.Top = startLocation.Y + (startSize.Height - newHeight);
+                                subtitleWindow.Width = newWidth;
+                                subtitleWindow.Height = newHeight;
+                            }
+                            else
+                            {
+                                subtitleWindow.Width = Math.Max(subtitleWindow.MinWidth, startSize.Width + diffX);
+                                subtitleWindow.Height = Math.Max(subtitleWindow.MinHeight, startSize.Height + diffY);
+                            }
+                        }
+                        else if (resizeGrid.Cursor == Cursors.SizeNESW)
+                        {
+                            if (startPoint.X > resizeGrid.ActualWidth / 2)
+                            {
+                                subtitleWindow.Width = Math.Max(subtitleWindow.MinWidth, startSize.Width + diffX);
+                                double newHeight = Math.Max(subtitleWindow.MinHeight, startSize.Height - diffY);
+                                subtitleWindow.Top = startLocation.Y + (startSize.Height - newHeight);
+                                subtitleWindow.Height = newHeight;
+                            }
+                            else
+                            {
+                                double newWidth = Math.Max(subtitleWindow.MinWidth, startSize.Width - diffX);
+                                subtitleWindow.Left = startLocation.X + (startSize.Width - newWidth);
+                                subtitleWindow.Width = newWidth;
+                                subtitleWindow.Height = Math.Max(subtitleWindow.MinHeight, startSize.Height + diffY);
+                            }
+                        }
+                        return;
+                    }
+
+                    var pos = e.GetPosition(resizeGrid);
+                    bool left = pos.X < resizeMargin;
+                    bool right = pos.X > resizeGrid.ActualWidth - resizeMargin;
+                    bool top = pos.Y < resizeMargin;
+                    bool bottom = pos.Y > resizeGrid.ActualHeight - resizeMargin;
+
+                    if (left && top || right && bottom)
+                        resizeGrid.Cursor = Cursors.SizeNWSE;
+                    else if (right && top || left && bottom)
+                        resizeGrid.Cursor = Cursors.SizeNESW;
+                    else if (left || right)
+                        resizeGrid.Cursor = Cursors.SizeWE;
+                    else if (top || bottom)
+                        resizeGrid.Cursor = Cursors.SizeNS;
+                    else if (pos.Y <= 30)
+                        resizeGrid.Cursor = Cursors.Hand;
+                    else
+                        resizeGrid.Cursor = null;
+                };
+
+                resizeGrid.MouseLeftButtonDown += (s, e) =>
+                {
+                    var pos = e.GetPosition(resizeGrid);
+                    bool isEdge = pos.X < resizeMargin || pos.X > resizeGrid.ActualWidth - resizeMargin ||
+                                  pos.Y < resizeMargin || pos.Y > resizeGrid.ActualHeight - resizeMargin;
+
+                    if (isEdge)
+                    {
+                        isResizing = true;
+                        startPoint = pos;
+                        startSize = new Size(subtitleWindow.Width, subtitleWindow.Height);
+                        startLocation = new Point(subtitleWindow.Left, subtitleWindow.Top);
+                        resizeGrid.CaptureMouse();
+                        e.Handled = true;
+                    }
+                    else if (e.ClickCount == 2)
+                    {
+                        subtitleWindow.WindowState = subtitleWindow.WindowState == WindowState.Maximized 
+                            ? WindowState.Normal 
+                            : WindowState.Maximized;
+                    }
+                    else if (pos.Y <= 30)
+                    {
+                        subtitleWindow?.DragMove();
+                    }
+                };
+
+                resizeGrid.MouseLeftButtonUp += (s, e) =>
+                {
+                    isResizing = false;
+                    resizeGrid.ReleaseMouseCapture();
+                };
+
+                subtitleWindow.Content = resizeGrid;
                 subtitleWindow.Show();
                 
                 symbolIcon.Filled = true;
