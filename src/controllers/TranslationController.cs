@@ -25,7 +25,7 @@ namespace LiveCaptionsTranslator.controllers
             }
         }
 
-        private async Task<string> TranslateAsync(string text)
+        public async Task<string> TranslateAsync(string text)
         {
             try
             {
@@ -42,19 +42,6 @@ namespace LiveCaptionsTranslator.controllers
                     Console.WriteLine($"[Error] Translation failed: {ex.Message}");
                     return $"[Translation Failed] {ex.Message}";
                 }
-                
-                if (!string.IsNullOrEmpty(translatedText))
-                {
-                    try
-                    {
-                        await SQLiteHistoryLogger.LogTranslationAsync(text, translatedText, targetLanguage, apiName);
-                        TranslationLogged?.Invoke();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
-                    }
-                }
 
                 return translatedText;
             }
@@ -62,6 +49,21 @@ namespace LiveCaptionsTranslator.controllers
             {
                 Console.WriteLine($"Translation API error: {ex.Message}");
                 return text;
+            }
+        }
+
+        public async Task LogTranslationAsync(string sourceText, string translatedText)
+        {
+            try
+            {
+                string targetLanguage = App.Settings.TargetLanguage;
+                string apiName = App.Settings.ApiName;
+                await SQLiteHistoryLogger.LogTranslationAsync(sourceText, translatedText, targetLanguage, apiName);
+                TranslationLogged?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
             }
         }
     }

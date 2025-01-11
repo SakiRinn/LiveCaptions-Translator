@@ -25,6 +25,11 @@ namespace LiveCaptionsTranslator.models
         private int idleCount = 0;
         private int syncCount = 0;
 
+        // 用于存储最近的句子历史
+        private Queue<string> recentSentences = new Queue<string>();
+        private const int MAX_RECENT_SENTENCES = 5;
+        private const double SIMILARITY_THRESHOLD = 0.8;
+
         private const int MAX_IDLE_INTERVAL = 10;
         private const int MAX_SYNC_INTERVAL = 5;
         private const int MAX_SENTENCE_LENGTH = 100;
@@ -250,12 +255,7 @@ namespace LiveCaptionsTranslator.models
 
                         for (int pauseCount = 0; PauseFlag || App.Window == null; pauseCount++)
                         {
-                            if (pauseCount > 60 && App.Window != null)
-                            {
-                                App.Window = null;
-                                LiveCaptionsHandler.KillLiveCaptions();
-                            }
-                            await Task.Delay(1000);
+                            await Task.Delay(50);
                         }
                         continue;
                     }
@@ -263,7 +263,6 @@ namespace LiveCaptionsTranslator.models
                     if (TranslateFlag && !isProcessingTranslation)
                     {
                         isProcessingTranslation = true;
-
                         string textToTranslate;
                         
                         lock (syncLock)
@@ -273,17 +272,31 @@ namespace LiveCaptionsTranslator.models
 
                         if (!string.IsNullOrEmpty(textToTranslate) && !PauseFlag)
                         {
-                            if (textToTranslate != lastTranslatedOriginal)
+                            // 检查是否需要记录到历史
+                            bool shouldLog = false;
+                            if (textToTranslate.IndexOfAny(PUNC_EOS) >= 0)
                             {
-                                string translatedText = await controller.TranslateAndLogAsync(textToTranslate);
-                                
-                                lock (syncLock)
+                                // 检查与最近句子的相似度
+                                var longestSimilar = FindLongestSimilarSentence(textToTranslate);
+                                if (longestSimilar == null || textToTranslate.Length > longestSimilar.Length)
                                 {
-                                    if (textToTranslate == Original)
-                                    {
-                                        Translated = translatedText;
-                                        lastTranslatedOriginal = textToTranslate;
-                                    }
+                                    shouldLog = true;
+                                    UpdateRecentSentences(textToTranslate);
+                                }
+                            }
+
+                            string translatedText = await controller.TranslateAsync(textToTranslate);
+                            if (shouldLog)
+                            {
+                                await controller.LogTranslationAsync(textToTranslate, translatedText);
+                            }
+                            
+                            lock (syncLock)
+                            {
+                                if (textToTranslate == Original)
+                                {
+                                    Translated = translatedText;
+                                    lastTranslatedOriginal = textToTranslate;
                                 }
                             }
                         }
@@ -291,6 +304,7 @@ namespace LiveCaptionsTranslator.models
                         TranslateFlag = false;
                         isProcessingTranslation = false;
                     }
+
                     await Task.Delay(50);
                 }
                 catch (Exception)
@@ -316,6 +330,50 @@ namespace LiveCaptionsTranslator.models
             if (text.Length < MIN_CHAR_LENGTH) return false;
             
             return text.IndexOfAny(PUNC_EOS) >= 0 || text.IndexOfAny(PUNC_COMMA) >= 0;
+        }
+
+        // 计算两个字符串的相似度
+        private double CalculateSimilarity(string s1, string s2)
+        {
+            if (string.IsNullOrEmpty(s1) || string.IsNullOrEmpty(s2)) return 0;
+            
+            // 使用较短的字符串作为基准
+            if (s1.Length > s2.Length)
+            {
+                var temp = s1;
+                s1 = s2;
+                s2 = temp;
+            }
+
+            // 检查s2是否包含s1的开头部分
+            return s2.StartsWith(s1) ? (double)s1.Length / s2.Length : 0;
+        }
+
+        // 查找最近句子中最长的相似句子
+        private string FindLongestSimilarSentence(string current)
+        {
+            string longest = null;
+            foreach (var sentence in recentSentences)
+            {
+                if (CalculateSimilarity(sentence, current) > SIMILARITY_THRESHOLD)
+                {
+                    if (longest == null || sentence.Length > longest.Length)
+                    {
+                        longest = sentence;
+                    }
+                }
+            }
+            return longest;
+        }
+
+        // 更新最近句子队列
+        private void UpdateRecentSentences(string sentence)
+        {
+            recentSentences.Enqueue(sentence);
+            if (recentSentences.Count > MAX_RECENT_SENTENCES)
+            {
+                recentSentences.Dequeue();
+            }
         }
     }
 }

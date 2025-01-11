@@ -21,6 +21,17 @@ namespace LiveCaptionsTranslator.models
 
         private TranslateAPIConfig? currentAPIConfig;
 
+        private bool enableLogging = true;
+        public bool EnableLogging
+        {
+            get => enableLogging;
+            set
+            {
+                enableLogging = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string ApiName
         {
             get => apiName;
