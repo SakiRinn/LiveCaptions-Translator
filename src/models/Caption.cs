@@ -16,6 +16,7 @@ namespace LiveCaptionsTranslator.models
         private static readonly char[] PUNC_COMMA = ",，、—\n".ToCharArray();
         private static readonly char[] PUNC_ALL = ".?!。？！,，、—\n".ToCharArray();
         
+        private readonly object syncLock = new object();
         private string original = "";
         private string translated = "";
         private string pendingOriginal = "";
@@ -47,14 +48,17 @@ namespace LiveCaptionsTranslator.models
                     (EOSFlag || value.Length > 100 || idleCount >= MAX_IDLE_INTERVAL) &&
                     isLongEnough)
                 {
-                    original = value;
-                    pendingOriginal = "";
-                    lastUpdateTime = DateTime.Now;
-                    OnPropertyChanged("Original");
-                    
-                    if (!PauseFlag && !string.IsNullOrEmpty(value))
+                    lock (syncLock)
                     {
-                        TranslateFlag = true;
+                        original = value;
+                        pendingOriginal = "";
+                        lastUpdateTime = DateTime.Now;
+                        OnPropertyChanged("Original");
+                        
+                        if (!PauseFlag && value != lastTranslatedOriginal)
+                        {
+                            TranslateFlag = true;
+                        }
                     }
                 }
                 else
@@ -68,9 +72,12 @@ namespace LiveCaptionsTranslator.models
             get => translated;
             set
             {
-                translated = value;
-                OnPropertyChanged("Translated");
-                isProcessingTranslation = false;
+                lock (syncLock)
+                {
+                    translated = value;
+                    OnPropertyChanged("Translated");
+                    isProcessingTranslation = false;
+                }
             }
         }
 
@@ -234,9 +241,12 @@ namespace LiveCaptionsTranslator.models
                 {
                     if (PauseFlag || App.Window == null)
                     {
-                        TranslateFlag = false;
-                        isProcessingTranslation = false;
-                        lastTranslatedOriginal = "";
+                        lock (syncLock)
+                        {
+                            TranslateFlag = false;
+                            isProcessingTranslation = false;
+                            lastTranslatedOriginal = "";
+                        }
 
                         for (int pauseCount = 0; PauseFlag || App.Window == null; pauseCount++)
                         {
@@ -254,14 +264,27 @@ namespace LiveCaptionsTranslator.models
                     {
                         isProcessingTranslation = true;
 
-                        if (!string.IsNullOrEmpty(Original) && !PauseFlag)
+                        string textToTranslate;
+                        
+                        lock (syncLock)
                         {
-                            string currentOriginal = Original;
-                            
-                            if (currentOriginal != lastTranslatedOriginal)
+                            textToTranslate = Original;
+                        }
+
+                        if (!string.IsNullOrEmpty(textToTranslate) && !PauseFlag)
+                        {
+                            if (textToTranslate != lastTranslatedOriginal)
                             {
-                                Translated = await controller.TranslateAndLogAsync(Original);
-                                lastTranslatedOriginal = Original;
+                                string translatedText = await controller.TranslateAndLogAsync(textToTranslate);
+                                
+                                lock (syncLock)
+                                {
+                                    if (textToTranslate == Original)
+                                    {
+                                        Translated = translatedText;
+                                        lastTranslatedOriginal = textToTranslate;
+                                    }
+                                }
                             }
                         }
 
