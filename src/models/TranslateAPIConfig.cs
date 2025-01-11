@@ -19,7 +19,7 @@ namespace LiveCaptionsTranslator.models
 
     public class OllamaConfig : TranslateAPIConfig
     {
-        public static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
+        protected static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
         {
             { "zh-CN", "Simplified Chinese" },
             { "zh-TW", "Traditional Chinese" },
@@ -56,10 +56,10 @@ namespace LiveCaptionsTranslator.models
             public long eval_duration { get; set; }
         }
 
-        private string modelName = "";
-        private double temperature = 1.0;
+        protected string modelName = "";
+        protected double temperature = 1.0;
 
-        public string ModelName
+        public virtual string ModelName
         {
             get => modelName;
             set
@@ -69,7 +69,7 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public double Temperature
+        public virtual double Temperature
         {
             get => temperature;
             set
@@ -147,5 +147,44 @@ namespace LiveCaptionsTranslator.models
         [JsonIgnore]
         public override Dictionary<string, string> SupportedLanguages => SUPPORTED_LANGUAGES;
         
+    }
+
+    public class OpenRouterConfig : OllamaConfig
+    {
+        public new static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
+        {
+            { "zh-CN", "Simplified Chinese" },
+            { "zh-TW", "Traditional Chinese" },
+            { "en-US", "American English" },
+            { "en-GB", "British English" },
+            { "ja-JP", "Japanese" },
+            { "ko-KR", "Korean" },
+            { "fr-FR", "French" }
+        };
+
+        [JsonIgnore]
+        public override Dictionary<string, string> SupportedLanguages => SUPPORTED_LANGUAGES;
+
+        private string apiKey = "";
+        public string ApiKey
+        {
+            get => apiKey;
+            set
+            {
+                apiKey = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private new string modelName = "anthropic/claude-3-sonnet";
+        public override string ModelName
+        {
+            get => modelName;
+            set
+            {
+                modelName = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

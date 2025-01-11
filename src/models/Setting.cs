@@ -19,6 +19,8 @@ namespace LiveCaptionsTranslator.models
         private int maxIdleInterval = 10;
         private int maxSyncInterval = 5;
 
+        private TranslateAPIConfig? currentAPIConfig;
+
         public string ApiName
         {
             get => apiName;
@@ -66,7 +68,12 @@ namespace LiveCaptionsTranslator.models
         [JsonIgnore]
         public TranslateAPIConfig CurrentAPIConfig
         {
-            get => Configs[apiName];
+            get => currentAPIConfig ?? (Configs.ContainsKey(ApiName) ? Configs[ApiName] : Configs["Ollama"]);
+            set
+            {
+                currentAPIConfig = value;
+                OnPropertyChanged();
+            }
         }
 
         public Setting()
@@ -78,6 +85,7 @@ namespace LiveCaptionsTranslator.models
                 { "Ollama", new OllamaConfig() },
                 { "OpenAI", new OpenAIConfig() },
                 { "GoogleTranslate", new GoogleTranslateConfig() },
+                { "OpenRouter", new OpenRouterConfig() }
             };
         }
 

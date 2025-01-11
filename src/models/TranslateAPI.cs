@@ -11,7 +11,8 @@ namespace LiveCaptionsTranslator.models
         {
             { "Ollama", Ollama },
             { "OpenAI", OpenAI },
-            { "GoogleTranslate", GoogleTranslate }
+            { "GoogleTranslate", GoogleTranslate },
+            { "OpenRouter", OpenRouter }
         };
         public static Func<string, Task<string>> TranslateFunc
         {
@@ -149,6 +150,49 @@ namespace LiveCaptionsTranslator.models
             {
                 return $"[Translation Failed] {ex.Message}";
             }
+        }
+
+        public static async Task<string> OpenRouter(string text)
+        {
+            var config = App.Settings.CurrentAPIConfig as OpenRouterConfig;
+            var language = config?.SupportedLanguages[App.Settings.TargetLanguage];
+
+            var requestData = new
+            {
+                model = config?.ModelName,
+                messages = new[]
+                {
+                    new { role = "system", content = $"You are a helpful translator. Translate the following text to {language}. Only return the translated text without any explanations." },
+                    new { role = "user", content = text }
+                }
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "https://openrouter.ai/api/v1/chat/completions")
+            {
+                Content = new StringContent(
+                    JsonSerializer.Serialize(requestData),
+                    Encoding.UTF8,
+                    "application/json"
+                )
+            };
+
+            request.Headers.Add("Authorization", $"Bearer {config?.ApiKey}");
+            request.Headers.Add("HTTP-Referer", "https://github.com/SakiRinn/LiveCaptionsTranslator");
+            request.Headers.Add("X-Title", "LiveCaptionsTranslator");
+
+            var response = await client.SendAsync(request);
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"OpenRouter API error: {responseContent}");
+            }
+
+            var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseContent);
+            return jsonResponse.GetProperty("choices")[0]
+                             .GetProperty("message")
+                             .GetProperty("content")
+                             .GetString() ?? string.Empty;
         }
 
     }

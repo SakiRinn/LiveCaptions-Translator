@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using LiveCaptionsTranslator.controllers;
 using LiveCaptionsTranslator.models;
+using Wpf.Ui.Appearance;
 
 namespace LiveCaptionsTranslator
 {
@@ -11,9 +12,13 @@ namespace LiveCaptionsTranslator
         public HistoryPage()
         {
             InitializeComponent();
-            LoadHistoryAsync();
-            
-            TranslationController.TranslationLogged += async () => await LoadHistoryAsync();
+            ApplicationThemeManager.ApplySystemTheme();
+            _ = InitializeAsync();
+        }
+
+        private async Task InitializeAsync()
+        {
+            await LoadHistoryAsync();
         }
 
         private async Task LoadHistoryAsync()
