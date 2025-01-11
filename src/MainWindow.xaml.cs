@@ -24,15 +24,21 @@ namespace LiveCaptionsTranslator
         public MainWindow()
         {
             InitializeComponent();
-            ApplicationThemeManager.ApplySystemTheme();
-
-            Loaded += async (sender, args) =>
+            if (OperatingSystem.IsWindowsVersionAtLeast(7))
             {
-                SystemThemeWatcher.Watch(
-                    this,                                   
-                    WindowBackdropType.Mica,                
-                    true                                    
-                );
+                ApplicationThemeManager.ApplySystemTheme();
+            }
+
+            Loaded += (sender, args) =>
+            {
+                if (OperatingSystem.IsWindowsVersionAtLeast(7))
+                {
+                    SystemThemeWatcher.Watch(
+                        this,                                   
+                        WindowBackdropType.Mica,                
+                        true                                    
+                    );
+                }
                 RootNavigation.Navigate(typeof(CaptionPage));
             };
         }
@@ -44,12 +50,18 @@ namespace LiveCaptionsTranslator
             if (Topmost)
             {
                 Topmost = false;
-                symbolIcon.Filled = false;
+                if (OperatingSystem.IsWindowsVersionAtLeast(7))
+                {
+                    symbolIcon.Filled = false;
+                }
             }
             else
             {
                 Topmost = true;
-                symbolIcon.Filled = true;
+                if (OperatingSystem.IsWindowsVersionAtLeast(7))
+                {
+                    symbolIcon.Filled = true;
+                }
             }
         }
 
@@ -112,7 +124,10 @@ namespace LiveCaptionsTranslator
                     Foreground = new SolidColorBrush(Colors.White),
                     TextWrapping = TextWrapping.Wrap,
                     Padding = new Thickness(10),
-                    VerticalAlignment = VerticalAlignment.Center
+                    VerticalAlignment = VerticalAlignment.Center,
+                    TextAlignment = TextAlignment.Left,
+                    LineHeight = 24,
+                    FontFamily = new FontFamily("Microsoft YaHei")
                 };
                 originalText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("Original") { Source = App.Captions });
                 SystemControls.Grid.SetRow(originalText, 0);
@@ -122,14 +137,17 @@ namespace LiveCaptionsTranslator
                     Foreground = new SolidColorBrush(Colors.White),
                     TextWrapping = TextWrapping.Wrap,
                     Padding = new Thickness(10),
-                    VerticalAlignment = VerticalAlignment.Center
+                    VerticalAlignment = VerticalAlignment.Center,
+                    TextAlignment = TextAlignment.Left,
+                    LineHeight = 24,
+                    FontFamily = new FontFamily("Microsoft YaHei")
                 };
                 translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("Translated") { Source = App.Captions });
                 SystemControls.Grid.SetRow(translatedText, 1);
 
                 void UpdateFontSize(SystemControls.TextBlock textBlock, double containerHeight)
                 {
-                    textBlock.FontSize = Math.Max(12, Math.Min(24, containerHeight / 4));
+                    textBlock.FontSize = Math.Max(14, Math.Min(22, containerHeight / 4));
                 }
 
                 subtitleWindow.SizeChanged += (s, e) =>
