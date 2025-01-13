@@ -65,7 +65,7 @@ namespace LiveCaptionsTranslator.models
             {
                 if (PauseFlag || App.Window == null)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(50);
                     continue;
                 }
 
