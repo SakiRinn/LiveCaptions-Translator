@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using LiveCaptionsTranslator.controllers;
-
+#增加一个说明
 namespace LiveCaptionsTranslator.models
 {
     public class Caption : INotifyPropertyChanged
