@@ -30,8 +30,7 @@
             <TextBox
                 x:Name="OriginalCaption"
                 FontSize="15"
-                Text="{Binding Original, UpdateSourceTrigger=PropertyChanged}"
-                IsReadOnly="True"
+                IsReadOnly="False"
                 Background="Transparent"
                 BorderThickness="0" />
         </ui:Card>
