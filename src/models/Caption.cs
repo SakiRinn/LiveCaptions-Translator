@@ -88,7 +88,7 @@ namespace LiveCaptionsTranslator.models
                     latestCaption = fullText.Substring(lastEOSIndex + 1);
                 }
 
-                while (Encoding.UTF8.GetByteCount(latestCaption) > 200)
+                while (Encoding.UTF8.GetByteCount(latestCaption) > 300)
                 {
                     int commaIndex = latestCaption.IndexOfAny(PUNC_COMMA);
                     if (commaIndex < 0 || commaIndex + 1 == latestCaption.Length)
