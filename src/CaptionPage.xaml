@@ -30,6 +30,7 @@
             <TextBox
                 x:Name="OriginalCaption"
                 FontSize="15"
+                Text="{Binding Original}"
                 IsReadOnly="False"
                 Background="Transparent"
                 BorderThickness="0" />
