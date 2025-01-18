@@ -4,21 +4,96 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:LiveCaptionsTranslator"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       mc:Ignorable="d"
-      Title="HistoryPage" Height="450" Width="800">
-    <Grid>
+      Title="HistoryPage">
+    
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 控制面板 -->
+        <Grid Grid.Row="0" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <ui:ToggleSwitch Grid.Column="0"
+                            Margin="0,0,12,0"
+                            Content="记录翻译历史"
+                            IsChecked="{Binding EnableLogging}"/>
+
+            <ui:Button Grid.Column="1"
+                      Appearance="Secondary"
+                      Icon="Delete24"
+                      Content="清除历史记录"
+                      Click="ClearHistory_Click"/>
+
+            <StackPanel Grid.Column="3" 
+                        Orientation="Horizontal" 
+                        Margin="0,0,12,0"
+                        VerticalAlignment="Center">
+                <ui:Button x:Name="PrevButton"
+                          Icon="ChevronLeft24"
+                          Appearance="Secondary"
+                          Click="PrevButton_Click"/>
+                <TextBlock x:Name="PageInfo"
+                          Margin="8,0"
+                          VerticalAlignment="Center"/>
+                <ui:Button x:Name="NextButton"
+                          Icon="ChevronRight24"
+                          Appearance="Secondary"
+                          Click="NextButton_Click"/>
+            </StackPanel>
+
+            <ui:TextBox Grid.Column="4"
+                       PlaceholderText="搜索..."
+                       Icon="Search24"
+                       TextChanged="SearchBox_TextChanged"/>
+        </Grid>
+
+        <!-- 历史记录表格 -->
         <DataGrid x:Name="HistoryDataGrid" 
-                  AutoGenerateColumns="False" 
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
                   IsReadOnly="True"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
-                  Margin="10">
+                  GridLinesVisibility="Horizontal"
+                  BorderThickness="1"
+                  BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                  Background="Transparent">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+            
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}" Width="*" />
-                <DataGridTextColumn Header="Source Text" Binding="{Binding SourceText}" Width="2*" />
-                <DataGridTextColumn Header="Translated Text" Binding="{Binding TranslatedText}" Width="2*" />
-                <DataGridTextColumn Header="Target Language" Binding="{Binding TargetLanguage}" Width="*" />
-                <DataGridTextColumn Header="API Used" Binding="{Binding ApiUsed}" Width="*" />
+                <DataGridTextColumn Header="时间" 
+                                  Binding="{Binding Timestamp, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" 
+                                  Width="150"/>
+                <DataGridTextColumn Header="原文" 
+                                  Binding="{Binding SourceText}" 
+                                  Width="*"/>
+                <DataGridTextColumn Header="译文" 
+                                  Binding="{Binding TranslatedText}" 
+                                  Width="*"/>
+                <DataGridTextColumn Header="目标语言" 
+                                  Binding="{Binding TargetLanguage}" 
+                                  Width="100"/>
+                <DataGridTextColumn Header="API" 
+                                  Binding="{Binding ApiUsed}" 
+                                  Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
