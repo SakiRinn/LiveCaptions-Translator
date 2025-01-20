@@ -30,7 +30,7 @@ jobs:
           del ./publish/x64/selfcontained/*.pdb 2>nul || echo "No pdb found in x64 selfcontained"
 
 
-          dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -o ./publish/x64/framework
+          dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish/x64/framework
           del ./publish/x64/framework/*.pdb 2>nul || echo "No pdb found in x64 framework"
 
 
@@ -38,7 +38,7 @@ jobs:
           del ./publish/arm64/selfcontained/*.pdb 2>nul || echo "No pdb found in arm64 selfcontained"
 
 
-          dotnet publish -c Release -r win-arm64 --self-contained false -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -o ./publish/arm64/framework
+          dotnet publish -c Release -r win-arm64 --self-contained false -p:PublishSingleFile=true -o ./publish/arm64/framework
           del ./publish/arm64/framework/*.pdb 2>nul || echo "No pdb found in arm64 framework"
 
       - name: Run Tests
