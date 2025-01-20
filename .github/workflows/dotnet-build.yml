@@ -52,8 +52,8 @@ jobs:
       - name: Create ZIP Files
         run: |
           cd release
-          zip -r LiveCaptionsTranslator-win-x64.zip publish/x64
-          zip -r LiveCaptionsTranslator-win-arm64.zip publish/arm64
+          zip -r LiveCaptionsTranslator-win-x64.zip x64
+          zip -r LiveCaptionsTranslator-win-arm64.zip arm64
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
