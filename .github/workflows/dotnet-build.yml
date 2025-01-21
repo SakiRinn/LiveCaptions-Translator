@@ -63,25 +63,21 @@ jobs:
           name: LiveCaptionsTranslator
           path: ./release
 
-      - name: Create ZIP Files
+      - name: Create ZIP Files and rename EXE
         run: |
           cd release
-
-          zip -r LiveCaptionsTranslator-win-x64.zip x64/framework
-
+          mv x64/framework/LiveCaptionsTranslator.exe LiveCaptionsTranslator-win-x64.exe
+          mv arm64/framework/LiveCaptionsTranslator.exe LiveCaptionsTranslator-win-arm64.exe
           zip -r LiveCaptionsTranslator-win-x64-withruntime.zip x64/selfcontained
-
-          zip -r LiveCaptionsTranslator-win-arm64.zip arm64/framework
-
           zip -r LiveCaptionsTranslator-win-arm64-withruntime.zip arm64/selfcontained
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release/LiveCaptionsTranslator-win-x64.zip
+            release/LiveCaptionsTranslator-win-x64.exe
             release/LiveCaptionsTranslator-win-x64-withruntime.zip
-            release/LiveCaptionsTranslator-win-arm64.zip
+            release/LiveCaptionsTranslator-win-arm64.exe
             release/LiveCaptionsTranslator-win-arm64-withruntime.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
