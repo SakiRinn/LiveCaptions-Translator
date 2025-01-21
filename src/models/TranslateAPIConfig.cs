@@ -19,7 +19,7 @@ namespace LiveCaptionsTranslator.models
 
     public class OllamaConfig : TranslateAPIConfig
     {
-        protected static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
+        public static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
         {
             { "zh-CN", "Simplified Chinese" },
             { "zh-TW", "Traditional Chinese" },
@@ -56,10 +56,10 @@ namespace LiveCaptionsTranslator.models
             public long eval_duration { get; set; }
         }
 
-        protected string modelName = "";
-        protected double temperature = 1.0;
+        private string modelName = "";
+        private double temperature = 1.0;
 
-        public virtual string ModelName
+        public string ModelName
         {
             get => modelName;
             set
@@ -69,7 +69,7 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public virtual double Temperature
+        public double Temperature
         {
             get => temperature;
             set
@@ -131,6 +131,20 @@ namespace LiveCaptionsTranslator.models
         }
     }
 
+    public class OpenRouterConfig : OllamaConfig
+    {
+        private string apiKey = "";
+        public string ApiKey
+        {
+            get => apiKey;
+            set
+            {
+                apiKey = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public class GoogleTranslateConfig : TranslateAPIConfig
     {
         private static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
@@ -146,45 +160,5 @@ namespace LiveCaptionsTranslator.models
 
         [JsonIgnore]
         public override Dictionary<string, string> SupportedLanguages => SUPPORTED_LANGUAGES;
-        
-    }
-
-    public class OpenRouterConfig : OllamaConfig
-    {
-        public new static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
-        {
-            { "zh-CN", "Simplified Chinese" },
-            { "zh-TW", "Traditional Chinese" },
-            { "en-US", "American English" },
-            { "en-GB", "British English" },
-            { "ja-JP", "Japanese" },
-            { "ko-KR", "Korean" },
-            { "fr-FR", "French" }
-        };
-
-        [JsonIgnore]
-        public override Dictionary<string, string> SupportedLanguages => SUPPORTED_LANGUAGES;
-
-        private string apiKey = "";
-        public string ApiKey
-        {
-            get => apiKey;
-            set
-            {
-                apiKey = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private new string modelName = "anthropic/claude-3-sonnet";
-        public override string ModelName
-        {
-            get => modelName;
-            set
-            {
-                modelName = value;
-                OnPropertyChanged();
-            }
-        }
     }
 }

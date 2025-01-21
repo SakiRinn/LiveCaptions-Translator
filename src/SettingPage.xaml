@@ -50,14 +50,8 @@
                     Height="30"
                     Padding="10,4,10,7"
                     FontSize="13.3"
-                    SelectedValue="{Binding ApiName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Content"
-                    SelectionChanged="translateAPIBox_SelectionChanged">
-                    <ComboBoxItem Content="Ollama" />
-                    <ComboBoxItem Content="OpenAI" />
-                    <ComboBoxItem Content="GoogleTranslate" />
-                    <ComboBoxItem Content="OpenRouter" />
-                </ComboBox>
+                    SelectedItem="{Binding ApiName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionChanged="translateAPIBox_SelectionChanged" />
             </StackPanel>
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Target Language" />
@@ -71,7 +65,7 @@
             </StackPanel>
         </StackPanel>
 
-        <Grid x:Name="openAISettings" Grid.Column="2">
+        <Grid x:Name="OpenAIGrid" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -139,7 +133,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="ollamaSettings" Grid.Column="2">
+        <Grid x:Name="OllamaGrid" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -178,11 +172,13 @@
                     Value="{Binding CurrentAPIConfig.Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </Grid>
-        
-        <Grid x:Name="googleTranslateSettings" Grid.Column="2" />
-        
-        <!-- OpenRouter Settings -->
-        <Grid x:Name="openRouterSettings" Grid.Column="2" Visibility="Collapsed">
+
+        <Grid x:Name="GoogleTranslateGrid" Grid.Column="2" />
+
+        <Grid
+            x:Name="OpenRouterGrid"
+            Grid.Column="2"
+            Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

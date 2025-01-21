@@ -1,31 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 
 namespace LiveCaptionsTranslator.models
 {
     public class TranslationHistoryEntry
     {
         public DateTime Timestamp { get; set; }
-        public required string SourceText { get; set; }
-        public required string TranslatedText { get; set; }
-        public required string TargetLanguage { get; set; }
-        public required string ApiUsed { get; set; }
-
-        public TranslationHistoryEntry()
-        {
-            Timestamp = DateTime.Now;
-            SourceText = string.Empty;
-            TranslatedText = string.Empty;
-            TargetLanguage = string.Empty;
-            ApiUsed = string.Empty;
-        }
+        public string SourceText { get; set; }
+        public string TranslatedText { get; set; }
+        public string TargetLanguage { get; set; }
+        public string ApiUsed { get; set; }
     }
 
     public static class SQLiteHistoryLogger
     {
         private static readonly string ConnectionString = "Data Source=translation_history.db;Version=3;";
-        private const int PAGE_SIZE = 100; // 每页显示的记录数
 
         static SQLiteHistoryLogger()
         {
@@ -48,7 +36,59 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public static async Task ClearHistoryAsync()
+        public static async Task LogTranslation(string sourceText, string translatedText, string targetLanguage,
+            string apiUsed)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                string insertQuery = @"
+                    INSERT INTO TranslationHistory (Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed)
+                    VALUES (@Timestamp, @SourceText, @TranslatedText, @TargetLanguage, @ApiUsed)";
+
+                using (var command = new SQLiteCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Timestamp", DateTime.Now);
+                    command.Parameters.AddWithValue("@SourceText", sourceText);
+                    command.Parameters.AddWithValue("@TranslatedText", translatedText);
+                    command.Parameters.AddWithValue("@TargetLanguage", targetLanguage);
+                    command.Parameters.AddWithValue("@ApiUsed", apiUsed);
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+        }
+
+        public static async Task<List<TranslationHistoryEntry>> LoadHistory()
+        {
+            var history = new List<TranslationHistoryEntry>();
+
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                string selectQuery = @"
+                    SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed 
+                    FROM TranslationHistory ORDER BY Timestamp DESC";
+
+                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        history.Add(new TranslationHistoryEntry
+                        {
+                            Timestamp = reader.GetDateTime(reader.GetOrdinal("Timestamp")),
+                            SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
+                            TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
+                            TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
+                            ApiUsed = reader.GetString(reader.GetOrdinal("ApiUsed"))
+                        });
+                    }
+                }
+            }
+            return history;
+        }
+
+        public static async Task ClearHistory()
         {
             await Task.Run(() =>
             {
@@ -56,91 +96,6 @@ namespace LiveCaptionsTranslator.models
                 connection.Open();
                 using var command = new SQLiteCommand("DELETE FROM TranslationHistory", connection);
                 command.ExecuteNonQuery();
-            });
-        }
-
-        public static async Task LogTranslationAsync(string sourceText, string translatedText, string targetLanguage,
-            string apiUsed)
-        {
-            if (!App.Settings.EnableLogging)
-            {
-                return;
-            }
-
-            await Task.Run(() =>
-            {
-                using var connection = new SQLiteConnection(ConnectionString);
-                connection.Open();
-                using var command = new SQLiteCommand(
-                    @"INSERT INTO TranslationHistory (Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed) 
-                      VALUES (@timestamp, @sourceText, @translatedText, @targetLanguage, @apiUsed)",
-                    connection
-                );
-
-                command.Parameters.AddWithValue("@timestamp", DateTime.Now);
-                command.Parameters.AddWithValue("@sourceText", sourceText);
-                command.Parameters.AddWithValue("@translatedText", translatedText);
-                command.Parameters.AddWithValue("@targetLanguage", targetLanguage);
-                command.Parameters.AddWithValue("@apiUsed", apiUsed);
-
-                command.ExecuteNonQuery();
-            });
-        }
-
-        public static async Task<List<TranslationHistoryEntry>> LoadHistoryAsync(int page = 1)
-        {
-            return await Task.Run(() =>
-            {
-                var history = new List<TranslationHistoryEntry>();
-                using var connection = new SQLiteConnection(ConnectionString);
-                connection.Open();
-                using var command = new SQLiteCommand(@"
-                    WITH RankedHistory AS (
-                        SELECT *,
-                            ROW_NUMBER() OVER (PARTITION BY SourceText ORDER BY Timestamp DESC) as rn
-                        FROM TranslationHistory
-                    )
-                    SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed
-                    FROM RankedHistory
-                    WHERE rn = 1
-                    ORDER BY Timestamp DESC
-                    LIMIT @pageSize OFFSET @offset",
-                    connection
-                );
-
-                command.Parameters.AddWithValue("@pageSize", PAGE_SIZE);
-                command.Parameters.AddWithValue("@offset", (page - 1) * PAGE_SIZE);
-
-                using var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    history.Add(new TranslationHistoryEntry
-                    {
-                        Timestamp = DateTime.Parse(reader["Timestamp"]?.ToString() ?? DateTime.Now.ToString()),
-                        SourceText = reader["SourceText"]?.ToString() ?? string.Empty,
-                        TranslatedText = reader["TranslatedText"]?.ToString() ?? string.Empty,
-                        TargetLanguage = reader["TargetLanguage"]?.ToString() ?? string.Empty,
-                        ApiUsed = reader["ApiUsed"]?.ToString() ?? string.Empty
-                    });
-                }
-
-                return history;
-            });
-        }
-
-        public static async Task<int> GetTotalPagesAsync()
-        {
-            return await Task.Run(() =>
-            {
-                using var connection = new SQLiteConnection(ConnectionString);
-                connection.Open();
-                using var command = new SQLiteCommand(@"
-                    SELECT COUNT(DISTINCT SourceText) as total 
-                    FROM TranslationHistory",
-                    connection
-                );
-                var total = Convert.ToInt32(command.ExecuteScalar());
-                return (total + PAGE_SIZE - 1) / PAGE_SIZE;
             });
         }
     }

@@ -1,19 +1,18 @@
 ﻿using LiveCaptionsTranslator.models;
 using System.Windows;
 using WpfButton = Wpf.Ui.Controls.Button;
-using WpfTextBlock = Wpf.Ui.Controls.TextBlock;
 using SystemControls = System.Windows.Controls;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using System.Windows.Media;
 using System.Windows.Data;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace LiveCaptionsTranslator
 {
     public partial class MainWindow : FluentWindow
     {
+        // TODO: Extract them into a new SubtitleWindow class.
         private Window? subtitleWindow = null;
         private bool isResizing = false;
         private Point startPoint;
@@ -24,71 +23,58 @@ namespace LiveCaptionsTranslator
         public MainWindow()
         {
             InitializeComponent();
-            if (OperatingSystem.IsWindowsVersionAtLeast(7))
-            {
-                ApplicationThemeManager.ApplySystemTheme();
-            }
+            ApplicationThemeManager.ApplySystemTheme();
 
             Loaded += (sender, args) =>
             {
-                if (OperatingSystem.IsWindowsVersionAtLeast(7))
-                {
-                    SystemThemeWatcher.Watch(
-                        this,                                   
-                        WindowBackdropType.Mica,                
-                        true                                    
-                    );
-                }
-                RootNavigation.Navigate(typeof(CaptionPage));
+                SystemThemeWatcher.Watch(
+                    this,                                   // Window class
+                    WindowBackdropType.Mica,                // Background type
+                    true                                    // Whether to change accents automatically
+                );
             };
+            Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
         }
 
         void TopmostButton_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is not WpfButton button || button.Icon is not SymbolIcon symbolIcon) return;
-            
+            var button = sender as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
             if (Topmost)
             {
                 Topmost = false;
-                if (OperatingSystem.IsWindowsVersionAtLeast(7))
-                {
-                    symbolIcon.Filled = false;
-                }
-            }
-            else
-            {
-                Topmost = true;
-                if (OperatingSystem.IsWindowsVersionAtLeast(7))
-                {
-                    symbolIcon.Filled = true;
-                }
-            }
-        }
-
-        async void PauseButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is not WpfButton button || button.Icon is not SymbolIcon symbolIcon) return;
-
-            if (App.Captions?.PauseFlag ?? false)
-            {
-                if (App.Window == null)
-                {
-                    App.Window = await Task.Run(() => LiveCaptionsHandler.LaunchLiveCaptions());
-                }
-                if (App.Captions != null) App.Captions.PauseFlag = false;
                 symbolIcon.Filled = false;
             }
             else
             {
-                if (App.Captions != null) App.Captions.PauseFlag = true;
+                Topmost = true;
                 symbolIcon.Filled = true;
             }
         }
 
+        void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
+            if (App.Captions.PauseFlag)
+            {
+                if (App.Window == null)
+                    App.Window = LiveCaptionsHandler.LaunchLiveCaptions();
+                App.Captions.PauseFlag = false;
+                symbolIcon.Filled = false;
+            }
+            else
+            {
+                App.Captions.PauseFlag = true;
+                symbolIcon.Filled = true;
+            }
+        }
+
+        // TODO: Extract them into a new SubtitleWindow class.
         void SubtitleModeButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not WpfButton button || button.Icon is not SymbolIcon symbolIcon) return;
-            
+
             if (subtitleWindow == null)
             {
                 subtitleWindow = new Window
@@ -107,7 +93,7 @@ namespace LiveCaptionsTranslator
                 };
 
                 var resizeGrid = new SystemControls.Grid();
-                
+
                 var border = new SystemControls.Border
                 {
                     Background = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0)),
@@ -129,7 +115,7 @@ namespace LiveCaptionsTranslator
                     LineHeight = 24,
                     FontFamily = new FontFamily("Microsoft YaHei")
                 };
-                originalText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("Original") { Source = App.Captions });
+                originalText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("PresentedCaption") { Source = App.Captions });
                 SystemControls.Grid.SetRow(originalText, 0);
 
                 var translatedText = new SystemControls.TextBlock
@@ -142,7 +128,7 @@ namespace LiveCaptionsTranslator
                     LineHeight = 24,
                     FontFamily = new FontFamily("Microsoft YaHei")
                 };
-                translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("Translated") { Source = App.Captions });
+                translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("TranslatedCaption") { Source = App.Captions });
                 SystemControls.Grid.SetRow(translatedText, 1);
 
                 void UpdateFontSize(SystemControls.TextBlock textBlock, double containerHeight)
@@ -170,7 +156,7 @@ namespace LiveCaptionsTranslator
                         var currentPos = e.GetPosition(subtitleWindow);
                         double diffX = currentPos.X - startPoint.X;
                         double diffY = currentPos.Y - startPoint.Y;
-                        
+
                         if (resizeGrid.Cursor == Cursors.SizeWE)
                         {
                             if (startPoint.X < resizeGrid.ActualWidth / 2)
@@ -271,8 +257,8 @@ namespace LiveCaptionsTranslator
                     }
                     else if (e.ClickCount == 2)
                     {
-                        subtitleWindow.WindowState = subtitleWindow.WindowState == WindowState.Maximized 
-                            ? WindowState.Normal 
+                        subtitleWindow.WindowState = subtitleWindow.WindowState == WindowState.Maximized
+                            ? WindowState.Normal
                             : WindowState.Maximized;
                     }
                     else if (pos.Y <= 30)
@@ -289,7 +275,7 @@ namespace LiveCaptionsTranslator
 
                 subtitleWindow.Content = resizeGrid;
                 subtitleWindow.Show();
-                
+
                 symbolIcon.Filled = true;
             }
             else
@@ -300,10 +286,11 @@ namespace LiveCaptionsTranslator
             }
         }
 
+        // TODO: Extract them into a new SubtitleWindow class.
         void TranslationOnlyButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not WpfButton button || button.Icon is not SymbolIcon symbolIcon) return;
-            
+
             if (translationOnlyWindow == null)
             {
                 translationOnlyWindow = new Window
@@ -322,7 +309,7 @@ namespace LiveCaptionsTranslator
                 };
 
                 var resizeGrid = new SystemControls.Grid();
-                
+
                 var border = new SystemControls.Border
                 {
                     Background = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0)),
@@ -337,7 +324,7 @@ namespace LiveCaptionsTranslator
                     Padding = new Thickness(10),
                     VerticalAlignment = VerticalAlignment.Center
                 };
-                translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("Translated") { Source = App.Captions });
+                translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("TranslatedCaption") { Source = App.Captions });
 
                 void UpdateFontSize(SystemControls.TextBlock textBlock, double containerHeight)
                 {
@@ -360,7 +347,7 @@ namespace LiveCaptionsTranslator
                         var currentPos = e.GetPosition(translationOnlyWindow);
                         double diffX = currentPos.X - startPoint.X;
                         double diffY = currentPos.Y - startPoint.Y;
-                        
+
                         if (resizeGrid.Cursor == Cursors.SizeWE)
                         {
                             if (startPoint.X < resizeGrid.ActualWidth / 2)
@@ -435,7 +422,7 @@ namespace LiveCaptionsTranslator
 
                 translationOnlyWindow.Content = resizeGrid;
                 translationOnlyWindow.Show();
-                
+
                 symbolIcon.Filled = true;
             }
             else

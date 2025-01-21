@@ -16,9 +16,9 @@ namespace LiveCaptionsTranslator
 
         private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(App.Captions.Translated))
+            if (e.PropertyName == nameof(App.Captions.TranslatedCaption))
             {
-                if (Encoding.UTF8.GetByteCount(App.Captions.Translated) > 150)
+                if (Encoding.UTF8.GetByteCount(App.Captions.TranslatedCaption) > 150)
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {

@@ -57,7 +57,8 @@ namespace LiveCaptionsTranslator.models
             {
                 response = await client.PostAsync(config?.ApiUrl, content);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return $"[Translation Failed] {ex.Message}";
             }
 
@@ -120,7 +121,7 @@ namespace LiveCaptionsTranslator.models
             else
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
-        
+
         private static async Task<string> GoogleTranslate(string text)
         {
             var config = App.Settings?.CurrentAPIConfig as GoogleTranslateConfig;
@@ -137,7 +138,7 @@ namespace LiveCaptionsTranslator.models
                     string responseString = await response.Content.ReadAsStringAsync();
 
                     var responseObj = JsonSerializer.Deserialize<List<List<string>>>(responseString);
-                    
+
                     string translatedText = responseObj[0][0];
                     return translatedText;
                 }
@@ -162,7 +163,9 @@ namespace LiveCaptionsTranslator.models
                 model = config?.ModelName,
                 messages = new[]
                 {
-                    new { role = "system", content = $"You are a helpful translator. Translate the following text to {language}. Only return the translated text without any explanations." },
+                    new { role = "system", content = 
+                        $"You are a helpful translator. Translate the following text to {language}. " +
+                        $"Only return the translated text without any explanations." },
                     new { role = "user", content = text }
                 }
             };
@@ -190,11 +193,10 @@ namespace LiveCaptionsTranslator.models
 
             var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseContent);
             return jsonResponse.GetProperty("choices")[0]
-                             .GetProperty("message")
-                             .GetProperty("content")
-                             .GetString() ?? string.Empty;
+                               .GetProperty("message")
+                               .GetProperty("content")
+                               .GetString() ?? string.Empty;
         }
-
     }
 
     public class ConfigDictConverter : JsonConverter<Dictionary<string, TranslateAPIConfig>>

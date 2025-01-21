@@ -1,70 +1,46 @@
-﻿using System;
-using System.Threading.Tasks;
-using LiveCaptionsTranslator.models;
+﻿using LiveCaptionsTranslator.models;
 
 namespace LiveCaptionsTranslator.controllers
 {
     public class TranslationController
     {
         public static event Action? TranslationLogged;
-        public async Task<string> TranslateAndLogAsync(string text)
+
+        public async Task<string> TranslateAndLog(string text, bool doLog = true)
         {
+            string targetLanguage = App.Settings.TargetLanguage;
+            string apiName = App.Settings.ApiName;
+
+            string translatedText;
             try
             {
-                string translatedText = await TranslateAsync(text);
-                if (string.IsNullOrEmpty(translatedText) || translatedText.Contains("[Translation Failed]"))
-                {
-                    return text;
-                }
-                return translatedText;
+                translatedText = await TranslateAPI.TranslateFunc(text);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Translation error: {ex.Message}");
-                return text;
+                Console.WriteLine($"[Error] Translation failed: {ex.Message}");
+                return $"[Translation Failed] {ex.Message}";
             }
-        }
 
-        public async Task<string> TranslateAsync(string text)
-        {
-            try
+            if (doLog && !string.IsNullOrEmpty(translatedText))
             {
-                string targetLanguage = App.Settings.TargetLanguage;
-                string apiName = App.Settings.ApiName;
-
-                string translatedText;
                 try
                 {
-                    translatedText = await TranslateAPI.TranslateFunc(text);
+                    await SQLiteHistoryLogger.LogTranslation(text, translatedText, targetLanguage, apiName);
+                    TranslationLogged?.Invoke();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[Error] Translation failed: {ex.Message}");
-                    return $"[Translation Failed] {ex.Message}";
+                    Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
                 }
+            }
 
-                return translatedText;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Translation API error: {ex.Message}");
-                return text;
-            }
+            return translatedText;
         }
 
-        public async Task LogTranslationAsync(string sourceText, string translatedText)
+        public async Task<string> Translate(string text)
         {
-            try
-            {
-                string targetLanguage = App.Settings.TargetLanguage;
-                string apiName = App.Settings.ApiName;
-                await SQLiteHistoryLogger.LogTranslationAsync(sourceText, translatedText, targetLanguage, apiName);
-                TranslationLogged?.Invoke();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
-            }
+            return await TranslateAndLog(text, false);
         }
     }
 }
