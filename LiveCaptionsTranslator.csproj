@@ -7,7 +7,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
 		<PublishReadyToRun>false</PublishReadyToRun>
 		<PublishSingleFile>true</PublishSingleFile>
 		<SelfContained>false</SelfContained>
