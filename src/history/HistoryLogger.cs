@@ -1,4 +1,4 @@
-﻿using System.Data.SQLite;
+﻿using Microsoft.Data.Sqlite;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -13,11 +13,11 @@ namespace LiveCaptionsTranslator.models
 
     public static class SQLiteHistoryLogger
     {
-        private static readonly string ConnectionString = "Data Source=translation_history.db;Version=3;";
+        private static readonly string ConnectionString = "Data Source=translation_history.db;";
 
         static SQLiteHistoryLogger()
         {
-            using (var connection = new SQLiteConnection(ConnectionString))
+            using (var connection = new SqliteConnection(ConnectionString))
             {
                 connection.Open();
                 string createTableQuery = @"
@@ -29,7 +29,7 @@ namespace LiveCaptionsTranslator.models
                         TargetLanguage TEXT,
                         ApiUsed TEXT
                     )";
-                using (var command = new SQLiteCommand(createTableQuery, connection))
+                using (var command = new SqliteCommand(createTableQuery, connection))
                 {
                     command.ExecuteNonQuery();
                 }
@@ -39,14 +39,14 @@ namespace LiveCaptionsTranslator.models
         public static async Task LogTranslation(string sourceText, string translatedText, string targetLanguage,
             string apiUsed)
         {
-            using (var connection = new SQLiteConnection(ConnectionString))
+            using (var connection = new SqliteConnection(ConnectionString))
             {
                 await connection.OpenAsync();
                 string insertQuery = @"
                     INSERT INTO TranslationHistory (Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed)
                     VALUES (@Timestamp, @SourceText, @TranslatedText, @TargetLanguage, @ApiUsed)";
 
-                using (var command = new SQLiteCommand(insertQuery, connection))
+                using (var command = new SqliteCommand(insertQuery, connection))
                 {
                     command.Parameters.AddWithValue("@Timestamp", DateTime.Now);
                     command.Parameters.AddWithValue("@SourceText", sourceText);
@@ -62,14 +62,14 @@ namespace LiveCaptionsTranslator.models
         {
             var history = new List<TranslationHistoryEntry>();
 
-            using (var connection = new SQLiteConnection(ConnectionString))
+            using (var connection = new SqliteConnection(ConnectionString))
             {
                 await connection.OpenAsync();
                 string selectQuery = @"
                     SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed 
                     FROM TranslationHistory ORDER BY Timestamp DESC";
 
-                using (var command = new SQLiteCommand(selectQuery, connection))
+                using (var command = new SqliteCommand(selectQuery, connection))
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
@@ -92,9 +92,9 @@ namespace LiveCaptionsTranslator.models
         {
             await Task.Run(() =>
             {
-                using var connection = new SQLiteConnection(ConnectionString);
+                using var connection = new SqliteConnection(ConnectionString);
                 connection.Open();
-                using var command = new SQLiteCommand("DELETE FROM TranslationHistory", connection);
+                using var command = new SqliteCommand("DELETE FROM TranslationHistory", connection);
                 command.ExecuteNonQuery();
             });
         }

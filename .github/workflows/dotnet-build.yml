@@ -45,7 +45,7 @@ jobs:
         run: dotnet test --verbosity normal
 
       - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: LiveCaptionsTranslator
           path: ./publish
@@ -58,7 +58,7 @@ jobs:
 
     steps:
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: LiveCaptionsTranslator
           path: ./release
