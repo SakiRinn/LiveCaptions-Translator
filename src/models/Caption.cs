@@ -23,10 +23,16 @@ namespace LiveCaptionsTranslator.models
 
         private string original = "";
         private string translated = "";
-        private readonly Queue<(string Original, string Translated)> captionHistory = new(5);
+        private readonly Queue<CaptionHistoryItem> captionHistory = new(5);
+
+        public class CaptionHistoryItem
+        {
+            public string Original { get; set; }
+            public string Translated { get; set; }
+        }
 
         // 保留原有的公共属性
-        public IEnumerable<(string Original, string Translated)> CaptionHistory => captionHistory.Reverse();
+        public IEnumerable<CaptionHistoryItem> CaptionHistory => captionHistory.Reverse();
         public bool PauseFlag { get; set; } = false;
         public bool TranslateFlag { get; set; } = false;
         private bool EOSFlag { get; set; } = false;
@@ -115,7 +121,11 @@ namespace LiveCaptionsTranslator.models
                         {
                             if (captionHistory.Count >= 5)
                                 captionHistory.Dequeue();
-                            captionHistory.Enqueue((Original, Translated));
+                            captionHistory.Enqueue(new CaptionHistoryItem 
+                            { 
+                                Original = Original, 
+                                Translated = Translated 
+                            });
                             OnPropertyChanged(nameof(CaptionHistory));
                         }
                         
