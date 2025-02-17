@@ -116,19 +116,6 @@ namespace LiveCaptionsTranslator.models
                     {
                         idleCount = 0;
                         syncCount++;
-                        
-                        if (!string.IsNullOrEmpty(Original) && !string.IsNullOrEmpty(Translated))
-                        {
-                            if (captionHistory.Count >= 5)
-                                captionHistory.Dequeue();
-                            captionHistory.Enqueue(new CaptionHistoryItem 
-                            { 
-                                Original = Original, 
-                                Translated = Translated 
-                            });
-                            OnPropertyChanged(nameof(CaptionHistory));
-                        }
-                        
                         Original = latestCaption;
                         UpdateTranslationFlags(latestCaption, ref syncCount);
                     }
@@ -238,6 +225,25 @@ namespace LiveCaptionsTranslator.models
                     {
                         Translated = await controller.TranslateAndLogAsync(Original);
                         TranslateFlag = false;
+
+                        // 添加到历史记录
+                        if (!string.IsNullOrEmpty(Original) && !string.IsNullOrEmpty(Translated))
+                        {
+                            var lastHistory = captionHistory.LastOrDefault();
+                            if (lastHistory == null || 
+                                lastHistory.Original != Original || 
+                                lastHistory.Translated != Translated)
+                            {
+                                if (captionHistory.Count >= 5)
+                                    captionHistory.Dequeue();
+                                captionHistory.Enqueue(new CaptionHistoryItem 
+                                { 
+                                    Original = Original, 
+                                    Translated = Translated 
+                                });
+                                OnPropertyChanged(nameof(CaptionHistory));
+                            }
+                        }
 
                         // 性能监控
                         UpdateTranslatePerformance(translateStartTime);
