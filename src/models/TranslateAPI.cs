@@ -1,14 +1,8 @@
-using System;
 using System.Net.Http;
-using System.Threading.Tasks;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Collections.Generic;
-using System.Net.Http.Headers;
-using System.IO.Compression;
-using System.Linq;
-using System.Net; // 添加这一行
-using System.Collections.Concurrent; // Add this line!
+using System.Collections.Concurrent;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -137,12 +131,7 @@ namespace LiveCaptionsTranslator.models
         private static int _currentAPIIndex = 0;
         private static readonly string[] _apiPriority = new[] { "OpenAI", "Ollama", "GoogleTranslate" };
         
-        //static TranslateAPI()
-        //{
-            // 初始化连接池设置
-        //    ServicePointManager.DefaultConnectionLimit = 20;
-        //    ServicePointManager.UseNagleAlgorithm = false;  // 禁用Nagle算法，减少小数据包延迟
-       // }
+
 
         public static readonly Dictionary<string, Func<string, Task<string>>> TRANSLATE_FUNCS = new()
         {
