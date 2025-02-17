@@ -223,7 +223,7 @@ namespace LiveCaptionsTranslator.models
                 Version = new Version(2, 0)  // 使用HTTP/2
             };
             request.Headers.Add("Authorization", $"Bearer {config?.ApiKey}");
-            request.Headers.Add("Accept-Encoding", "gzip, deflate, br");  // 支持压缩
+            //request.Headers.Add("Accept-Encoding", "gzip, deflate, br");  // 支持压缩
 
             try
             {
@@ -272,7 +272,7 @@ namespace LiveCaptionsTranslator.models
                 Content = new StringContent(JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json"),
                 Version = new Version(2, 0)  // 使用HTTP/2
             };
-            request.Headers.Add("Accept-Encoding", "gzip, deflate, br");  // 支持压缩
+           // request.Headers.Add("Accept-Encoding", "gzip, deflate, br");  // 支持压缩
 
             try
             {
