@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿﻿using System.ComponentModel;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -12,6 +12,11 @@ namespace LiveCaptionsTranslator
             InitializeComponent();
             DataContext = App.Captions;
             App.Captions.PropertyChanged += TranslatedChanged;
+        }
+
+        private void ClearHistory_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.Captions.ClearHistory();
         }
 
         private void TranslatedChanged(object sender, PropertyChangedEventArgs e)

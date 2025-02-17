@@ -1,4 +1,4 @@
-﻿﻿<Page
+﻿﻿﻿﻿﻿﻿<Page
     x:Class="LiveCaptionsTranslator.CaptionPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,6 +12,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -53,6 +54,48 @@
                 AcceptsReturn="True"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto" />
+        </ui:Card>
+
+        <ui:Card
+            Grid.Row="2"
+            Margin="15,1,20,3"
+            Padding="8"
+            VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <DockPanel Grid.Row="0" Margin="0,0,0,8">
+                    <TextBlock Text="历史字幕" FontSize="14" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <Button Content="清除历史" 
+                            Click="ClearHistory_Click"
+                            HorizontalAlignment="Right"
+                            Padding="8,4"/>
+                </DockPanel>
+
+                <ItemsControl Grid.Row="1" 
+                            ItemsSource="{Binding CaptionHistory}"
+                            VirtualizingPanel.IsVirtualizing="True">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,4" Padding="8" BorderThickness="0,0,0,1" BorderBrush="#20000000">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Item1}" 
+                                             FontSize="13" 
+                                             TextWrapping="Wrap"
+                                             Margin="0,0,0,4"/>
+                                    <TextBlock Text="{Binding Item2}" 
+                                             FontSize="15"
+                                             TextWrapping="Wrap"
+                                             Foreground="#666666"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
         </ui:Card>
     </Grid>
 </Page>

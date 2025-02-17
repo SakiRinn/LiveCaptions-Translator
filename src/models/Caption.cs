@@ -23,8 +23,10 @@ namespace LiveCaptionsTranslator.models
 
         private string original = "";
         private string translated = "";
+        private readonly Queue<(string Original, string Translated)> captionHistory = new(5);
 
         // 保留原有的公共属性
+        public IEnumerable<(string Original, string Translated)> CaptionHistory => captionHistory.Reverse();
         public bool PauseFlag { get; set; } = false;
         public bool TranslateFlag { get; set; } = false;
         private bool EOSFlag { get; set; } = false;
@@ -108,8 +110,16 @@ namespace LiveCaptionsTranslator.models
                     {
                         idleCount = 0;
                         syncCount++;
+                        
+                        if (!string.IsNullOrEmpty(Original) && !string.IsNullOrEmpty(Translated))
+                        {
+                            if (captionHistory.Count >= 5)
+                                captionHistory.Dequeue();
+                            captionHistory.Enqueue((Original, Translated));
+                            OnPropertyChanged(nameof(CaptionHistory));
+                        }
+                        
                         Original = latestCaption;
-
                         UpdateTranslationFlags(latestCaption, ref syncCount);
                     }
                     else
@@ -252,6 +262,12 @@ namespace LiveCaptionsTranslator.models
         }
 
         // 性能分析方法
+        public void ClearHistory()
+        {
+            captionHistory.Clear();
+            OnPropertyChanged(nameof(CaptionHistory));
+        }
+
         public (double avgSyncTime, double avgTranslateTime) GetPerformanceMetrics()
         {
             double avgSyncTime = _syncCount > 0 
