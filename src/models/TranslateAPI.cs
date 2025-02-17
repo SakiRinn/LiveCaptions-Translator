@@ -1,8 +1,13 @@
+using System;
 using System.Net.Http;
-using System.Text;
+using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Net.Http.Headers;
+using System.IO.Compression;
+using System.Linq;
+using System.Net; // 添加这一行
 
 namespace LiveCaptionsTranslator.models
 {
