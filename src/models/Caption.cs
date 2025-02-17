@@ -163,7 +163,7 @@ namespace LiveCaptionsTranslator.models
                 latestCaption = latestCaption.Substring(commaIndex + 1);
             }
 
-            return latestCaption.Replace("\n", "——");
+            return latestCaption;  // 保留原始换行符
         }
 
         private void UpdateTranslationFlags(string caption, ref int syncCount)
@@ -266,4 +266,3 @@ namespace LiveCaptionsTranslator.models
         }
     }
 }
-
