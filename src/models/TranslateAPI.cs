@@ -1,26 +1,77 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Collections.Concurrent;
 
 namespace LiveCaptionsTranslator.models
 {
+    public class TranslationCache
+    {
+        private readonly ConcurrentDictionary<string, CacheEntry> _cache = new();
+        private const int MaxCacheSize = 100;
+
+        public async Task<string> GetOrTranslateAsync(string text, Func<string, Task<string>> translateFunc)
+        {
+            if (_cache.TryGetValue(text, out var entry) && !entry.IsExpired)
+                return entry.TranslatedText;
+
+            var translatedText = await translateFunc(text);
+            _cache[text] = new CacheEntry(translatedText);
+            return translatedText;
+        }
+    }
+
+    public class CacheEntry
+    {
+        public string TranslatedText { get; }
+        public DateTime CreatedAt { get; }
+        public bool IsExpired => DateTime.Now - CreatedAt > TimeSpan.FromMinutes(30);
+
+        public CacheEntry(string translatedText)
+        {
+            TranslatedText = translatedText;
+            CreatedAt = DateTime.Now;
+        }
+    }
+
     public static class TranslateAPI
     {
+        private static readonly TranslationCache _cache = new();
+        private static readonly SemaphoreSlim _semaphore = new(3); // 限制并发数
+        private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromSeconds(10) };
+
         public static readonly Dictionary<string, Func<string, Task<string>>> TRANSLATE_FUNCS = new()
         {
             { "Ollama", Ollama },
             { "OpenAI", OpenAI },
             { "GoogleTranslate", GoogleTranslate }
         };
+
         public static Func<string, Task<string>> TranslateFunc
         {
-            get => TRANSLATE_FUNCS[App.Settings.ApiName];
+            get => async (text) => await TranslateWithCacheAsync(text);
+        }
+
+        public static async Task<string> TranslateWithCacheAsync(string text)
+        {
+            await _semaphore.WaitAsync();
+            try 
+            {
+                return await _cache.GetOrTranslateAsync(text, GetSelectedTranslateMethod());
+            }
+            finally 
+            {
+                _semaphore.Release();
+            }
+        }
+
+        private static Func<string, Task<string>> GetSelectedTranslateMethod()
+        {
+            return TRANSLATE_FUNCS[App.Settings.ApiName];
         }
 
         public const int OLLAMA_PORT = 11434;
-
-        private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromSeconds(5) };
 
         public static async Task<string> OpenAI(string text)
         {
@@ -150,7 +201,6 @@ namespace LiveCaptionsTranslator.models
                 return $"[Translation Failed] {ex.Message}";
             }
         }
-
     }
 
     public class ConfigDictConverter : JsonConverter<Dictionary<string, TranslateAPIConfig>>
