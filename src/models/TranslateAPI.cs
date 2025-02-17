@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.IO.Compression;
 using System.Linq;
 using System.Net; // 添加这一行
+using System.Collections.Concurrent; // Add this line!
 
 namespace LiveCaptionsTranslator.models
 {
