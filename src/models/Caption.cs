@@ -3,166 +3,158 @@ using System.Text;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 
 using LiveCaptionsTranslator.controllers;
 
+
 namespace LiveCaptionsTranslator.models
 {
-    public class Caption : INotifyPropertyChanged, IDisposable
+    public class Caption : INotifyPropertyChanged
     {
-        // 单例实现改为线程安全
-        private static readonly Lazy<Caption> _instance = 
-            new Lazy<Caption>(() => new Caption(), LazyThreadSafetyMode.ExecutionAndPublication);
-        public static Caption Instance => _instance.Value;
+        // 单例模式
+        private static Caption? instance = null;
+        private static readonly object _lock = new object();
 
-        // 事件和属性变更通知
         public event PropertyChangedEventHandler? PropertyChanged;
-        private readonly SynchronizationContext? _syncContext;
 
-        // 性能优化：缓存正则表达式和字符数组
         private static readonly char[] PUNC_EOS = ".?!。？！".ToCharArray();
         private static readonly char[] PUNC_COMMA = ",，、—\n".ToCharArray();
 
-        // 线程安全的字段
-        private string _original = "";
-        private string _translated = "";
-        private volatile bool _pauseFlag = false;
-        private volatile bool _translateFlag = false;
-        private volatile bool _eosFlag = false;
+        private string original = "";
+        private string translated = "";
 
-        // 性能监控
-        private readonly ConcurrentQueue<long> _syncLatencies = new ConcurrentQueue<long>();
-        private readonly ConcurrentQueue<long> _translateLatencies = new ConcurrentQueue<long>();
-
-        // 取消令牌支持
-        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
+        // 保留原有的公共属性
+        public bool PauseFlag { get; set; } = false;
+        public bool TranslateFlag { get; set; } = false;
+        private bool EOSFlag { get; set; } = false;
 
         public string Original
         {
-            get => _original;
-            private set
+            get => original;
+            set
             {
-                if (_original != value)
-                {
-                    _original = value;
-                    OnPropertyChanged();
-                }
+                original = value;
+                OnPropertyChanged(nameof(Original));
             }
         }
 
         public string Translated
         {
-            get => _translated;
-            private set
+            get => translated;
+            set
             {
-                if (_translated != value)
-                {
-                    _translated = value;
-                    OnPropertyChanged();
-                }
+                translated = value;
+                OnPropertyChanged(nameof(Translated));
             }
         }
 
-        private Caption()
+        // 单例获取方法
+        public static Caption GetInstance()
         {
-            _syncContext = SynchronizationContext.Current;
+            if (instance == null)
+            {
+                lock (_lock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new Caption();
+                    }
+                }
+            }
+            return instance;
         }
+
+        private Caption() { }
 
         public void OnPropertyChanged([CallerMemberName] string propName = "")
         {
-            if (_syncContext != null)
-            {
-                _syncContext.Post(_ => 
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName)), null);
-            }
-            else
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
 
-        public async Task StartSyncAsync()
+        // 性能监控字段
+        private long _totalSyncTime = 0;
+        private int _syncCount = 0;
+        private long _totalTranslateTime = 0;
+        private int _translateCount = 0;
+
+        public void Sync()
         {
             int idleCount = 0;
             int syncCount = 0;
-            var token = _cts.Token;
 
-            try
+            while (true)
             {
-                while (!token.IsCancellationRequested)
+                var syncStartTime = Stopwatch.GetTimestamp();
+
+                if (PauseFlag || App.Window == null)
                 {
-                    var stopwatch = Stopwatch.StartNew();
+                    Thread.Sleep(50);
+                    continue;
+                }
 
-                    if (_pauseFlag || App.Window == null)
-                    {
-                        await Task.Delay(50, token);
-                        continue;
-                    }
-
-                    string fullText = await Task.Run(() => GetCaptions(App.Window).Trim(), token);
-                    
+                try
+                {
+                    string fullText = GetCaptions(App.Window).Trim();
                     if (string.IsNullOrEmpty(fullText))
-                    {
-                        await Task.Delay(50, token);
                         continue;
-                    }
 
-                    string processedText = ProcessCaptionText(fullText);
+                    fullText = ProcessFullText(fullText);
 
-                    if (Original != processedText)
+                    int lastEOSIndex = GetLastEOSIndex(fullText);
+                    string latestCaption = ExtractLatestCaption(fullText, lastEOSIndex);
+
+                    if (Original.CompareTo(latestCaption) != 0)
                     {
                         idleCount = 0;
                         syncCount++;
-                        Original = processedText;
+                        Original = latestCaption;
 
-                        UpdateTranslationFlags(processedText, ref syncCount);
+                        UpdateTranslationFlags(latestCaption, ref syncCount);
                     }
                     else
                     {
                         idleCount++;
                     }
 
-                    stopwatch.Stop();
-                    _syncLatencies.Enqueue(stopwatch.ElapsedMilliseconds);
-                    
-                    // 保持性能监控队列大小
-                    while (_syncLatencies.Count > 100)
-                    {
-                        _syncLatencies.TryDequeue(out _);
-                    }
-
-                    await Task.Delay(50, token);
+                    // 性能监控
+                    UpdateSyncPerformance(syncStartTime);
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                // 正常取消
-            }
-            catch (Exception ex)
-            {
-                // 记录异常
-                Console.Error.WriteLine($"Sync error: {ex}");
+                catch (Exception ex)
+                {
+                    // 简单的错误处理
+                    Console.WriteLine($"Sync error: {ex.Message}");
+                }
+
+                Thread.Sleep(50);
             }
         }
 
-        private string ProcessCaptionText(string fullText)
+        private string ProcessFullText(string fullText)
         {
-            // 优化文本处理逻辑
-            var processedText = new StringBuilder(fullText);
             foreach (char eos in PUNC_EOS)
-            {
-                processedText.Replace($"{eos}\n", $"{eos}");
-            }
-
-            return OptimizeCaptionLength(processedText.ToString());
+                fullText = fullText.Replace($"{eos}\n", $"{eos}");
+            return fullText;
         }
 
-        private string OptimizeCaptionLength(string text)
+        private int GetLastEOSIndex(string fullText)
         {
-            int lastEOSIndex = text.LastIndexOfAny(PUNC_EOS);
-            string latestCaption = text.Substring(lastEOSIndex + 1);
+            return Array.IndexOf(PUNC_EOS, fullText[^1]) != -1
+                ? fullText[0..^1].LastIndexOfAny(PUNC_EOS)
+                : fullText.LastIndexOfAny(PUNC_EOS);
+        }
 
-            // 使用更高效的长度控制
+        private string ExtractLatestCaption(string fullText, int lastEOSIndex)
+        {
+            string latestCaption = fullText.Substring(lastEOSIndex + 1);
+
+            // 确保字幕长度合适
+            while (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 15)
+            {
+                lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(PUNC_EOS);
+                latestCaption = fullText.Substring(lastEOSIndex + 1);
+            }
+
             while (Encoding.UTF8.GetByteCount(latestCaption) > 170)
             {
                 int commaIndex = latestCaption.IndexOfAny(PUNC_COMMA);
@@ -180,97 +172,98 @@ namespace LiveCaptionsTranslator.models
                 Array.IndexOf(PUNC_COMMA, caption[^1]) != -1)
             {
                 syncCount = 0;
-                _translateFlag = true;
-                _eosFlag = true;
+                TranslateFlag = true;
+                EOSFlag = true;
             }
             else
             {
-                _eosFlag = false;
+                EOSFlag = false;
             }
 
             if (syncCount > App.Settings.MaxSyncInterval)
             {
                 syncCount = 0;
-                _translateFlag = true;
+                TranslateFlag = true;
             }
         }
 
-        public async Task StartTranslateAsync()
+        private void UpdateSyncPerformance(long startTime)
+        {
+            long elapsedTime = Stopwatch.GetTimestamp() - startTime;
+            Interlocked.Add(ref _totalSyncTime, elapsedTime);
+            Interlocked.Increment(ref _syncCount);
+        }
+
+        public async Task Translate()
         {
             var controller = new TranslationController();
-            var token = _cts.Token;
 
-            try
+            while (true)
             {
-                while (!token.IsCancellationRequested)
+                var translateStartTime = Stopwatch.GetTimestamp();
+
+                for (int pauseCount = 0; PauseFlag; pauseCount++)
                 {
-                    var stopwatch = Stopwatch.StartNew();
+                    if (pauseCount > 60 && App.Window != null)
+                    {
+                        App.Window = null;
+                        LiveCaptionsHandler.KillLiveCaptions();
+                    }
+                    Thread.Sleep(1000);
+                }
 
-                    await HandlePauseState();
-
-                    if (_translateFlag)
+                try
+                {
+                    if (TranslateFlag)
                     {
                         Translated = await controller.TranslateAndLogAsync(Original);
-                        _translateFlag = false;
+                        TranslateFlag = false;
 
-                        stopwatch.Stop();
-                        _translateLatencies.Enqueue(stopwatch.ElapsedMilliseconds);
+                        // 性能监控
+                        UpdateTranslatePerformance(translateStartTime);
 
-                        // 保持性能监控队列大小
-                        while (_translateLatencies.Count > 100)
-                        {
-                            _translateLatencies.TryDequeue(out _);
-                        }
-
-                        if (_eosFlag)
-                            await Task.Delay(500, token);
+                        if (EOSFlag)
+                            Thread.Sleep(1000);
                     }
-
-                    await Task.Delay(50, token);
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                // 正常取消
-            }
-            catch (Exception ex)
-            {
-                // 记录异常
-                Console.Error.WriteLine($"Translate error: {ex}");
-            }
-        }
-
-        private async Task HandlePauseState()
-        {
-            for (int pauseCount = 0; _pauseFlag; pauseCount++)
-            {
-                if (pauseCount > 60 && App.Window != null)
+                catch (Exception ex)
                 {
-                    App.Window = null;
-                    LiveCaptionsHandler.KillLiveCaptions();
+                    // 简单的错误处理
+                    Console.WriteLine($"Translate error: {ex.Message}");
                 }
-                await Task.Delay(1000);
+
+                Thread.Sleep(50);
             }
         }
 
-        public void Dispose()
+        private void UpdateTranslatePerformance(long startTime)
         {
-            _cts.Cancel();
-            _cts.Dispose();
+            long elapsedTime = Stopwatch.GetTimestamp() - startTime;
+            Interlocked.Add(ref _totalTranslateTime, elapsedTime);
+            Interlocked.Increment(ref _translateCount);
+        }
+
+        public static string GetCaptions(AutomationElement window)
+        {
+            var captionsTextBlock = LiveCaptionsHandler.FindElementByAId(window, "CaptionsTextBlock");
+            if (captionsTextBlock == null)
+                return string.Empty;
+            return captionsTextBlock.Current.Name;
         }
 
         // 性能分析方法
-        public (double avgSyncLatency, double avgTranslateLatency) GetPerformanceMetrics()
+        public (double avgSyncTime, double avgTranslateTime) GetPerformanceMetrics()
         {
-            double avgSyncLatency = _syncLatencies.Count > 0 
-                ? _syncLatencies.Average() 
+            double avgSyncTime = _syncCount > 0 
+                ? TimeSpan.FromTicks(_totalSyncTime / _syncCount).TotalMilliseconds 
                 : 0;
             
-            double avgTranslateLatency = _translateLatencies.Count > 0 
-                ? _translateLatencies.Average() 
+            double avgTranslateTime = _translateCount > 0 
+                ? TimeSpan.FromTicks(_totalTranslateTime / _translateCount).TotalMilliseconds 
                 : 0;
 
-            return (avgSyncLatency, avgTranslateLatency);
+            return (avgSyncTime, avgTranslateTime);
         }
     }
 }
+
