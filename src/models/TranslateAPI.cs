@@ -1,4 +1,4 @@
-using System.Net.Http;
+﻿﻿﻿﻿using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -9,34 +9,83 @@ namespace LiveCaptionsTranslator.models
     public class TranslationCache
     {
         private readonly ConcurrentDictionary<string, CacheEntry> _cache = new();
-        private const int MaxCacheSize = 200; // 增加缓存容量
+        private const int MaxCacheSize = 500; // 进一步增加缓存容量
+        private const int CleanupThreshold = 400; // 清理阈值
+        private readonly SemaphoreSlim _cleanupLock = new(1); // 清理锁
+        private DateTime _lastCleanup = DateTime.Now;
 
         private TimeSpan GetDynamicExpirationTime(string text)
         {
+            // 根据文本长度和使用频率动态调整过期时间
             return text.Length switch
             {
-                < 50 => TimeSpan.FromMinutes(15),
-                < 200 => TimeSpan.FromMinutes(30),
-                _ => TimeSpan.FromHours(1)
+                < 30 => TimeSpan.FromHours(2),    // 短文本保留更长时间
+                < 100 => TimeSpan.FromHours(1),
+                < 300 => TimeSpan.FromMinutes(30),
+                _ => TimeSpan.FromMinutes(15)      // 长文本更快过期
             };
+        }
+
+        private async Task CleanupCacheIfNeeded()
+        {
+            if (_cache.Count < CleanupThreshold || 
+                DateTime.Now - _lastCleanup < TimeSpan.FromMinutes(5))
+                return;
+
+            if (await _cleanupLock.WaitAsync(0)) // 非阻塞尝试获取锁
+            {
+                try
+                {
+                    // 首先移除过期项
+                    var expiredKeys = _cache.Where(kvp => kvp.Value.IsExpired)
+                        .Select(kvp => kvp.Key).ToList();
+                    foreach (var key in expiredKeys)
+                    {
+                        _cache.TryRemove(key, out _);
+                    }
+
+                    // 如果仍然超过阈值，根据访问时间和频率移除
+                    if (_cache.Count > CleanupThreshold)
+                    {
+                        var leastUsed = _cache
+                            .OrderBy(kvp => kvp.Value.LastAccessTime)
+                            .ThenBy(kvp => kvp.Value.AccessCount)
+                            .Take(_cache.Count - CleanupThreshold)
+                            .Select(kvp => kvp.Key)
+                            .ToList();
+
+                        foreach (var key in leastUsed)
+                        {
+                            _cache.TryRemove(key, out _);
+                        }
+                    }
+
+                    _lastCleanup = DateTime.Now;
+                }
+                finally
+                {
+                    _cleanupLock.Release();
+                }
+            }
         }
 
         public async Task<string> GetOrTranslateAsync(string text, Func<string, Task<string>> translateFunc)
         {
-            if (_cache.TryGetValue(text, out var entry) && !entry.IsExpired)
-                return entry.TranslatedText;
-
-            // 清理过期缓存
-            if (_cache.Count >= MaxCacheSize)
+            // 尝试从缓存获取
+            if (_cache.TryGetValue(text, out var entry))
             {
-                var expiredKeys = _cache.Where(kvp => kvp.Value.IsExpired)
-                    .Select(kvp => kvp.Key).ToList();
-                foreach (var key in expiredKeys)
+                if (!entry.IsExpired)
                 {
-                    _cache.TryRemove(key, out _);
+                    entry.IncrementAccess();
+                    return entry.TranslatedText;
                 }
+                _cache.TryRemove(text, out _);
             }
 
+            // 异步清理缓存
+            _ = CleanupCacheIfNeeded();
+
+            // 执行翻译
             var translatedText = await translateFunc(text);
             _cache[text] = new CacheEntry(translatedText, GetDynamicExpirationTime(text));
             return translatedText;
@@ -47,24 +96,47 @@ namespace LiveCaptionsTranslator.models
     {
         public string TranslatedText { get; }
         public DateTime CreatedAt { get; }
+        public DateTime LastAccessTime { get; private set; }
+        public int AccessCount { get; private set; }
         public TimeSpan ExpirationTime { get; }
         public bool IsExpired => DateTime.Now - CreatedAt > ExpirationTime;
 
-        public CacheEntry(string translatedText, TimeSpan? expirationTime = null)
+        public CacheEntry(string translatedText, TimeSpan expirationTime)
         {
             TranslatedText = translatedText;
             CreatedAt = DateTime.Now;
-            ExpirationTime = expirationTime ?? TimeSpan.FromMinutes(30);
+            LastAccessTime = DateTime.Now;
+            AccessCount = 1;
+            ExpirationTime = expirationTime;
+        }
+
+        public void IncrementAccess()
+        {
+            LastAccessTime = DateTime.Now;
+            AccessCount++;
         }
     }
 
     public static class TranslateAPI
     {
         private static readonly TranslationCache _cache = new();
-        private static readonly SemaphoreSlim _semaphore = new(Environment.ProcessorCount * 2); // 动态并发数
-        private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromSeconds(10) };
+        private static readonly SemaphoreSlim _semaphore = new(Environment.ProcessorCount * 4); // 增加并发数
+        private static readonly HttpClient client = new HttpClient() 
+        { 
+            Timeout = TimeSpan.FromSeconds(5),  // 减少超时时间
+            DefaultRequestHeaders = { ConnectionClose = false }  // 保持连接
+        };
+        private static readonly Dictionary<string, (int failures, DateTime lastFailure)> _apiHealthStatus = 
+            new Dictionary<string, (int failures, DateTime lastFailure)>();
         private static int _currentAPIIndex = 0;
         private static readonly string[] _apiPriority = new[] { "OpenAI", "Ollama", "GoogleTranslate" };
+        
+        static TranslateAPI()
+        {
+            // 初始化连接池设置
+            ServicePointManager.DefaultConnectionLimit = 20;
+            ServicePointManager.UseNagleAlgorithm = false;  // 禁用Nagle算法，减少小数据包延迟
+        }
 
         public static readonly Dictionary<string, Func<string, Task<string>>> TRANSLATE_FUNCS = new()
         {
@@ -152,9 +224,11 @@ namespace LiveCaptionsTranslator.models
 
             using var request = new HttpRequestMessage(HttpMethod.Post, config?.ApiUrl)
             {
-                Content = new StringContent(JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json")
+                Content = new StringContent(JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json"),
+                Version = new Version(2, 0)  // 使用HTTP/2
             };
             request.Headers.Add("Authorization", $"Bearer {config?.ApiKey}");
+            request.Headers.Add("Accept-Encoding", "gzip, deflate, br");  // 支持压缩
 
             try
             {
@@ -200,8 +274,10 @@ namespace LiveCaptionsTranslator.models
 
             using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
             {
-                Content = new StringContent(JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json")
+                Content = new StringContent(JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json"),
+                Version = new Version(2, 0)  // 使用HTTP/2
             };
+            request.Headers.Add("Accept-Encoding", "gzip, deflate, br");  // 支持压缩
 
             try
             {
