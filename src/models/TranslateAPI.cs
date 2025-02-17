@@ -9,15 +9,36 @@ namespace LiveCaptionsTranslator.models
     public class TranslationCache
     {
         private readonly ConcurrentDictionary<string, CacheEntry> _cache = new();
-        private const int MaxCacheSize = 100;
+        private const int MaxCacheSize = 200; // 增加缓存容量
+
+        private TimeSpan GetDynamicExpirationTime(string text)
+        {
+            return text.Length switch
+            {
+                < 50 => TimeSpan.FromMinutes(15),
+                < 200 => TimeSpan.FromMinutes(30),
+                _ => TimeSpan.FromHours(1)
+            };
+        }
 
         public async Task<string> GetOrTranslateAsync(string text, Func<string, Task<string>> translateFunc)
         {
             if (_cache.TryGetValue(text, out var entry) && !entry.IsExpired)
                 return entry.TranslatedText;
 
+            // 清理过期缓存
+            if (_cache.Count >= MaxCacheSize)
+            {
+                var expiredKeys = _cache.Where(kvp => kvp.Value.IsExpired)
+                    .Select(kvp => kvp.Key).ToList();
+                foreach (var key in expiredKeys)
+                {
+                    _cache.TryRemove(key, out _);
+                }
+            }
+
             var translatedText = await translateFunc(text);
-            _cache[text] = new CacheEntry(translatedText);
+            _cache[text] = new CacheEntry(translatedText, GetDynamicExpirationTime(text));
             return translatedText;
         }
     }
@@ -26,20 +47,24 @@ namespace LiveCaptionsTranslator.models
     {
         public string TranslatedText { get; }
         public DateTime CreatedAt { get; }
-        public bool IsExpired => DateTime.Now - CreatedAt > TimeSpan.FromMinutes(30);
+        public TimeSpan ExpirationTime { get; }
+        public bool IsExpired => DateTime.Now - CreatedAt > ExpirationTime;
 
-        public CacheEntry(string translatedText)
+        public CacheEntry(string translatedText, TimeSpan? expirationTime = null)
         {
             TranslatedText = translatedText;
             CreatedAt = DateTime.Now;
+            ExpirationTime = expirationTime ?? TimeSpan.FromMinutes(30);
         }
     }
 
     public static class TranslateAPI
     {
         private static readonly TranslationCache _cache = new();
-        private static readonly SemaphoreSlim _semaphore = new(3); // 限制并发数
+        private static readonly SemaphoreSlim _semaphore = new(Environment.ProcessorCount * 2); // 动态并发数
         private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromSeconds(10) };
+        private static int _currentAPIIndex = 0;
+        private static readonly string[] _apiPriority = new[] { "OpenAI", "Ollama", "GoogleTranslate" };
 
         public static readonly Dictionary<string, Func<string, Task<string>>> TRANSLATE_FUNCS = new()
         {
@@ -55,15 +80,43 @@ namespace LiveCaptionsTranslator.models
 
         public static async Task<string> TranslateWithCacheAsync(string text)
         {
-            await _semaphore.WaitAsync();
-            try 
+            const int maxAttempts = 3;
+            Exception lastException = null;
+
+            for (int attempt = 0; attempt < maxAttempts; attempt++)
             {
-                return await _cache.GetOrTranslateAsync(text, GetSelectedTranslateMethod());
+                try
+                {
+                    await _semaphore.WaitAsync();
+                    try 
+                    {
+                        return await _cache.GetOrTranslateAsync(text, GetSelectedTranslateMethod());
+                    }
+                    finally 
+                    {
+                        _semaphore.Release();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    lastException = ex;
+                    SwitchToNextAPI();
+                    
+                    if (attempt < maxAttempts - 1)
+                    {
+                        await Task.Delay(500 * (attempt + 1)); // 指数退避
+                        continue;
+                    }
+                }
             }
-            finally 
-            {
-                _semaphore.Release();
-            }
+
+            return $"[Translation Failed] {lastException?.Message}";
+        }
+
+        private static void SwitchToNextAPI()
+        {
+            _currentAPIIndex = (_currentAPIIndex + 1) % _apiPriority.Length;
+            App.Settings.ApiName = _apiPriority[_currentAPIIndex];
         }
 
         private static Func<string, Task<string>> GetSelectedTranslateMethod()
@@ -97,34 +150,32 @@ namespace LiveCaptionsTranslator.models
                 stream = false
             };
 
-            string jsonContent = JsonSerializer.Serialize(requestData);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
+            using var request = new HttpRequestMessage(HttpMethod.Post, config?.ApiUrl)
+            {
+                Content = new StringContent(JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json")
+            };
+            request.Headers.Add("Authorization", $"Bearer {config?.ApiKey}");
 
-            HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(config?.ApiUrl, content);
+                using var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    var responseObj = JsonSerializer.Deserialize<OpenAIConfig.Response>(responseString);
+                    return responseObj.choices[0].message.content;
+                }
+                throw new HttpRequestException($"HTTP Error - {response.StatusCode}");
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return $"[Translation Failed] {ex.Message}";
             }
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseString = await response.Content.ReadAsStringAsync();
-                var responseObj = JsonSerializer.Deserialize<OpenAIConfig.Response>(responseString);
-                return responseObj.choices[0].message.content;
-            }
-            else
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
 
         public static async Task<string> Ollama(string text)
         {
             var apiUrl = $"http://localhost:{OLLAMA_PORT}/api/chat";
-
             var config = App.Settings.CurrentAPIConfig as OllamaConfig;
             var language = config?.SupportedLanguages[App.Settings.TargetLanguage];
 
@@ -147,28 +198,26 @@ namespace LiveCaptionsTranslator.models
                 stream = false
             };
 
-            string jsonContent = JsonSerializer.Serialize(requestData);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
+            using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
+            {
+                Content = new StringContent(JsonSerializer.Serialize(requestData), Encoding.UTF8, "application/json")
+            };
 
-            HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content);
+                using var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    var responseObj = JsonSerializer.Deserialize<OllamaConfig.Response>(responseString);
+                    return responseObj.message.content;
+                }
+                throw new HttpRequestException($"HTTP Error - {response.StatusCode}");
             }
             catch (Exception ex)
             {
                 return $"[Translation Failed] {ex.Message}";
             }
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseString = await response.Content.ReadAsStringAsync();
-                var responseObj = JsonSerializer.Deserialize<OllamaConfig.Response>(responseString);
-                return responseObj.message.content;
-            }
-            else
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
         
         private static async Task<string> GoogleTranslate(string text)
@@ -181,20 +230,14 @@ namespace LiveCaptionsTranslator.models
 
             try
             {
-                var response = await client.GetAsync(url);
+                using var response = await client.GetAsync(url);
                 if (response.IsSuccessStatusCode)
                 {
-                    string responseString = await response.Content.ReadAsStringAsync();
-
+                    var responseString = await response.Content.ReadAsStringAsync();
                     var responseObj = JsonSerializer.Deserialize<List<List<string>>>(responseString);
-                    
-                    string translatedText = responseObj[0][0];
-                    return translatedText;
+                    return responseObj[0][0];
                 }
-                else
-                {
-                    return $"[Translation Failed] HTTP Error - {response.StatusCode}";
-                }
+                throw new HttpRequestException($"HTTP Error - {response.StatusCode}");
             }
             catch (Exception ex)
             {
@@ -202,7 +245,6 @@ namespace LiveCaptionsTranslator.models
             }
         }
     }
-
     public class ConfigDictConverter : JsonConverter<Dictionary<string, TranslateAPIConfig>>
     {
         public override Dictionary<string, TranslateAPIConfig> Read(
