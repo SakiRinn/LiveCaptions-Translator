@@ -137,12 +137,12 @@ namespace LiveCaptionsTranslator.models
         private static int _currentAPIIndex = 0;
         private static readonly string[] _apiPriority = new[] { "OpenAI", "Ollama", "GoogleTranslate" };
         
-        static TranslateAPI()
-        {
+        //static TranslateAPI()
+        //{
             // 初始化连接池设置
-            ServicePointManager.DefaultConnectionLimit = 20;
-            ServicePointManager.UseNagleAlgorithm = false;  // 禁用Nagle算法，减少小数据包延迟
-        }
+        //    ServicePointManager.DefaultConnectionLimit = 20;
+        //    ServicePointManager.UseNagleAlgorithm = false;  // 禁用Nagle算法，减少小数据包延迟
+       // }
 
         public static readonly Dictionary<string, Func<string, Task<string>>> TRANSLATE_FUNCS = new()
         {
