@@ -1,5 +1,8 @@
 using System.Diagnostics;
 using System.Windows.Automation;
+using System.Collections.Concurrent;  // 添加这一行
+using System.Threading;              // 用于 Thread.Sleep
+using System;                        // 用于 Math, IntPtr 等
 
 namespace LiveCaptionsTranslator.models
 {
