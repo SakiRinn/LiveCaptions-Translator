@@ -1,4 +1,4 @@
-﻿﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Windows.Automation;
 
 namespace LiveCaptionsTranslator.models
@@ -13,16 +13,26 @@ namespace LiveCaptionsTranslator.models
             KillAllProcessesByPName(PROCESS_NAME);
             var process = Process.Start(PROCESS_NAME);
 
-            // Search window
+            // Search window with exponential backoff
             AutomationElement? window = null;
-            for (int attemptCount = 0; 
-                 window == null || window.Current.ClassName.CompareTo("LiveCaptionsDesktopWindow") != 0;
-                 attemptCount++)
+            int maxAttempts = 20;
+            int attemptCount = 0;
+            int baseDelay = 50; // Start with 50ms delay
+
+            while ((window == null || window.Current.ClassName.CompareTo("LiveCaptionsDesktopWindow") != 0) 
+                   && attemptCount < maxAttempts)
             {
                 window = FindWindowByPId(process.Id);
-                if (attemptCount > 10000)
-                    throw new Exception("Failed to launch!");
+                if (window == null)
+                {
+                    int delay = baseDelay * (int)Math.Pow(2, attemptCount);
+                    Thread.Sleep(Math.Min(delay, 1000)); // Cap at 1 second
+                    attemptCount++;
+                }
             }
+
+            if (window == null)
+                throw new Exception("Failed to launch Live Captions window!");
 
             // Hide window
             IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
@@ -56,26 +66,36 @@ namespace LiveCaptionsTranslator.models
             return AutomationElement.RootElement.FindFirst(TreeScope.Children, condition);
         }
 
+        private static readonly ConcurrentDictionary<string, AutomationElement> _elementCache = 
+            new ConcurrentDictionary<string, AutomationElement>();
+
         public static AutomationElement? FindElementByAId(AutomationElement window, string automationId)
         {
-            var treeWalker = TreeWalker.RawViewWalker;
-            var stack = new Stack<AutomationElement>();
-            stack.Push(window);
-
-            while (stack.Count > 0)
+            // Try to get from cache first
+            if (_elementCache.TryGetValue(automationId, out var cachedElement))
             {
-                var element = stack.Pop();
-                if (element.Current.AutomationId.CompareTo(automationId) == 0)
-                    return element;
-
-                var child = treeWalker.GetFirstChild(element);
-                while (child != null)
+                try
                 {
-                    stack.Push(child);
-                    child = treeWalker.GetNextSibling(child);
+                    // Verify the element is still valid
+                    var _ = cachedElement.Current.AutomationId;
+                    return cachedElement;
+                }
+                catch
+                {
+                    _elementCache.TryRemove(automationId, out _);
                 }
             }
-            return null;
+
+            // Use a more efficient search with Condition
+            var condition = new PropertyCondition(AutomationElement.AutomationIdProperty, automationId);
+            var element = window.FindFirst(TreeScope.Descendants, condition);
+            
+            if (element != null)
+            {
+                _elementCache.TryAdd(automationId, element);
+            }
+            
+            return element;
         }
 
         public static void PrintAllElementsAId(AutomationElement window)
