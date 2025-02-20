@@ -1,25 +1,172 @@
-﻿<Page x:Class="LiveCaptionsTranslator.HistoryPage"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:LiveCaptionsTranslator"
-      mc:Ignorable="d"
-      Title="HistoryPage" Height="450" Width="800">
-    <Grid>
-        <DataGrid x:Name="HistoryDataGrid" 
-                  AutoGenerateColumns="False" 
-                  IsReadOnly="True"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Stretch"
-                  Margin="10">
+﻿<Page
+    x:Class="LiveCaptionsTranslator.HistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:LiveCaptionsTranslator"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="HistoryPage"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Top"
+    mc:Ignorable="d">
+    <Grid Margin="15,15,15,15" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                MaxHeight="34.94"
+                Margin="0,0,3,0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <ui:Button
+                    x:Name="Previous"
+                    Appearance="Transparent"
+                    Click="PageDown"
+                    Icon="{ui:SymbolIcon ArrowPrevious12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000" />
+
+                <TextBlock
+                    x:Name="PageNamber"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    Text="1" />
+
+                <ui:Button
+                    x:Name="Next"
+                    Appearance="Transparent"
+                    Click="PageUp"
+                    Icon="{ui:SymbolIcon ArrowNext12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000" />
+
+                <ComboBox
+                    x:Name="MaxRowBox"
+                    MinHeight="0"
+                    Margin="5,0,0,0"
+                    Padding="10,4,10,7"
+                    VerticalAlignment="Stretch"
+                    FontFamily="Segoe UI Variable Text"
+                    SelectionChanged="maxRow_SelectionChanged">
+                    <ComboBoxItem
+                        Content="20/page"
+                        FontFamily="Segoe UI Variable Text"
+                        Tag="20" />
+                    <ComboBoxItem
+                        Content="30/page"
+                        FontFamily="Segoe UI Variable Text"
+                        Tag="30" />
+                    <ComboBoxItem
+                        Content="50/page"
+                        FontFamily="Segoe UI Variable Text"
+                        Tag="50" />
+                    <ComboBoxItem
+                        Content="100/page"
+                        FontFamily="Segoe UI Variable Text"
+                        Tag="100" />
+                </ComboBox>
+            </StackPanel>
+
+
+            <StackPanel
+                Grid.Column="1"
+                MaxHeight="34.94"
+                Margin="3,0,3,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <ui:Button
+                    x:Name="Delete"
+                    Margin="15,0,0,0"
+                    HorizontalAlignment="Right"
+                    Appearance="Transparent"
+                    Click="RemoveLogs"
+                    Icon="{ui:SymbolIcon Delete12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000" />
+
+                <ui:Button
+                    x:Name="Refresh"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Right"
+                    Appearance="Transparent"
+                    Click="ReloadLogs"
+                    Icon="{ui:SymbolIcon ArrowClockwise12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000" />
+            </StackPanel>
+        </Grid>
+
+        <DataGrid
+            x:Name="HistoryDataGrid"
+            Grid.Row="1"
+            Margin="0,5,20,0"
+            VerticalAlignment="Stretch"
+            AutoGenerateColumns="False"
+            BorderThickness="0,0,0,0"
+            FontFamily="Segoe UI Variable Text Semibold"
+            GridLinesVisibility="Horizontal"
+            IsReadOnly="True">
+            <DataGrid.VerticalGridLinesBrush>
+                <LinearGradientBrush MappingMode="Absolute" EndPoint="0,3">
+                    <GradientStop Offset="0.33" Color="#18FFFFFF" />
+                    <GradientStop Offset="1" Color="Transparent" />
+                </LinearGradientBrush>
+            </DataGrid.VerticalGridLinesBrush>
+            <DataGrid.HorizontalGridLinesBrush>
+                <LinearGradientBrush MappingMode="Absolute" EndPoint="0,3">
+                    <GradientStop Offset="0.33" Color="#18FFFFFF" />
+                    <GradientStop Offset="1" Color="#33000000" />
+                </LinearGradientBrush>
+            </DataGrid.HorizontalGridLinesBrush>
+            <DataGrid.BorderBrush>
+                <LinearGradientBrush MappingMode="Absolute" EndPoint="0,3">
+                    <GradientStop Offset="0.33" Color="#18FFFFFF" />
+                    <GradientStop Offset="1" Color="Transparent" />
+                </LinearGradientBrush>
+            </DataGrid.BorderBrush>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}" Width="*" />
-                <DataGridTextColumn Header="Source Text" Binding="{Binding SourceText}" Width="2*" />
-                <DataGridTextColumn Header="Translated Text" Binding="{Binding TranslatedText}" Width="2*" />
-                <DataGridTextColumn Header="Target Language" Binding="{Binding TargetLanguage}" Width="*" />
-                <DataGridTextColumn Header="API Used" Binding="{Binding ApiUsed}" Width="*" />
+                <DataGridTextColumn
+                    Width="*"
+                    MinWidth="87"
+                    MaxWidth="87"
+                    Binding="{Binding Timestamp}"
+                    FontFamily="Segoe UI Variable Text"
+                    Header="Time" />
+                <DataGridTextColumn
+                    Width="3*"
+                    Binding="{Binding SourceText}"
+                    FontFamily="Segoe UI Variable Text"
+                    Header="Source" />
+                <DataGridTextColumn
+                    Width="3*"
+                    Binding="{Binding TranslatedText}"
+                    FontFamily="Segoe UI Variable Text Semibold"
+                    Header="Translated" />
+                <DataGridTextColumn
+                    Width="40"
+                    MinWidth="50"
+                    MaxWidth="50"
+                    Binding="{Binding TargetLanguage}"
+                    FontFamily="Segoe UI Variable Text"
+                    Header="Target" />
+                <DataGridTextColumn
+                    Width="*"
+                    MaxWidth="105"
+                    Binding="{Binding ApiUsed}"
+                    FontFamily="Segoe UI Variable Text"
+                    Header="API" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </Page>
+ 
