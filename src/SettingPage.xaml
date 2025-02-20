@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="SettingPage"
+    Margin="15,15,15,15"
     mc:Ignorable="d">
 
     <Grid x:Name="PageGrid">
@@ -18,12 +19,12 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Orientation="Vertical">
-            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+            <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="LiveCaptions Setting" />
                 <ui:Button
                     Width="145"
                     Height="30"
-                    Click="Setting_Click">
+                    Click="Setting_Click" Padding="11,4,11,4">
                     <TextBlock Text="Open" />
                 </ui:Button>
             </StackPanel>
@@ -42,13 +43,13 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Orientation="Vertical">
-            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+            <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Translate API" />
                 <ComboBox
                     x:Name="translateAPIBox"
-                    Width="140"
+                    Width="150"
                     Height="30"
-                    Padding="10,4,10,7"
+                    Padding="10,4,10,4"
                     FontSize="13.3"
                     SelectedItem="{Binding ApiName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     SelectionChanged="translateAPIBox_SelectionChanged" />
@@ -57,9 +58,9 @@
                 <TextBlock Margin="2.5,0,0,5" Text="Target Language" />
                 <ComboBox
                     x:Name="targetLangBox"
-                    Width="140"
+                    Width="150"
                     Height="30"
-                    Padding="10,4,10,7"
+                    Padding="10,4,10,4"
                     FontSize="13.3"
                     SelectedItem="{Binding TargetLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
@@ -78,7 +79,7 @@
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="0"
-                Margin="15,10,0,0"
+                Margin="15,0,0,0"
                 Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Model Name" />
                 <ui:TextBox
@@ -97,7 +98,7 @@
                 <ui:NumberBox
                     Width="130"
                     Height="30"
-                    Padding="10,4,10,7"
+                    Padding="10,4,10,4"
                     FontSize="13.3"
                     LargeChange="1"
                     Maximum="2"
@@ -108,7 +109,7 @@
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="15,10,0,0"
+                Margin="15,0,0,0"
                 Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="API Url" />
                 <ui:TextBox
@@ -145,7 +146,7 @@
 
             <StackPanel
                 Grid.Row="0"
-                Margin="15,10,0,0"
+                Margin="15,0,0,0"
                 Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Model Name" />
                 <ui:TextBox
@@ -163,7 +164,7 @@
                 <ui:NumberBox
                     Width="130"
                     Height="30"
-                    Padding="10,4,10,7"
+                    Padding="10,4,10,4"
                     FontSize="13.3"
                     LargeChange="1"
                     Maximum="2"
@@ -211,7 +212,7 @@
                 <ui:NumberBox
                     Width="130"
                     Height="30"
-                    Padding="10,4,10,7"
+                    Padding="10,4,10,4"
                     FontSize="13.3"
                     LargeChange="1"
                     Maximum="2"

@@ -18,6 +18,7 @@ namespace LiveCaptionsTranslator.models
 
         private int maxIdleInterval = 10;
         private int maxSyncInterval = 5;
+        private int historyMaxRow = 1;
 
         private TranslateAPIConfig? currentAPIConfig;
 
@@ -65,6 +66,16 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
+        public int HistoryMaxRow
+        {
+            get => historyMaxRow;
+            set
+            {
+                historyMaxRow = value;
+                OnPropertyChanged("HistoryMaxRow");
+            }
+        }
+
         [JsonInclude]
         public Dictionary<string, TranslateAPIConfig> Configs
         {
@@ -89,7 +100,7 @@ namespace LiveCaptionsTranslator.models
 
         public Setting()
         {
-            apiName = "Ollama";
+            apiName = "GoogleTranslate";
             targetLanguage = "zh-CN";
             configs = new Dictionary<string, TranslateAPIConfig>
             {
