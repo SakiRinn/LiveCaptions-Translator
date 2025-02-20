@@ -3,10 +3,11 @@
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows</TargetFramework>
+		<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
-		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
 		<PublishReadyToRun>false</PublishReadyToRun>
 		<PublishSingleFile>true</PublishSingleFile>
 		<SelfContained>false</SelfContained>
@@ -29,10 +30,10 @@
 		
 		<PackageReference Include="Interop.UIAutomationClient" Version="10.19041.0" />
 		
-		<PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.2" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
-		<PackageReference Include="System.Text.Json" Version="8.0.4" />
-		<PackageReference Include="WPF-UI" Version="3.0.5" />
+		<PackageReference Include="System.Text.Json" Version="9.0.2" />
+		<PackageReference Include="WPF-UI" Version="4.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
