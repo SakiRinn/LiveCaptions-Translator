@@ -1,4 +1,4 @@
-﻿using LiveCaptionsTranslator.models;
+﻿﻿using LiveCaptionsTranslator.models;
 using System.Windows;
 using System.Windows.Controls;
 using Wpf.Ui.Appearance;
@@ -41,6 +41,12 @@ namespace LiveCaptionsTranslator
         private void translateAPIBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadAPISetting();
+            
+            // Initialize the appropriate caption provider
+            if (App.Captions != null)
+            {
+                App.Captions.InitializeProvider(App.Settings.ApiName);
+            }
         }
     }
 }
