@@ -7,55 +7,164 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="HistoryPage"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Top"
     mc:Ignorable="d">
+    <Grid Margin="15,15,15,15" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-    <Grid>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                MaxHeight="34.94"
+                Margin="0,0,3,0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <ui:Button
+                    x:Name="Previous"
+                    Appearance="Transparent"
+                    Click="PageDown"
+                    Icon="{ui:SymbolIcon ArrowPrevious12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000" />
+
+                <TextBlock
+                    x:Name="PageNamber"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    Text="1" />
+
+                <ui:Button
+                    x:Name="Next"
+                    Appearance="Transparent"
+                    Click="PageUp"
+                    Icon="{ui:SymbolIcon ArrowNext12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000" />
+
+                <ComboBox
+                    x:Name="MaxRowBox"
+                    MinHeight="0"
+                    Margin="5,0,0,0"
+                    Padding="10,4,10,7"
+                    VerticalAlignment="Stretch"
+                    FontFamily="Segoe UI Variable Text"
+                    SelectionChanged="maxRow_SelectionChanged">
+                    <ComboBoxItem
+                        Content="20/page"
+                        FontFamily="Segoe UI Variable Text"
+                        Tag="20" />
+                    <ComboBoxItem
+                        Content="30/page"
+                        FontFamily="Segoe UI Variable Text"
+                        Tag="30" />
+                    <ComboBoxItem
+                        Content="50/page"
+                        FontFamily="Segoe UI Variable Text"
+                        Tag="50" />
+                    <ComboBoxItem
+                        Content="100/page"
+                        FontFamily="Segoe UI Variable Text"
+                        Tag="100" />
+                </ComboBox>
+            </StackPanel>
+
+
+            <StackPanel
+                Grid.Column="1"
+                MaxHeight="34.94"
+                Margin="3,0,3,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <ui:Button
+                    x:Name="Delete"
+                    Margin="15,0,0,0"
+                    HorizontalAlignment="Right"
+                    Appearance="Transparent"
+                    Click="RemoveLogs"
+                    Icon="{ui:SymbolIcon Delete12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000" />
+
+                <ui:Button
+                    x:Name="Refresh"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Right"
+                    Appearance="Transparent"
+                    Click="ReloadLogs"
+                    Icon="{ui:SymbolIcon ArrowClockwise12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000" />
+            </StackPanel>
+        </Grid>
+
         <DataGrid
             x:Name="HistoryDataGrid"
-            Width="Auto"
-            Margin="5,5,15,5"
-            HorizontalAlignment="Stretch"
+            Grid.Row="1"
+            Margin="0,5,20,0"
             VerticalAlignment="Stretch"
             AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            IsReadOnly="True"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            ScrollViewer.VerticalScrollBarVisibility="Disabled"
-            SelectionMode="Extended"
-            SelectionUnit="Cell">
-
+            BorderThickness="0,0,0,0"
+            FontFamily="Segoe UI Variable Text Semibold"
+            GridLinesVisibility="Horizontal"
+            IsReadOnly="True">
+            <DataGrid.VerticalGridLinesBrush>
+                <LinearGradientBrush MappingMode="Absolute" EndPoint="0,3">
+                    <GradientStop Offset="0.33" Color="#18FFFFFF" />
+                    <GradientStop Offset="1" Color="Transparent" />
+                </LinearGradientBrush>
+            </DataGrid.VerticalGridLinesBrush>
+            <DataGrid.HorizontalGridLinesBrush>
+                <LinearGradientBrush MappingMode="Absolute" EndPoint="0,3">
+                    <GradientStop Offset="0.33" Color="#18FFFFFF" />
+                    <GradientStop Offset="1" Color="#33000000" />
+                </LinearGradientBrush>
+            </DataGrid.HorizontalGridLinesBrush>
+            <DataGrid.BorderBrush>
+                <LinearGradientBrush MappingMode="Absolute" EndPoint="0,3">
+                    <GradientStop Offset="0.33" Color="#18FFFFFF" />
+                    <GradientStop Offset="1" Color="Transparent" />
+                </LinearGradientBrush>
+            </DataGrid.BorderBrush>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="0.4*" Header="Timestamp">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Timestamp}" TextWrapping="Wrap" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Width="*" Header="Source Text">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding SourceText}" TextWrapping="Wrap" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Width="*" Header="Translated Text">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding TranslatedText}" TextWrapping="Wrap" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-
-                <DataGridTemplateColumn Width="0.3*" Header="API Used">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding ApiUsed}" TextWrapping="Wrap" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn
+                    Width="*"
+                    MinWidth="90"
+                    MaxWidth="90"
+                    Binding="{Binding Timestamp}"
+                    FontFamily="Segoe UI Variable Text"
+                    Header="Time" />
+                <DataGridTextColumn
+                    Width="3*"
+                    Binding="{Binding SourceText}"
+                    FontFamily="Segoe UI Variable Text"
+                    Header="Source" />
+                <DataGridTextColumn
+                    Width="3*"
+                    Binding="{Binding TranslatedText}"
+                    FontFamily="Segoe UI Variable Text Semibold"
+                    Header="Translated" />
+                <DataGridTextColumn
+                    Width="40"
+                    MinWidth="55"
+                    MaxWidth="55"
+                    Binding="{Binding TargetLanguage}"
+                    FontFamily="Segoe UI Variable Text"
+                    Header="Target" />
+                <DataGridTextColumn
+                    Width="*"
+                    MaxWidth="120"
+                    Binding="{Binding ApiUsed}"
+                    FontFamily="Segoe UI Variable Text"
+                    Header="API" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
