@@ -1,8 +1,5 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows.Automation;
-using System.Collections.Concurrent;  // 添加这一行
-using System.Threading;              // 用于 Thread.Sleep
-using System;                        // 用于 Math, IntPtr 等
 
 namespace LiveCaptionsTranslator.models
 {
@@ -16,26 +13,16 @@ namespace LiveCaptionsTranslator.models
             KillAllProcessesByPName(PROCESS_NAME);
             var process = Process.Start(PROCESS_NAME);
 
-            // Search window with exponential backoff
+            // Search window
             AutomationElement? window = null;
-            int maxAttempts = 20;
-            int attemptCount = 0;
-            int baseDelay = 50; // Start with 50ms delay
-
-            while ((window == null || window.Current.ClassName.CompareTo("LiveCaptionsDesktopWindow") != 0) 
-                   && attemptCount < maxAttempts)
+            for (int attemptCount = 0; 
+                 window == null || window.Current.ClassName.CompareTo("LiveCaptionsDesktopWindow") != 0;
+                 attemptCount++)
             {
                 window = FindWindowByPId(process.Id);
-                if (window == null)
-                {
-                    int delay = baseDelay * (int)Math.Pow(2, attemptCount);
-                    Thread.Sleep(Math.Min(delay, 1000)); // Cap at 1 second
-                    attemptCount++;
-                }
+                if (attemptCount > 10000)
+                    throw new Exception("Failed to launch!");
             }
-
-            if (window == null)
-                throw new Exception("Failed to launch Live Captions window!");
 
             // Hide window
             IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
@@ -69,36 +56,26 @@ namespace LiveCaptionsTranslator.models
             return AutomationElement.RootElement.FindFirst(TreeScope.Children, condition);
         }
 
-        private static readonly ConcurrentDictionary<string, AutomationElement> _elementCache = 
-            new ConcurrentDictionary<string, AutomationElement>();
-
         public static AutomationElement? FindElementByAId(AutomationElement window, string automationId)
         {
-            // Try to get from cache first
-            if (_elementCache.TryGetValue(automationId, out var cachedElement))
-            {
-                try
-                {
-                    // Verify the element is still valid
-                    var _ = cachedElement.Current.AutomationId;
-                    return cachedElement;
-                }
-                catch
-                {
-                    _elementCache.TryRemove(automationId, out _);
-                }
-            }
+            var treeWalker = TreeWalker.RawViewWalker;
+            var stack = new Stack<AutomationElement>();
+            stack.Push(window);
 
-            // Use a more efficient search with Condition
-            var condition = new PropertyCondition(AutomationElement.AutomationIdProperty, automationId);
-            var element = window.FindFirst(TreeScope.Descendants, condition);
-            
-            if (element != null)
+            while (stack.Count > 0)
             {
-                _elementCache.TryAdd(automationId, element);
+                var element = stack.Pop();
+                if (element.Current.AutomationId.CompareTo(automationId) == 0)
+                    return element;
+
+                var child = treeWalker.GetFirstChild(element);
+                while (child != null)
+                {
+                    stack.Push(child);
+                    child = treeWalker.GetNextSibling(child);
+                }
             }
-            
-            return element;
+            return null;
         }
 
         public static void PrintAllElementsAId(AutomationElement window)

@@ -18,6 +18,20 @@ namespace LiveCaptionsTranslator.models
 
         private int maxIdleInterval = 10;
         private int maxSyncInterval = 5;
+        private int historyMaxRow = 1;
+
+        private TranslateAPIConfig? currentAPIConfig;
+
+        private bool enableLogging = true;
+        public bool EnableLogging
+        {
+            get => enableLogging;
+            set
+            {
+                enableLogging = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string ApiName
         {
@@ -52,6 +66,16 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
+        public int HistoryMaxRow
+        {
+            get => historyMaxRow;
+            set
+            {
+                historyMaxRow = value;
+                OnPropertyChanged("HistoryMaxRow");
+            }
+        }
+
         [JsonInclude]
         public Dictionary<string, TranslateAPIConfig> Configs
         {
@@ -66,18 +90,24 @@ namespace LiveCaptionsTranslator.models
         [JsonIgnore]
         public TranslateAPIConfig CurrentAPIConfig
         {
-            get => Configs[apiName];
+            get => currentAPIConfig ?? (Configs.ContainsKey(ApiName) ? Configs[ApiName] : Configs["Ollama"]);
+            set
+            {
+                currentAPIConfig = value;
+                OnPropertyChanged();
+            }
         }
 
         public Setting()
         {
-            apiName = "Ollama";
+            apiName = "GoogleTranslate";
             targetLanguage = "zh-CN";
             configs = new Dictionary<string, TranslateAPIConfig>
             {
                 { "Ollama", new OllamaConfig() },
                 { "OpenAI", new OpenAIConfig() },
                 { "GoogleTranslate", new GoogleTranslateConfig() },
+                { "OpenRouter", new OpenRouterConfig() }
             };
         }
 

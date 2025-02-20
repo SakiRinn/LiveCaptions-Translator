@@ -27,7 +27,8 @@ namespace LiveCaptionsTranslator.models
             { "en-GB", "British English" },
             { "ja-JP", "Japanese" },
             { "ko-KR", "Korean" },
-            { "fr-FR", "French" }
+            { "fr-FR", "French" },
+            { "th-TH", "Thai" },
         };
 
         [JsonIgnore]
@@ -131,6 +132,20 @@ namespace LiveCaptionsTranslator.models
         }
     }
 
+    public class OpenRouterConfig : OllamaConfig
+    {
+        private string apiKey = "";
+        public string ApiKey
+        {
+            get => apiKey;
+            set
+            {
+                apiKey = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public class GoogleTranslateConfig : TranslateAPIConfig
     {
         private static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
@@ -141,11 +156,11 @@ namespace LiveCaptionsTranslator.models
             { "en-GB", "British English" },
             { "ja-JP", "Japanese" },
             { "ko-KR", "Korean" },
-            { "fr-FR", "French" }
+            { "fr-FR", "French" },
+            { "th-TH", "Thai" },
         };
 
         [JsonIgnore]
         public override Dictionary<string, string> SupportedLanguages => SUPPORTED_LANGUAGES;
-        
     }
 }
