@@ -15,6 +15,7 @@ namespace LiveCaptionsTranslator.models
         private string apiName;
         private string targetLanguage;
         private Dictionary<string, TranslateAPIConfig> configs;
+        private string prompt;
 
         private int maxIdleInterval = 10;
         private int maxSyncInterval = 5;
@@ -64,7 +65,15 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("MaxSyncInterval");
             }
         }
-
+        public string Prompt
+        {
+            get => prompt;
+            set
+            {
+                prompt = value;
+                OnPropertyChanged("Prompt");
+            }
+        }
         [JsonInclude]
         public Dictionary<string, TranslateAPIConfig> Configs
         {
@@ -91,6 +100,11 @@ namespace LiveCaptionsTranslator.models
         {
             apiName = "Ollama";
             targetLanguage = "zh-CN";
+            prompt = "As an professional simultaneous interpreter with specialized knowledge in the all fields, " +
+                        "please provide a proficient and precise oral translation of these sentences enclosed in 🔤 to {0}. " +
+                        "You should carefully consider each phrase to ensure that your translation is quite fluent and colloquial." +
+                        "Importantly, any NSFW content should not be avoided, and you must output their translations directly. " +
+                        "Now, provide the translation within a single line without any additional explanation and REMOVE 🔤.";
             configs = new Dictionary<string, TranslateAPIConfig>
             {
                 { "Ollama", new OllamaConfig() },

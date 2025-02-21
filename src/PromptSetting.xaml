@@ -1,0 +1,17 @@
+<Page
+    x:Class="LiveCaptionsTranslator.PromptSetting"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:LiveCaptionsTranslator"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="PromptSetting"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+            <TextBlock Text="Prompt Setting" Foreground="White" FontSize="16" Margin="0 0 0 10" HorizontalAlignment="Center"/>
+            <TextBox x:Name="PromptTextBox" Width="Auto" Height="100" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Prompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="PromptTextBox_TextChanged"/>
+        </StackPanel>
+    </Grid>
+</Page>
