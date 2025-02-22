@@ -30,8 +30,9 @@ namespace LiveCaptionsTranslator.models
         public static async Task<string> OpenAI(string text)
         {
             var config = App.Settings.CurrentAPIConfig as OpenAIConfig;
-            var language = config?.SupportedLanguages[App.Settings.TargetLanguage];
-
+            string language = config.SupportedLanguages.TryGetValue(App.Settings.TargetLanguage, out var langValue) 
+                ? langValue 
+                : App.Settings.TargetLanguage; 
             var requestData = new
             {
                 model = config?.ModelName,
@@ -75,8 +76,9 @@ namespace LiveCaptionsTranslator.models
             var apiUrl = $"http://localhost:{OLLAMA_PORT}/api/chat";
 
             var config = App.Settings.CurrentAPIConfig as OllamaConfig;
-            var language = config?.SupportedLanguages[App.Settings.TargetLanguage];
-
+            string language = config.SupportedLanguages.TryGetValue(App.Settings.TargetLanguage, out var langValue) 
+                ? langValue 
+                : App.Settings.TargetLanguage; 
             var requestData = new
             {
                 model = config?.ModelName,
