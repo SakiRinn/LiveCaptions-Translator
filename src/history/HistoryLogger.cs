@@ -4,7 +4,7 @@ namespace LiveCaptionsTranslator.models
 {
     public class TranslationHistoryEntry
     {
-        public DateTime Timestamp { get; set; }
+        public string Timestamp { get; set; }
         public string SourceText { get; set; }
         public string TranslatedText { get; set; }
         public string TargetLanguage { get; set; }
@@ -48,7 +48,7 @@ namespace LiveCaptionsTranslator.models
 
                 using (var command = new SqliteCommand(insertQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@Timestamp", DateTime.Now);
+                    command.Parameters.AddWithValue("@Timestamp", DateTime.Now.ToString("MM/dd HH:mm"));
                     command.Parameters.AddWithValue("@SourceText", sourceText);
                     command.Parameters.AddWithValue("@TranslatedText", translatedText);
                     command.Parameters.AddWithValue("@TargetLanguage", targetLanguage);
@@ -58,25 +58,32 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public static async Task<List<TranslationHistoryEntry>> LoadHistory()
+        public static async Task<(List<TranslationHistoryEntry>, int)> LoadHistoryAsync(int page, int maxRow)
         {
             var history = new List<TranslationHistoryEntry>();
+            int maxPage = 1;
 
             using (var connection = new SqliteConnection(ConnectionString))
             {
                 await connection.OpenAsync();
-                string selectQuery = @"
-                    SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed 
-                    FROM TranslationHistory ORDER BY Timestamp DESC";
 
-                using (var command = new SqliteCommand(selectQuery, connection))
+                // Get max page
+                using (var command = new SqliteCommand("SELECT COUNT() AS maxPage FROM TranslationHistory", connection))
+                    maxPage = Convert.ToInt32(command.ExecuteScalar()) / maxRow;
+
+                // Get table
+                using (var command = new SqliteCommand(@"
+                    SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed
+                    FROM TranslationHistory
+                    ORDER BY Id DESC
+                    LIMIT " + maxRow + " OFFSET " + ((page * maxRow) - maxRow), connection))
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
                         history.Add(new TranslationHistoryEntry
                         {
-                            Timestamp = reader.GetDateTime(reader.GetOrdinal("Timestamp")),
+                            Timestamp = reader.GetString(reader.GetOrdinal("Timestamp")),
                             SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
                             TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
                             TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
@@ -85,7 +92,7 @@ namespace LiveCaptionsTranslator.models
                     }
                 }
             }
-            return history;
+            return (history, maxPage);
         }
 
         public static async Task ClearHistory()
@@ -97,6 +104,20 @@ namespace LiveCaptionsTranslator.models
                 using var command = new SqliteCommand("DELETE FROM TranslationHistory", connection);
                 command.ExecuteNonQuery();
             });
+        }
+
+        public static async Task ClaerHistory()
+        {
+            using (var connection = new SqliteConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                string selectQuery = "DELETE FROM TranslationHistory";
+                using (var command = new SqliteCommand(selectQuery, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+
+            }
         }
     }
 }

@@ -19,6 +19,8 @@ namespace LiveCaptionsTranslator.models
 
         private int maxIdleInterval = 10;
         private int maxSyncInterval = 5;
+        private int historyMaxRow = 1;
+        private bool topmost = true;
 
         private TranslateAPIConfig? currentAPIConfig;
 
@@ -65,6 +67,26 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("MaxSyncInterval");
             }
         }
+
+        public int HistoryMaxRow
+        {
+            get => historyMaxRow;
+            set
+            {
+                historyMaxRow = value;
+                OnPropertyChanged("HistoryMaxRow");
+            }
+        }
+        public bool Topmost
+        {
+            get => topmost;
+            set
+            {
+                topmost = value;
+                OnPropertyChanged("Topmost");
+            }
+        }
+
         public string Prompt
         {
             get => prompt;

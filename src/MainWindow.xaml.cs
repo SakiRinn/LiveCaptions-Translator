@@ -7,6 +7,10 @@ using Wpf.Ui.Controls;
 using System.Windows.Media;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Documents;
+using Microsoft.Win32;
+using System.Globalization;
+using System.Text.Json;
 
 namespace LiveCaptionsTranslator
 {
@@ -34,22 +38,22 @@ namespace LiveCaptionsTranslator
                 );
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
+
+            ToggleTopmost(App.Settings.Topmost);
         }
 
         void TopmostButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
+            ToggleTopmost(!Topmost);
+        }
+
+        private void ToggleTopmost(bool enable)
+        {
+            var button = topmost as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
-            if (Topmost)
-            {
-                Topmost = false;
-                symbolIcon.Filled = false;
-            }
-            else
-            {
-                Topmost = true;
-                symbolIcon.Filled = true;
-            }
+            Topmost = enable;
+            symbolIcon.Filled = enable;
+            App.Settings.Topmost = enable;
         }
 
         void PauseButton_Click(object sender, RoutedEventArgs e)
@@ -77,6 +81,8 @@ namespace LiveCaptionsTranslator
 
             if (subtitleWindow == null)
             {
+                OverlayTranslationModeClose();
+
                 subtitleWindow = new Window
                 {
                     Title = "Subtitle Mode",
@@ -113,7 +119,7 @@ namespace LiveCaptionsTranslator
                     VerticalAlignment = VerticalAlignment.Center,
                     TextAlignment = TextAlignment.Left,
                     LineHeight = 24,
-                    FontFamily = new FontFamily("Microsoft YaHei")
+                    FontFamily = new FontFamily("Segoe UI Variable Text")
                 };
                 originalText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("PresentedCaption") { Source = App.Captions });
                 SystemControls.Grid.SetRow(originalText, 0);
@@ -126,7 +132,7 @@ namespace LiveCaptionsTranslator
                     VerticalAlignment = VerticalAlignment.Center,
                     TextAlignment = TextAlignment.Left,
                     LineHeight = 24,
-                    FontFamily = new FontFamily("Microsoft YaHei")
+                    FontFamily = new FontFamily("Segoe UI Variable Text Semibold")
                 };
                 translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("TranslatedCaption") { Source = App.Captions });
                 SystemControls.Grid.SetRow(translatedText, 1);
@@ -286,6 +292,16 @@ namespace LiveCaptionsTranslator
             }
         }
 
+        void SubtitleMode_Close()
+        {
+            subtitleWindow?.Close();
+            subtitleWindow = null;
+
+            var button = subtitleMode as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
+            symbolIcon.Filled = false;
+        }
+
         // TODO: Extract them into a new SubtitleWindow class.
         void TranslationOnlyButton_Click(object sender, RoutedEventArgs e)
         {
@@ -293,6 +309,8 @@ namespace LiveCaptionsTranslator
 
             if (translationOnlyWindow == null)
             {
+                SubtitleMode_Close();
+
                 translationOnlyWindow = new Window
                 {
                     Title = "Translation Only Mode",
@@ -322,7 +340,10 @@ namespace LiveCaptionsTranslator
                     Foreground = new SolidColorBrush(Colors.White),
                     TextWrapping = TextWrapping.Wrap,
                     Padding = new Thickness(10),
-                    VerticalAlignment = VerticalAlignment.Center
+                    VerticalAlignment = VerticalAlignment.Center,
+                    TextAlignment = TextAlignment.Left,
+                    LineHeight = 24,
+                    FontFamily = new FontFamily("Segoe UI Variable Text Semibold")
                 };
                 translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("TranslatedCaption") { Source = App.Captions });
 
@@ -431,6 +452,16 @@ namespace LiveCaptionsTranslator
                 translationOnlyWindow = null;
                 symbolIcon.Filled = false;
             }
+        }
+
+        void OverlayTranslationModeClose()
+        {
+            translationOnlyWindow?.Close();
+            translationOnlyWindow = null;
+
+            var button = translationOnlyMode as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
+            symbolIcon.Filled = false;
         }
 
         protected override void OnClosed(EventArgs e)

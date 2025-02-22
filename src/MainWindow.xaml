@@ -11,10 +11,8 @@
     Height="167"
     MinWidth="750"
     MinHeight="167"
-    MaxHeight="167"
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
-    ResizeMode="CanResizeWithGrip"
     Topmost="True"
     WindowBackdropType="Mica"
     WindowStartupLocation="Manual"
@@ -28,11 +26,14 @@
         </Grid.RowDefinitions>
 
         <ui:TitleBar
-            Title="LiveCaptionsTranslator"
             Grid.Row="0"
             Height="27"
+            FontFamily="Segoe UI Variable Text"
             ShowMaximize="False">
             <ui:TitleBar.Header>
+                <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center">LiveCaptionsTranslator</ui:TextBlock>
+            </ui:TitleBar.Header>
+            <ui:TitleBar.TrailingContent>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <ui:Button
                         x:Name="pause"
@@ -41,6 +42,7 @@
                         Click="PauseButton_Click"
                         Icon="{ui:SymbolIcon Pause24,
                                              Filled=False}" />
+
                     <ui:Button
                         x:Name="subtitleMode"
                         Margin="0,0,5,0"
@@ -55,6 +57,7 @@
                         Click="TranslationOnlyButton_Click"
                         Icon="{ui:SymbolIcon Document24,
                                              Filled=False}" />
+
                     <ui:Button
                         x:Name="topmost"
                         Margin="0,0,5,0"
@@ -63,7 +66,7 @@
                         Icon="{ui:SymbolIcon Pin24,
                                              Filled=True}" />
                 </StackPanel>
-            </ui:TitleBar.Header>
+            </ui:TitleBar.TrailingContent>
         </ui:TitleBar>
 
         <ui:NavigationView

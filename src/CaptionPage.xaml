@@ -10,10 +10,12 @@
     Title="CaptionPage"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid Margin="15,10,15,15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
@@ -24,25 +26,103 @@
 
         <ui:Card
             Grid.Row="0"
-            Margin="15,3,20,1"
             Padding="8"
             VerticalAlignment="Stretch">
-            <TextBlock
-                x:Name="PresentedCaption"
-                FontSize="15"
-                Style="{StaticResource CaptionBlockStyle}"
-                Text="{Binding PresentedCaption, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBox
+                    x:Name="PresentedCaption"
+                    Grid.Row="0"
+                    Padding="10,3,10,3"
+                    AcceptsReturn="True"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    FontFamily="Segoe UI Variable Text"
+                    FontSize="15"
+                    IsReadOnly="True"
+                    Text="{Binding PresentedCaption}"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Auto" />
+                <TextBox
+                    x:Name="TranslatedCaption"
+                    Grid.Row="1"
+                    Padding="10,3,10,3"
+                    AcceptsReturn="True"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    FontFamily="Segoe UI Variable Text Semibold"
+                    FontSize="15"
+                    IsReadOnly="True"
+                    Text="{Binding TranslatedCaption, UpdateSourceTrigger=PropertyChanged}"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Auto" />
+            </Grid>
         </ui:Card>
+
         <ui:Card
-            Grid.Row="1"
-            Margin="15,1,20,3"
+            Grid.Row="2"
+            Margin="0,3,0,0"
             Padding="8"
-            VerticalAlignment="Stretch">
-            <TextBlock
-                x:Name="TranslatedCaption"
-                FontSize="18"
-                Style="{StaticResource CaptionBlockStyle}"
-                Text="{Binding TranslatedCaption, UpdateSourceTrigger=PropertyChanged}" />
+            VerticalAlignment="Top"
+            Background="#05000000">
+
+            <ItemsControl ItemsSource="{Binding CaptionHistory}" VirtualizingPanel.IsVirtualizing="True">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Margin="0,0,0,5"
+                            Padding="10,5,10,5"
+                            BorderBrush="#50000000"
+                            BorderThickness="0,0,0,1">
+                            <StackPanel>
+                                <TextBox
+                                    Margin="0,0,0,0"
+                                    Padding="10,3,10,3"
+                                    AcceptsReturn="True"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    FontFamily="Segoe UI Variable Text"
+                                    FontSize="13"
+                                    IsReadOnly="True"
+                                    Text="{Binding Original}"
+                                    TextWrapping="Wrap"
+                                    VerticalScrollBarVisibility="Auto" />
+                                <TextBox
+                                    Margin="0,0,0,0"
+                                    Padding="10,3,10,3"
+                                    AcceptsReturn="True"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    FontFamily="Segoe UI Variable Text Semibold"
+                                    FontSize="13"
+                                    IsReadOnly="True"
+                                    Text="{Binding Translated}"
+                                    TextWrapping="Wrap"
+                                    VerticalScrollBarVisibility="Auto" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ui:Card>
+
+        <DockPanel
+            Grid.Row="3"
+            Margin="0,5,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <ui:Button
+                x:Name="Delete"
+                HorizontalAlignment="Right"
+                Appearance="Transparent"
+                Click="ClearHistory_Click"
+                Icon="{ui:SymbolIcon Delete12,
+                                     Filled=False}"
+                MouseOverBackground="#07000000" />
+        </DockPanel>
     </Grid>
 </Page>

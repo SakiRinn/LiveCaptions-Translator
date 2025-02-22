@@ -27,7 +27,8 @@ namespace LiveCaptionsTranslator.models
             { "en-GB", "British English" },
             { "ja-JP", "Japanese" },
             { "ko-KR", "Korean" },
-            { "fr-FR", "French" }
+            { "fr-FR", "French" },
+            { "th-TH", "Thai" },
         };
 
         [JsonIgnore]
@@ -155,7 +156,8 @@ namespace LiveCaptionsTranslator.models
             { "en-GB", "British English" },
             { "ja-JP", "Japanese" },
             { "ko-KR", "Korean" },
-            { "fr-FR", "French" }
+            { "fr-FR", "French" },
+            { "th-TH", "Thai" },
         };
 
         [JsonIgnore]

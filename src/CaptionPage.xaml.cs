@@ -24,7 +24,7 @@ namespace LiveCaptionsTranslator
                     {
                         TranslatedCaption.FontSize = 15;
                     }), DispatcherPriority.Background);
-                } 
+                }
                 else
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
@@ -33,6 +33,11 @@ namespace LiveCaptionsTranslator
                     }), DispatcherPriority.Background);
                 }
             }
+        }
+
+        private void ClearHistory_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.Captions.ClearHistory();
         }
     }
 }
