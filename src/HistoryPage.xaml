@@ -33,7 +33,8 @@
                     Click="PageDown"
                     Icon="{ui:SymbolIcon ArrowPrevious12,
                                          Filled=False}"
-                    MouseOverBackground="#07000000" />
+                    MouseOverBackground="#07000000"
+                    ToolTip="Previous " />
 
                 <TextBlock
                     x:Name="PageNamber"
@@ -48,7 +49,8 @@
                     Click="PageUp"
                     Icon="{ui:SymbolIcon ArrowNext12,
                                          Filled=False}"
-                    MouseOverBackground="#07000000" />
+                    MouseOverBackground="#07000000"
+                    ToolTip="Next Page" />
 
                 <ComboBox
                     x:Name="MaxRowBox"
@@ -57,18 +59,10 @@
                     Padding="10,4,10,7"
                     VerticalAlignment="Stretch"
                     SelectionChanged="maxRow_SelectionChanged">
-                    <ComboBoxItem
-                        Content="20/page"
-                        Tag="20" />
-                    <ComboBoxItem
-                        Content="30/page"
-                        Tag="30" />
-                    <ComboBoxItem
-                        Content="50/page"
-                        Tag="50" />
-                    <ComboBoxItem
-                        Content="100/page"
-                        Tag="100" />
+                    <ComboBoxItem Content="20/page" Tag="20" />
+                    <ComboBoxItem Content="30/page" Tag="30" />
+                    <ComboBoxItem Content="50/page" Tag="50" />
+                    <ComboBoxItem Content="100/page" Tag="100" />
                 </ComboBox>
             </StackPanel>
 
@@ -87,7 +81,8 @@
                     Click="RemoveLogs"
                     Icon="{ui:SymbolIcon Delete12,
                                          Filled=False}"
-                    MouseOverBackground="#07000000" />
+                    MouseOverBackground="#07000000"
+                    ToolTip="Delete All" />
 
                 <ui:Button
                     x:Name="Refresh"
@@ -97,7 +92,8 @@
                     Click="ReloadLogs"
                     Icon="{ui:SymbolIcon ArrowClockwise12,
                                          Filled=False}"
-                    MouseOverBackground="#07000000" />
+                    MouseOverBackground="#07000000"
+                    ToolTip="Refresh" />
             </StackPanel>
         </Grid>
 
@@ -132,9 +128,7 @@
                 <DataGridTemplateColumn Width="0.4*" Header="Timestamp">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock
-                                Text="{Binding Timestamp}"
-                                TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Timestamp}" TextWrapping="Wrap" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -142,9 +136,7 @@
                 <DataGridTemplateColumn Width="*" Header="Source Text">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock
-                                Text="{Binding SourceText}"
-                                TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding SourceText}" TextWrapping="Wrap" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -152,9 +144,7 @@
                 <DataGridTemplateColumn Width="*" Header="Translated Text">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock
-                                Text="{Binding TranslatedText}"
-                                TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding TranslatedText}" TextWrapping="Wrap" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -162,9 +152,7 @@
                 <DataGridTemplateColumn Width="0.3*" Header="API Used">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock
-                                Text="{Binding ApiUsed}"
-                                TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding ApiUsed}" TextWrapping="Wrap" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
