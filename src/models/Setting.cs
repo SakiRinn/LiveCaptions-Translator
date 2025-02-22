@@ -21,6 +21,7 @@ namespace LiveCaptionsTranslator.models
         private int maxSyncInterval = 5;
         private int historyMaxRow = 1;
         private bool topmost = true;
+        private bool enableCaptionLog = false;
 
         private TranslateAPIConfig? currentAPIConfig;
 
@@ -74,7 +75,6 @@ namespace LiveCaptionsTranslator.models
             set
             {
                 historyMaxRow = value;
-                OnPropertyChanged("HistoryMaxRow");
             }
         }
         public bool Topmost
@@ -83,7 +83,14 @@ namespace LiveCaptionsTranslator.models
             set
             {
                 topmost = value;
-                OnPropertyChanged("Topmost");
+            }
+        }
+        public bool EnableCaptionLog
+        {
+            get => enableCaptionLog;
+            set
+            {
+                enableCaptionLog = value;
             }
         }
 

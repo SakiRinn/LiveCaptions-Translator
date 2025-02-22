@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
@@ -61,8 +62,9 @@
         </ui:Card>
 
         <ui:Card
+            x:Name="CaptionLogCard"
             Grid.Row="2"
-            Margin="0,3,0,0"
+            Margin="0,3,0,5"
             Padding="8"
             VerticalAlignment="Top"
             Background="#05000000">
@@ -109,6 +111,7 @@
         </ui:Card>
 
         <DockPanel
+            x:Name="ClearCaptionLog"
             Grid.Row="2"
             Margin="0,5,0,0"
             HorizontalAlignment="Right"
@@ -122,6 +125,16 @@
                 Icon="{ui:SymbolIcon Delete12,
                                      Filled=False}"
                 MouseOverBackground="#07000000" />
+        </DockPanel>
+
+        <DockPanel
+            Grid.Row="3"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top">
+            <ui:ToggleSwitch
+                x:Name="EnableCaptionLog"
+                HorizontalAlignment="Right"
+                Click="EnableCaptionLog_Click" />
         </DockPanel>
     </Grid>
 

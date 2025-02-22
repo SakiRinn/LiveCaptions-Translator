@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Text;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Threading;
+using Wpf.Ui.Controls;
 
 namespace LiveCaptionsTranslator
 {
@@ -12,6 +14,8 @@ namespace LiveCaptionsTranslator
             InitializeComponent();
             DataContext = App.Captions;
             App.Captions.PropertyChanged += TranslatedChanged;
+
+            EnagleCaptionLog(App.Settings.EnableCaptionLog);
         }
 
         private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
@@ -40,9 +44,27 @@ namespace LiveCaptionsTranslator
             App.Captions.ClearHistory();
         }
 
-        private void EnableLog_Checked(object sender, System.Windows.RoutedEventArgs e)
+        private void EnableCaptionLog_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            var Swtich = sender as ToggleSwitch;
+            EnagleCaptionLog(Swtich.IsChecked.Value);
+        }
 
+        private void EnagleCaptionLog(bool enable)
+        {  
+            if (enable)
+            {
+                CaptionLogCard.Visibility = System.Windows.Visibility.Visible;
+                ClearCaptionLog.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                CaptionLogCard.Visibility = System.Windows.Visibility.Collapsed;
+                ClearCaptionLog.Visibility = System.Windows.Visibility.Collapsed;
+                App.Captions.ClearHistory();
+            }
+            App.Settings.EnableCaptionLog = enable;
+            EnableCaptionLog.IsChecked = enable;
         }
     }
 }

@@ -146,14 +146,16 @@ namespace LiveCaptionsTranslator.models
                             string translated = await controller.TranslateAndLog(OriginalPrev);
 
                             // Add history card
-                            if (captionHistory.Count >= 5)
-                                captionHistory.Dequeue();
-                            captionHistory.Enqueue(new CaptionHistoryItem
-                            {
-                                Original = OriginalPrev,
-                                Translated = translated
-                            });
-                            OnPropertyChanged(nameof(CaptionHistory));
+                            if (App.Settings.EnableCaptionLog) { 
+                                if (captionHistory.Count >= 5)
+                                    captionHistory.Dequeue();
+                                captionHistory.Enqueue(new CaptionHistoryItem
+                                {
+                                    Original = OriginalPrev,
+                                    Translated = translated
+                                });
+                                OnPropertyChanged(nameof(CaptionHistory));
+                            }
 
                             // Insert sqlite history log
                             string targetLanguage = App.Settings.TargetLanguage;
