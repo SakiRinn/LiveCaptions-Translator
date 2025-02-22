@@ -22,6 +22,7 @@ namespace LiveCaptionsTranslator.models
         public bool PauseFlag { get; set; } = false;
         public bool TranslateFlag { get; set; } = false;
         public bool LogFlag { get; set; } = false;
+        public bool LogonlyFlag { get; set; } = false;
 
         public string PresentedCaption
         {
@@ -167,8 +168,11 @@ namespace LiveCaptionsTranslator.models
                     }
                     Thread.Sleep(1000);
                 }
-
-                if (TranslateFlag)
+                if(LogonlyFlag)
+                {
+                    TranslatedCaption = await controller.Logonly(OriginalCaption, LogFlag);
+                }
+                else if (TranslateFlag)
                 {
                     TranslatedCaption = await controller.TranslateAndLog(OriginalCaption, LogFlag);
                     TranslateFlag = false;
