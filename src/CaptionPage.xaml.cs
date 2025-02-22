@@ -39,11 +39,6 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        private void ClearHistory_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            App.Captions.ClearHistory();
-        }
-
         private void EnableCaptionLog_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var Swtich = sender as ToggleSwitch;
@@ -55,12 +50,10 @@ namespace LiveCaptionsTranslator
             if (enable)
             {
                 CaptionLogCard.Visibility = System.Windows.Visibility.Visible;
-                ClearCaptionLog.Visibility = System.Windows.Visibility.Visible;
             }
             else
             {
                 CaptionLogCard.Visibility = System.Windows.Visibility.Collapsed;
-                ClearCaptionLog.Visibility = System.Windows.Visibility.Collapsed;
                 App.Captions.ClearHistory();
             }
             App.Settings.EnableCaptionLog = enable;

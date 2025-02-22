@@ -15,7 +15,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
@@ -54,6 +53,7 @@
                     Background="Transparent"
                     BorderThickness="0"
                     FontSize="15"
+                    FontWeight="Bold"
                     IsReadOnly="True"
                     Text="{Binding TranslatedCaption, UpdateSourceTrigger=PropertyChanged}"
                     TextWrapping="Wrap"
@@ -99,6 +99,7 @@
                                     Background="Transparent"
                                     BorderThickness="0"
                                     FontSize="13"
+                                    FontWeight="Bold"
                                     IsReadOnly="True"
                                     Text="{Binding Translated}"
                                     TextWrapping="Wrap"
@@ -110,32 +111,15 @@
             </ItemsControl>
         </ui:Card>
 
-        <DockPanel
-            x:Name="ClearCaptionLog"
+        <ui:ToggleSwitch
+            Margin="0,7,7,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            x:Name="EnableCaptionLog"
             Grid.Row="2"
-            Margin="0,5,0,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top">
-            <ui:Button
-                x:Name="Delete"
-                Margin="0,5,5,0"
-                HorizontalAlignment="Right"
-                Appearance="Transparent"
-                Click="ClearHistory_Click"
-                Icon="{ui:SymbolIcon Delete12,
-                                     Filled=False}"
-                MouseOverBackground="#07000000" />
-        </DockPanel>
+            Click="EnableCaptionLog_Click"
+            ToolTip="Caption Log" />
 
-        <DockPanel
-            Grid.Row="3"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top">
-            <ui:ToggleSwitch
-                x:Name="EnableCaptionLog"
-                HorizontalAlignment="Right"
-                Click="EnableCaptionLog_Click" />
-        </DockPanel>
     </Grid>
 
 </Page>
