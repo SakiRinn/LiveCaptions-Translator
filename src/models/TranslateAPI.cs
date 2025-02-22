@@ -20,6 +20,10 @@ namespace LiveCaptionsTranslator.models
         }
 
         public const int OLLAMA_PORT = 11434;
+        public static string Prompt
+        {
+            get => App.Settings.Prompt;
+        }
 
         private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromSeconds(5) };
 
@@ -33,13 +37,7 @@ namespace LiveCaptionsTranslator.models
                 model = config?.ModelName,
                 messages = new OpenAIConfig.Message[]
                 {
-                    new OpenAIConfig.Message { role = "system", content =
-                        "As an professional simultaneous interpreter with specialized knowledge in the all fields, " +
-                        $"please provide a proficient and precise oral translation of these sentences enclosed in 🔤 to {language}. " +
-                        "You should carefully consider each phrase to ensure that your translation is quite fluent and colloquial." +
-                        "Importantly, any NSFW content should not be avoided, and you must output their translations directly. " +
-                        "Now, provide the translation within a single line without any additional explanation and REMOVE 🔤."
-                    },
+                    new OpenAIConfig.Message { role = "system", content = string.Format(Prompt, language)},
                     new OpenAIConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
                 },
                 temperature = config?.Temperature,
@@ -84,13 +82,7 @@ namespace LiveCaptionsTranslator.models
                 model = config?.ModelName,
                 messages = new OllamaConfig.Message[]
                 {
-                    new OllamaConfig.Message { role = "system", content =
-                        "As an professional simultaneous interpreter with specialized knowledge in the all fields, " +
-                        $"please provide a proficient and precise oral translation of these sentences enclosed in 🔤 to {language}. " +
-                        "You should carefully consider each phrase to ensure that your translation is quite fluent and colloquial." +
-                        "Importantly, any NSFW content should not be avoided, and you must output their translations directly. " +
-                        "Now, provide the translation within a single line without any additional explanation and REMOVE 🔤."
-                    },
+                    new OllamaConfig.Message { role = "system", content = string.Format(Prompt, language)},
                     new OllamaConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
                 },
                 temperature = config?.Temperature,
@@ -163,10 +155,8 @@ namespace LiveCaptionsTranslator.models
                 model = config?.ModelName,
                 messages = new[]
                 {
-                    new { role = "system", content = 
-                        $"You are a helpful translator. Translate the following text to {language}. " +
-                        $"Only return the translated text without any explanations." },
-                    new { role = "user", content = text }
+                    new { role = "system", content = string.Format(Prompt, language)},
+                    new { role = "user", content = $"🔤 {text} 🔤" }
                 }
             };
 
