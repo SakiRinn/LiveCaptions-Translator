@@ -8,10 +8,18 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="PromptSetting"
     mc:Ignorable="d">
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
-            <TextBlock Text="Prompt Setting" Foreground="White" FontSize="16" Margin="0 0 0 10" HorizontalAlignment="Center"/>
-            <TextBox x:Name="PromptTextBox" Width="Auto" Height="100" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Prompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="PromptTextBox_TextChanged"/>
+    <Grid Margin="15,15,15,15">
+        <StackPanel HorizontalAlignment="Stretch">
+            <TextBlock
+                Margin="0,0,0,10"
+                HorizontalAlignment="Left"
+                Text="Prompt Setting" />
+            <TextBox
+                x:Name="PromptTextBox"
+                AcceptsReturn="True"
+                Text="{Binding Prompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                TextChanged="PromptTextBox_TextChanged"
+                TextWrapping="Wrap" />
         </StackPanel>
     </Grid>
 </Page>
