@@ -78,7 +78,7 @@
                     Margin="15,0,0,0"
                     HorizontalAlignment="Right"
                     Appearance="Transparent"
-                    Click="RemoveLogs"
+                    Click="DeleteHistory"
                     Icon="{ui:SymbolIcon Delete12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
@@ -125,7 +125,7 @@
                 </LinearGradientBrush>
             </DataGrid.BorderBrush>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="0.4*" Header="Timestamp">
+                <DataGridTemplateColumn Width="0.4*" Header="Time">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Timestamp}" TextWrapping="Wrap" />
@@ -133,7 +133,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="*" Header="Source Text">
+                <DataGridTemplateColumn Width="*" Header="Caption">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding SourceText}" TextWrapping="Wrap" />
@@ -141,7 +141,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="*" Header="Translated Text">
+                <DataGridTemplateColumn Width="*" Header="Translated">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding TranslatedText}" TextWrapping="Wrap" />
@@ -149,7 +149,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="0.3*" Header="API Used">
+                <DataGridTemplateColumn Width="0.3*" Header="API">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding ApiUsed}" TextWrapping="Wrap" />

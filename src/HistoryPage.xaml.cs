@@ -53,13 +53,14 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        void RemoveLogs(object sender, RoutedEventArgs e)
+        void DeleteHistory(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Do you want to clear translation storage history?",
                     "Clear history",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+                page = 1;
                 SQLiteHistoryLogger.ClaerHistory();
                 LoadHistory();
             }

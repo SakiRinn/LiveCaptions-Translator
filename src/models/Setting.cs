@@ -75,6 +75,7 @@ namespace LiveCaptionsTranslator.models
             set
             {
                 historyMaxRow = value;
+                OnPropertyChanged("HistoryMaxRow");
             }
         }
         public bool Topmost
@@ -91,6 +92,7 @@ namespace LiveCaptionsTranslator.models
             set
             {
                 enableCaptionLog = value;
+                OnPropertyChanged("EnableCaptionLog");
             }
         }
 
