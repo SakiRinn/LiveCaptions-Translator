@@ -98,9 +98,7 @@
                     Height="30"
                     Padding="10,4,10,7"
                     FontSize="13.3"
-                    IsEditable="True"
-                    ItemsSource="{Binding Path=CurrentAPIConfig.SupportedLanguages.Keys}"
-                    SelectedIndex="0" />
+                    IsEditable="True" />
             </StackPanel>
         </StackPanel>
 

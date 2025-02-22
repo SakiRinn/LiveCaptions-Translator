@@ -29,15 +29,22 @@ namespace LiveCaptionsTranslator
 
         private void LoadAPISetting()
         {
+            string targetLang = App.Settings.TargetLanguage;
             var supportedLanguages = App.Settings.CurrentAPIConfig.SupportedLanguages;
             targetLangBox.ItemsSource = supportedLanguages.Keys;
-            targetLangBox.SelectedIndex = 0;
+
+            // Add custom target language to ComboBox
+            if (!supportedLanguages.ContainsKey(targetLang))
+            {
+             supportedLanguages[targetLang] = targetLang;
+            }
+            targetLangBox.SelectedItem = targetLang;
 
             foreach (UIElement element in PageGrid.Children)
-            {
-                if (element is Grid childGrid)
-                    childGrid.Visibility = Visibility.Collapsed;
-            }
+                {
+                    if (element is Grid childGrid)
+                        childGrid.Visibility = Visibility.Collapsed;
+                }
             var settingGrid = this.FindName($"{App.Settings.ApiName}Grid") as Grid;
             settingGrid.Visibility = Visibility.Visible;
         }
