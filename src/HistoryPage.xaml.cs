@@ -61,7 +61,7 @@ namespace LiveCaptionsTranslator
                     MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 page = 1;
-                SQLiteHistoryLogger.ClaerHistory();
+                SQLiteHistoryLogger.ClearHistory();
                 LoadHistory();
             }
         }

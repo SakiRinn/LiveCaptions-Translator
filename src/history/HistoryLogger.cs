@@ -97,21 +97,11 @@ namespace LiveCaptionsTranslator.models
 
         public static async Task ClearHistory()
         {
-            await Task.Run(() =>
-            {
-                using var connection = new SqliteConnection(ConnectionString);
-                connection.Open();
-                using var command = new SqliteCommand("DELETE FROM TranslationHistory", connection);
-                command.ExecuteNonQuery();
-            });
-        }
 
-        public static async Task ClaerHistory()
-        {
             using (var connection = new SqliteConnection(ConnectionString))
             {
                 await connection.OpenAsync();
-                string selectQuery = "DELETE FROM TranslationHistory";
+                string selectQuery = "DELETE FROM TranslationHistory; DELETE FROM sqlite_sequence WHERE NAME='TranslationHistory";
                 using (var command = new SqliteCommand(selectQuery, connection))
                 {
                     command.ExecuteNonQuery();

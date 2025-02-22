@@ -84,6 +84,7 @@ namespace LiveCaptionsTranslator.models
             set
             {
                 topmost = value;
+                OnPropertyChanged("Topmost");
             }
         }
         public bool EnableCaptionLog
