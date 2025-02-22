@@ -56,23 +56,18 @@
                     Margin="5,0,0,0"
                     Padding="10,4,10,7"
                     VerticalAlignment="Stretch"
-                    FontFamily="Segoe UI Variable Text"
                     SelectionChanged="maxRow_SelectionChanged">
                     <ComboBoxItem
                         Content="20/page"
-                        FontFamily="Segoe UI Variable Text"
                         Tag="20" />
                     <ComboBoxItem
                         Content="30/page"
-                        FontFamily="Segoe UI Variable Text"
                         Tag="30" />
                     <ComboBoxItem
                         Content="50/page"
-                        FontFamily="Segoe UI Variable Text"
                         Tag="50" />
                     <ComboBoxItem
                         Content="100/page"
-                        FontFamily="Segoe UI Variable Text"
                         Tag="100" />
                 </ComboBox>
             </StackPanel>
@@ -113,7 +108,6 @@
             VerticalAlignment="Stretch"
             AutoGenerateColumns="False"
             BorderThickness="0,0,0,0"
-            FontFamily="Segoe UI Variable Text Semibold"
             GridLinesVisibility="Horizontal"
             IsReadOnly="True">
             <DataGrid.VerticalGridLinesBrush>
@@ -139,7 +133,6 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock
-                                FontFamily="Segoe UI Variable Text"
                                 Text="{Binding Timestamp}"
                                 TextWrapping="Wrap" />
                         </DataTemplate>
@@ -150,7 +143,6 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock
-                                FontFamily="Segoe UI Variable Text"
                                 Text="{Binding SourceText}"
                                 TextWrapping="Wrap" />
                         </DataTemplate>
@@ -161,7 +153,6 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock
-                                FontFamily="Segoe UI Variable Text"
                                 Text="{Binding TranslatedText}"
                                 TextWrapping="Wrap" />
                         </DataTemplate>
@@ -172,7 +163,6 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock
-                                FontFamily="Segoe UI Variable Text"
                                 Text="{Binding ApiUsed}"
                                 TextWrapping="Wrap" />
                         </DataTemplate>

@@ -39,5 +39,10 @@ namespace LiveCaptionsTranslator
         {
             App.Captions.ClearHistory();
         }
+
+        private void EnableLog_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }

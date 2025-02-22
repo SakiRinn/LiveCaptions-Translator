@@ -28,7 +28,6 @@
         <ui:TitleBar
             Grid.Row="0"
             Height="27"
-            FontFamily="Segoe UI Variable Text"
             ShowMaximize="False">
             <ui:TitleBar.Header>
                 <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center">LiveCaptionsTranslator</ui:TextBlock>

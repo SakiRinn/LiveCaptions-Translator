@@ -119,7 +119,7 @@ namespace LiveCaptionsTranslator
                     VerticalAlignment = VerticalAlignment.Center,
                     TextAlignment = TextAlignment.Left,
                     LineHeight = 24,
-                    FontFamily = new FontFamily("Segoe UI Variable Text")
+                    FontFamily = new FontFamily("Microsoft YaHei")
                 };
                 originalText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("PresentedCaption") { Source = App.Captions });
                 SystemControls.Grid.SetRow(originalText, 0);
@@ -132,7 +132,7 @@ namespace LiveCaptionsTranslator
                     VerticalAlignment = VerticalAlignment.Center,
                     TextAlignment = TextAlignment.Left,
                     LineHeight = 24,
-                    FontFamily = new FontFamily("Segoe UI Variable Text Semibold")
+                    FontFamily = new FontFamily("Microsoft YaHei")
                 };
                 translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("TranslatedCaption") { Source = App.Captions });
                 SystemControls.Grid.SetRow(translatedText, 1);
@@ -343,7 +343,7 @@ namespace LiveCaptionsTranslator
                     VerticalAlignment = VerticalAlignment.Center,
                     TextAlignment = TextAlignment.Left,
                     LineHeight = 24,
-                    FontFamily = new FontFamily("Segoe UI Variable Text Semibold")
+                    FontFamily = new FontFamily("Microsoft YaHei")
                 };
                 translatedText.SetBinding(SystemControls.TextBlock.TextProperty, new Binding("TranslatedCaption") { Source = App.Captions });
 
