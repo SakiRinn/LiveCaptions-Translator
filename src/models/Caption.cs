@@ -32,7 +32,7 @@ namespace LiveCaptionsTranslator.models
 
         public bool PauseFlag { get; set; } = false;
         public bool TranslateFlag { get; set; } = false;
-        public bool LogFlag { get; set; } = false;
+        public bool CaptionLogFlag { get; set; } = false;
 
         public string PresentedCaption
         {
@@ -146,7 +146,7 @@ namespace LiveCaptionsTranslator.models
                             string translated = await controller.TranslateAndLog(OriginalPrev);
 
                             // Add history card
-                            if (App.Settings.EnableCaptionLog) { 
+                            if (CaptionLogFlag) { 
                                 if (captionHistory.Count >= 5)
                                     captionHistory.Dequeue();
                                 captionHistory.Enqueue(new CaptionHistoryItem
@@ -184,16 +184,12 @@ namespace LiveCaptionsTranslator.models
                     {
                         syncCount = 0;
                         TranslateFlag = true;
-                        LogFlag = true;
                     }
                     else if (Array.IndexOf(PUNC_COMMA, OriginalCaption[^1]) != -1)
                     {
                         syncCount = 0;
                         TranslateFlag = true;
-                        LogFlag = false;
                     }
-                    else
-                        LogFlag = false;
 
                     if (!HistoryCap)
                     {
@@ -230,10 +226,8 @@ namespace LiveCaptionsTranslator.models
 
                 if (TranslateFlag)
                 {
-                    TranslatedCaption = await controller.TranslateAndLog(OriginalCaption, LogFlag);
+                    TranslatedCaption = await controller.TranslateAndLog(OriginalCaption);
                     TranslateFlag = false;
-                    if (LogFlag)
-                        Thread.Sleep(1000);
                 }
                 Thread.Sleep(50);
             }

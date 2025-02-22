@@ -6,7 +6,7 @@ namespace LiveCaptionsTranslator.controllers
     {
         public static event Action? TranslationLogged;
 
-        public async Task<string> TranslateAndLog(string text, bool doLog = true)
+        public async Task<string> TranslateAndLog(string text)
         {
             string targetLanguage = App.Settings.TargetLanguage;
             string apiName = App.Settings.ApiName;
@@ -27,7 +27,7 @@ namespace LiveCaptionsTranslator.controllers
 
         public async Task<string> Translate(string text)
         {
-            return await TranslateAndLog(text, false);
+            return await TranslateAndLog(text);
         }
     }
 }

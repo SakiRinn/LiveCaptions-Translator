@@ -57,6 +57,7 @@ namespace LiveCaptionsTranslator
                 App.Captions.ClearHistory();
             }
             App.Settings.EnableCaptionLog = enable;
+            App.Captions.CaptionLogFlag = enable;
             EnableCaptionLog.IsChecked = enable;
         }
     }
