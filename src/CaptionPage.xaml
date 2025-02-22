@@ -15,7 +15,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
@@ -70,7 +69,10 @@
             VerticalAlignment="Top"
             Background="#05000000">
 
-            <ItemsControl ItemsSource="{Binding CaptionHistory}" VirtualizingPanel.IsVirtualizing="True">
+            <ItemsControl
+                MinHeight="50"
+                ItemsSource="{Binding CaptionHistory}"
+                VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border
@@ -111,12 +113,13 @@
         </ui:Card>
 
         <DockPanel
-            Grid.Row="3"
+            Grid.Row="2"
             Margin="0,5,0,0"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Right"
             VerticalAlignment="Top">
             <ui:Button
                 x:Name="Delete"
+                Margin="0,5,5,0"
                 HorizontalAlignment="Right"
                 Appearance="Transparent"
                 Click="ClearHistory_Click"
@@ -125,4 +128,5 @@
                 MouseOverBackground="#07000000" />
         </DockPanel>
     </Grid>
+
 </Page>
