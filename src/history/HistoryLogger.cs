@@ -28,7 +28,8 @@ namespace LiveCaptionsTranslator.models
                         TranslatedText TEXT,
                         TargetLanguage TEXT,
                         ApiUsed TEXT
-                    )";
+                    );
+                    CREATE INDEX IF NOT EXISTS 'Id' ON 'TranslationHistory' ('Id');";
                 using (var command = new SqliteCommand(createTableQuery, connection))
                 {
                     command.ExecuteNonQuery();
