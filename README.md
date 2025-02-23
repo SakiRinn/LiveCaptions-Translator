@@ -1,4 +1,4 @@
-﻿# LiveCaptions Translator
+﻿﻿# LiveCaptions Translator
 
 ***LiveCaptions Translator = Windows LiveCaptions + Translate API***
 
@@ -13,9 +13,10 @@ Download it from the [Releases](https://github.com/SakiRinn/LiveCaptions-Transla
 + Automatically invoke Windows LiveCaptions without opening two windows.
 + Simple and beautiful Fluent UI.
 + Switch bright and dark theme automatically. (Follow system theme)
-+ Currently supports Ollama and OpenAI API.
++ Currently supports Ollama, OpenAI API, OpenRouter, and Google Translate. You are welcomed to implement more apis.
 + Directly open the setting menu of Windows LiveCaptions.
-+ Buttons to keep the window on top and pause translation.
++ Buttons to keep the window on top and pause translation, translation-only mode, transparent mode.
++ Record what have been translated though Live Captions.
 
 ## Prerequisite
 
@@ -36,7 +37,7 @@ When turned on the first time, live captions will ask for your consent to proces
 > For more information, see [Use live captions to better understand audio](https://support.microsoft.com/en-us/windows/use-live-captions-to-better-understand-audio-b52da59c-14b8-4031-aeeb-f6a47e6055df).
 
 
-After launching Windows LiveCaptions, you can click the **⚙️gear** icon to open the setting menu. 
+After launching Windows LiveCaptions, you can click the **⚙️gear** icon to open the setting menu.
 
 To enhance your experience with LiveCaptions Translator, we strongly recommend configuring the following settings:
 
@@ -46,3 +47,7 @@ To enhance your experience with LiveCaptions Translator, we strongly recommend c
 ![Preview](images/speech_recognition.png "Items under speech recognition")
 
 Now, close Windows LiveCaptions and open LiveCaptions Translator to start using it!
+
+## Known Issue
+
+On Windows 24H2 or higher, you might fail to change the language of live captions. You can try to manually launch live caption and then run the python script at root to solve this.

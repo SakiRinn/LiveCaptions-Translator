@@ -19,6 +19,7 @@ namespace LiveCaptionsTranslator
         // TODO: Extract them into a new SubtitleWindow class.
         private Window? subtitleWindow = null;
         private bool isResizing = false;
+        private bool isLogonlyEnabled = false;
         private Point startPoint;
         private Size startSize;
         private Point startLocation;
@@ -465,6 +466,25 @@ namespace LiveCaptionsTranslator
             symbolIcon.Filled = false;
         }
 
+        private void Logonly_OnClickButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (logonly.Icon is SymbolIcon icon)
+            {
+                if (isLogonlyEnabled)
+                {
+                    icon.Symbol = SymbolRegular.TextGrammarWand24;
+                    App.Captions.LogonlyFlag = false;
+                }
+                else
+                {
+                    icon.Symbol = SymbolRegular.TextGrammarArrowLeft24; 
+                    App.Captions.LogonlyFlag = true;
+                }
+
+                isLogonlyEnabled = !isLogonlyEnabled;
+            }
+        }
+        
         protected override void OnClosed(EventArgs e)
         {
             subtitleWindow?.Close();
