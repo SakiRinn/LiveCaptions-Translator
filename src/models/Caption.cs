@@ -147,10 +147,18 @@ namespace LiveCaptionsTranslator.models
                             HistoryFlag = true;
 
                             var controller = new TranslationController();
-                            string translated = await controller.TranslateAndLog(OriginalPrev);
+                            string translated = "";
+                            string targetLanguage = App.Settings.TargetLanguage;
+                            string apiName = App.Settings.ApiName;
+
+                            if (!LogonlyFlag)
+                            {
+                                translated = await controller.TranslateAndLog(OriginalPrev);
+                            }
 
                             // Add history card
-                            if (CaptionLogFlag) { 
+                            if (CaptionLogFlag)
+                            {
                                 if (captionHistory.Count >= 5)
                                     captionHistory.Dequeue();
                                 captionHistory.Enqueue(new CaptionHistoryItem
@@ -162,12 +170,14 @@ namespace LiveCaptionsTranslator.models
                             }
 
                             // Insert sqlite history log
-                            string targetLanguage = App.Settings.TargetLanguage;
-                            string apiName = App.Settings.ApiName;
-
                             try
                             {
-                                SQLiteHistoryLogger.LogTranslation(OriginalPrev, translated, targetLanguage, apiName);
+                                if (LogonlyFlag)
+                                {
+                                    SQLiteHistoryLogger.LogTranslation(OriginalPrev, "N/A", "N/A", "LogOnly");
+                                }
+                                else
+                                    SQLiteHistoryLogger.LogTranslation(OriginalPrev, translated, targetLanguage, apiName);
                                 TranslationLogged?.Invoke();
                             }
                             catch (Exception ex)
@@ -228,9 +238,9 @@ namespace LiveCaptionsTranslator.models
                     }
                     Thread.Sleep(1000);
                 }
-                if(LogonlyFlag)
+                if (LogonlyFlag)
                 {
-                    TranslatedCaption = await controller.Logonly(OriginalCaption, LogFlag);
+                    TranslatedCaption = "";
                 }
                 else if (TranslateFlag)
                 {
