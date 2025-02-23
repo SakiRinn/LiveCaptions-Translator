@@ -1,10 +1,12 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.Windows.Controls;
 
 namespace LiveCaptionsTranslator.models
 {
     public class TranslationHistoryEntry
     {
         public string Timestamp { get; set; }
+        public string TimestampTooltip { get; set; }
         public string SourceText { get; set; }
         public string TranslatedText { get; set; }
         public string TargetLanguage { get; set; }
@@ -28,8 +30,7 @@ namespace LiveCaptionsTranslator.models
                         TranslatedText TEXT,
                         TargetLanguage TEXT,
                         ApiUsed TEXT
-                    );
-                    CREATE INDEX IF NOT EXISTS 'Id' ON 'TranslationHistory' ('Id');";
+                    );";
                 using (var command = new SqliteCommand(createTableQuery, connection))
                 {
                     command.ExecuteNonQuery();
@@ -49,7 +50,7 @@ namespace LiveCaptionsTranslator.models
 
                 using (var command = new SqliteCommand(insertQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@Timestamp", DateTime.Now.ToString("MM/dd HH:mm"));
+                    command.Parameters.AddWithValue("@Timestamp", DateTimeOffset.UtcNow.ToUnixTimeSeconds());
                     command.Parameters.AddWithValue("@SourceText", sourceText);
                     command.Parameters.AddWithValue("@TranslatedText", translatedText);
                     command.Parameters.AddWithValue("@TargetLanguage", targetLanguage);
@@ -76,15 +77,17 @@ namespace LiveCaptionsTranslator.models
                 using (var command = new SqliteCommand(@"
                     SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed
                     FROM TranslationHistory
-                    ORDER BY Id DESC
+                    ORDER BY Timestamp DESC
                     LIMIT " + maxRow + " OFFSET " + ((page * maxRow) - maxRow), connection))
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
+                        DateTime localTime = UnixSecondsToDateTime(reader.GetString(reader.GetOrdinal("Timestamp")));
                         history.Add(new TranslationHistoryEntry
                         {
-                            Timestamp = reader.GetString(reader.GetOrdinal("Timestamp")),
+                            Timestamp = localTime.ToString("MM/dd/ HH:mm"),
+                            TimestampTooltip = localTime.ToString("MM/dd/yy, HH:mm:ss"),
                             SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
                             TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
                             TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
@@ -94,6 +97,12 @@ namespace LiveCaptionsTranslator.models
                 }
             }
             return (history, maxPage);
+        }
+
+        private static DateTime UnixSecondsToDateTime(string timestamp)
+        {
+            var offset = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(timestamp));
+            return offset.LocalDateTime;
         }
 
         public static async Task ClearHistory()

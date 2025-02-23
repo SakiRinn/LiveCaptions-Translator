@@ -31,7 +31,7 @@
                     x:Name="Previous"
                     Appearance="Transparent"
                     Click="PageDown"
-                    Icon="{ui:SymbolIcon ArrowPrevious12,
+                    Icon="{ui:SymbolIcon chevronLeft12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
                     ToolTip="Previous " />
@@ -47,7 +47,7 @@
                     x:Name="Next"
                     Appearance="Transparent"
                     Click="PageUp"
-                    Icon="{ui:SymbolIcon ArrowNext12,
+                    Icon="{ui:SymbolIcon chevronRight12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
                     ToolTip="Next Page" />
@@ -128,7 +128,10 @@
                 <DataGridTemplateColumn Width="0.4*" Header="Time">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Timestamp}" TextWrapping="Wrap" />
+                            <TextBlock
+                                Text="{Binding Timestamp}"
+                                TextWrapping="Wrap"
+                                ToolTip="{Binding TimestampTooltip}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
