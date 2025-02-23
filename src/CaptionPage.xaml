@@ -14,7 +14,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
@@ -63,7 +62,7 @@
 
         <ui:Card
             x:Name="CaptionLogCard"
-            Grid.Row="2"
+            Grid.Row="1"
             Margin="0,3,0,5"
             Padding="8"
             VerticalAlignment="Top"
@@ -112,14 +111,13 @@
         </ui:Card>
 
         <ui:ToggleSwitch
+            x:Name="EnableCaptionLog"
+            Grid.Row="2"
             Margin="0,7,7,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            x:Name="EnableCaptionLog"
-            Grid.Row="2"
             Click="EnableCaptionLog_Click"
             ToolTip="Caption Log" />
 
     </Grid>
-
 </Page>
