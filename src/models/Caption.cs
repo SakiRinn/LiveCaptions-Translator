@@ -33,6 +33,7 @@ namespace LiveCaptionsTranslator.models
         public bool PauseFlag { get; set; } = false;
         public bool TranslateFlag { get; set; } = false;
         public bool CaptionLogFlag { get; set; } = false;
+        public bool HistoryFlag { get; set; } = false;
 
         public string PresentedCaption
         {
@@ -142,6 +143,8 @@ namespace LiveCaptionsTranslator.models
                         if (lastHistory == null ||
                             subOriginalHis != subOriginalPrev)
                         {
+                            HistoryFlag = true;
+
                             var controller = new TranslationController();
                             string translated = await controller.TranslateAndLog(OriginalPrev);
 
@@ -194,6 +197,7 @@ namespace LiveCaptionsTranslator.models
                     if (!HistoryCap)
                     {
                         OriginalPrev = OriginalCaption;
+                        HistoryFlag = true;
                     }
                 }
                 else
@@ -228,6 +232,9 @@ namespace LiveCaptionsTranslator.models
                 {
                     TranslatedCaption = await controller.TranslateAndLog(OriginalCaption);
                     TranslateFlag = false;
+
+                    if (HistoryFlag)
+                        Thread.Sleep(1000);
                 }
                 Thread.Sleep(50);
             }
