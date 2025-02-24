@@ -163,8 +163,8 @@ namespace LiveCaptionsTranslator.models
                 {
                     if (pauseCount > 60 && App.Window != null)
                     {
+                        LiveCaptionsHandler.KillLiveCaptions(App.Window);
                         App.Window = null;
-                        LiveCaptionsHandler.KillLiveCaptions();
                     }
                     Thread.Sleep(1000);
                 }

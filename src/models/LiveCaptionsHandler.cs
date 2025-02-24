@@ -13,9 +13,9 @@ namespace LiveCaptionsTranslator.models
             KillAllProcessesByPName(PROCESS_NAME);
             var process = Process.Start(PROCESS_NAME);
 
-            // Search window
+            // Search for window
             AutomationElement? window = null;
-            for (int attemptCount = 0; 
+            for (int attemptCount = 0;
                  window == null || window.Current.ClassName.CompareTo("LiveCaptionsDesktopWindow") != 0;
                  attemptCount++)
             {
@@ -25,17 +25,38 @@ namespace LiveCaptionsTranslator.models
             }
 
             // Hide window
-            IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
-            WindowsAPI.ShowWindow(hWnd, WindowsAPI.SW_MINIMIZE);
-            int exStyle = WindowsAPI.GetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE);
-            WindowsAPI.SetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE, exStyle | WindowsAPI.WS_EX_TOOLWINDOW);
+            HideLiveCaptions(window);
 
             return window;
         }
 
-        public static void KillLiveCaptions()
+        public static void KillLiveCaptions(AutomationElement window)
         {
-            KillAllProcessesByPName(PROCESS_NAME);
+            // Search for process
+            IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
+            WindowsAPI.GetWindowThreadProcessId(hWnd, out int processId);
+            var process = Process.GetProcessById(processId);
+
+            // Kill process
+            process.Kill();
+            process.WaitForExit();
+        }
+
+        public static void HideLiveCaptions(AutomationElement window)
+        {
+            IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
+            int exStyle = WindowsAPI.GetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE);
+            WindowsAPI.ShowWindow(hWnd, WindowsAPI.SW_MINIMIZE);
+            WindowsAPI.SetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE, exStyle | WindowsAPI.WS_EX_TOOLWINDOW);
+        }
+
+        public static void RestoreLiveCaptions(AutomationElement window)
+        {
+            IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
+            int exStyle = WindowsAPI.GetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE);
+            WindowsAPI.SetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE, exStyle & ~WindowsAPI.WS_EX_TOOLWINDOW);
+            WindowsAPI.ShowWindow(hWnd, WindowsAPI.SW_RESTORE);
+            WindowsAPI.SetForegroundWindow(hWnd);
         }
 
         private static void KillAllProcessesByPName(string processName)
