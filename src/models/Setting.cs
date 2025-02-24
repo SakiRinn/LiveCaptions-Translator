@@ -155,6 +155,7 @@ namespace LiveCaptionsTranslator.models
                 { "Google2", new TranslateAPIConfig() },
                 { "Ollama", new OllamaConfig() },
                 { "OpenAI", new OpenAIConfig() },
+                { "DeepL", new DeepLConfig() },
                 { "OpenRouter", new OpenRouterConfig() },
             };
         }

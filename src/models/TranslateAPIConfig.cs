@@ -168,4 +168,40 @@ namespace LiveCaptionsTranslator.models
             }
         }
     }
+    
+    public class DeepLConfig : TranslateAPIConfig
+    {
+        private string _apiKey = "";
+
+        private string _apiUrl = "";
+        public string ApiKey
+        {
+            get => _apiKey;
+            set
+            {
+                _apiKey = value;
+                OnPropertyChanged("ApiKey");
+            }
+        }
+        public string ApiUrl
+        {
+            get => _apiUrl;
+            set
+            {
+                _apiUrl = value;
+                OnPropertyChanged("ApiUrl");
+            }
+        }
+
+        private static readonly Dictionary<string, string> DEEPL_SUPPORTED_LANGUAGES = new()
+        {
+            { "zh-CN", "ZH-HANS" },
+            { "zh-TW", "ZH-HANT" },
+            { "en-US", "EN-US" },
+            { "en-GB", "EN-GB" },
+            { "ja-JP", "JA" },
+            { "ko-KR", "KO" },
+            { "fr-FR", "FR" },
+        };
+    }
 }

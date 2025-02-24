@@ -16,6 +16,7 @@ namespace LiveCaptionsTranslator.utils
             { "Google2", Google2 },
             { "Ollama", Ollama },
             { "OpenAI", OpenAI },
+            { "DeepL", DeepL },
             { "OpenRouter", OpenRouter },
         };
         public static Func<string, CancellationToken, Task<string>> TranslateFunc
@@ -273,6 +274,59 @@ namespace LiveCaptionsTranslator.utils
             }
             else
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+        }
+        
+        public static async Task<string> DeepL(string text, CancellationToken token = default)
+        {
+            var config = App.Settings.CurrentAPIConfig as DeepLConfig;
+            string language = config.SupportedLanguages.TryGetValue(App.Settings.TargetLanguage, out var langValue) 
+                ? langValue 
+                : App.Settings.TargetLanguage;
+
+            var requestData = new
+            {
+                text = new[] { text },
+                target_lang = language
+            };
+
+            string jsonContent = JsonSerializer.Serialize(requestData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {config?.ApiKey}");
+
+            string apiUrl = string.IsNullOrEmpty(config?.ApiUrl) ? "https://api.deepl.com/v2/translate" : config.ApiUrl;
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.PostAsync(apiUrl, content, token);
+            }
+            catch (OperationCanceledException)
+            {
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return $"[Translation Failed] {ex.Message}";
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseString = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(responseString);
+        
+                if (doc.RootElement.TryGetProperty("translations", out var translations) &&
+                    translations.ValueKind == JsonValueKind.Array && translations.GetArrayLength() > 0)
+                {
+                    return translations[0].GetProperty("text").GetString();
+                }
+                return "[Translation Failed] No valid feedback";
+            }
+            else
+            {
+                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+            }
         }
     }
 
