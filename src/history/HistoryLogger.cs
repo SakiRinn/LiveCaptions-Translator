@@ -87,7 +87,7 @@ namespace LiveCaptionsTranslator.models
                         DateTime localTime = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(unixTime)).LocalDateTime;
                         history.Add(new TranslationHistoryEntry
                         {
-                            Timestamp = localTime.ToString("MM/dd/ HH:mm"),
+                            Timestamp = localTime.ToString("MM/dd HH:mm"),
                             TimestampFull = localTime.ToString("MM/dd/yy, HH:mm:ss"),
                             SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
                             TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
