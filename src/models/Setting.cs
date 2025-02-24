@@ -19,6 +19,7 @@ namespace LiveCaptionsTranslator.models
 
         private int maxIdleInterval = 10;
         private int maxSyncInterval = 5;
+        private bool enableCaptionLog = true;
 
         private TranslateAPIConfig? currentAPIConfig;
 
@@ -74,6 +75,16 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("Prompt");
             }
         }
+        public bool EnableCaptionLog
+        {
+            get => enableCaptionLog;
+            set
+            {
+                enableCaptionLog = value;
+                OnPropertyChanged("EnableCaptionLog");
+            }
+        }
+
         [JsonInclude]
         public Dictionary<string, TranslateAPIConfig> Configs
         {

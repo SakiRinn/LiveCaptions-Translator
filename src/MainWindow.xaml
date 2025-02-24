@@ -42,6 +42,13 @@
                         Icon="{ui:SymbolIcon Pause24,
                                              Filled=False}" />
                     <ui:Button
+                        x:Name="captionLog"
+                        Margin="0,0,5,0"
+                        Appearance="Transparent"
+                        Click="CaptionLog_OnClickButton_Click"
+                        Icon="{ui:SymbolIcon History24,
+                                             Filled=False}" />
+                    <ui:Button
                         x:Name="logonly"
                         Margin="0,0,5,0"
                         Appearance="Transparent"

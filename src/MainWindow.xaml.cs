@@ -7,6 +7,7 @@ using Wpf.Ui.Controls;
 using System.Windows.Media;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Documents;
 
 namespace LiveCaptionsTranslator
 {
@@ -35,6 +36,8 @@ namespace LiveCaptionsTranslator
                 );
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
+
+            EnableHistoryLog(App.Settings.EnableCaptionLog);
         }
 
         void TopmostButton_Click(object sender, RoutedEventArgs e)
@@ -458,6 +461,28 @@ namespace LiveCaptionsTranslator
             subtitleWindow?.Close();
             translationOnlyWindow?.Close();
             base.OnClosed(e);
+        }
+
+        private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.EnableCaptionLog = !App.Settings.EnableCaptionLog;
+            EnableHistoryLog(App.Settings.EnableCaptionLog);
+        }
+
+        private void EnableHistoryLog(bool enable)
+        {
+            if (captionLog.Icon is SymbolIcon icon)
+            {
+                if (enable)
+                {
+                    icon.Symbol = SymbolRegular.History24;
+                }
+                else
+                {
+                    icon.Symbol = SymbolRegular.HistoryDismiss24;
+                    App.Captions.ClearCaptionLog();
+                }
+            }
         }
     }
 }

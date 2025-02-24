@@ -19,9 +19,18 @@ namespace LiveCaptionsTranslator.models
         private string originalCaption = "";
         private string translatedCaption = "";
 
+        private readonly Queue<CaptionLogItem> captionLog = new(5);
+
+        public class CaptionLogItem
+        {
+            public string PresentedCaptionLog { get; set; }
+            public string TranslatedCaptionLog { get; set; }
+        }
+        public IEnumerable<CaptionLogItem> CaptionHistory => captionLog.Reverse();
+        public static event Action? TranslationLogged;
+
         public bool PauseFlag { get; set; } = false;
         public bool TranslateFlag { get; set; } = false;
-        public bool LogFlag { get; set; } = false;
         public bool LogonlyFlag { get; set; } = false;
 
         public string PresentedCaption
@@ -71,6 +80,8 @@ namespace LiveCaptionsTranslator.models
         {
             int idleCount = 0;
             int syncCount = 0;
+            string originalLatest = "";
+            string historyLatest = "------------";
 
             while (true)
             {
@@ -80,6 +91,7 @@ namespace LiveCaptionsTranslator.models
                     continue;
                 }
 
+                bool captionTrim = false;
                 string fullText = GetCaptions(App.Window).Trim();
                 if (string.IsNullOrEmpty(fullText))
                     continue;
@@ -97,6 +109,8 @@ namespace LiveCaptionsTranslator.models
                 // If the last sentence is too short, extend it by adding the previous sentence.
                 while (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 10)
                 {
+                    captionTrim = true;
+
                     lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(PUNC_EOS);
                     latestCaption = fullText.Substring(lastEOSIndex + 1);
                 }
@@ -108,6 +122,8 @@ namespace LiveCaptionsTranslator.models
                 // If the last sentence is too long, truncate it when displayed.
                 while (Encoding.UTF8.GetByteCount(newPresentedCaption) > 150)
                 {
+                    captionTrim = true;
+
                     int commaIndex = newPresentedCaption.IndexOfAny(PUNC_COMMA);
                     if (commaIndex < 0 || commaIndex + 1 == newPresentedCaption.Length)
                         break;
@@ -119,8 +135,22 @@ namespace LiveCaptionsTranslator.models
                     idleCount = 0;
                     syncCount++;
 
+                    if (captionTrim)
+                    {
+                        string _originalLatest = originalLatest.Substring(2, originalLatest.Length - 4).ToLower();
+                        string _historyLatest = historyLatest.Substring(2, historyLatest.Length - 4).ToLower();
+                        if (_historyLatest != _originalLatest)
+                        {
+                            Task.Run(() => HistoryCapture(originalLatest));
+                            historyLatest = originalLatest;
+                        }
+                    }
+                    else
+                        originalLatest = newPresentedCaption;
+
                     PresentedCaption = newPresentedCaption;
                     OriginalCaption = latestCaption;
+
                     // When EOS is included, translate only the part before EOS.
                     int EOSIndex = OriginalCaption.IndexOfAny(PUNC_EOS);
                     if (EOSIndex != -1)
@@ -130,16 +160,12 @@ namespace LiveCaptionsTranslator.models
                     {
                         syncCount = 0;
                         TranslateFlag = true;
-                        LogFlag = true;
                     }
                     else if (Array.IndexOf(PUNC_COMMA, OriginalCaption[^1]) != -1)
                     {
                         syncCount = 0;
                         TranslateFlag = true;
-                        LogFlag = false;
                     }
-                    else
-                        LogFlag = false;
                 }
                 else
                     idleCount++;
@@ -150,7 +176,48 @@ namespace LiveCaptionsTranslator.models
                     syncCount = 0;
                     TranslateFlag = true;
                 }
+
                 Thread.Sleep(50);
+            }
+        }
+
+        private async void HistoryCapture(string original)
+        {
+            string translated = "";
+
+            if (!LogonlyFlag)
+            {
+                var controller = new TranslationController();
+                translated = await controller.Translate(original);
+            }
+
+            // Add caption log card
+            if (App.Settings.EnableCaptionLog)
+            {
+                if (captionLog.Count >= 5)
+                    captionLog.Dequeue();
+                captionLog.Enqueue(new CaptionLogItem
+                {
+                    PresentedCaptionLog = original,
+                    TranslatedCaptionLog = translated
+                });
+                OnPropertyChanged(nameof(CaptionHistory));
+            }
+
+            // Insert history database
+            try
+            {
+                if (LogonlyFlag)
+                {
+                    SQLiteHistoryLogger.LogTranslation(original, "N/A", "N/A", "LogOnly");
+                }
+                else
+                    SQLiteHistoryLogger.LogTranslation(original, translated, App.Settings.TargetLanguage, App.Settings.ApiName);
+                TranslationLogged?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
             }
         }
 
@@ -168,19 +235,25 @@ namespace LiveCaptionsTranslator.models
                     }
                     Thread.Sleep(1000);
                 }
-                if(LogonlyFlag)
+
+                if (LogonlyFlag)
                 {
-                    TranslatedCaption = await controller.Logonly(OriginalCaption, LogFlag);
+                    TranslatedCaption = "";
+                    TranslateFlag = false;
                 }
                 else if (TranslateFlag)
                 {
-                    TranslatedCaption = await controller.TranslateAndLog(OriginalCaption, LogFlag);
+                    TranslatedCaption = await controller.Translate(OriginalCaption);
                     TranslateFlag = false;
-                    if (LogFlag)
-                        Thread.Sleep(1000);
                 }
                 Thread.Sleep(50);
             }
+        }
+
+        public void ClearCaptionLog()
+        {
+            captionLog.Clear();
+            OnPropertyChanged(nameof(CaptionHistory));
         }
 
         public static string GetCaptions(AutomationElement window)
