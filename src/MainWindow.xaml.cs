@@ -7,6 +7,7 @@ using Wpf.Ui.Controls;
 using System.Windows.Media;
 using System.Windows.Data;
 using System.Windows.Input;
+using Microsoft.Win32;
 
 namespace LiveCaptionsTranslator
 {
@@ -35,6 +36,8 @@ namespace LiveCaptionsTranslator
                 );
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
+
+            WindowsStateRestore();
         }
 
         void TopmostButton_Click(object sender, RoutedEventArgs e)
@@ -458,6 +461,34 @@ namespace LiveCaptionsTranslator
             subtitleWindow?.Close();
             translationOnlyWindow?.Close();
             base.OnClosed(e);
+
+            WindowsStateSave();
+        }
+
+        private void WindowsStateRestore()
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\WinRegistry");
+            if (key != null)
+            {
+                int Width = int.Parse(key.GetValue("Width").ToString());
+                int Height = int.Parse(key.GetValue("Height").ToString());
+                int Top = int.Parse(key.GetValue("Top").ToString());
+                int Left = int.Parse(key.GetValue("Left").ToString());
+                this.Width = Width;
+                this.Height = Height;
+                this.Top = Top;
+                this.Left = Left;
+            }
+        }
+
+        private void WindowsStateSave()
+        {
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\WinRegistry");
+            key.SetValue("Width", (int)this.Width);
+            key.SetValue("Height", (int)this.Height);
+            key.SetValue("Top", (int)this.Top);
+            key.SetValue("Left", (int)this.Left);
+            key.Close();
         }
     }
 }
