@@ -72,12 +72,13 @@ namespace LiveCaptionsTranslator
         }
 
         // TODO: Extract them into a new SubtitleWindow class.
-        void SubtitleModeButton_Click(object sender, RoutedEventArgs e)
+        void OverlaySubtitleModeButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not WpfButton button || button.Icon is not SymbolIcon symbolIcon) return;
 
             if (subtitleWindow == null)
             {
+                Close_OverlayTranslationMode();
                 subtitleWindow = new Window
                 {
                     Title = "Subtitle Mode",
@@ -287,16 +288,27 @@ namespace LiveCaptionsTranslator
             }
         }
 
+        void Close_OverlaySubtitleMode()
+        {
+            subtitleWindow?.Close();
+            subtitleWindow = null;
+
+            var button = overlaySubtitleMode as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
+            symbolIcon.Filled = false;
+        }
+
         // TODO: Extract them into a new SubtitleWindow class.
-        void TranslationOnlyButton_Click(object sender, RoutedEventArgs e)
+        void OverlayTranslationModeButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not WpfButton button || button.Icon is not SymbolIcon symbolIcon) return;
 
             if (translationOnlyWindow == null)
             {
+                Close_OverlaySubtitleMode();
                 translationOnlyWindow = new Window
                 {
-                    Title = "Translation Only Mode",
+                    Title = "Overlay Translation",
                     Width = 800,
                     Height = 80,
                     MinWidth = 400,
@@ -432,6 +444,16 @@ namespace LiveCaptionsTranslator
                 translationOnlyWindow = null;
                 symbolIcon.Filled = false;
             }
+        }
+
+        void Close_OverlayTranslationMode()
+        {
+            translationOnlyWindow?.Close();
+            translationOnlyWindow = null;
+
+            var button = overlayTranslationMode as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
+            symbolIcon.Filled = false;
         }
 
         private void Logonly_OnClickButton_Click(object sender, RoutedEventArgs e)

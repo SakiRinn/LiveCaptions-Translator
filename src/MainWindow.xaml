@@ -49,17 +49,17 @@
                         Icon="{ui:SymbolIcon TextGrammarWand24,
                                              Filled=False}" />
                     <ui:Button
-                        x:Name="subtitleMode"
+                        x:Name="overlaySubtitleMode"
                         Margin="0,0,5,0"
                         Appearance="Transparent"
-                        Click="SubtitleModeButton_Click"
+                        Click="OverlaySubtitleModeButton_Click"
                         Icon="{ui:SymbolIcon TextT24,
                                              Filled=False}" />
                     <ui:Button
-                        x:Name="translationOnlyMode"
+                        x:Name="overlayTranslationMode"
                         Margin="0,0,5,0"
                         Appearance="Transparent"
-                        Click="TranslationOnlyButton_Click"
+                        Click="OverlayTranslationModeButton_Click"
                         Icon="{ui:SymbolIcon Document24,
                                              Filled=False}" />
                     <ui:Button
