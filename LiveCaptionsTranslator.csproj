@@ -33,7 +33,7 @@
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.1" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="System.Text.Json" Version="8.0.5" />
-		<PackageReference Include="WPF-UI" Version="3.0.5" />
+		<PackageReference Include="WPF-UI" Version="4.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
