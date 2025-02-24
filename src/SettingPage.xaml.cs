@@ -29,9 +29,16 @@ namespace LiveCaptionsTranslator
 
         private void LoadAPISetting()
         {
+            string targetLang = App.Settings.TargetLanguage;
             var supportedLanguages = App.Settings.CurrentAPIConfig.SupportedLanguages;
             targetLangBox.ItemsSource = supportedLanguages.Keys;
-            targetLangBox.SelectedIndex = 0;
+
+            // Add custom target language to ComboBox
+            if (!supportedLanguages.ContainsKey(targetLang))
+            {
+                supportedLanguages[targetLang] = targetLang;
+            }
+            targetLangBox.SelectedItem = targetLang;
 
             foreach (UIElement element in PageGrid.Children)
             {
@@ -59,13 +66,13 @@ namespace LiveCaptionsTranslator
         {
             App.Settings.TargetLanguage = targetLangBox.Text;
         }
-        
+
         private void InfoButton_Click(object sender, RoutedEventArgs e)
         {
             InfoPopup.IsOpen = true;
             PageGrid.PreviewMouseDown += PageGrid_Click;
         }
-        
+
         private void PageGrid_Click(object sender, MouseButtonEventArgs e)
         {
             if (InfoPopup.IsOpen)
