@@ -467,7 +467,7 @@ namespace LiveCaptionsTranslator
 
         private void WindowsStateRestore()
         {
-            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\WinRegistry");
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\LiveCaptionsTranslator\\WindowBounds\\");
             if (key != null)
             {
                 int Width = int.Parse(key.GetValue("Width").ToString());
@@ -483,7 +483,7 @@ namespace LiveCaptionsTranslator
 
         private void WindowsStateSave()
         {
-            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\WinRegistry");
+            RegistryKey key = Registry.CurrentUser.CreateSubKey("Software\\LiveCaptionsTranslator\\WindowBounds\\");
             key.SetValue("Width", (int)this.Width);
             key.SetValue("Height", (int)this.Height);
             key.SetValue("Top", (int)this.Top);
