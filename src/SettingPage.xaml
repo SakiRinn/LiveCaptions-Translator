@@ -197,7 +197,7 @@
         </Grid>
 
         <Grid x:Name="GoogleTranslateGrid" Grid.Column="2" />
-
+        <Grid x:Name="GTranslateNewGrid" Grid.Column="2" />
         <Grid
             x:Name="OpenRouterGrid"
             Grid.Column="2"

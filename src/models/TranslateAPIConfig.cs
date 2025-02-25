@@ -150,14 +150,32 @@ namespace LiveCaptionsTranslator.models
     {
         private static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
         {
-            { "zh-CN", "Simplified Chinese" },
-            { "zh-TW", "Traditional Chinese" },
-            { "en-US", "American English" },
-            { "en-GB", "British English" },
-            { "ja-JP", "Japanese" },
-            { "ko-KR", "Korean" },
-            { "fr-FR", "French" },
-            { "th-TH", "Thai" },
+            { "zh-CN", "zh-CN" },
+            { "zh-TW", "zh-TW" },
+            { "en-US", "en-US" },
+            { "en-GB", "en-GB" },
+            { "ja-JP", "ja-JP" },
+            { "ko-KR", "ko-KR" },
+            { "fr-FR", "fr-FR" },
+            { "th-TH", "th-TH" },
+        };
+
+        [JsonIgnore]
+        public override Dictionary<string, string> SupportedLanguages => SUPPORTED_LANGUAGES;
+    }
+    
+    public class GTranslateNewConfig : TranslateAPIConfig
+    {
+        private static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
+        {
+            { "zh-CN", "zh-CN" },
+            { "zh-TW", "zh-TW" },
+            { "en-US", "en-US" },
+            { "en-GB", "en-GB" },
+            { "ja-JP", "ja-JP" },
+            { "ko-KR", "ko-KR" },
+            { "fr-FR", "fr-FR" },
+            { "th-TH", "th-TH" },
         };
 
         [JsonIgnore]
