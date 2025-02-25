@@ -2,6 +2,7 @@
 using LiveCaptionsTranslator.controllers;
 using LiveCaptionsTranslator.models;
 using System.Windows;
+using Wpf.Ui.Controls;
 
 namespace LiveCaptionsTranslator
 {
@@ -48,16 +49,22 @@ namespace LiveCaptionsTranslator
                 LoadHistory();
         }
 
-        void DeleteHistory(object sender, RoutedEventArgs e)
+        private async void DeleteHistory(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Do you want to clear translation storage history?",
-                    "Clear history",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+            var dialog = new ContentDialog
+            {
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No",
+                DefaultButton = ContentDialogButton.Close,
+                DialogHost = (Application.Current.MainWindow as MainWindow)?.DialogHostContainer
+            };
+
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
             {
                 page = 1;
                 SQLiteHistoryLogger.ClearHistory();
-                LoadHistory();
+                await LoadHistory();
             }
         }
 
