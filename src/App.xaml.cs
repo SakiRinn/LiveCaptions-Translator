@@ -38,10 +38,11 @@ namespace LiveCaptionsTranslator
 
         static void OnProcessExit(object sender, EventArgs e)
         {
-            if (window == null)
-                return;
-            LiveCaptionsHandler.RestoreLiveCaptions(window);
-            LiveCaptionsHandler.KillLiveCaptions(window);
+            if (window != null)
+            {
+                LiveCaptionsHandler.RestoreLiveCaptions(window);
+                LiveCaptionsHandler.KillLiveCaptions(window);
+            }
         }
     }
 }

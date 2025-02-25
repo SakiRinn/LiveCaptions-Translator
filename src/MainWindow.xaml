@@ -44,7 +44,6 @@
                         Icon="{ui:SymbolIcon Pause24,
                                              Filled=False}"
                         ToolTip="Pause" />
-
                     <ui:Button
                         x:Name="logonly"
                         Margin="0,0,5,0"
@@ -58,18 +57,9 @@
                         Margin="0,0,5,0"
                         Appearance="Transparent"
                         Click="OverlaySubtitleModeButton_Click"
-                        Icon="{ui:SymbolIcon TextT24,
+                        Icon="{ui:SymbolIcon SquareMultiple24,
                                              Filled=False}"
                         ToolTip="Overlay Translate Mode" />
-                    <ui:Button
-                        x:Name="overlayTranslationMode"
-                        Margin="0,0,5,0"
-                        Appearance="Transparent"
-                        Click="OverlayTranslationModeButton_Click"
-                        Icon="{ui:SymbolIcon Document24,
-                                             Filled=False}"
-                        ToolTip="Overlay Caption Mode" />
-
                     <ui:Button
                         x:Name="topmost"
                         Margin="0,0,5,0"
