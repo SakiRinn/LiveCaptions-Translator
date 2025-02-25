@@ -1,4 +1,4 @@
-﻿﻿# LiveCaptions Translator
+﻿# LiveCaptions Translator
 
 ***LiveCaptions Translator = Windows LiveCaptions + Translate API***
 

@@ -46,6 +46,7 @@ namespace LiveCaptionsTranslator.models
         {
             IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
             int exStyle = WindowsAPI.GetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE);
+
             WindowsAPI.ShowWindow(hWnd, WindowsAPI.SW_MINIMIZE);
             WindowsAPI.SetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE, exStyle | WindowsAPI.WS_EX_TOOLWINDOW);
         }
@@ -54,6 +55,7 @@ namespace LiveCaptionsTranslator.models
         {
             IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
             int exStyle = WindowsAPI.GetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE);
+
             WindowsAPI.SetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE, exStyle & ~WindowsAPI.WS_EX_TOOLWINDOW);
             WindowsAPI.ShowWindow(hWnd, WindowsAPI.SW_RESTORE);
             WindowsAPI.SetForegroundWindow(hWnd);

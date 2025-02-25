@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
@@ -32,6 +33,17 @@ namespace LiveCaptionsTranslator
                         TranslatedCaption.FontSize = 18;
                     }), DispatcherPriority.Background);
                 }
+            }
+        }
+
+        private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBlock textBlock)
+            {
+                Clipboard.SetText(textBlock.Text);
+                textBlock.ToolTip = "Copied!";
+                await Task.Delay(500);
+                textBlock.ToolTip = "Click to copy";
             }
         }
     }

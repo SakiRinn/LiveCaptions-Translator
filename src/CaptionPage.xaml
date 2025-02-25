@@ -29,9 +29,12 @@
             VerticalAlignment="Stretch">
             <TextBlock
                 x:Name="PresentedCaption"
+                Cursor="Hand"
                 FontSize="15"
+                MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                 Style="{StaticResource CaptionBlockStyle}"
-                Text="{Binding PresentedCaption, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding PresentedCaption, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Click to copy" />
         </ui:Card>
         <ui:Card
             Grid.Row="1"
@@ -40,9 +43,12 @@
             VerticalAlignment="Stretch">
             <TextBlock
                 x:Name="TranslatedCaption"
+                Cursor="Hand"
                 FontSize="18"
+                MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                 Style="{StaticResource CaptionBlockStyle}"
-                Text="{Binding TranslatedCaption, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding TranslatedCaption, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Click to copy" />
         </ui:Card>
     </Grid>
 </Page>
