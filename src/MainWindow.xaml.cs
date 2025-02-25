@@ -27,6 +27,8 @@ namespace LiveCaptionsTranslator
                 );
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
+
+            WindowStateRestore(this, "Main");
         }
 
         void TopmostButton_Click(object sender, RoutedEventArgs e)
@@ -75,9 +77,7 @@ namespace LiveCaptionsTranslator
             }
             else
             {
-                subtitleWindow.Close();
-                subtitleWindow = null;
-                symbolIcon.Filled = false;
+                Close_OverlaySubtitleMode();
             }
         }
 
@@ -97,6 +97,53 @@ namespace LiveCaptionsTranslator
                 }
 
                 isLogonlyEnabled = !isLogonlyEnabled;
+            }
+        }
+        
+        protected override void OnClosed(EventArgs e)
+        {
+            Close_OverlaySubtitleMode();
+            Close_OverlayTranslationMode();
+            base.OnClosed(e);
+        }
+
+        private void MainWindow_BoundsChanged(object sender, EventArgs e)
+        {
+            var window = sender as Window;
+            WindowStateSave(window, "Main");
+        }
+
+        private void WindowStateSave(Window windows, string windowsType)
+        {
+            if (windows != null)
+            {
+                RegistryKey key = Registry.CurrentUser.CreateSubKey("Software\\LiveCaptionsTranslator\\WindowBounds\\" + windowsType);
+                key.SetValue("Bounds", windows.RestoreBounds.ToString());
+                key.Close();
+            }
+        }
+
+        private void WindowStateRestore(Window windows, string windowsType)
+        {
+            if (windows != null)
+            {
+                RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\LiveCaptionsTranslator\\WindowBounds\\" + windowsType);
+                if (key != null)
+                {
+                    Rect bounds = Rect.Parse(key.GetValue("Bounds").ToString());
+                    if (!bounds.IsEmpty)
+                    {
+                        windows.Top = bounds.Top;
+                        windows.Left = bounds.Left;
+
+                        // Restore the size only for a manually sized
+                        if (windows.SizeToContent == SizeToContent.Manual)
+                        {
+                            windows.Width = bounds.Width;
+                            windows.Height = bounds.Height;
+                        }
+                    }
+                }
             }
         }
     }
