@@ -7,33 +7,135 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="HistoryPage"
+    HorizontalAlignment="Left"
+    VerticalAlignment="Top"
     mc:Ignorable="d">
+    <Grid Margin="15,15,15,15" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-    <Grid>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                MaxHeight="34.94"
+                Margin="0,0,3,0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <ui:Button
+                    x:Name="Previous"
+                    Appearance="Transparent"
+                    Click="PageDown"
+                    Icon="{ui:SymbolIcon chevronLeft12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000"
+                    ToolTip="Previous " />
+
+                <TextBlock
+                    x:Name="PageNamber"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    Text="1" />
+
+                <ui:Button
+                    x:Name="Next"
+                    Appearance="Transparent"
+                    Click="PageUp"
+                    Icon="{ui:SymbolIcon chevronRight12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000"
+                    ToolTip="Next Page" />
+
+                <ComboBox
+                    x:Name="HistoryMaxRow"
+                    MinHeight="0"
+                    Margin="5,0,0,0"
+                    Padding="10,4,10,7"
+                    VerticalAlignment="Stretch"
+                    SelectionChanged="maxRow_SelectionChanged">
+                    <ComboBoxItem Content="20/page" Tag="20" />
+                    <ComboBoxItem Content="30/page" Tag="30" />
+                    <ComboBoxItem Content="50/page" Tag="50" />
+                    <ComboBoxItem Content="100/page" Tag="100" />
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel
+                Grid.Column="1"
+                MaxHeight="34.94"
+                Margin="3,0,3,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <ui:Button
+                    x:Name="Delete"
+                    Margin="15,0,0,0"
+                    HorizontalAlignment="Right"
+                    Appearance="Transparent"
+                    Click="DeleteHistory"
+                    Icon="{ui:SymbolIcon Delete12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000"
+                    ToolTip="Delete All" />
+
+                <ui:Button
+                    x:Name="Refresh"
+                    Margin="5,0,0,0"
+                    HorizontalAlignment="Right"
+                    Appearance="Transparent"
+                    Click="ReloadLogs"
+                    Icon="{ui:SymbolIcon ArrowClockwise12,
+                                         Filled=False}"
+                    MouseOverBackground="#07000000"
+                    ToolTip="Refresh" />
+            </StackPanel>
+        </Grid>
+
         <DataGrid
             x:Name="HistoryDataGrid"
-            Width="Auto"
-            Margin="5,5,15,5"
-            HorizontalAlignment="Stretch"
+            Grid.Row="1"
+            Margin="0,5,20,0"
             VerticalAlignment="Stretch"
             AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            IsReadOnly="True"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            ScrollViewer.VerticalScrollBarVisibility="Disabled"
-            SelectionMode="Extended"
-            SelectionUnit="Cell">
-
+            BorderThickness="0,0,0,0"
+            GridLinesVisibility="Horizontal"
+            IsReadOnly="True">
+            <DataGrid.VerticalGridLinesBrush>
+                <LinearGradientBrush MappingMode="Absolute" EndPoint="0,3">
+                    <GradientStop Offset="0.33" Color="#18FFFFFF" />
+                    <GradientStop Offset="1" Color="Transparent" />
+                </LinearGradientBrush>
+            </DataGrid.VerticalGridLinesBrush>
+            <DataGrid.HorizontalGridLinesBrush>
+                <LinearGradientBrush MappingMode="Absolute" EndPoint="0,3">
+                    <GradientStop Offset="0.33" Color="#18FFFFFF" />
+                    <GradientStop Offset="1" Color="#33000000" />
+                </LinearGradientBrush>
+            </DataGrid.HorizontalGridLinesBrush>
+            <DataGrid.BorderBrush>
+                <LinearGradientBrush MappingMode="Absolute" EndPoint="0,3">
+                    <GradientStop Offset="0.33" Color="#18FFFFFF" />
+                    <GradientStop Offset="1" Color="Transparent" />
+                </LinearGradientBrush>
+            </DataGrid.BorderBrush>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="0.4*" Header="Timestamp">
+                <DataGridTemplateColumn Width="0.4*" Header="Time">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Timestamp}" TextWrapping="Wrap" />
+                            <TextBlock
+                                Text="{Binding Timestamp}"
+                                TextWrapping="Wrap"
+                                ToolTip="{Binding TimestampFull}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="*" Header="Source Text">
+                <DataGridTemplateColumn Width="*" Header="Caption">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding SourceText}" TextWrapping="Wrap" />
@@ -41,7 +143,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="*" Header="Translated Text">
+                <DataGridTemplateColumn Width="*" Header="Translated">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding TranslatedText}" TextWrapping="Wrap" />
@@ -49,7 +151,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="0.3*" Header="API Used">
+                <DataGridTemplateColumn Width="0.3*" Header="API">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding ApiUsed}" TextWrapping="Wrap" />
