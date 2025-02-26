@@ -87,5 +87,19 @@ namespace LiveCaptionsTranslator
         {
             LoadHistory();
         }
+
+        private async void ExportHistory(object sender, RoutedEventArgs e)
+        {
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CSV (*.csv)|*.csv|All file (*.*)|*.*",
+                DefaultExt = ".csv",
+                FileName = "exported_data.csv",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+            
+        }
+        
     }
 }
