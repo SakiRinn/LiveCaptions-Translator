@@ -86,7 +86,17 @@ namespace LiveCaptionsTranslator.models
                     while (await reader.ReadAsync())
                     {
                         string unixTime = reader.GetString(reader.GetOrdinal("Timestamp"));
-                        DateTime localTime = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(unixTime)).LocalDateTime;
+                        DateTime localTime;
+                        try
+                        {
+                            localTime = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(unixTime)).LocalDateTime;
+                        }
+                        catch (FormatException)
+                        {
+                                await MigrateOldTimestampFormat(connection);
+                                return await LoadHistoryAsync(page, maxRow);
+
+                        }
                         history.Add(new TranslationHistoryEntry
                         {
                             Timestamp = localTime.ToString("MM/dd HH:mm"),
@@ -113,6 +123,35 @@ namespace LiveCaptionsTranslator.models
                     command.ExecuteNonQuery();
                 }
 
+            }
+        }
+        
+        private static async Task MigrateOldTimestampFormat(SqliteConnection connection)
+        {
+            var records = new List<(long id, string timestamp)>();
+            using (var command = new SqliteCommand("SELECT Id, Timestamp FROM TranslationHistory", connection))
+            using (var reader = await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    long id = reader.GetInt64(reader.GetOrdinal("Id"));
+                    string timestamp = reader.GetString(reader.GetOrdinal("Timestamp"));
+                    records.Add((id, timestamp));
+                }
+            }
+            
+            foreach (var (id, timestamp) in records)
+            {
+                if (DateTime.TryParse(timestamp, out DateTime dt))
+                {
+                    long unixTime = ((DateTimeOffset)dt).ToUnixTimeSeconds();
+                    using var updateCommand = new SqliteCommand(
+                        "UPDATE TranslationHistory SET Timestamp = @Timestamp WHERE Id = @Id",
+                        connection);
+                    updateCommand.Parameters.AddWithValue("@Id", id);
+                    updateCommand.Parameters.AddWithValue("@Timestamp", unixTime.ToString());
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
             }
         }
         
