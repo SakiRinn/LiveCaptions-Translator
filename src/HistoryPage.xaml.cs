@@ -2,6 +2,7 @@
 using LiveCaptionsTranslator.controllers;
 using LiveCaptionsTranslator.models;
 using System.Windows;
+using Microsoft.Win32;
 using Wpf.Ui.Controls;
 
 namespace LiveCaptionsTranslator
@@ -99,7 +100,33 @@ namespace LiveCaptionsTranslator
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
             
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    await SQLiteHistoryLogger.ExportToCsv(saveFileDialog.FileName);
+                    ShowSnackbar("Saved Success",$"File saved to: {saveFileDialog.FileName}"); 
+                }
+                catch (Exception ex)
+                {
+                    ShowSnackbar("Save Failed",$"File saved faild:{ex.Message}");
+                }
+            }
         }
         
+        private void ShowSnackbar(string title,string message, bool isError = false)
+        {
+
+            var snackbar = new Snackbar(SnackbarHost)
+            {
+                Title = title,
+                Content = message,
+                Appearance = isError ? ControlAppearance.Danger : ControlAppearance.Light,
+                Timeout = TimeSpan.FromSeconds(2)
+            };
+
+            snackbar.Show(); 
+        }
+
     }
 }
