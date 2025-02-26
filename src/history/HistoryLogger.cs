@@ -113,7 +113,6 @@ namespace LiveCaptionsTranslator.models
         }
         public static async Task ClearHistory()
         {
-
             using (var connection = new SqliteConnection(ConnectionString))
             {
                 await connection.OpenAsync();
@@ -122,7 +121,43 @@ namespace LiveCaptionsTranslator.models
                 {
                     command.ExecuteNonQuery();
                 }
+            }
+        }
 
+        public static async Task<string> LoadLatestSourceText()
+        {
+            using (var connection = new SqliteConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                string selectQuery = @"
+                    SELECT Id, SourceText
+                    FROM TranslationHistory
+                    ORDER BY Id DESC
+                    LIMIT 1";
+
+                using (var command = new SqliteCommand(selectQuery, connection))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                        return reader.GetString(reader.GetOrdinal("SourceText"));
+                    else
+                        return string.Empty;
+                }
+            }
+        }
+
+        public static async Task DeleteLatestTranslation()
+        {
+            using (var connection = new SqliteConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqliteCommand(@"
+                    DELETE FROM TranslationHistory
+                    WHERE Id IN ( SELECT Id FROM TranslationHistory ORDER BY Id DESC LIMIT 1)", 
+                    connection))
+                {
+                    command.ExecuteNonQuery();
+                }
             }
         }
         

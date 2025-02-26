@@ -58,7 +58,7 @@
                         x:Name="PresentedCaption"
                         FontSize="15"
                         Style="{StaticResource CaptionBlockStyle}"
-                        Text="{Binding PresentedCaption, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}" />
                 </ui:Card>
                 <ui:Card
                     Grid.Row="1"
@@ -71,7 +71,7 @@
                         x:Name="TranslatedCaption"
                         FontSize="18"
                         Style="{StaticResource CaptionBlockStyle}"
-                        Text="{Binding TranslatedCaption, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}" />
                 </ui:Card>
             </Grid>
         </Border>

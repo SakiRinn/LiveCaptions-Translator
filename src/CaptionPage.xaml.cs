@@ -17,20 +17,20 @@ namespace LiveCaptionsTranslator
 
         private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(App.Captions.TranslatedCaption))
+            if (e.PropertyName == nameof(App.Captions.DisplayTranslatedCaption))
             {
-                if (Encoding.UTF8.GetByteCount(App.Captions.TranslatedCaption) > 150)
+                if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 128)
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        TranslatedCaption.FontSize = 15;
+                        this.TranslatedCaption.FontSize = 15;
                     }), DispatcherPriority.Background);
                 } 
                 else
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        TranslatedCaption.FontSize = 18;
+                        this.TranslatedCaption.FontSize = 18;
                     }), DispatcherPriority.Background);
                 }
             }
@@ -43,7 +43,7 @@ namespace LiveCaptionsTranslator
                 Clipboard.SetText(textBlock.Text);
                 textBlock.ToolTip = "Copied!";
                 await Task.Delay(500);
-                textBlock.ToolTip = "Click to copy";
+                textBlock.ToolTip = "Click to Copy";
             }
         }
     }

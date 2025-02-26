@@ -28,12 +28,12 @@
             Padding="8"
             VerticalAlignment="Stretch">
             <TextBlock
-                x:Name="PresentedCaption"
+                x:Name="OriginalCaption"
                 Cursor="Hand"
                 FontSize="15"
                 MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                 Style="{StaticResource CaptionBlockStyle}"
-                Text="{Binding PresentedCaption, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}"
                 ToolTip="Click to copy" />
         </ui:Card>
         <ui:Card
@@ -47,7 +47,7 @@
                 FontSize="18"
                 MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                 Style="{StaticResource CaptionBlockStyle}"
-                Text="{Binding TranslatedCaption, UpdateSourceTrigger=PropertyChanged}"
+                Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}"
                 ToolTip="Click to copy" />
         </ui:Card>
     </Grid>

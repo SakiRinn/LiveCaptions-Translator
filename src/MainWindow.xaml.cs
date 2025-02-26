@@ -1,6 +1,4 @@
-﻿using LiveCaptionsTranslator.models;
-using System.Windows;
-using WpfButton = Wpf.Ui.Controls.Button;
+﻿using System.Windows;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using LiveCaptionsTranslator.src;
@@ -11,7 +9,7 @@ namespace LiveCaptionsTranslator
     {
         private Window? subtitleWindow = null;
 
-        private bool isLogonlyEnabled = false;
+        private bool isLogOnlyEnabled = false;
 
         public MainWindow()
         {
@@ -46,27 +44,10 @@ namespace LiveCaptionsTranslator
             App.Settings.MainTopmost = enable;
         }
 
-        void PauseButton_Click(object sender, RoutedEventArgs e)
+        void OverlaySubtitleModeButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
-            if (App.Captions.PauseFlag)
-            {
-                if (App.Window == null)
-                    App.Window = LiveCaptionsHandler.LaunchLiveCaptions();
-                App.Captions.PauseFlag = false;
-                symbolIcon.Filled = false;
-            }
-            else
-            {
-                App.Captions.PauseFlag = true;
-                symbolIcon.Filled = true;
-            }
-        }
-
-        void OverlaySubtitleModeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is not WpfButton button || button.Icon is not SymbolIcon symbolIcon) return;
 
             if (subtitleWindow == null)
             {
@@ -91,9 +72,12 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        private void Logonly_OnClickButton_Click(object sender, RoutedEventArgs e)
+        private void LogOnly_OnClickButton_Click(object sender, RoutedEventArgs e)
         {
-            if (logonly.Icon is SymbolIcon icon)
+            var button = sender as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
+
+            if (isLogOnlyEnabled)
             {
                 if (isLogonlyEnabled)
                 {
@@ -108,6 +92,7 @@ namespace LiveCaptionsTranslator
 
                 isLogonlyEnabled = !isLogonlyEnabled;
             }
+            isLogOnlyEnabled = !isLogOnlyEnabled;
         }
 
         private void MainWindow_BoundsChanged(object sender, EventArgs e)

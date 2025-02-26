@@ -39,21 +39,13 @@
             <ui:TitleBar.TrailingContent>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <ui:Button
-                        x:Name="pause"
+                        x:Name="logOnly"
                         Margin="0,0,5,0"
                         Appearance="Transparent"
-                        Click="PauseButton_Click"
+                        Click="LogOnly_OnClickButton_Click"
                         Icon="{ui:SymbolIcon Pause24,
                                              Filled=False}"
-                        ToolTip="Pause" />
-                    <ui:Button
-                        x:Name="logonly"
-                        Margin="0,0,5,0"
-                        Appearance="Transparent"
-                        Click="Logonly_OnClickButton_Click"
-                        Icon="{ui:SymbolIcon TextGrammarWand24,
-                                             Filled=False}"
-                        ToolTip="History Only" />
+                        ToolTip="Pause Translation" />
                     <ui:Button
                         x:Name="overlaySubtitleMode"
                         Margin="0,0,5,0"

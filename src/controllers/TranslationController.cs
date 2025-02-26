@@ -1,4 +1,5 @@
 ﻿using LiveCaptionsTranslator.models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LiveCaptionsTranslator.controllers
 {
@@ -6,11 +7,8 @@ namespace LiveCaptionsTranslator.controllers
     {
         public static event Action? TranslationLogged;
 
-        public async Task<string> TranslateAndLog(string text, bool doLog = true)
+        public async Task<string> Translate(string text)
         {
-            string targetLanguage = App.Settings.TargetLanguage;
-            string apiName = App.Settings.ApiName;
-
             string translatedText;
             try
             {
@@ -21,44 +19,38 @@ namespace LiveCaptionsTranslator.controllers
                 Console.WriteLine($"[Error] Translation failed: {ex.Message}");
                 return $"[Translation Failed] {ex.Message}";
             }
-
-            if (doLog && !string.IsNullOrEmpty(translatedText))
-            {
-                try
-                {
-                    await SQLiteHistoryLogger.LogTranslation(text, translatedText, targetLanguage, apiName);
-                    TranslationLogged?.Invoke();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
-                }
-            }
-
             return translatedText;
         }
-        
-        public async Task<string> Logonly(string text, bool doLog = true)
+
+        public async Task Log(string originalText, string translatedText, bool isOverWrite = false)
         {
-            
-            if (doLog)
+            string targetLanguage = App.Settings.TargetLanguage;
+            string apiName = App.Settings.ApiName;
+
+            try
             {
-                try
-                {
-                    await SQLiteHistoryLogger.LogTranslation(text, "N/A", "N/A", "LogOnly");
-                    TranslationLogged?.Invoke();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
-                }
+                if (isOverWrite)
+                    await SQLiteHistoryLogger.DeleteLatestTranslation();
+                await SQLiteHistoryLogger.LogTranslation(originalText, translatedText, targetLanguage, apiName);
+                TranslationLogged?.Invoke();
             }
-            return "";
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
+            }
         }
 
-        public async Task<string> Translate(string text)
+        public async Task LogOnly(string originalText)
         {
-            return await TranslateAndLog(text, false);
+            try
+            {
+                await SQLiteHistoryLogger.LogTranslation(originalText, "N/A", "N/A", "LogOnly");
+                TranslationLogged?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
+            }
         }
     }
 }
