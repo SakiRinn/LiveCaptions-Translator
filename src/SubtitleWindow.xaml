@@ -57,6 +57,7 @@
                     <TextBlock
                         x:Name="PresentedCaption"
                         FontSize="15"
+                        Foreground="#FFFFFFFF"
                         Style="{StaticResource CaptionBlockStyle}"
                         Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}" />
                 </ui:Card>
@@ -70,6 +71,7 @@
                     <TextBlock
                         x:Name="TranslatedCaption"
                         FontSize="18"
+                        Foreground="#FFFFFFFF"
                         Style="{StaticResource CaptionBlockStyle}"
                         Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}" />
                 </ui:Card>
