@@ -30,6 +30,19 @@ namespace LiveCaptionsTranslator.models
         private TranslateAPIConfig? currentAPIConfig;
 
         private bool enableLogging = true;
+
+        private bool mainTopmost = true;
+
+        public bool MainTopmost
+        {
+            get => mainTopmost;
+            set
+            {
+                mainTopmost = value;
+                OnPropertyChanged("MainTopMost");
+            }
+        }
+
         public bool EnableLogging
         {
             get => enableLogging;
