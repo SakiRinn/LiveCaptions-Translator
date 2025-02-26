@@ -14,7 +14,7 @@
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
     LocationChanged="MainWindow_BoundsChanged"
-    ResizeMode="CanResize"
+    ResizeMode="CanResizeWithGrip"
     SizeChanged="MainWindow_BoundsChanged"
     Topmost="True"
     WindowBackdropType="Mica"
