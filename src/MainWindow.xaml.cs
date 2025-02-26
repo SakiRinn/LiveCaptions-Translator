@@ -110,13 +110,6 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            Close_OverlaySubtitleMode();
-            Close_OverlayTranslationMode();
-            base.OnClosed(e);
-        }
-
         private void MainWindow_BoundsChanged(object sender, EventArgs e)
         {
             var window = sender as Window;
