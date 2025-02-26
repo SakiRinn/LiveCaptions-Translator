@@ -71,12 +71,23 @@ namespace LiveCaptionsTranslator
             if (subtitleWindow == null)
             {
                 subtitleWindow = new SubtitleWindow();
+                WindowStateRestore(subtitleWindow, "Overlay");
+                subtitleWindow.SizeChanged += (s, e) =>
+                {
+                    WindowStateSave(subtitleWindow, "Overlay");
+                };
+                subtitleWindow.LocationChanged += (s, e) =>
+                {
+                    WindowStateSave(subtitleWindow, "Overlay");
+                };
                 subtitleWindow.Show();
                 symbolIcon.Filled = true;
             }
             else
             {
-                Close_OverlaySubtitleMode();
+                subtitleWindow.Close();
+                subtitleWindow = null;
+                symbolIcon.Filled = false;
             }
         }
 
@@ -97,13 +108,6 @@ namespace LiveCaptionsTranslator
 
                 isLogonlyEnabled = !isLogonlyEnabled;
             }
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            Close_OverlaySubtitleMode();
-            Close_OverlayTranslationMode();
-            base.OnClosed(e);
         }
 
         private void MainWindow_BoundsChanged(object sender, EventArgs e)
