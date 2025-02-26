@@ -71,9 +71,9 @@ namespace LiveCaptionsTranslator
             if (subtitleWindow == null)
             {
                 subtitleWindow = new SubtitleWindow();
+                WindowStateRestore(subtitleWindow, "Overlay");
                 subtitleWindow.Show();
                 symbolIcon.Filled = true;
-                WindowStateRestore(subtitleWindow, "Overlay");
             }
             else
             {
