@@ -29,6 +29,7 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "Korean" },
             { "fr-FR", "French" },
             { "th-TH", "Thai" },
+            { "tr-TR", "Turkish" },
         };
 
         [JsonIgnore]
@@ -158,6 +159,7 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "ko-KR" },
             { "fr-FR", "fr-FR" },
             { "th-TH", "th-TH" },
+            { "tr-TR", "tr-TR" },
         };
 
         [JsonIgnore]
@@ -176,6 +178,8 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "ko-KR" },
             { "fr-FR", "fr-FR" },
             { "th-TH", "th-TH" },
+            { "tr-TR", "tr-TR" },
+            
         };
 
         [JsonIgnore]
