@@ -72,12 +72,22 @@ namespace LiveCaptionsTranslator
             {
                 subtitleWindow = new SubtitleWindow();
                 WindowStateRestore(subtitleWindow, "Overlay");
+                subtitleWindow.SizeChanged += (s, e) =>
+                {
+                    WindowStateSave(subtitleWindow, "Overlay");
+                };
+                subtitleWindow.LocationChanged += (s, e) =>
+                {
+                    WindowStateSave(subtitleWindow, "Overlay");
+                };
                 subtitleWindow.Show();
                 symbolIcon.Filled = true;
             }
             else
             {
-                Close_OverlaySubtitleMode();
+                subtitleWindow.Close();
+                subtitleWindow = null;
+                symbolIcon.Filled = false;
             }
         }
 
