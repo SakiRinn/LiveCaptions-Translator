@@ -1,4 +1,6 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using System.IO;
+using System.Text;
+using Microsoft.Data.Sqlite;
 using System.Windows.Controls;
 
 namespace LiveCaptionsTranslator.models
@@ -112,6 +114,49 @@ namespace LiveCaptionsTranslator.models
                 }
 
             }
+        }
+        
+        public static async Task ExportToCsv(string filePath)
+        {
+            var history = new List<TranslationHistoryEntry>();
+
+            using (var connection = new SqliteConnection(ConnectionString))
+            {
+                await connection.OpenAsync();
+
+                string selectQuery = @"
+                SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed
+                FROM TranslationHistory
+                ORDER BY Timestamp DESC";
+                using (var command = new SqliteCommand(selectQuery, connection))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        string unixTime = reader.GetString(reader.GetOrdinal("Timestamp"));
+                        DateTime localTime = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(unixTime)).LocalDateTime;
+                        history.Add(new TranslationHistoryEntry
+                        {
+                            Timestamp = localTime.ToString("MM/dd HH:mm"),
+                            TimestampFull = localTime.ToString("MM/dd/yy, HH:mm:ss"),
+                            SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
+                            TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
+                            TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
+                            ApiUsed = reader.GetString(reader.GetOrdinal("ApiUsed"))
+                        });
+                    }
+                }
+            }
+
+            var csv = new StringBuilder();
+            csv.AppendLine("Timestamp,SourceText,TranslatedText,TargetLanguage,ApiUsed");
+
+            foreach (var entry in history)
+            {
+                csv.AppendLine($"{entry.Timestamp},{entry.SourceText},{entry.TranslatedText},{entry.TargetLanguage},{entry.ApiUsed}");
+            }
+
+            await File.WriteAllTextAsync(filePath, csv.ToString());
         }
     }
 }

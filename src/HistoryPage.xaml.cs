@@ -2,6 +2,8 @@
 using LiveCaptionsTranslator.controllers;
 using LiveCaptionsTranslator.models;
 using System.Windows;
+using Microsoft.Win32;
+using Wpf.Ui.Controls;
 
 namespace LiveCaptionsTranslator
 {
@@ -48,16 +50,22 @@ namespace LiveCaptionsTranslator
                 LoadHistory();
         }
 
-        void DeleteHistory(object sender, RoutedEventArgs e)
+        private async void DeleteHistory(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Do you want to clear translation storage history?",
-                    "Clear history",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+            var dialog = new ContentDialog
+            {
+                PrimaryButtonText = "Yes",
+                CloseButtonText = "No",
+                DefaultButton = ContentDialogButton.Close,
+                DialogHost = (Application.Current.MainWindow as MainWindow)?.DialogHostContainer
+            };
+
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
             {
                 page = 1;
                 SQLiteHistoryLogger.ClearHistory();
-                LoadHistory();
+                await LoadHistory();
             }
         }
 
@@ -80,5 +88,45 @@ namespace LiveCaptionsTranslator
         {
             LoadHistory();
         }
+
+        private async void ExportHistory(object sender, RoutedEventArgs e)
+        {
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "CSV (*.csv)|*.csv|All file (*.*)|*.*",
+                DefaultExt = ".csv",
+                FileName = "exported_data.csv",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+            
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    await SQLiteHistoryLogger.ExportToCsv(saveFileDialog.FileName);
+                    ShowSnackbar("Saved Success",$"File saved to: {saveFileDialog.FileName}"); 
+                }
+                catch (Exception ex)
+                {
+                    ShowSnackbar("Save Failed",$"File saved faild:{ex.Message}");
+                }
+            }
+        }
+        
+        private void ShowSnackbar(string title,string message, bool isError = false)
+        {
+
+            var snackbar = new Snackbar(SnackbarHost)
+            {
+                Title = title,
+                Content = message,
+                Appearance = isError ? ControlAppearance.Danger : ControlAppearance.Light,
+                Timeout = TimeSpan.FromSeconds(2)
+            };
+
+            snackbar.Show(); 
+        }
+
     }
 }
