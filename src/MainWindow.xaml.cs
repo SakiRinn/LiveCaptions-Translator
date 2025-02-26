@@ -38,22 +38,21 @@ namespace LiveCaptionsTranslator
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
 
             WindowStateRestore(this, "Main");
+            ToggleTopmost(App.Settings.MainTopmost);
         }
 
         void TopmostButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
+            ToggleTopmost(!Topmost);
+        }
+
+        private void ToggleTopmost(bool enable)
+        {
+            var button = topmost as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
-            if (Topmost)
-            {
-                Topmost = false;
-                symbolIcon.Filled = false;
-            }
-            else
-            {
-                Topmost = true;
-                symbolIcon.Filled = true;
-            }
+            Topmost = enable;
+            symbolIcon.Filled = enable;
+            App.Settings.MainTopmost = enable;
         }
 
         void PauseButton_Click(object sender, RoutedEventArgs e)
