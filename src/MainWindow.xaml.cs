@@ -72,24 +72,23 @@ namespace LiveCaptionsTranslator
             {
                 subtitleWindow = new SubtitleWindow();
                 WindowStateRestore(subtitleWindow, "Overlay");
+                subtitleWindow.SizeChanged += (s, e) =>
+                {
+                    WindowStateSave(subtitleWindow, "Overlay");
+                };
+                subtitleWindow.LocationChanged += (s, e) =>
+                {
+                    WindowStateSave(subtitleWindow, "Overlay");
+                };
                 subtitleWindow.Show();
                 symbolIcon.Filled = true;
             }
             else
             {
-                Close_OverlaySubtitleMode();
+                subtitleWindow.Close();
+                subtitleWindow = null;
+                symbolIcon.Filled = false;
             }
-        }
-
-        void Close_OverlaySubtitleMode()
-        {
-            WindowStateSave(subtitleWindow, "Overlay");
-            subtitleWindow?.Close();
-            subtitleWindow = null;
-
-            var button = overlaySubtitleMode as Button;
-            var symbolIcon = button?.Icon as SymbolIcon;
-            symbolIcon.Filled = false;
         }
 
         private void Logonly_OnClickButton_Click(object sender, RoutedEventArgs e)
