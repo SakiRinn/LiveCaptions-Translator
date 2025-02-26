@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -223,19 +224,27 @@ namespace LiveCaptionsTranslator.models
             request.Headers.Add("HTTP-Referer", "https://github.com/SakiRinn/LiveCaptionsTranslator");
             request.Headers.Add("X-Title", "LiveCaptionsTranslator");
 
-            var response = await client.SendAsync(request);
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                throw new Exception($"OpenRouter API error: {responseContent}");
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseContent);
+                    return jsonResponse.GetProperty("choices")[0]
+                                       .GetProperty("message")
+                                       .GetProperty("content")
+                                       .GetString() ?? string.Empty;
+                }
+                else
+                {
+                    return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                }
             }
-
-            var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseContent);
-            return jsonResponse.GetProperty("choices")[0]
-                               .GetProperty("message")
-                               .GetProperty("content")
-                               .GetString() ?? string.Empty;
+            catch (Exception ex)
+            {
+                return $"[Translation Failed] {ex.Message}";
+            }
         }
     }
 

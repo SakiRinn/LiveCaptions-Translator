@@ -1,18 +1,25 @@
 ﻿using LiveCaptionsTranslator.models;
-using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
 
 namespace LiveCaptionsTranslator.controllers
 {
-    public class TranslationController
+    public static class TranslationController
     {
         public static event Action? TranslationLogged;
 
-        public async Task<string> Translate(string text)
+        public static async Task<string> Translate(string text)
         {
             string translatedText;
             try
             {
+#if DEBUG
+                var sw = Stopwatch.StartNew();
+#endif
                 translatedText = await TranslateAPI.TranslateFunc(text);
+#if DEBUG
+                sw.Stop();
+                translatedText = $"[{sw.ElapsedMilliseconds} ms] " + translatedText;
+#endif
             }
             catch (Exception ex)
             {
@@ -22,7 +29,7 @@ namespace LiveCaptionsTranslator.controllers
             return translatedText;
         }
 
-        public async Task Log(string originalText, string translatedText, bool isOverWrite = false)
+        public static async Task Log(string originalText, string translatedText, bool isOverWrite = false)
         {
             string targetLanguage = App.Settings.TargetLanguage;
             string apiName = App.Settings.ApiName;
@@ -40,7 +47,7 @@ namespace LiveCaptionsTranslator.controllers
             }
         }
 
-        public async Task LogOnly(string originalText)
+        public static async Task LogOnly(string originalText)
         {
             try
             {
