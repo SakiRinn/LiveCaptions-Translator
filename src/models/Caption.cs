@@ -133,28 +133,35 @@ namespace LiveCaptionsTranslator.models
 
         public async Task Translate()
         {
-            var controller = new TranslationController();
             while (true)
             {
                 if (TranslateFlag)
                 {
-                    // Log Only
-                    if (LogOnlyFlag)
-                    {
-                        TranslatedCaption = string.Empty;
-                        await controller.LogOnly(OriginalCaption);
-                        continue;
-                    }
-
-                    // Translate and display
-                    TranslatedCaption = await controller.Translate(OriginalCaption);
-                    DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption);
-
                     // If the old sentence is the prefix of the new sentence,
                     // overwrite the previous entry when logging.
                     string lastLoggedOriginal = await SQLiteHistoryLogger.LoadLatestSourceText();
-                    await controller.Log(OriginalCaption, TranslatedCaption,
-                        !string.IsNullOrEmpty(lastLoggedOriginal) && OriginalCaption.StartsWith(lastLoggedOriginal));
+                    bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal) 
+                        && OriginalCaption.StartsWith(lastLoggedOriginal);
+
+                    // Log Only
+                    if (LogOnlyFlag)
+                    {
+                        // Do not translate
+                        TranslatedCaption = string.Empty;
+                        DisplayTranslatedCaption = "[Paused]";
+                        // Log
+                        var LogOnlyTask = Task.Run(() => TranslationController.LogOnly(
+                            OriginalCaption, isOverWrite));
+                    }
+                    else
+                    {
+                        // Translate and display
+                        TranslatedCaption = await TranslationController.Translate(OriginalCaption);
+                        DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption);
+                        // Log
+                        var LogTask = Task.Run(() => TranslationController.Log(
+                            OriginalCaption, TranslatedCaption, isOverWrite));
+                    }
 
                     TranslateFlag = false;
                     if (EOSFlag)
@@ -177,7 +184,7 @@ namespace LiveCaptionsTranslator.models
             while (Encoding.UTF8.GetByteCount(displaySentence) >= 160)
             {
                 int commaIndex = displaySentence.IndexOfAny(PUNC_COMMA);
-                if (commaIndex < 0 || commaIndex + 1 == displaySentence.Length)
+                if (commaIndex < 0 || commaIndex + 1 >= displaySentence.Length)
                     break;
                 displaySentence = displaySentence.Substring(commaIndex + 1);
             }

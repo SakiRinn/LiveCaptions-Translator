@@ -51,7 +51,7 @@
                         Margin="0,0,5,0"
                         Appearance="Transparent"
                         Click="OverlaySubtitleModeButton_Click"
-                        Icon="{ui:SymbolIcon SquareMultiple24,
+                        Icon="{ui:SymbolIcon WindowNew16,
                                              Filled=False}"
                         ToolTip="Overlay Translate Mode" />
                     <ui:Button

@@ -18,20 +18,20 @@ namespace LiveCaptionsTranslator.src
 
         private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(App.Captions.TranslatedCaption))
+            if (e.PropertyName == nameof(App.Captions.DisplayTranslatedCaption))
             {
-                if (Encoding.UTF8.GetByteCount(App.Captions.TranslatedCaption) >= 128)
+                if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 128)
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        TranslatedCaption.FontSize = 15;
+                        this.TranslatedCaption.FontSize = 15;
                     }), DispatcherPriority.Background);
                 }
                 else
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
-                        TranslatedCaption.FontSize = 18;
+                        this.TranslatedCaption.FontSize = 18;
                     }), DispatcherPriority.Background);
                 }
             }

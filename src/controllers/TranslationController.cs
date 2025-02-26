@@ -47,10 +47,12 @@ namespace LiveCaptionsTranslator.controllers
             }
         }
 
-        public static async Task LogOnly(string originalText)
+        public static async Task LogOnly(string originalText, bool isOverWrite = false)
         {
             try
             {
+                if (isOverWrite)
+                    await SQLiteHistoryLogger.DeleteLatestTranslation();
                 await SQLiteHistoryLogger.LogTranslation(originalText, "N/A", "N/A", "LogOnly");
                 TranslationLogged?.Invoke();
             }
