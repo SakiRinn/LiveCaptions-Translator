@@ -10,7 +10,7 @@
     Title="SettingPage"
     mc:Ignorable="d">
 
-    <Grid x:Name="PageGrid">
+    <Grid x:Name="PageGrid" Margin="15,15,15,15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
@@ -18,11 +18,12 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Orientation="Vertical">
-            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+            <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="LiveCaptions Setting" />
                 <ui:Button
                     Width="145"
                     Height="30"
+                    Padding="11,4,11,4"
                     Click="Setting_Click">
                     <TextBlock Text="Open" />
                 </ui:Button>
@@ -42,11 +43,11 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Orientation="Vertical">
-            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+            <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Translate API" />
                 <ComboBox
                     x:Name="translateAPIBox"
-                    Width="140"
+                    Width="150"
                     Height="30"
                     Padding="10,4,10,7"
                     FontSize="13.3"
@@ -54,37 +55,50 @@
                     SelectionChanged="translateAPIBox_SelectionChanged" />
             </StackPanel>
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Margin="2.5,0,0,5" Text="Target Language" VerticalAlignment="Center"/>
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock
+                        Margin="2.5,0,0,5"
+                        VerticalAlignment="Center"
+                        Text="Target Language" />
 
-                    <Button Width="20" Height="20" Margin="5,0,0,0" Padding="0"
-                            Background="Transparent" BorderThickness="0"
-                            Click="InfoButton_Click">
-                        <ui:SymbolIcon Symbol="Info24"/>
+                    <Button
+                        Width="20"
+                        Height="20"
+                        Margin="5,0,0,0"
+                        Padding="0"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="InfoButton_Click">
+                        <ui:SymbolIcon Symbol="Info24" />
                     </Button>
-                    
-                    <Popup x:Name="InfoPopup"
-                           Placement="Top"
-                           StaysOpen="True"
-                           AllowsTransparency="True"
-                           PopupAnimation="Fade">
-                        <Border Background="White" Padding="10" CornerRadius="5"
-                                BorderBrush="Black" BorderThickness="1">
-                            <TextBlock Text="Google translate might be failed to run if don't use BCP 47 language tag."
-                                       Width="220" TextWrapping="Wrap"/>
+
+                    <Popup
+                        x:Name="InfoPopup"
+                        AllowsTransparency="True"
+                        Placement="Top"
+                        PopupAnimation="Fade"
+                        StaysOpen="True">
+                        <Border
+                            Padding="10"
+                            Background="White"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                            <TextBlock
+                                Width="220"
+                                Text="Google translate might be failed to run if don't use BCP 47 language tag."
+                                TextWrapping="Wrap" />
                         </Border>
                     </Popup>
                 </StackPanel>
-                
+
                 <ComboBox
                     x:Name="targetLangBox"
-                    IsEditable="True"
-                    SelectedIndex="0"
-                    Width="140"
+                    Width="150"
                     Height="30"
                     Padding="10,4,10,7"
                     FontSize="13.3"
-                    ItemsSource="{Binding Path=CurrentAPIConfig.SupportedLanguages.Keys}" />
+                    IsEditable="True" />
             </StackPanel>
         </StackPanel>
 
@@ -101,7 +115,7 @@
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="0"
-                Margin="15,10,0,0"
+                Margin="15,0,0,0"
                 Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Model Name" />
                 <ui:TextBox
@@ -131,7 +145,7 @@
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="15,10,0,0"
+                Margin="15,0,0,0"
                 Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="API Url" />
                 <ui:TextBox
@@ -168,7 +182,7 @@
 
             <StackPanel
                 Grid.Row="0"
-                Margin="15,10,0,0"
+                Margin="15,0,0,0"
                 Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Model Name" />
                 <ui:TextBox
@@ -214,7 +228,7 @@
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="0"
-                Margin="15,10,0,0"
+                Margin="15,0,0,0"
                 Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Model Name" />
                 <ui:TextBox
