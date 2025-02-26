@@ -12,7 +12,8 @@ namespace LiveCaptionsTranslator.models
             { "Ollama", Ollama },
             { "OpenAI", OpenAI },
             { "GoogleTranslate", GoogleTranslate },
-            { "OpenRouter", OpenRouter }
+            { "OpenRouter", OpenRouter },
+            { "GTranslateNew", GTranslate_new },
         };
         public static Func<string, Task<string>> TranslateFunc
         {
@@ -147,6 +148,53 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
+        private static async Task<string> GTranslate_new(string text)
+        {
+            string apiKey = "AIzaSyA6EEtrDCfBkHV8uU2lgGY-N383ZgAOo7Y";
+            var language = App.Settings?.TargetLanguage;
+            string strategy = "2";
+
+            string encodedText = Uri.EscapeDataString(text);
+            string url = $"https://dictionaryextension-pa.googleapis.com/v1/dictionaryExtensionData?" +
+                         $"language={language}&" +
+                         $"key={apiKey}&" +
+                         $"term={encodedText}&" +
+                         $"strategy={strategy}";
+
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                request.Headers.Add("x-referer", "chrome-extension://mgijmajocgfcbeboacabfgobmjgjcoja");
+
+                var response = await client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    
+                    using var jsonDoc = JsonDocument.Parse(responseBody);
+                    var root = jsonDoc.RootElement;
+
+                    if (root.TryGetProperty("translateResponse", out JsonElement translateResponse))
+                    {
+                        string translatedText = translateResponse.GetProperty("translateText").GetString();
+                        return translatedText;
+                    }
+                    else
+                    {
+                        return "[Translation Failed] Unexpected API response format";
+                    }
+                }
+                else
+                {
+                    return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"[Translation Failed] {ex.Message}";
+            }
+        }
+        
         public static async Task<string> OpenRouter(string text)
         {
             var config = App.Settings.CurrentAPIConfig as OpenRouterConfig;
