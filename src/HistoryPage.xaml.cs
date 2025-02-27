@@ -102,7 +102,7 @@ namespace LiveCaptionsTranslator
             {
                 Filter = "CSV (*.csv)|*.csv|All file (*.*)|*.*",
                 DefaultExt = ".csv",
-                FileName = "exported_data.csv",
+                FileName = $"exported_data_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.csv",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
 
