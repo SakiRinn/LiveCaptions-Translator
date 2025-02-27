@@ -68,6 +68,8 @@ namespace LiveCaptionsTranslator
                 page = 1;
                 SQLiteHistoryLogger.ClearHistory();
                 await LoadHistory();
+
+                (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Delete12, "History Removed!");
             }
         }
 
