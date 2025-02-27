@@ -2,6 +2,7 @@
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using LiveCaptionsTranslator.src;
+using System.Windows.Media.Animation;
 
 namespace LiveCaptionsTranslator
 {
@@ -124,6 +125,20 @@ namespace LiveCaptionsTranslator
                     }
                 }
             }
+        }
+
+        public async void AddToast(SymbolRegular icon, string text)
+        {
+            ToastIcon.Symbol = icon;
+            ToastText.Text = text;
+
+            DoubleAnimation animation = new DoubleAnimation(1, TimeSpan.FromSeconds(0));
+            ToastNotify.BeginAnimation(Wpf.Ui.Controls.Card.OpacityProperty, animation);
+
+            await Task.Delay(500);
+
+            animation = new DoubleAnimation(0, TimeSpan.FromSeconds(0.5));
+            ToastNotify.BeginAnimation(Wpf.Ui.Controls.Card.OpacityProperty, animation);
         }
     }
 }
