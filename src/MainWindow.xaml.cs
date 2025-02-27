@@ -127,7 +127,7 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        public async void AddToast(SymbolRegular icon, string text)
+        public async void AddToast(SymbolRegular icon, string text, int duration)
         {
             ToastIcon.Symbol = icon;
             ToastText.Text = text;
@@ -135,9 +135,9 @@ namespace LiveCaptionsTranslator
             DoubleAnimation animation = new DoubleAnimation(1, TimeSpan.FromSeconds(0));
             ToastNotify.BeginAnimation(Wpf.Ui.Controls.Card.OpacityProperty, animation);
 
-            await Task.Delay(500);
+            await Task.Delay(duration * 1000);
 
-            animation = new DoubleAnimation(0, TimeSpan.FromSeconds(0.5));
+            animation = new DoubleAnimation(0, TimeSpan.FromSeconds(1));
             ToastNotify.BeginAnimation(Wpf.Ui.Controls.Card.OpacityProperty, animation);
         }
     }
