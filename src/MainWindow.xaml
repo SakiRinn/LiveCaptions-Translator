@@ -107,5 +107,24 @@
             </ui:NavigationView>
         </Grid>
         <ContentPresenter x:Name="DialogHostContainer" />
+        <ui:Card
+            x:Name="ToastNotify"
+            Grid.Row="1"
+            Margin="0,0,0,15"
+            Padding="8"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Background="#19C8C8C8"
+            FontWeight="Bold"
+            Opacity="0">
+            <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon x:Name="ToastIcon" Symbol="copy16" />
+                <ui:TextBlock
+                    x:Name="ToastText"
+                    Margin="5,0,0,0"
+                    FontWeight="Bold"
+                    Text="Copied To Clipboard!" />
+            </StackPanel>
+        </ui:Card>
     </Grid>
 </ui:FluentWindow>
