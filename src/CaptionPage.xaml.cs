@@ -3,6 +3,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using Wpf.Ui.Controls;
 
 namespace LiveCaptionsTranslator
 {
@@ -25,7 +26,7 @@ namespace LiveCaptionsTranslator
                     {
                         this.TranslatedCaption.FontSize = 15;
                     }), DispatcherPriority.Background);
-                } 
+                }
                 else
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
@@ -38,12 +39,10 @@ namespace LiveCaptionsTranslator
 
         private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
-            if (sender is TextBlock textBlock)
+            if (sender is System.Windows.Controls.TextBlock textBlock)
             {
                 Clipboard.SetText(textBlock.Text);
-                textBlock.ToolTip = "Copied!";
-                await Task.Delay(500);
-                textBlock.ToolTip = "Click to Copy";
+                (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Copy16, "Copied To Clipboard!");
             }
         }
     }
