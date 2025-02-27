@@ -44,11 +44,11 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     Clipboard.SetText(textBlock.Text);
-                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Copy16, "Copied To Clipboard!");
+                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Copy16, "Copied To Clipboard!", 1);
                 }
                 catch
                 {
-                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Copy16, "Copied To Clipboard!");
+                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Copy16, "Error To Clipboard!", 1);
                 }
             }
         }
