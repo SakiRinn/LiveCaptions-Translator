@@ -39,15 +39,19 @@ namespace LiveCaptionsTranslator
         void PageDown(object sender, RoutedEventArgs e)
         {
             if (page - 1 >= 1)
+            {
                 page--;
                 LoadHistory();
+            }
 
         }
         void PageUp(object sender, RoutedEventArgs e)
         {
             if (page < maxPage)
+            {
                 page++;
                 LoadHistory();
+            }
         }
 
         private async void DeleteHistory(object sender, RoutedEventArgs e)
@@ -67,7 +71,7 @@ namespace LiveCaptionsTranslator
                 SQLiteHistoryLogger.ClearHistory();
                 await LoadHistory();
 
-                (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Delete12, "History Removed!");
+                (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Delete12, "History Removed!", 1);
             }
         }
 
@@ -101,34 +105,19 @@ namespace LiveCaptionsTranslator
                 FileName = "exported_data.csv",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
-            
+
             if (saveFileDialog.ShowDialog() == true)
             {
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCsv(saveFileDialog.FileName);
-                    ShowSnackbar("Saved Success",$"File saved to: {saveFileDialog.FileName}"); 
+                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Save16, $"Saved Success!\nFile saved to: {saveFileDialog.FileName}", 3);
                 }
                 catch (Exception ex)
                 {
-                    ShowSnackbar("Save Failed",$"File saved faild:{ex.Message}");
+                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.ErrorCircle16, $"Save Failed!\nFile saved faild:{ex.Message}", 3);
                 }
             }
         }
-        
-        private void ShowSnackbar(string title,string message, bool isError = false)
-        {
-
-            var snackbar = new Snackbar(SnackbarHost)
-            {
-                Title = title,
-                Content = message,
-                Appearance = isError ? ControlAppearance.Danger : ControlAppearance.Light,
-                Timeout = TimeSpan.FromSeconds(2)
-            };
-
-            snackbar.Show(); 
-        }
-
     }
 }
