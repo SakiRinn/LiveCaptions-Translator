@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using LiveCaptionsTranslator.controllers;
+using System.Diagnostics;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -18,6 +19,14 @@ namespace LiveCaptionsTranslator.models
         private string displayOriginalCaption = "";
         private string displayTranslatedCaption = "";
 
+        private readonly Queue<CaptionLogItem> captionLog = new(6);
+        public class CaptionLogItem
+        {
+            public string OriginalCaptionLog { get; set; }
+            public string TranslatedCaptionLog { get; set; }
+        }
+        public IEnumerable<CaptionLogItem> CaptionHistory => captionLog.Reverse();
+        public static event Action? TranslationLogged;
         public bool TranslateFlag { get; set; } = false;
         public bool EOSFlag { get; set; } = false;
         public bool LogOnlyFlag { get; set; } = false;
@@ -62,6 +71,8 @@ namespace LiveCaptionsTranslator.models
         {
             int idleCount = 0;
             int syncCount = 0;
+            string originalLatest = "originalLatest";
+            string captionLatest = "";
 
             while (true)
             {
@@ -71,6 +82,8 @@ namespace LiveCaptionsTranslator.models
                     continue;
                 }
 
+                // Is caption textbox change to another sentence
+                bool captionTrim = false;
                 // Get the text recognized by LiveCaptions.
                 string fullText = GetCaptions(App.Window).Trim();
                 if (string.IsNullOrEmpty(fullText))
@@ -86,10 +99,11 @@ namespace LiveCaptionsTranslator.models
                 else
                     lastEOSIndex = fullText.LastIndexOfAny(PUNC_EOS);
                 string latestCaption = fullText.Substring(lastEOSIndex + 1);
-                
+
                 // If the last sentence is too short, extend it by adding the previous sentence.
                 while (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 10)
                 {
+                    captionTrim = true;
                     lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(PUNC_EOS);
                     latestCaption = fullText.Substring(lastEOSIndex + 1);
                 }
@@ -114,9 +128,32 @@ namespace LiveCaptionsTranslator.models
                         syncCount = 0;
                         TranslateFlag = true;
                         EOSFlag = true;
+                        captionTrim = true;
                     }
                     else
                         EOSFlag = false;
+
+                    if (DisplayOriginalCaption != OriginalCaption)
+                        captionTrim = true;
+
+                    // Push current caption to history without waiting for async
+                    if (captionTrim)
+                    {
+                        string oc = captionLatest;
+                        string _oc = StringTrim(oc, 3, oc.Length - 3);
+                        string _ol = StringTrim(originalLatest, 3, originalLatest.Length - 3);
+                        Debug.WriteLine(">" + oc);
+                        Debug.WriteLine("*" + _oc);
+                        Debug.WriteLine("**" + _ol);
+                        if (_oc != _ol) // Prevent from spamming
+                        {
+                            Debug.WriteLine("|" + oc);
+                            originalLatest = oc;
+                            var historyTask = Task.Run(() => HistoryCapture(oc));
+                        }
+                    }
+                    else
+                        captionLatest = OriginalCaption;
                 }
                 else
                     idleCount++;
@@ -131,36 +168,83 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
+        private string StringTrim(string text, int start, int length)
+        {
+            try
+            {
+                return text.Substring(start, length).ToLower();
+            }
+            catch
+            {
+                return text.ToLower();
+            }
+        }
+
+        private async Task HistoryCapture(string original)
+        {
+            string unixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+            string translated = "⏸";
+            string targetLanguage = App.Settings.TargetLanguage;
+            string apiName = App.Settings.ApiName;
+            bool captionLog = App.Settings.EnableCaptionLog;
+
+            // Insert history database
+            try
+            {
+                if (LogOnlyFlag) // Log only mode no translate
+                {
+                    SQLiteHistoryLogger.LogTranslation(unixTime, original, "N/A", "N/A", "LogOnly");
+                }
+                else
+                {
+                    translated = await TranslationController.Translate(original);
+                    SQLiteHistoryLogger.LogTranslation(unixTime, original, translated, targetLanguage, apiName);
+                }
+                TranslationLogged?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
+            }
+
+            // Add caption log card
+            if (captionLog)
+            {
+                if (this.captionLog.Count >= 6)
+                    this.captionLog.Dequeue();
+                this.captionLog.Enqueue(new CaptionLogItem
+                {
+                    OriginalCaptionLog = original,
+                    TranslatedCaptionLog = translated
+                });
+                OnPropertyChanged(nameof(CaptionHistory));
+            }
+        }
+
+        public void ClearCaptionLog()
+        {
+            captionLog.Clear();
+            OnPropertyChanged(nameof(CaptionHistory));
+        }
+
         public async Task Translate()
         {
             while (true)
             {
                 if (TranslateFlag)
                 {
-                    // If the old sentence is the prefix of the new sentence,
-                    // overwrite the previous entry when logging.
-                    string lastLoggedOriginal = await SQLiteHistoryLogger.LoadLatestSourceText();
-                    bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal) 
-                        && OriginalCaption.StartsWith(lastLoggedOriginal);
-
                     // Log Only
                     if (LogOnlyFlag)
                     {
                         // Do not translate
                         TranslatedCaption = string.Empty;
-                        DisplayTranslatedCaption = "[Paused]";
-                        // Log
-                        var LogOnlyTask = Task.Run(() => TranslationController.LogOnly(
-                            OriginalCaption, isOverWrite));
+                        DisplayTranslatedCaption = "⏸️";
                     }
                     else
                     {
                         // Translate and display
                         TranslatedCaption = await TranslationController.Translate(OriginalCaption);
                         DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption);
-                        // Log
-                        var LogTask = Task.Run(() => TranslationController.Log(
-                            OriginalCaption, TranslatedCaption, isOverWrite));
                     }
 
                     TranslateFlag = false;
