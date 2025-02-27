@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 using LiveCaptionsTranslator.controllers;
-using System.Diagnostics;
 
 namespace LiveCaptionsTranslator.models
 {
