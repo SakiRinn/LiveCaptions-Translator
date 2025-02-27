@@ -81,8 +81,7 @@
                     Icon="{ui:SymbolIcon ArrowDown12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Export"
-                />
+                    ToolTip="Export" />
                 <ui:Button
                     x:Name="Delete"
                     Margin="15,0,0,0"
@@ -171,6 +170,5 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ui:SnackbarPresenter Grid.Row="0" x:Name="SnackbarHost" />
     </Grid>
 </Page>
