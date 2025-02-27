@@ -106,6 +106,6 @@
                 </ui:NavigationView.MenuItems>
             </ui:NavigationView>
         </Grid>
-        <ContentPresenter x:Name="DialogHostContainer" />
+        <ContentPresenter x:Name="DialogHostContainer" MinHeight="175" />
     </Grid>
 </ui:FluentWindow>
