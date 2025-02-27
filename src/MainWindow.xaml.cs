@@ -3,6 +3,7 @@ using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using LiveCaptionsTranslator.src;
 using System.Windows.Media.Animation;
+using System.Windows.Media;
 
 namespace LiveCaptionsTranslator
 {
@@ -128,13 +129,14 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        public async void AddToast(SymbolRegular icon, string text = "", int duration = 1)
+        public async void AddToast(SymbolRegular icon, Brush background, string text = "", int duration = 1)
         {
             toastID++;
 
             int id = toastID;
             ToastIcon.Symbol = icon;
             ToastText.Text = text;
+            ToastNotify.Background = background;
 
             DoubleAnimation animation = new DoubleAnimation(1, TimeSpan.FromSeconds(0.05));
             ToastNotify.BeginAnimation(OpacityProperty, animation);
