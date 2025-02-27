@@ -31,6 +31,7 @@
             </Grid.RowDefinitions>
 
             <ui:TitleBar
+                x:Name="titleBar"
                 Grid.Row="0"
                 Height="27"
                 ShowMaximize="False">
@@ -133,5 +134,6 @@
                     Text="Copied To Clipboard!" />
             </StackPanel>
         </ui:Card>
+
     </Grid>
 </ui:FluentWindow>
