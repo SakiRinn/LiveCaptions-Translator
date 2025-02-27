@@ -78,7 +78,8 @@ namespace LiveCaptionsTranslator.models
                     continue;
                 // Note: For certain languages (such as Japanese), LiveCaptions excessively uses `\n`.
                 // Preprocess - Remove redundant `\n` around punctuation.
-                fullText = Regex.Replace(fullText, @"\s*([.!?。！？,，、])\s*", "$1");
+                fullText = Regex.Replace(fullText, @"\s*([.!?,])\s*", "$1 ");
+                fullText = Regex.Replace(fullText, @"\s*([。！？，、])\s*", "$1");
                 // Preprocess - Replace redundant `\n` within sentences with comma or period.
                 fullText = ReplaceNewlines(fullText, 40);
 
