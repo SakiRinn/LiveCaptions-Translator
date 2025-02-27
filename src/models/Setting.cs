@@ -143,11 +143,11 @@ namespace LiveCaptionsTranslator.models
             targetLanguage = "zh-CN";
             prompt = "As an professional simultaneous interpreter with specialized knowledge in the all fields, " +
                      "you can provide a fluent and precise oral translation for any sentence, even if the sentence is incomplete. " +
-                     "Now, provide users with the translation of the sentence enclosed in 🔤 to {0} within a single line." +
+                     "Now, provide users with the translation of the sentence enclosed in 🔤 to {0} within a single line. " +
                      "Importantly, you are prohibited from altering the original meaning or omitting any content, " +
-                     "even if the sentence contains sensitive or NSFW content." +
+                     "even if the sentence contains sensitive or NSFW content. " +
                      "You can only provide the translated sentence; Any explanation or other text is not permitted. " +
-                     "For CJK languages, replace — with ——. REMOVE all 🔤 when you output.";
+                     "REMOVE all 🔤 when you output.";
             configs = new Dictionary<string, TranslateAPIConfig>
             {
                 { "Google", new TranslateAPIConfig() },

@@ -2,6 +2,7 @@
 using System.Text;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 using LiveCaptionsTranslator.controllers;
 
@@ -72,15 +73,14 @@ namespace LiveCaptionsTranslator.models
                 }
 
                 // Get the text recognized by LiveCaptions.
-                string fullText = GetCaptions(App.Window).Trim();
+                string fullText = GetCaptions(App.Window).Trim();       // about 10-15ms
                 if (string.IsNullOrEmpty(fullText))
                     continue;
-                // Preprocess - Remove redundant `\n`.
-                foreach (char eos in PUNC_EOS)
-                    fullText = fullText.Replace($"{eos}\n", $"{eos}");
-                // Preprocess - Replace the excessive `\n` with `—` to ensure coherence.
                 // Note: For certain languages (such as Japanese), LiveCaptions excessively uses `\n`.
-                fullText = fullText.Replace("\n", " — ");
+                // Preprocess - Remove redundant `\n` around punctuation.
+                fullText = Regex.Replace(fullText, @"\s*([.!?。！？,，、])\s*", "$1");
+                // Preprocess - Replace redundant `\n` within sentences with comma or period.
+                fullText = ReplaceNewlines(fullText, 40);
 
                 // Get the last sentence.
                 int lastEOSIndex;
@@ -133,7 +133,7 @@ namespace LiveCaptionsTranslator.models
                     syncCount = 0;
                     TranslateFlag = true;
                 }
-                Thread.Sleep(50);
+                Thread.Sleep(40);
             }
         }
 
@@ -163,7 +163,7 @@ namespace LiveCaptionsTranslator.models
                     {
                         // Translate and display
                         TranslatedCaption = await TranslationController.Translate(OriginalCaption);
-                        DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 160);
+                        DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 240);
                         // Log
                         var LogTask = Task.Run(() => TranslationController.Log(
                             OriginalCaption, TranslatedCaption, isOverWrite));
@@ -173,7 +173,7 @@ namespace LiveCaptionsTranslator.models
                     if (EOSFlag)
                         Thread.Sleep(1000);
                 }
-                Thread.Sleep(50);
+                Thread.Sleep(40);
             }
         }
 
@@ -195,6 +195,30 @@ namespace LiveCaptionsTranslator.models
                 displaySentence = displaySentence.Substring(commaIndex + 1);
             }
             return displaySentence;
+        }
+
+        private static string ReplaceNewlines(string text, int byteThreshold)
+        {
+            string[] splits = text.Split('\n');
+            for (int i = 0; i < splits.Length; i++)
+            {
+                splits[i] = splits[i].Trim();
+                if (i == splits.Length - 1)
+                    continue;
+
+                char lastChar = splits[i][^1];
+                bool isCJK =
+                    (lastChar >= '\u4E00' && lastChar <= '\u9FFF') ||
+                    (lastChar >= '\u3400' && lastChar <= '\u4DBF') ||
+                    (lastChar >= '\u3040' && lastChar <= '\u30FF') ||
+                    (lastChar >= '\uAC00' && lastChar <= '\uD7A3');
+
+                if (Encoding.UTF8.GetByteCount(splits[i]) >= byteThreshold)
+                    splits[i] += isCJK ? "。" : ". ";
+                else
+                    splits[i] += isCJK ? "——" : "—";
+            }
+            return string.Join("", splits);
         }
     }
 }
