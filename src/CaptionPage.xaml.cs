@@ -40,8 +40,15 @@ namespace LiveCaptionsTranslator
         {
             if (sender is TextBlock textBlock)
             {
-                Clipboard.SetText(textBlock.Text);
-                textBlock.ToolTip = "Copied!";
+                try
+                {
+                    Clipboard.SetText(textBlock.Text);
+                    textBlock.ToolTip = "Copied!";
+                }
+                catch
+                {
+                    textBlock.ToolTip = "Error to Copy";
+                }
                 await Task.Delay(500);
                 textBlock.ToolTip = "Click to Copy";
             }
