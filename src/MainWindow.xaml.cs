@@ -11,6 +11,7 @@ namespace LiveCaptionsTranslator
         private Window? subtitleWindow = null;
 
         private bool isLogOnlyEnabled = false;
+        private int toastID = 0;
 
         public MainWindow()
         {
@@ -127,18 +128,23 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        public async void AddToast(SymbolRegular icon, string text, int duration)
+        public async void AddToast(SymbolRegular icon, string text = "", int duration = 1)
         {
+            toastID++;
+
+            int id = toastID;
             ToastIcon.Symbol = icon;
             ToastText.Text = text;
 
-            DoubleAnimation animation = new DoubleAnimation(1, TimeSpan.FromSeconds(0));
-            ToastNotify.BeginAnimation(Wpf.Ui.Controls.Card.OpacityProperty, animation);
+            DoubleAnimation animation = new DoubleAnimation(1, TimeSpan.FromSeconds(0.05));
+            ToastNotify.BeginAnimation(OpacityProperty, animation);
 
             await Task.Delay(duration * 1000);
 
-            animation = new DoubleAnimation(0, TimeSpan.FromSeconds(1));
-            ToastNotify.BeginAnimation(Wpf.Ui.Controls.Card.OpacityProperty, animation);
+            if (toastID == id) { 
+                animation = new DoubleAnimation(0, TimeSpan.FromSeconds(1));
+                ToastNotify.BeginAnimation(OpacityProperty, animation);
+            }
         }
     }
 }

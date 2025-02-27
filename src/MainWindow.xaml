@@ -31,6 +31,7 @@
             </Grid.RowDefinitions>
 
             <ui:TitleBar
+                x:Name="titleBar"
                 Grid.Row="0"
                 Height="27"
                 ShowMaximize="False">
@@ -107,7 +108,9 @@
                 </ui:NavigationView.MenuItems>
             </ui:NavigationView>
         </Grid>
+
         <ContentPresenter x:Name="DialogHostContainer" MinHeight="175" />
+
         <ui:Card
             x:Name="ToastNotify"
             Grid.Row="1"
@@ -133,5 +136,6 @@
                     Text="Copied To Clipboard!" />
             </StackPanel>
         </ui:Card>
+
     </Grid>
 </ui:FluentWindow>
