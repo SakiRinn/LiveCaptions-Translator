@@ -48,9 +48,9 @@ namespace LiveCaptionsTranslator
                 }
                 catch
                 {
-                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.ErrorCircle16, System.Windows.Media.Brushes.Green, "Error To Clipboard!", 2);
-                }
+                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.ErrorCircle16, System.Windows.Media.Brushes.Red, "Error To Clipboard!", 2);
             }
+        }
         }
     }
 }
