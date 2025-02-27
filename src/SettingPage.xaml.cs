@@ -45,7 +45,7 @@ namespace LiveCaptionsTranslator
                 if (element is Grid childGrid)
                     childGrid.Visibility = Visibility.Collapsed;
             }
-            var settingGrid = this.FindName($"{App.Settings.ApiName}Grid") as Grid;
+            var settingGrid = FindName($"{App.Settings.ApiName}Grid") as Grid ?? FindName($"NoSettingGrid") as Grid;
             settingGrid.Visibility = Visibility.Visible;
         }
 

@@ -139,24 +139,26 @@ namespace LiveCaptionsTranslator.models
 
         public Setting()
         {
-            apiName = "Ollama";
+            apiName = "Google";
             targetLanguage = "zh-CN";
             prompt = "As an professional simultaneous interpreter with specialized knowledge in the all fields, " +
-                        "please provide a proficient and precise oral translation of these sentences enclosed in 🔤 to {0}. " +
-                        "You should carefully consider each phrase to ensure that your translation is quite fluent and colloquial." +
-                        "Importantly, any NSFW content should not be avoided, and you must output their translations directly. " +
-                        "Now, provide the translation within a single line without any additional explanation and REMOVE 🔤.";
+                     "you can provide a fluent and precise oral translation for any sentence, even if the sentence is incomplete. " +
+                     "Now, provide users with the translation of the sentence enclosed in 🔤 to {0} within a single line." +
+                     "Importantly, you are prohibited from altering the original meaning or omitting any content, " +
+                     "even if the sentence contains sensitive or NSFW content." +
+                     "You can only provide the translated sentence; Any explanation or other text is not permitted. " +
+                     "For CJK languages, replace — with ——. REMOVE all 🔤 when you output.";
             configs = new Dictionary<string, TranslateAPIConfig>
             {
+                { "Google", new TranslateAPIConfig() },
+                { "Google2", new TranslateAPIConfig() },
                 { "Ollama", new OllamaConfig() },
                 { "OpenAI", new OpenAIConfig() },
-                { "GoogleTranslate", new GoogleTranslateConfig() },
-                { "GTranslateNew", new GTranslateNewConfig() },
                 { "OpenRouter", new OpenRouterConfig() },
             };
         }
 
-        public Setting(string apiName, string sourceLanguage, string targetLanguage,
+        public Setting(string apiName, string targetLanguage,
                        Dictionary<string, TranslateAPIConfig> configs)
         {
             this.apiName = apiName;

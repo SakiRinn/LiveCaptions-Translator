@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -10,18 +9,16 @@ namespace LiveCaptionsTranslator.models
     {
         public static readonly Dictionary<string, Func<string, Task<string>>> TRANSLATE_FUNCS = new()
         {
+            { "Google", Google },
+            { "Google2", Google2 },
             { "Ollama", Ollama },
             { "OpenAI", OpenAI },
-            { "GoogleTranslate", GoogleTranslate },
             { "OpenRouter", OpenRouter },
-            { "GTranslateNew", GTranslate_new },
         };
         public static Func<string, Task<string>> TranslateFunc
         {
             get => TRANSLATE_FUNCS[App.Settings.ApiName];
         }
-
-        public const int OLLAMA_PORT = 11434;
         public static string Prompt
         {
             get => App.Settings.Prompt;
@@ -75,12 +72,12 @@ namespace LiveCaptionsTranslator.models
 
         public static async Task<string> Ollama(string text)
         {
-            var apiUrl = $"http://localhost:{OLLAMA_PORT}/api/chat";
-
-            var config = App.Settings.CurrentAPIConfig as OllamaConfig;
+            var config = App.Settings?.CurrentAPIConfig as OllamaConfig;
+            var apiUrl = $"http://localhost:{config.Port}/api/chat";
             string language = config.SupportedLanguages.TryGetValue(App.Settings.TargetLanguage, out var langValue) 
                 ? langValue 
                 : App.Settings.TargetLanguage; 
+
             var requestData = new
             {
                 model = config?.ModelName,
@@ -118,9 +115,8 @@ namespace LiveCaptionsTranslator.models
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
 
-        private static async Task<string> GoogleTranslate(string text)
+        private static async Task<string> Google(string text)
         {
-            var config = App.Settings?.CurrentAPIConfig as GoogleTranslateConfig;
             var language = App.Settings?.TargetLanguage;
 
             string encodedText = Uri.EscapeDataString(text);
@@ -149,7 +145,7 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        private static async Task<string> GTranslate_new(string text)
+        private static async Task<string> Google2(string text)
         {
             string apiKey = "AIzaSyA6EEtrDCfBkHV8uU2lgGY-N383ZgAOo7Y";
             var language = App.Settings?.TargetLanguage;
@@ -200,6 +196,7 @@ namespace LiveCaptionsTranslator.models
         {
             var config = App.Settings.CurrentAPIConfig as OpenRouterConfig;
             var language = config?.SupportedLanguages[App.Settings.TargetLanguage];
+            var apiUrl = "https://openrouter.ai/api/v1/chat/completions";
 
             var requestData = new
             {
@@ -211,7 +208,7 @@ namespace LiveCaptionsTranslator.models
                 }
             };
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "https://openrouter.ai/api/v1/chat/completions")
+            var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
             {
                 Content = new StringContent(
                     JsonSerializer.Serialize(requestData),
@@ -268,7 +265,7 @@ namespace LiveCaptionsTranslator.models
                 if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
                     config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, configType, options);
                 else
-                    throw new JsonException($"Unknown config type for key: {key}");
+                    config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, typeof(TranslateAPIConfig), options);
 
                 configs[key] = config;
                 reader.Read();
@@ -291,7 +288,7 @@ namespace LiveCaptionsTranslator.models
                 if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
                     JsonSerializer.Serialize(writer, kvp.Value, configType, options);
                 else
-                    throw new JsonException($"Unknown config type for key: {kvp.Key}");
+                    JsonSerializer.Serialize(writer, kvp.Value, typeof(TranslateAPIConfig), options);
             }
             writer.WriteEndObject();
         }
