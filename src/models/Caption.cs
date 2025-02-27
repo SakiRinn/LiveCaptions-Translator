@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 using LiveCaptionsTranslator.controllers;
+using System.Diagnostics;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -120,6 +121,7 @@ namespace LiveCaptionsTranslator.models
                     // If the last sentence is too short, extend it by adding the previous sentence when displayed.
                     if (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 12)
                     {
+                        captionTrim = true;
                         lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(PUNC_EOS);
                         DisplayOriginalCaption = fullText.Substring(lastEOSIndex + 1);
                     }
@@ -197,7 +199,7 @@ namespace LiveCaptionsTranslator.models
             string translated = "[Paused]";
             string targetLanguage = App.Settings.TargetLanguage;
             string apiName = App.Settings.ApiName;
-            bool captionLog = App.Settings.EnableCaptionLog;
+            bool captionLog = App.Settings.CaptionLogEnable;
 
             // Insert history database
             try
@@ -221,7 +223,7 @@ namespace LiveCaptionsTranslator.models
             // Add caption log card
             if (captionLog)
             {
-                if (this.captionLog.Count >= 6)
+                if (this.captionLog.Count >= App.Settings.CaptionLogMax + 1)
                     this.captionLog.Dequeue();
                 this.captionLog.Enqueue(new CaptionLogItem
                 {
