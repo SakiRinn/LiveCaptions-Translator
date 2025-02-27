@@ -79,18 +79,13 @@ namespace LiveCaptionsTranslator
 
             if (isLogOnlyEnabled)
             {
-                if (isLogonlyEnabled)
-                {
-                    icon.Symbol = SymbolRegular.TextGrammarWand24;
-                    App.Captions.LogonlyFlag = false;
-                }
-                else
-                {
-                    icon.Symbol = SymbolRegular.TextGrammarArrowLeft24;
-                    App.Captions.LogonlyFlag = true;
-                }
-
-                isLogonlyEnabled = !isLogonlyEnabled;
+                App.Captions.LogOnlyFlag = false;
+                symbolIcon.Filled = false;
+            }
+            else
+            {
+                App.Captions.LogOnlyFlag = true;
+                symbolIcon.Filled = true;
             }
             isLogOnlyEnabled = !isLogOnlyEnabled;
         }
