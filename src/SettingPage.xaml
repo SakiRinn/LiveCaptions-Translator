@@ -135,6 +135,7 @@
                     Width="130"
                     Height="30"
                     Padding="10,4,10,7"
+                    ClearButtonEnabled="False"
                     FontSize="13.3"
                     LargeChange="1"
                     Maximum="2"
@@ -182,6 +183,7 @@
 
             <StackPanel
                 Grid.Row="0"
+                Grid.Column="0"
                 Margin="15,0,0,0"
                 Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Model Name" />
@@ -194,6 +196,7 @@
             </StackPanel>
             <StackPanel
                 Grid.Row="1"
+                Grid.Column="0"
                 Margin="15,10,0,0"
                 Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Temperature" />
@@ -201,6 +204,7 @@
                     Width="130"
                     Height="30"
                     Padding="10,4,10,7"
+                    ClearButtonEnabled="False"
                     FontSize="13.3"
                     LargeChange="1"
                     Maximum="2"
@@ -208,14 +212,26 @@
                     SmallChange="0.1"
                     Value="{Binding CurrentAPIConfig.Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="15,0,0,0"
+                Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Port" />
+                <ui:NumberBox
+                    Width="140"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    ClearButtonEnabled="False"
+                    FontSize="13.3"
+                    Maximum="65535"
+                    Minimum="1"
+                    SpinButtonPlacementMode="Hidden"
+                    Value="{Binding CurrentAPIConfig.Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
         </Grid>
 
-        <Grid x:Name="GoogleTranslateGrid" Grid.Column="2" />
-        <Grid x:Name="GTranslateNewGrid" Grid.Column="2" />
-        <Grid
-            x:Name="OpenRouterGrid"
-            Grid.Column="2"
-            Visibility="Collapsed">
+        <Grid x:Name="OpenRouterGrid" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -235,10 +251,10 @@
                     Width="130"
                     Height="30"
                     Padding="10,4,10,7"
+                    Cursor=""
                     FontSize="13.3"
                     Text="{Binding CurrentAPIConfig.ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
-
             <StackPanel
                 Grid.Row="1"
                 Grid.Column="0"
@@ -249,6 +265,7 @@
                     Width="130"
                     Height="30"
                     Padding="10,4,10,7"
+                    ClearButtonEnabled="False"
                     FontSize="13.3"
                     LargeChange="1"
                     Maximum="2"
@@ -256,11 +273,10 @@
                     SmallChange="0.1"
                     Value="{Binding CurrentAPIConfig.Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
-
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="15,10,0,0"
+                Margin="15,0,0,0"
                 Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="API Key" />
                 <ui:TextBox
@@ -270,6 +286,8 @@
                     FontSize="13.3"
                     Text="{Binding CurrentAPIConfig.ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
+
+            <Grid x:Name="NoSettingGrid" Grid.Column="2" />
         </Grid>
     </Grid>
 </Page>
