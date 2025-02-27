@@ -21,9 +21,28 @@ namespace LiveCaptionsTranslator.models
         private int maxSyncInterval = 5;
         private int historyMaxRow = 1;
 
+        private Dictionary<string, string> windowBounds = new()
+        {
+            { "Main", "1, 1, 1, 1" },
+            { "Overlay", "1, 1, 1, 1" },
+        };
+   
         private TranslateAPIConfig? currentAPIConfig;
 
         private bool enableLogging = true;
+
+        private bool mainTopmost = true;
+
+        public bool MainTopmost
+        {
+            get => mainTopmost;
+            set
+            {
+                mainTopmost = value;
+                OnPropertyChanged("MainTopMost");
+            }
+        }
+
         public bool EnableLogging
         {
             get => enableLogging;
@@ -85,6 +104,17 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("Prompt");
             }
         }
+
+        public Dictionary<string, string> WindowBounds
+        {
+            get => windowBounds;
+            set
+            {
+                windowBounds = value;
+                OnPropertyChanged("WindowBounds");
+            }
+        }
+
         [JsonInclude]
         public Dictionary<string, TranslateAPIConfig> Configs
         {

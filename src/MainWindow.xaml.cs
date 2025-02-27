@@ -27,22 +27,23 @@ namespace LiveCaptionsTranslator
                 );
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
+
+            WindowStateRestore(this, "Main");
+            ToggleTopmost(App.Settings.MainTopmost);
         }
 
         void TopmostButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
+            ToggleTopmost(!Topmost);
+        }
+
+        private void ToggleTopmost(bool enable)
+        {
+            var button = topmost as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
-            if (Topmost)
-            {
-                Topmost = false;
-                symbolIcon.Filled = false;
-            }
-            else
-            {
-                Topmost = true;
-                symbolIcon.Filled = true;
-            }
+            Topmost = enable;
+            symbolIcon.Filled = enable;
+            App.Settings.MainTopmost = enable;
         }
 
         void PauseButton_Click(object sender, RoutedEventArgs e)
@@ -70,6 +71,15 @@ namespace LiveCaptionsTranslator
             if (subtitleWindow == null)
             {
                 subtitleWindow = new SubtitleWindow();
+                WindowStateRestore(subtitleWindow, "Overlay");
+                subtitleWindow.SizeChanged += (s, e) =>
+                {
+                    WindowStateSave(subtitleWindow, "Overlay");
+                };
+                subtitleWindow.LocationChanged += (s, e) =>
+                {
+                    WindowStateSave(subtitleWindow, "Overlay");
+                };
                 subtitleWindow.Show();
                 symbolIcon.Filled = true;
             }
@@ -92,11 +102,47 @@ namespace LiveCaptionsTranslator
                 }
                 else
                 {
-                    icon.Symbol = SymbolRegular.TextGrammarArrowLeft24; 
+                    icon.Symbol = SymbolRegular.TextGrammarArrowLeft24;
                     App.Captions.LogonlyFlag = true;
                 }
 
                 isLogonlyEnabled = !isLogonlyEnabled;
+            }
+        }
+
+        private void MainWindow_BoundsChanged(object sender, EventArgs e)
+        {
+            var window = sender as Window;
+            WindowStateSave(window, "Main");
+        }
+
+        private void WindowStateSave(Window windows, string windowsType)
+        {
+            if (windows != null)
+            {
+                App.Settings.WindowBounds[windowsType] = windows.RestoreBounds.ToString();
+                App.Settings?.Save();
+            }
+        }
+
+        private void WindowStateRestore(Window windows, string windowsType)
+        {
+            if (windows != null)
+            {
+
+                Rect bounds = Rect.Parse(App.Settings.WindowBounds[windowsType]);
+                if (!bounds.IsEmpty)
+                {
+                    windows.Top = bounds.Top;
+                    windows.Left = bounds.Left;
+
+                    // Restore the size only for a manually sized
+                    if (windows.SizeToContent == SizeToContent.Manual)
+                    {
+                        windows.Width = bounds.Width;
+                        windows.Height = bounds.Height;
+                    }
+                }
             }
         }
     }
