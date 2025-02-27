@@ -42,7 +42,7 @@ namespace LiveCaptionsTranslator
             if (sender is System.Windows.Controls.TextBlock textBlock)
             {
                 Clipboard.SetText(textBlock.Text);
-                (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Copy16, "Copied To Clipboard!", 1);
+                (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Copy16, System.Windows.Media.Brushes.Green, "Copied To Clipboard!", 1);
             }
         }
     }
