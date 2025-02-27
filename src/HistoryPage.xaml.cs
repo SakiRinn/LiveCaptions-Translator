@@ -71,7 +71,7 @@ namespace LiveCaptionsTranslator
                 SQLiteHistoryLogger.ClearHistory();
                 await LoadHistory();
 
-                (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Delete12, "History Removed!", 1);
+                (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Delete12, System.Windows.Media.Brushes.Green, "History Removed!", 1);
             }
         }
 
@@ -111,11 +111,11 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCsv(saveFileDialog.FileName);
-                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Save16, $"Saved Success!\nFile saved to: {saveFileDialog.FileName}", 3);
+                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.Save16, System.Windows.Media.Brushes.Green, $"Saved Success!\nFile saved to: {saveFileDialog.FileName}", 3);
                 }
                 catch (Exception ex)
                 {
-                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.ErrorCircle16, $"Save Failed!\nFile saved faild:{ex.Message}", 3);
+                    (Application.Current.MainWindow as MainWindow)?.AddToast(SymbolRegular.ErrorCircle16, System.Windows.Media.Brushes.Red, $"Save Failed!\nFile saved faild:{ex.Message}", 3);
                 }
             }
         }
