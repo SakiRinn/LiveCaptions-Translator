@@ -141,5 +141,27 @@ namespace LiveCaptionsTranslator
                 }
             }
         }
+
+        private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.EnableCaptionLog = !App.Settings.EnableCaptionLog;
+            EnableCaptionLog(App.Settings.EnableCaptionLog);
+        }
+
+        private void EnableCaptionLog(bool enable)
+        {
+            if (captionLog.Icon is SymbolIcon icon)
+            {
+                if (enable)
+                {
+                    icon.Symbol = SymbolRegular.History24;
+                }
+                else
+                {
+                    icon.Symbol = SymbolRegular.HistoryDismiss24;
+                    App.Captions.ClearCaptionLog();
+                }
+            }
+        }
     }
 }
