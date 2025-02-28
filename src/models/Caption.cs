@@ -103,6 +103,7 @@ namespace LiveCaptionsTranslator.models
                     lastEOSIndex = fullText.LastIndexOfAny(PUNC_EOS);
                 string latestCaption = fullText.Substring(lastEOSIndex + 1);
 
+<<<<<<< HEAD
                 // DisplayOriginalCaption: The sentence to be displayed to the user.
                 if (DisplayOriginalCaption.CompareTo(latestCaption) != 0)
                 {
@@ -115,6 +116,14 @@ namespace LiveCaptionsTranslator.models
                     }
                     // If the last sentence is too long, truncate it when displayed.
                     DisplayOriginalCaption = ShortenDisplaySentence(DisplayOriginalCaption, 160);
+=======
+                // If the last sentence is too short, extend it by adding the previous sentence.
+                while (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 10)
+                {
+                    captionTrim = true;
+                    lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(PUNC_EOS);
+                    latestCaption = fullText.Substring(lastEOSIndex + 1);
+>>>>>>> d2eb5d1144b5be01ba7c51ee16bab8f414b42a5a
                 }
 
                 // OriginalCaption: The sentence to be really translated.
@@ -239,13 +248,21 @@ namespace LiveCaptionsTranslator.models
                     {
                         // Do not translate
                         TranslatedCaption = string.Empty;
+<<<<<<< HEAD
                         DisplayTranslatedCaption = "[Paused]";
+=======
+                        DisplayTranslatedCaption = "⏸️";
+>>>>>>> d2eb5d1144b5be01ba7c51ee16bab8f414b42a5a
                     }
                     else
                     {
                         // Translate and display
                         TranslatedCaption = await TranslationController.Translate(OriginalCaption);
+<<<<<<< HEAD
                         DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 240);
+=======
+                        DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption);
+>>>>>>> d2eb5d1144b5be01ba7c51ee16bab8f414b42a5a
                     }
 
                     TranslateFlag = false;
