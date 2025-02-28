@@ -1,6 +1,8 @@
 ﻿using System.Windows;
+using System.Text.RegularExpressions;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+
 using LiveCaptionsTranslator.src;
 
 namespace LiveCaptionsTranslator
@@ -96,31 +98,32 @@ namespace LiveCaptionsTranslator
             App.Settings.MainTopmost = enable;
         }
 
-        private void WindowStateSave(Window windows, string windowsType)
+        private void WindowStateSave(Window window, string windowType)
         {
-            if (windows != null)
+            if (window != null)
             {
-                App.Settings.WindowBounds[windowsType] = windows.RestoreBounds.ToString();
+                App.Settings.WindowBounds[windowType] = Regex.Replace(
+                    window.RestoreBounds.ToString(), @"(\d+\.\d{1})\d+", "$1");
                 App.Settings?.Save();
             }
         }
 
-        private void WindowStateRestore(Window windows, string windowsType)
+        private void WindowStateRestore(Window window, string windowType)
         {
-            if (windows != null)
+            if (window != null)
             {
 
-                Rect bounds = Rect.Parse(App.Settings.WindowBounds[windowsType]);
+                Rect bounds = Rect.Parse(App.Settings.WindowBounds[windowType]);
                 if (!bounds.IsEmpty)
                 {
-                    windows.Top = bounds.Top;
-                    windows.Left = bounds.Left;
+                    window.Top = bounds.Top;
+                    window.Left = bounds.Left;
 
                     // Restore the size only for a manually sized
-                    if (windows.SizeToContent == SizeToContent.Manual)
+                    if (window.SizeToContent == SizeToContent.Manual)
                     {
-                        windows.Width = bounds.Width;
-                        windows.Height = bounds.Height;
+                        window.Width = bounds.Width;
+                        window.Height = bounds.Height;
                     }
                 }
             }
