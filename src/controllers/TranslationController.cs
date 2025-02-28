@@ -28,38 +28,5 @@ namespace LiveCaptionsTranslator.controllers
             }
             return translatedText;
         }
-
-        public static async Task Log(string originalText, string translatedText, bool isOverWrite = false)
-        {
-            string targetLanguage = App.Settings.TargetLanguage;
-            string apiName = App.Settings.ApiName;
-
-            try
-            {
-                if (isOverWrite)
-                    await SQLiteHistoryLogger.DeleteLatestTranslation();
-                await SQLiteHistoryLogger.LogTranslation(originalText, translatedText, targetLanguage, apiName);
-                TranslationLogged?.Invoke();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
-            }
-        }
-
-        public static async Task LogOnly(string originalText, bool isOverWrite = false)
-        {
-            try
-            {
-                if (isOverWrite)
-                    await SQLiteHistoryLogger.DeleteLatestTranslation();
-                await SQLiteHistoryLogger.LogTranslation(originalText, "N/A", "N/A", "LogOnly");
-                TranslationLogged?.Invoke();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
-            }
-        }
     }
 }
