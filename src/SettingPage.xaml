@@ -26,6 +26,9 @@
                             <Run Text="After Windows 11 version 24H2, you can only change the" />
                             <Run FontWeight="Bold" Text="source language" />
                             <Run Text="in LiveCaptions" />
+                            <Run Text="&#x0A;Note: Please click" />
+                            <Run FontWeight="Bold" Text="&quot;Hide&quot;" />
+                            <Run Text="to hide LiveCaptions instead of closing it directly." />
                         </TextBlock>
                     </ui:Flyout>
                     <Button

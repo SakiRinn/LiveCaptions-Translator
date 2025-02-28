@@ -68,14 +68,24 @@ namespace LiveCaptionsTranslator.models
             {
                 if (App.Window == null)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(2000);
                     continue;
                 }
 
                 // Get the text recognized by LiveCaptions.
-                string fullText = GetCaptions(App.Window);      // about 10-15ms
+                string fullText = string.Empty;
+                try
+                {
+                    fullText = GetCaptions(App.Window);         // about 10-20ms
+                }
+                catch (ElementNotAvailableException ex)
+                {
+                    App.Window = null;
+                    continue;
+                }
                 if (string.IsNullOrEmpty(fullText))
                     continue;
+
                 // Note: For certain languages (such as Japanese), LiveCaptions excessively uses `\n`.
                 // Preprocess - Remove redundant `\n` around punctuation.
                 fullText = Regex.Replace(fullText, @"\s*([.!?,])\s*", "$1 ");
@@ -134,7 +144,7 @@ namespace LiveCaptionsTranslator.models
                     syncCount = 0;
                     TranslateFlag = true;
                 }
-                Thread.Sleep(40);
+                Thread.Sleep(25);
             }
         }
 
@@ -142,13 +152,21 @@ namespace LiveCaptionsTranslator.models
         {
             while (true)
             {
+                if (App.Window == null)
+                {
+                    App.Window = LiveCaptionsHandler.LaunchLiveCaptions();
+                    DisplayTranslatedCaption = "[WARNING] LiveCaptions was unexpectedly closed, restarting...";
+                }
+
                 if (TranslateFlag)
                 {
+                    var originalSnapshot = OriginalCaption;
+
                     // If the old sentence is the prefix of the new sentence,
                     // overwrite the previous entry when logging.
                     string lastLoggedOriginal = await SQLiteHistoryLogger.LoadLatestSourceText();
                     bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal) 
-                        && OriginalCaption.StartsWith(lastLoggedOriginal);
+                        && originalSnapshot.StartsWith(lastLoggedOriginal);
 
                     // Log Only
                     if (LogOnlyFlag)
@@ -158,23 +176,23 @@ namespace LiveCaptionsTranslator.models
                         DisplayTranslatedCaption = "[Paused]";
                         // Log
                         var LogOnlyTask = Task.Run(() => TranslationController.LogOnly(
-                            OriginalCaption, isOverWrite));
+                            originalSnapshot, isOverWrite));
                     }
                     else
                     {
                         // Translate and display
-                        TranslatedCaption = await TranslationController.Translate(OriginalCaption);
+                        TranslatedCaption = await TranslationController.Translate(originalSnapshot);
                         DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 240);
                         // Log
                         var LogTask = Task.Run(() => TranslationController.Log(
-                            OriginalCaption, TranslatedCaption, isOverWrite));
+                            originalSnapshot, TranslatedCaption, isOverWrite));
                     }
 
                     TranslateFlag = false;
                     if (EOSFlag)
-                        Thread.Sleep(1000);
+                        Thread.Sleep(600);
                 }
-                Thread.Sleep(25);
+                Thread.Sleep(40);
             }
         }
 

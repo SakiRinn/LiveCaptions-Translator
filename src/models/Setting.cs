@@ -17,7 +17,7 @@ namespace LiveCaptionsTranslator.models
         private Dictionary<string, TranslateAPIConfig> configs;
         private string prompt;
 
-        private int maxIdleInterval = 10;
+        private int maxIdleInterval = 20;
         private int maxSyncInterval = 5;
         private int historyMaxRow = 1;
 
