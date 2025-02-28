@@ -73,7 +73,7 @@ namespace LiveCaptionsTranslator.models
                 }
 
                 // Get the text recognized by LiveCaptions.
-                string fullText = GetCaptions(App.Window).Trim();       // about 10-15ms
+                string fullText = GetCaptions(App.Window);      // about 10-15ms
                 if (string.IsNullOrEmpty(fullText))
                     continue;
                 // Note: For certain languages (such as Japanese), LiveCaptions excessively uses `\n`.
@@ -81,7 +81,7 @@ namespace LiveCaptionsTranslator.models
                 fullText = Regex.Replace(fullText, @"\s*([.!?,])\s*", "$1 ");
                 fullText = Regex.Replace(fullText, @"\s*([。！？，、])\s*", "$1");
                 // Preprocess - Replace redundant `\n` within sentences with comma or period.
-                fullText = ReplaceNewlines(fullText, 40);
+                fullText = ReplaceNewlines(fullText, 32);
 
                 // Get the last sentence.
                 int lastEOSIndex;
@@ -174,7 +174,7 @@ namespace LiveCaptionsTranslator.models
                     if (EOSFlag)
                         Thread.Sleep(1000);
                 }
-                Thread.Sleep(40);
+                Thread.Sleep(25);
             }
         }
 
@@ -208,16 +208,15 @@ namespace LiveCaptionsTranslator.models
                     continue;
 
                 char lastChar = splits[i][^1];
-                bool isCJK =
-                    (lastChar >= '\u4E00' && lastChar <= '\u9FFF') ||
-                    (lastChar >= '\u3400' && lastChar <= '\u4DBF') ||
-                    (lastChar >= '\u3040' && lastChar <= '\u30FF') ||
-                    (lastChar >= '\uAC00' && lastChar <= '\uD7A3');
+                bool isCJ = (lastChar >= '\u4E00' && lastChar <= '\u9FFF') ||
+                            (lastChar >= '\u3400' && lastChar <= '\u4DBF') ||
+                            (lastChar >= '\u3040' && lastChar <= '\u30FF');
+                bool isKorean = (lastChar >= '\uAC00' && lastChar <= '\uD7AF'); 
 
                 if (Encoding.UTF8.GetByteCount(splits[i]) >= byteThreshold)
-                    splits[i] += isCJK ? "。" : ". ";
+                    splits[i] += isCJ && !isKorean ? "。" : ". ";
                 else
-                    splits[i] += isCJK ? "——" : "—";
+                    splits[i] += isCJ && !isKorean ? "——" : "—";
             }
             return string.Join("", splits);
         }
