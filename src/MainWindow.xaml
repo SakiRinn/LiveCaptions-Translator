@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    x:Name="fluentWindow"
     Title="LiveCaptionsTranslator"
     Width="750"
     Height="167"
@@ -116,14 +117,20 @@
             Padding="8"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
-            Background="#19C8C8C8"
+            Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}"
             FontWeight="Bold"
             Opacity="0">
             <StackPanel Orientation="Horizontal">
-                <ui:SymbolIcon x:Name="ToastIcon" Symbol="copy16" />
+                <ui:SymbolIcon
+                    x:Name="ToastIcon"
+                    VerticalAlignment="Center"
+                    FontSize="25"
+                    Symbol="copy16" />
                 <ui:TextBlock
                     x:Name="ToastText"
                     Margin="5,0,0,0"
+                    VerticalAlignment="Center"
+                    FontSize="16"
                     FontWeight="Bold"
                     Text="Copied To Clipboard!" />
             </StackPanel>
