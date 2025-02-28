@@ -62,7 +62,7 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public static async Task<(List<TranslationHistoryEntry>, int)> LoadHistoryAsync(int page, int maxRow)
+        public static async Task<(List<TranslationHistoryEntry>, int)> LoadHistoryAsync(int page, int maxRow, string searchText = "")
         {
             var history = new List<TranslationHistoryEntry>();
             int maxPage = 1;
@@ -72,15 +72,20 @@ namespace LiveCaptionsTranslator.models
                 await connection.OpenAsync();
 
                 // Get max page
-                using (var command = new SqliteCommand("SELECT COUNT() AS maxPage FROM TranslationHistory", connection))
+                using (var command = new SqliteCommand(@$"SELECT COUNT() AS maxPage
+                    FROM TranslationHistory
+                    WHERE SourceText LIKE '%{searchText}%' OR TranslatedText LIKE '%{searchText}%'",
+                    connection))
                     maxPage = Convert.ToInt32(command.ExecuteScalar()) / maxRow;
 
                 // Get table
-                using (var command = new SqliteCommand(@"
+                using (var command = new SqliteCommand(@$"
                     SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed
                     FROM TranslationHistory
+                    WHERE SourceText LIKE '%{searchText}%' OR TranslatedText LIKE '%{searchText}%'
                     ORDER BY Timestamp DESC
-                    LIMIT " + maxRow + " OFFSET " + ((page * maxRow) - maxRow), connection))
+                    LIMIT " + maxRow + " OFFSET " + ((page * maxRow) - maxRow),
+                    connection))
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())

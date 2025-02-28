@@ -64,6 +64,16 @@
                     <ComboBoxItem Content="50/page" Tag="50" />
                     <ComboBoxItem Content="100/page" Tag="100" />
                 </ComboBox>
+
+                <ui:AutoSuggestBox
+                    x:Name="HistorySearchBox"
+                    MinWidth="200"
+                    MaxWidth="200"
+                    Margin="5,0,0,0"
+                    PlaceholderText="Search"
+                    QuerySubmitted="HistorySearchBox_QuerySubmitted"
+                    TextChanged="HistorySearchBox_TextChanged" />
+
             </StackPanel>
 
             <StackPanel
@@ -74,18 +84,17 @@
                 Orientation="Horizontal">
                 <ui:Button
                     x:Name="Export"
-                    Margin="25,0,0,0"
+                    Margin="0,0,0,0"
                     HorizontalAlignment="Right"
                     Appearance="Transparent"
                     Click="ExportHistory"
                     Icon="{ui:SymbolIcon ArrowDown12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Export"
-                />
+                    ToolTip="Export" />
                 <ui:Button
                     x:Name="Delete"
-                    Margin="15,0,0,0"
+                    Margin="5,0,0,0"
                     HorizontalAlignment="Right"
                     Appearance="Transparent"
                     Click="DeleteHistory"
@@ -171,6 +180,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ui:SnackbarPresenter Grid.Row="0" x:Name="SnackbarHost" />
+        <ui:SnackbarPresenter x:Name="SnackbarHost" Grid.Row="0" />
     </Grid>
 </Page>
