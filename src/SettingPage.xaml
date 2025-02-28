@@ -15,6 +15,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Orientation="Vertical">
@@ -132,7 +133,28 @@
             </StackPanel>
         </StackPanel>
 
-        <Grid x:Name="OpenAIGrid" Grid.Column="2">
+        <StackPanel Grid.Column="2" Orientation="Vertical">
+            <StackPanel Margin="15,0,0,0" Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Max Caption Log" />
+                <ComboBox
+                    x:Name="captionLogMax"
+                    Width="150"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    SelectedIndex="{Binding CaptionLogMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectionChanged="captionLogMax_SelectionChanged">
+                    <ComboBoxItem Content="1" />
+                    <ComboBoxItem Content="2" />
+                    <ComboBoxItem Content="3" />
+                    <ComboBoxItem Content="4" />
+                    <ComboBoxItem Content="5" />
+                    <ComboBoxItem Content="6" />
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+
+        <Grid x:Name="OpenAIGrid" Grid.Column="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -201,7 +223,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="OllamaGrid" Grid.Column="2">
+        <Grid Grid.Column="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -261,7 +283,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="OpenRouterGrid" Grid.Column="2">
+        <Grid x:Name="OpenRouterGrid" Grid.Column="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />

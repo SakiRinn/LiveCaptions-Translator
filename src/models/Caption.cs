@@ -103,7 +103,7 @@ namespace LiveCaptionsTranslator.models
                     lastEOSIndex = fullText.LastIndexOfAny(PUNC_EOS);
                 string latestCaption = fullText.Substring(lastEOSIndex + 1);
 
-<<<<<<< HEAD
+
                 // DisplayOriginalCaption: The sentence to be displayed to the user.
                 if (DisplayOriginalCaption.CompareTo(latestCaption) != 0)
                 {
@@ -116,14 +116,6 @@ namespace LiveCaptionsTranslator.models
                     }
                     // If the last sentence is too long, truncate it when displayed.
                     DisplayOriginalCaption = ShortenDisplaySentence(DisplayOriginalCaption, 160);
-=======
-                // If the last sentence is too short, extend it by adding the previous sentence.
-                while (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 10)
-                {
-                    captionTrim = true;
-                    lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(PUNC_EOS);
-                    latestCaption = fullText.Substring(lastEOSIndex + 1);
->>>>>>> d2eb5d1144b5be01ba7c51ee16bab8f414b42a5a
                 }
 
                 // OriginalCaption: The sentence to be really translated.
@@ -196,7 +188,7 @@ namespace LiveCaptionsTranslator.models
             string translated = "[Paused]";
             string targetLanguage = App.Settings.TargetLanguage;
             string apiName = App.Settings.ApiName;
-            bool captionLog = App.Settings.EnableCaptionLog;
+            bool captionLog = App.Settings.CaptionLogEnable;
 
             // Insert history database
             try
@@ -220,7 +212,7 @@ namespace LiveCaptionsTranslator.models
             // Add caption log card
             if (captionLog)
             {
-                if (this.captionLog.Count >= 6)
+                if (this.captionLog.Count >= App.Settings.CaptionLogMax + 1)
                     this.captionLog.Dequeue();
                 this.captionLog.Enqueue(new CaptionLogItem
                 {
@@ -248,21 +240,13 @@ namespace LiveCaptionsTranslator.models
                     {
                         // Do not translate
                         TranslatedCaption = string.Empty;
-<<<<<<< HEAD
                         DisplayTranslatedCaption = "[Paused]";
-=======
-                        DisplayTranslatedCaption = "⏸️";
->>>>>>> d2eb5d1144b5be01ba7c51ee16bab8f414b42a5a
                     }
                     else
                     {
                         // Translate and display
                         TranslatedCaption = await TranslationController.Translate(OriginalCaption);
-<<<<<<< HEAD
                         DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 240);
-=======
-                        DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption);
->>>>>>> d2eb5d1144b5be01ba7c51ee16bab8f414b42a5a
                     }
 
                     TranslateFlag = false;
@@ -306,7 +290,7 @@ namespace LiveCaptionsTranslator.models
                 bool isCJ = (lastChar >= '\u4E00' && lastChar <= '\u9FFF') ||
                             (lastChar >= '\u3400' && lastChar <= '\u4DBF') ||
                             (lastChar >= '\u3040' && lastChar <= '\u30FF');
-                bool isKorean = (lastChar >= '\uAC00' && lastChar <= '\uD7AF'); 
+                bool isKorean = (lastChar >= '\uAC00' && lastChar <= '\uD7AF');
 
                 if (Encoding.UTF8.GetByteCount(splits[i]) >= byteThreshold)
                     splits[i] += isCJ && !isKorean ? "。" : ". ";
