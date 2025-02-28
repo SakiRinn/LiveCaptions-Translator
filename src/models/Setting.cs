@@ -19,8 +19,11 @@ namespace LiveCaptionsTranslator.models
 
         private int maxIdleInterval = 20;
         private int maxSyncInterval = 5;
+
         private int historyMaxRow = 1;
-        private bool enableCaptionLog = true;
+
+        private bool captionLogEnable = true;
+        private int captionLogMax = 0;
 
         private Dictionary<string, string> windowBounds = new()
         {
@@ -106,12 +109,22 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public bool EnableCaptionLog
+        public bool CaptionLogEnable
         {
-            get => enableCaptionLog;
+            get => captionLogEnable;
             set
             {
-                enableCaptionLog = value;
+                captionLogEnable = value;
+                OnPropertyChanged("EnableCaptionLog");
+            }
+        }
+
+        public int CaptionLogMax
+        {
+            get => captionLogMax;
+            set
+            {
+                captionLogMax = value;
                 OnPropertyChanged("EnableCaptionLog");
             }
         }
