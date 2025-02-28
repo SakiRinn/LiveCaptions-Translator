@@ -4,14 +4,17 @@ using LiveCaptionsTranslator.models;
 using System.Windows;
 using Microsoft.Win32;
 using Wpf.Ui.Controls;
+using System.Diagnostics;
 
 namespace LiveCaptionsTranslator
 {
     public partial class HistoryPage : Page
     {
-        int page = 1;
+        int currentPage = 1;
         int maxPage = 1;
         int maxRow = 20;
+        int searchPage = 1;
+        string searching;
 
         public HistoryPage()
         {
@@ -24,7 +27,7 @@ namespace LiveCaptionsTranslator
 
         private async Task LoadHistory()
         {
-            var data = await SQLiteHistoryLogger.LoadHistoryAsync(page, maxRow);
+            var data = await SQLiteHistoryLogger.LoadHistoryAsync(currentPage, maxRow, searching);
             List<TranslationHistoryEntry> history = data.Item1;
 
             maxPage = (data.Item2 > 0) ? data.Item2 : 1;
@@ -32,22 +35,22 @@ namespace LiveCaptionsTranslator
             await Dispatcher.InvokeAsync(() =>
             {
                 HistoryDataGrid.ItemsSource = history;
-                PageNamber.Text = page.ToString() + "/" + maxPage.ToString();
+                PageNamber.Text = currentPage.ToString() + "/" + maxPage.ToString();
             });
         }
 
         void PageDown(object sender, RoutedEventArgs e)
         {
-            if (page - 1 >= 1)
-                page--;
-                LoadHistory();
+            if (currentPage - 1 >= 1)
+                currentPage--;
+            LoadHistory();
 
         }
         void PageUp(object sender, RoutedEventArgs e)
         {
-            if (page < maxPage)
-                page++;
-                LoadHistory();
+            if (currentPage < maxPage)
+                currentPage++;
+            LoadHistory();
         }
 
         private async void DeleteHistory(object sender, RoutedEventArgs e)
@@ -65,7 +68,7 @@ namespace LiveCaptionsTranslator
             var result = await dialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                page = 1;
+                currentPage = 1;
                 SQLiteHistoryLogger.ClearHistory();
                 await LoadHistory();
             }
@@ -79,10 +82,10 @@ namespace LiveCaptionsTranslator
 
             LoadHistory();
 
-            if (page > maxPage)
+            if (currentPage > maxPage)
             {
-                page = maxPage;
-                LoadHistory(); ;
+                currentPage = maxPage;
+                LoadHistory();
             }
         }
 
@@ -91,7 +94,7 @@ namespace LiveCaptionsTranslator
             LoadHistory();
         }
 
-        private async void ExportHistory(object sender, RoutedEventArgs e)
+        private async void ExportHistory(object ain, RoutedEventArgs e)
         {
 
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -101,22 +104,22 @@ namespace LiveCaptionsTranslator
                 FileName = $"exported_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.csv",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
-            
+
             if (saveFileDialog.ShowDialog() == true)
             {
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCsv(saveFileDialog.FileName);
-                    ShowSnackbar("Saved Success",$"File saved to: {saveFileDialog.FileName}"); 
+                    ShowSnackbar("Saved Success", $"File saved to: {saveFileDialog.FileName}");
                 }
                 catch (Exception ex)
                 {
-                    ShowSnackbar("Save Failed",$"File saved faild:{ex.Message}");
+                    ShowSnackbar("Save Failed", $"File saved faild:{ex.Message}");
                 }
             }
         }
-        
-        private void ShowSnackbar(string title,string message, bool isError = false)
+
+        private void ShowSnackbar(string title, string message, bool isError = false)
         {
 
             var snackbar = new Snackbar(SnackbarHost)
@@ -127,8 +130,43 @@ namespace LiveCaptionsTranslator
                 Timeout = TimeSpan.FromSeconds(2)
             };
 
-            snackbar.Show(); 
+            snackbar.Show();
         }
 
+        private void HistorySearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            string searchText = (sender as AutoSuggestBox)?.Text ?? "";
+
+            // Clear search by Ctrl+A and Delete and Enter
+            if (string.IsNullOrEmpty(searchText))
+            {
+                searching = null;
+                currentPage = searchPage;
+            }
+            else // Submit search 
+            {
+                if (string.IsNullOrEmpty(searching))
+                {
+                    searchPage = currentPage;
+                }
+                searching = (sender as AutoSuggestBox)?.Text;
+                currentPage = 1;
+            }
+            LoadHistory();
+        }
+
+        private void HistorySearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            // Press X to clear search box
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
+            {
+                if (!string.IsNullOrEmpty(searching))
+                {
+                    searching = null;
+                    currentPage = searchPage;
+                    LoadHistory();
+                }
+            }
+        }
     }
 }
