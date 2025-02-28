@@ -56,6 +56,16 @@ namespace LiveCaptionsTranslator
             }
         }
 
+        private void captionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = (sender as ComboBox).SelectedIndex;
+            if (index < App.Settings.CaptionLogMax)
+            {
+                App.Captions.ClearCaptionLog();
+            }
+            App.Settings.CaptionLogMax = index;
+        }
+
         private void targetLangBox_LostFocus(object sender, RoutedEventArgs e)
         {
             App.Settings.TargetLanguage = targetLangBox.Text;

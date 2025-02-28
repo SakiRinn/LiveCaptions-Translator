@@ -144,8 +144,8 @@ namespace LiveCaptionsTranslator
 
         private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.EnableCaptionLog = !App.Settings.EnableCaptionLog;
-            EnableCaptionLog(App.Settings.EnableCaptionLog);
+            App.Settings.CaptionLogEnable = !App.Settings.CaptionLogEnable;
+            EnableCaptionLog(App.Settings.CaptionLogEnable);
         }
 
         private void EnableCaptionLog(bool enable)
