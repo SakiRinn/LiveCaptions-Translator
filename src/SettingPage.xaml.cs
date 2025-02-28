@@ -1,8 +1,9 @@
-﻿using LiveCaptionsTranslator.models;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Wpf.Ui.Appearance;
+
+using LiveCaptionsTranslator.models;
 
 namespace LiveCaptionsTranslator
 {
@@ -22,9 +23,24 @@ namespace LiveCaptionsTranslator
             targetLangBox.LostFocus += targetLangBox_LostFocus;
         }
 
-        private void Setting_Click(object sender, RoutedEventArgs e)
+        private void Button_LiveCaptions(object sender, RoutedEventArgs e)
         {
-            LiveCaptionsHandler.ClickSettingsButton(App.Window);
+            if (App.Window == null)
+                return;
+
+            var button = sender as Wpf.Ui.Controls.Button;
+            var text = ButtonText.Text;
+
+            if (text == "Show")
+            {
+                LiveCaptionsHandler.RestoreLiveCaptions(App.Window);
+                ButtonText.Text = "Hide";
+            }
+            else
+            {
+                LiveCaptionsHandler.HideLiveCaptions(App.Window);
+                ButtonText.Text = "Show";
+            }
         }
 
         private void LoadAPISetting()
@@ -67,19 +83,34 @@ namespace LiveCaptionsTranslator
             App.Settings.TargetLanguage = targetLangBox.Text;
         }
 
-        private void InfoButton_Click(object sender, RoutedEventArgs e)
+        private void TargetLangButton_MouseEnter(object sender, MouseEventArgs e)
         {
-            InfoPopup.IsOpen = true;
-            PageGrid.PreviewMouseDown += PageGrid_Click;
+            TargetLangInfoFlyout.Show();
         }
 
-        private void PageGrid_Click(object sender, MouseButtonEventArgs e)
+        private void TargetLangButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (InfoPopup.IsOpen)
-            {
-                InfoPopup.IsOpen = false;
-                PageGrid.PreviewMouseDown -= PageGrid_Click;
-            }
+            TargetLangInfoFlyout.Hide();
+        }
+
+        private void LiveCaptionsButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            LiveCaptionsInfoFlyout.Show();
+        }
+
+        private void LiveCaptionsButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            LiveCaptionsInfoFlyout.Hide();
+        }
+
+        private void FrequencyButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            FrequencyInfoFlyout.Show();
+        }
+
+        private void FrequencyButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            FrequencyInfoFlyout.Hide();
         }
     }
 }

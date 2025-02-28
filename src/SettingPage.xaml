@@ -19,17 +19,59 @@
 
         <StackPanel Grid.Column="0" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="LiveCaptions Setting" />
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock Margin="2.5,0,0,5" Text="LiveCaptions" />
+                    <ui:Flyout x:Name="LiveCaptionsInfoFlyout">
+                        <TextBlock Width="320" TextWrapping="Wrap">
+                            <Run Text="After Windows 11 version 24H2, you can only change the" />
+                            <Run FontWeight="Bold" Text="source language" />
+                            <Run Text="in LiveCaptions" />
+                        </TextBlock>
+                    </ui:Flyout>
+                    <Button
+                        Width="15"
+                        Height="15"
+                        Margin="-5,-3,0,0"
+                        Padding="0"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        MouseEnter="LiveCaptionsButton_MouseEnter"
+                        MouseLeave="LiveCaptionsButton_MouseLeave">
+                        <ui:SymbolIcon Symbol="Info16" />
+                    </Button>
+                </StackPanel>
                 <ui:Button
                     Width="145"
                     Height="30"
                     Padding="11,4,11,4"
-                    Click="Setting_Click">
-                    <TextBlock Text="Open" />
+                    Click="Button_LiveCaptions">
+                    <TextBlock x:Name="ButtonText" Text="Show" />
                 </ui:Button>
             </StackPanel>
+
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="Translation Interval" />
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock Margin="2.5,0,0,5" Text="API Frequency" />
+                    <ui:Flyout x:Name="FrequencyInfoFlyout">
+                        <TextBlock Width="340" TextWrapping="Wrap">
+                            <Run Text="Determines the frequency of translate API calls." />
+                            <Run Text="&#x0A;The translate API is called once after the caption changes" />
+                            <Run FontWeight="SemiBold" Text="[API Frequency]" />
+                            <Run Text="times" />
+                        </TextBlock>
+                    </ui:Flyout>
+                    <Button
+                        Width="15"
+                        Height="15"
+                        Margin="-5,-3,0,0"
+                        Padding="0"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        MouseEnter="FrequencyButton_MouseEnter"
+                        MouseLeave="FrequencyButton_MouseLeave">
+                        <ui:SymbolIcon Symbol="Info16" />
+                    </Button>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Slider
                         Width="140"
@@ -54,44 +96,32 @@
                     SelectedItem="{Binding ApiName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     SelectionChanged="translateAPIBox_SelectionChanged" />
             </StackPanel>
+
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <TextBlock
                         Margin="2.5,0,0,5"
                         VerticalAlignment="Center"
                         Text="Target Language" />
-
+                    <ui:Flyout x:Name="TargetLangInfoFlyout">
+                        <TextBlock Width="300" TextWrapping="Wrap">
+                            <Run Text="You can directly edit to customize the language, and it is recommended to follow the" />
+                            <Run FontWeight="Bold" Text="BCP 47 language tag" />
+                            <Run Text="&#x0A;Note: Google translate might be failed to run if don't use BCP 47 language tag" />
+                        </TextBlock>
+                    </ui:Flyout>
                     <Button
-                        Width="20"
-                        Height="20"
-                        Margin="5,0,0,0"
+                        Width="15"
+                        Height="15"
+                        Margin="-5,-3,0,0"
                         Padding="0"
                         Background="Transparent"
                         BorderThickness="0"
-                        Click="InfoButton_Click">
-                        <ui:SymbolIcon Symbol="Info24" />
+                        MouseEnter="TargetLangButton_MouseEnter"
+                        MouseLeave="TargetLangButton_MouseLeave">
+                        <ui:SymbolIcon Symbol="Info16" />
                     </Button>
-
-                    <Popup
-                        x:Name="InfoPopup"
-                        AllowsTransparency="True"
-                        Placement="Top"
-                        PopupAnimation="Fade"
-                        StaysOpen="True">
-                        <Border
-                            Padding="10"
-                            Background="White"
-                            BorderBrush="Black"
-                            BorderThickness="1"
-                            CornerRadius="5">
-                            <TextBlock
-                                Width="220"
-                                Text="Google translate might be failed to run if don't use BCP 47 language tag."
-                                TextWrapping="Wrap" />
-                        </Border>
-                    </Popup>
                 </StackPanel>
-
                 <ComboBox
                     x:Name="targetLangBox"
                     Width="150"
