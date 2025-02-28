@@ -21,6 +21,7 @@ namespace LiveCaptionsTranslator.models
         private int maxSyncInterval = 5;
 
         private int historyMaxRow = 1;
+        private bool enableCaptionLog = true;
 
         private bool captionLogEnable = true;
         private int captionLogMax = 0;
@@ -109,13 +110,14 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
+
         public bool CaptionLogEnable
         {
             get => captionLogEnable;
             set
             {
                 captionLogEnable = value;
-                OnPropertyChanged("EnableCaptionLog");
+                OnPropertyChanged("CaptionLogEnable");
             }
         }
 
@@ -125,7 +127,7 @@ namespace LiveCaptionsTranslator.models
             set
             {
                 captionLogMax = value;
-                OnPropertyChanged("EnableCaptionLog");
+                OnPropertyChanged("CaptionLogMax");
             }
         }
 

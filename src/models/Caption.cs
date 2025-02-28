@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 using LiveCaptionsTranslator.controllers;
+using System.Diagnostics;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -252,12 +253,6 @@ namespace LiveCaptionsTranslator.models
                 if (TranslateFlag)
                 {
                     var originalSnapshot = OriginalCaption;
-
-                    // If the old sentence is the prefix of the new sentence,
-                    // overwrite the previous entry when logging.
-                    string lastLoggedOriginal = await SQLiteHistoryLogger.LoadLatestSourceText();
-                    bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal) 
-                        && originalSnapshot.StartsWith(lastLoggedOriginal);
 
                     // Log Only
                     if (LogOnlyFlag)
