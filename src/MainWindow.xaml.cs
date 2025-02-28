@@ -30,21 +30,12 @@ namespace LiveCaptionsTranslator
             ToggleTopmost(App.Settings.MainTopmost);
         }
 
-        void TopmostButton_Click(object sender, RoutedEventArgs e)
+        private void TopmostButton_Click(object sender, RoutedEventArgs e)
         {
             ToggleTopmost(!Topmost);
         }
 
-        private void ToggleTopmost(bool enable)
-        {
-            var button = topmost as Button;
-            var symbolIcon = button?.Icon as SymbolIcon;
-            Topmost = enable;
-            symbolIcon.Filled = enable;
-            App.Settings.MainTopmost = enable;
-        }
-
-        void OverlaySubtitleModeButton_Click(object sender, RoutedEventArgs e)
+        private void OverlaySubtitleModeButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
@@ -94,6 +85,15 @@ namespace LiveCaptionsTranslator
         {
             var window = sender as Window;
             WindowStateSave(window, "Main");
+        }
+
+        private void ToggleTopmost(bool enable)
+        {
+            var button = topmost as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
+            Topmost = enable;
+            symbolIcon.Filled = enable;
+            App.Settings.MainTopmost = enable;
         }
 
         private void WindowStateSave(Window windows, string windowsType)

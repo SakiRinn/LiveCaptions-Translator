@@ -15,27 +15,6 @@ namespace LiveCaptionsTranslator
             App.Captions.PropertyChanged += TranslatedChanged;
         }
 
-        private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(App.Captions.DisplayTranslatedCaption))
-            {
-                if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 128)
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        this.TranslatedCaption.FontSize = 15;
-                    }), DispatcherPriority.Background);
-                } 
-                else
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        this.TranslatedCaption.FontSize = 18;
-                    }), DispatcherPriority.Background);
-                }
-            }
-        }
-
         private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
             if (sender is TextBlock textBlock)
@@ -51,6 +30,27 @@ namespace LiveCaptionsTranslator
                 }
                 await Task.Delay(500);
                 textBlock.ToolTip = "Click to Copy";
+            }
+        }
+
+        private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(App.Captions.DisplayTranslatedCaption))
+            {
+                if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 128)
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        this.TranslatedCaption.FontSize = 15;
+                    }), DispatcherPriority.Background);
+                }
+                else
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        this.TranslatedCaption.FontSize = 18;
+                    }), DispatcherPriority.Background);
+                }
             }
         }
     }
