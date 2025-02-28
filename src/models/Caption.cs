@@ -5,7 +5,6 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 using LiveCaptionsTranslator.controllers;
-using System.Diagnostics;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -156,12 +155,8 @@ namespace LiveCaptionsTranslator.models
                         string oc = captionLatest;
                         string _oc = StringTrim(oc, 3, oc.Length - 3);
                         string _ol = StringTrim(originalLatest, 3, originalLatest.Length - 3);
-                        Debug.WriteLine(">" + oc);
-                        Debug.WriteLine("*" + _oc);
-                        Debug.WriteLine("**" + _ol);
                         if (_oc != _ol) // Prevent from spamming
                         {
-                            Debug.WriteLine("|" + oc);
                             originalLatest = oc;
                             var historyTask = Task.Run(() => HistoryCapture(oc));
                         }
