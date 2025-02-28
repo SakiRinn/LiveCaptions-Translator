@@ -9,9 +9,10 @@ namespace LiveCaptionsTranslator
 {
     public partial class MainWindow : FluentWindow
     {
-        private Window? subtitleWindow = null;
+        private uint OverlayMode = 0;
 
-        private bool isLogOnlyEnabled = false;
+        public SubtitleWindow? SubtitleWindow { get; set; } = null;
+
 
         public MainWindow()
         {
@@ -42,25 +43,39 @@ namespace LiveCaptionsTranslator
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
 
-            if (subtitleWindow == null)
+            if (OverlayMode == 0)
             {
-                subtitleWindow = new SubtitleWindow();
-                WindowStateRestore(subtitleWindow, "Overlay");
-                subtitleWindow.SizeChanged += (s, e) =>
-                {
-                    WindowStateSave(subtitleWindow, "Overlay");
-                };
-                subtitleWindow.LocationChanged += (s, e) =>
-                {
-                    WindowStateSave(subtitleWindow, "Overlay");
-                };
-                subtitleWindow.Show();
-                symbolIcon.Filled = true;
+                // Mode 1: Caption + Translation
+                OverlayMode = 1;
+                symbolIcon.Symbol = SymbolRegular.TextUnderlineDouble20;
+
+                SubtitleWindow = new SubtitleWindow();
+                WindowStateRestore(SubtitleWindow, "Overlay");
+                SubtitleWindow.SizeChanged += 
+                    (s, e) => WindowStateSave(SubtitleWindow, "Overlay");
+                SubtitleWindow.LocationChanged += 
+                    (s, e) => WindowStateSave(SubtitleWindow, "Overlay");
+                SubtitleWindow.Show();
+            }
+            else if (OverlayMode == 1)
+            {
+                // Mode 2: Translation Only
+                OverlayMode = 2;
+                symbolIcon.Symbol = SymbolRegular.TextAddSpaceBefore20;
+
+                SubtitleWindow.TranslationOnly(true);
+                SubtitleWindow.Focus();
             }
             else
             {
-                subtitleWindow.Close();
-                subtitleWindow = null;
+                // Mode 0: Close
+                OverlayMode = 0;
+                symbolIcon.Symbol = SymbolRegular.WindowNew20;
+
+                SubtitleWindow.TranslationOnly(false);
+                SubtitleWindow.Close();
+
+                SubtitleWindow = null;
                 symbolIcon.Filled = false;
             }
         }
@@ -70,7 +85,7 @@ namespace LiveCaptionsTranslator
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
 
-            if (isLogOnlyEnabled)
+            if (App.Captions.LogOnlyFlag)
             {
                 App.Captions.LogOnlyFlag = false;
                 symbolIcon.Filled = false;
@@ -80,7 +95,6 @@ namespace LiveCaptionsTranslator
                 App.Captions.LogOnlyFlag = true;
                 symbolIcon.Filled = true;
             }
-            isLogOnlyEnabled = !isLogOnlyEnabled;
         }
 
         private void MainWindow_BoundsChanged(object sender, EventArgs e)
@@ -112,7 +126,6 @@ namespace LiveCaptionsTranslator
         {
             if (window != null)
             {
-
                 Rect bounds = Rect.Parse(App.Settings.WindowBounds[windowType]);
                 if (!bounds.IsEmpty)
                 {

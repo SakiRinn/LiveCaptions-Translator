@@ -106,7 +106,7 @@ namespace LiveCaptionsTranslator.models
                 {
                     DisplayOriginalCaption = latestCaption;
                     // If the last sentence is too short, extend it by adding the previous sentence when displayed.
-                    if (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 10)
+                    if (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 12)
                     {
                         lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(PUNC_EOS);
                         DisplayOriginalCaption = fullText.Substring(lastEOSIndex + 1);
@@ -229,7 +229,7 @@ namespace LiveCaptionsTranslator.models
                 bool isCJ = (lastChar >= '\u4E00' && lastChar <= '\u9FFF') ||
                             (lastChar >= '\u3400' && lastChar <= '\u4DBF') ||
                             (lastChar >= '\u3040' && lastChar <= '\u30FF');
-                bool isKorean = (lastChar >= '\uAC00' && lastChar <= '\uD7AF'); 
+                bool isKorean = (lastChar >= '\uAC00' && lastChar <= '\uD7AF');
 
                 if (Encoding.UTF8.GetByteCount(splits[i]) >= byteThreshold)
                     splits[i] += isCJ && !isKorean ? "。" : ". ";

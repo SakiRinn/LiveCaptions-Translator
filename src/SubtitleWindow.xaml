@@ -48,6 +48,7 @@
                 </Grid.Resources>
 
                 <ui:Card
+                    x:Name="OriginalCaptionCard"
                     Grid.Row="0"
                     Margin="5,3,5,1"
                     Padding="8"
@@ -55,13 +56,14 @@
                     Background="Transparent"
                     BorderThickness="0">
                     <TextBlock
-                        x:Name="PresentedCaption"
+                        x:Name="OriginalCaption"
                         FontSize="15"
                         Foreground="#FFFFFFFF"
                         Style="{StaticResource CaptionBlockStyle}"
                         Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}" />
                 </ui:Card>
                 <ui:Card
+                    x:Name="TranslatedCaptionCard"
                     Grid.Row="1"
                     Margin="5,1,5,3"
                     Padding="8"

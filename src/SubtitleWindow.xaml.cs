@@ -16,27 +16,6 @@ namespace LiveCaptionsTranslator.src
             App.Captions.PropertyChanged += TranslatedChanged;
         }
 
-        private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(App.Captions.DisplayTranslatedCaption))
-            {
-                if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 160)
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        this.TranslatedCaption.FontSize = 15;
-                    }), DispatcherPriority.Background);
-                }
-                else
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        this.TranslatedCaption.FontSize = 18;
-                    }), DispatcherPriority.Background);
-                }
-            }
-        }
-
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -109,6 +88,48 @@ namespace LiveCaptionsTranslator.src
         {
             BottomThumb_OnDragDelta(sender, e);
             RightThumb_OnDragDelta(sender, e);
+        }
+
+        private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(App.Captions.DisplayTranslatedCaption))
+            {
+                if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 160)
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        this.TranslatedCaption.FontSize = 15;
+                    }), DispatcherPriority.Background);
+                }
+                else
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        this.TranslatedCaption.FontSize = 18;
+                    }), DispatcherPriority.Background);
+                }
+            }
+        }
+
+        public void TranslationOnly(bool isTranslationOnly)
+        {
+            if (isTranslationOnly)
+            {
+                OriginalCaptionCard.Visibility = Visibility.Collapsed;
+                if (this.MinHeight > 40 && this.Height > 40)
+                {
+                    this.MinHeight -= 40;
+                    this.Height -= 40;
+                    this.Top += 40;
+                }
+            }
+            else if (OriginalCaptionCard.Visibility == Visibility.Collapsed)
+            {
+                OriginalCaptionCard.Visibility = Visibility.Visible;
+                this.Top -= 40;
+                this.Height += 40;
+                this.MinHeight += 40;
+            }
         }
     }
 }

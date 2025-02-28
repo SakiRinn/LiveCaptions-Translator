@@ -37,7 +37,7 @@ namespace LiveCaptionsTranslator
         {
             if (e.PropertyName == nameof(App.Captions.DisplayTranslatedCaption))
             {
-                if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 128)
+                if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 160)
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {
