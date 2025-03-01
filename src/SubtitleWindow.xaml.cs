@@ -5,7 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
 
-namespace LiveCaptionsTranslator.src
+namespace LiveCaptionsTranslator
 {
     public partial class SubtitleWindow : Window
     {

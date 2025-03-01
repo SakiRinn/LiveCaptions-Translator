@@ -3,7 +3,9 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace LiveCaptionsTranslator.models
+using LiveCaptionsTranslator.models;
+
+namespace LiveCaptionsTranslator.utils
 {
     public static class TranslateAPI
     {
@@ -35,10 +37,10 @@ namespace LiveCaptionsTranslator.models
             var requestData = new
             {
                 model = config?.ModelName,
-                messages = new OpenAIConfig.Message[]
+                messages = new BaseLLMConfig.Message[]
                 {
-                    new OpenAIConfig.Message { role = "system", content = string.Format(Prompt, language)},
-                    new OpenAIConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
+                    new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language)},
+                    new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
                 },
                 temperature = config?.Temperature,
                 max_tokens = 64,
@@ -81,10 +83,10 @@ namespace LiveCaptionsTranslator.models
             var requestData = new
             {
                 model = config?.ModelName,
-                messages = new OllamaConfig.Message[]
+                messages = new BaseLLMConfig.Message[]
                 {
-                    new OllamaConfig.Message { role = "system", content = string.Format(Prompt, language)},
-                    new OllamaConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
+                    new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language)},
+                    new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
                 },
                 temperature = config?.Temperature,
                 max_tokens = 64,

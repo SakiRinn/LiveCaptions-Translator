@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace LiveCaptionsTranslator.models
+namespace LiveCaptionsTranslator.utils
 {
     public static class WindowsAPI
     {
@@ -11,23 +11,23 @@ namespace LiveCaptionsTranslator.models
         public const int SW_RESTORE = 9;
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        public static extern bool ShowWindow(nint hWnd, int nCmdShow);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+        public static extern int GetWindowLong(nint hWnd, int nIndex);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        public static extern int SetWindowLong(nint hWnd, int nIndex, int dwNewLong);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+        public static extern int GetWindowThreadProcessId(nint hWnd, out int lpdwProcessId);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
+        public static extern bool SetForegroundWindow(nint hWnd);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool MoveWindow(
-            IntPtr hWnd,
+            nint hWnd,
             int X,
             int Y,
             int nWidth,
@@ -36,7 +36,7 @@ namespace LiveCaptionsTranslator.models
         );
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+        public static extern bool GetWindowRect(nint hWnd, out RECT lpRect);
     }
 
     [StructLayout(LayoutKind.Sequential)]

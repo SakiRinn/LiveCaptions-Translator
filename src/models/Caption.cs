@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-using LiveCaptionsTranslator.controllers;
+using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -175,16 +175,16 @@ namespace LiveCaptionsTranslator.models
                         TranslatedCaption = string.Empty;
                         DisplayTranslatedCaption = "[Paused]";
                         // Log
-                        var LogOnlyTask = Task.Run(() => TranslationController.LogOnly(
+                        var LogOnlyTask = Task.Run(() => Translator.LogOnly(
                             originalSnapshot, isOverWrite));
                     }
                     else
                     {
                         // Translate and display
-                        TranslatedCaption = await TranslationController.Translate(originalSnapshot);
+                        TranslatedCaption = await Translator.Translate(originalSnapshot);
                         DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 240);
                         // Log
-                        var LogTask = Task.Run(() => TranslationController.Log(
+                        var LogTask = Task.Run(() => Translator.Log(
                             originalSnapshot, TranslatedCaption, isOverWrite));
                     }
 

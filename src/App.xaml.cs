@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Automation;
+
 using LiveCaptionsTranslator.models;
+using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator
 {

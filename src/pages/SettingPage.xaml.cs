@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Wpf.Ui.Appearance;
 
-using LiveCaptionsTranslator.models;
+using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator
 {

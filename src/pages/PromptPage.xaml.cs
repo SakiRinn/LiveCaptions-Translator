@@ -1,5 +1,3 @@
-using LiveCaptionsTranslator.models;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace LiveCaptionsTranslator

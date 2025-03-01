@@ -1,27 +1,18 @@
 ﻿using System.IO;
 using System.Text;
 using Microsoft.Data.Sqlite;
-using System.Windows.Controls;
 
-namespace LiveCaptionsTranslator.models
+using LiveCaptionsTranslator.models;
+
+namespace LiveCaptionsTranslator.utils
 {
-    public class TranslationHistoryEntry
-    {
-        public string Timestamp { get; set; }
-        public string TimestampFull { get; set; }
-        public string SourceText { get; set; }
-        public string TranslatedText { get; set; }
-        public string TargetLanguage { get; set; }
-        public string ApiUsed { get; set; }
-    }
-
     public static class SQLiteHistoryLogger
     {
-        private static readonly string ConnectionString = "Data Source=translation_history.db;";
+        private static readonly string CONNECTION_STRING = "Data Source=translation_history.db;";
 
         static SQLiteHistoryLogger()
         {
-            using (var connection = new SqliteConnection(ConnectionString))
+            using (var connection = new SqliteConnection(CONNECTION_STRING))
             {
                 connection.Open();
                 string createTableQuery = @"
@@ -43,7 +34,7 @@ namespace LiveCaptionsTranslator.models
         public static async Task LogTranslation(string sourceText, string translatedText, string targetLanguage,
             string apiUsed)
         {
-            using (var connection = new SqliteConnection(ConnectionString))
+            using (var connection = new SqliteConnection(CONNECTION_STRING))
             {
                 await connection.OpenAsync();
                 string insertQuery = @"
@@ -67,7 +58,7 @@ namespace LiveCaptionsTranslator.models
             var history = new List<TranslationHistoryEntry>();
             int maxPage = 1;
 
-            using (var connection = new SqliteConnection(ConnectionString))
+            using (var connection = new SqliteConnection(CONNECTION_STRING))
             {
                 await connection.OpenAsync();
 
@@ -84,7 +75,7 @@ namespace LiveCaptionsTranslator.models
                     FROM TranslationHistory
                     WHERE SourceText LIKE '%{searchText}%' OR TranslatedText LIKE '%{searchText}%'
                     ORDER BY Timestamp DESC
-                    LIMIT " + maxRow + " OFFSET " + ((page * maxRow) - maxRow),
+                    LIMIT " + maxRow + " OFFSET " + (page * maxRow - maxRow),
                     connection))
                 using (var reader = await command.ExecuteReaderAsync())
                 {
@@ -118,7 +109,7 @@ namespace LiveCaptionsTranslator.models
         }
         public static async Task ClearHistory()
         {
-            using (var connection = new SqliteConnection(ConnectionString))
+            using (var connection = new SqliteConnection(CONNECTION_STRING))
             {
                 await connection.OpenAsync();
                 string selectQuery = "DELETE FROM TranslationHistory; DELETE FROM sqlite_sequence WHERE NAME='TranslationHistory";
@@ -131,7 +122,7 @@ namespace LiveCaptionsTranslator.models
 
         public static async Task<string> LoadLatestSourceText()
         {
-            using (var connection = new SqliteConnection(ConnectionString))
+            using (var connection = new SqliteConnection(CONNECTION_STRING))
             {
                 await connection.OpenAsync();
                 string selectQuery = @"
@@ -153,7 +144,7 @@ namespace LiveCaptionsTranslator.models
 
         public static async Task DeleteLatestTranslation()
         {
-            using (var connection = new SqliteConnection(ConnectionString))
+            using (var connection = new SqliteConnection(CONNECTION_STRING))
             {
                 await connection.OpenAsync();
                 using (var command = new SqliteCommand(@"
@@ -199,7 +190,7 @@ namespace LiveCaptionsTranslator.models
         {
             var history = new List<TranslationHistoryEntry>();
 
-            using (var connection = new SqliteConnection(ConnectionString))
+            using (var connection = new SqliteConnection(CONNECTION_STRING))
             {
                 await connection.OpenAsync();
 

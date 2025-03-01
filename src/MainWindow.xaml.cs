@@ -3,8 +3,6 @@ using System.Text.RegularExpressions;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
-using LiveCaptionsTranslator.src;
-
 namespace LiveCaptionsTranslator
 {
     public partial class MainWindow : FluentWindow

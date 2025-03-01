@@ -1,9 +1,8 @@
-﻿using LiveCaptionsTranslator.models;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
-namespace LiveCaptionsTranslator.controllers
+namespace LiveCaptionsTranslator.utils
 {
-    public static class TranslationController
+    public static class Translator
     {
         public static event Action? TranslationLogged;
 

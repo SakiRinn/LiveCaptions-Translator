@@ -1,9 +1,10 @@
 ﻿using System.Windows.Controls;
-using LiveCaptionsTranslator.controllers;
-using LiveCaptionsTranslator.models;
 using System.Windows;
 using Microsoft.Win32;
 using Wpf.Ui.Controls;
+
+using LiveCaptionsTranslator.utils;
+using LiveCaptionsTranslator.models;
 
 namespace LiveCaptionsTranslator
 {
@@ -21,7 +22,7 @@ namespace LiveCaptionsTranslator
             LoadHistory();
 
             HistoryMaxRow.SelectedIndex = App.Settings.HistoryMaxRow;
-            TranslationController.TranslationLogged += async () => await LoadHistory();
+            Translator.TranslationLogged += async () => await LoadHistory();
         }
 
         private async Task LoadHistory()

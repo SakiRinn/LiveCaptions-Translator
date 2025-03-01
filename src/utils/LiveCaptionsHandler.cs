@@ -1,8 +1,7 @@
 ﻿using System.Diagnostics;
-using System.Windows;
 using System.Windows.Automation;
 
-namespace LiveCaptionsTranslator.models
+namespace LiveCaptionsTranslator.utils
 {
     public static class LiveCaptionsHandler
     {
@@ -30,7 +29,7 @@ namespace LiveCaptionsTranslator.models
         public static void KillLiveCaptions(AutomationElement window)
         {
             // Search for process
-            IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
+            nint hWnd = new nint((long)window.Current.NativeWindowHandle);
             WindowsAPI.GetWindowThreadProcessId(hWnd, out int processId);
             var process = Process.GetProcessById(processId);
 
@@ -41,7 +40,7 @@ namespace LiveCaptionsTranslator.models
 
         public static void HideLiveCaptions(AutomationElement window)
         {
-            IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
+            nint hWnd = new nint((long)window.Current.NativeWindowHandle);
             int exStyle = WindowsAPI.GetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE);
 
             WindowsAPI.ShowWindow(hWnd, WindowsAPI.SW_MINIMIZE);
@@ -50,7 +49,7 @@ namespace LiveCaptionsTranslator.models
 
         public static void RestoreLiveCaptions(AutomationElement window)
         {
-            IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
+            nint hWnd = new nint((long)window.Current.NativeWindowHandle);
             int exStyle = WindowsAPI.GetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE);
 
             WindowsAPI.SetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE, exStyle & ~WindowsAPI.WS_EX_TOOLWINDOW);
@@ -60,7 +59,7 @@ namespace LiveCaptionsTranslator.models
 
         public static void FixLiveCaptions(AutomationElement window)
         {
-            IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
+            nint hWnd = new nint((long)window.Current.NativeWindowHandle);
 
             RECT rect;
             if (!WindowsAPI.GetWindowRect(hWnd, out rect))
