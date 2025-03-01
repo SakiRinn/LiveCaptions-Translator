@@ -223,7 +223,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Column="3">
+        <Grid x:Name="OllamaGrid" Grid.Column="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
