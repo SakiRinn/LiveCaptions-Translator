@@ -126,7 +126,12 @@ namespace LiveCaptionsTranslator.models
                         DisplayOriginalCaption = fullText.Substring(lastEOSIndex + 1);
                     }
                     // If the last sentence is too long, truncate it when displayed.
-                    DisplayOriginalCaption = ShortenDisplaySentence(DisplayOriginalCaption, 160);
+                    string newDOC = ShortenDisplaySentence(DisplayOriginalCaption, 160);
+                    if (DisplayOriginalCaption != newDOC)
+                    {
+                        captionTrim = true;
+                    }
+                    DisplayOriginalCaption = newDOC;
                 }
 
                 // OriginalCaption: The sentence to be really translated.
@@ -154,17 +159,18 @@ namespace LiveCaptionsTranslator.models
                     // Push current caption to history without waiting for async
                     if (captionTrim)
                     {
+                        string displayOG = StringTrim(DisplayOriginalCaption, 0, DisplayOriginalCaption.LastIndexOfAny(PUNC_EOS) + 1);
                         string oc = captionLatest;
-                        string _oc = StringTrim(oc, 3, oc.Length - 3);
-                        string _ol = StringTrim(originalLatest, 3, originalLatest.Length - 3);
+                        string _oc = StringTrim(oc, 3, oc.Length - 3).ToLower();
+                        string _ol = StringTrim(originalLatest, 3, originalLatest.Length - 3).ToLower();
                         if (_oc != _ol) // Prevent from spamming
                         {
                             originalLatest = oc;
-                            var historyTask = Task.Run(() => HistoryCapture(oc));
+                            var historyTask = Task.Run(() => HistoryCapture(displayOG));
                         }
                     }
                     else
-                        captionLatest = OriginalCaption;
+                        captionLatest = DisplayOriginalCaption;
                 }
                 else
                     idleCount++;
@@ -185,11 +191,11 @@ namespace LiveCaptionsTranslator.models
         {
             try
             {
-                return text.Substring(start, length).ToLower();
+                return text.Substring(start, length);
             }
             catch
             {
-                return text.ToLower();
+                return text;
             }
         }
 
