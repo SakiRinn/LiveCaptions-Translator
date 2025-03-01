@@ -113,6 +113,7 @@ namespace LiveCaptionsTranslator.models
                     lastEOSIndex = fullText.LastIndexOfAny(PUNC_EOS);
                 string latestCaption = fullText.Substring(lastEOSIndex + 1);
 
+
                 // DisplayOriginalCaption: The sentence to be displayed to the user.
                 if (DisplayOriginalCaption.CompareTo(latestCaption) != 0)
                 {
@@ -251,14 +252,6 @@ namespace LiveCaptionsTranslator.models
 
                 if (TranslateFlag)
                 {
-                    var originalSnapshot = OriginalCaption;
-
-                    // If the old sentence is the prefix of the new sentence,
-                    // overwrite the previous entry when logging.
-                    string lastLoggedOriginal = await SQLiteHistoryLogger.LoadLatestSourceText();
-                    bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal) 
-                        && originalSnapshot.StartsWith(lastLoggedOriginal);
-
                     // Log Only
                     if (LogOnlyFlag)
                     {
