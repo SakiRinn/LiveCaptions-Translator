@@ -14,26 +14,28 @@ namespace LiveCaptionsTranslator
         int maxPage = 1;
         int maxRow = 20;
         int searchPage = 1;
-        string searching;
+        string searching = string.Empty;
 
         public HistoryPage()
         {
             InitializeComponent();
-            LoadHistory();
+
+            Loaded += async (s, e) => await LoadHistory();
+            Unloaded += HistoryPage_Unloaded;
 
             HistoryMaxRow.SelectedIndex = App.Settings.HistoryMaxRow;
-            TranslationController.TranslationLogged += OnTranslationLogged;
-            Unloaded += HistoryPage_Unloaded;
+            Translator.TranslationLogged += OnTranslationLogged;
         }
-        
+
         private async void OnTranslationLogged()
         {
             await LoadHistory();
         }
-        
+
         private void HistoryPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            TranslationController.TranslationLogged -= OnTranslationLogged;
+            Translator.TranslationLogged -= OnTranslationLogged;
+            HistoryDataGrid.ItemsSource = null;
         }
 
         private async Task LoadHistory()
@@ -46,22 +48,22 @@ namespace LiveCaptionsTranslator
             await Dispatcher.InvokeAsync(() =>
             {
                 HistoryDataGrid.ItemsSource = history;
-                PageNamber.Text = currentPage.ToString() + "/" + maxPage.ToString();
+                PageNumber.Text = currentPage.ToString() + "/" + maxPage.ToString();
             });
         }
 
-        void PageDown(object sender, RoutedEventArgs e)
+        private async void PageDown(object sender, RoutedEventArgs e)
         {
             if (currentPage - 1 >= 1)
                 currentPage--;
-            LoadHistory();
-
+            await LoadHistory();
         }
-        void PageUp(object sender, RoutedEventArgs e)
+
+        private async void PageUp(object sender, RoutedEventArgs e)
         {
             if (currentPage < maxPage)
                 currentPage++;
-            LoadHistory();
+            await LoadHistory();
         }
 
         private async void DeleteHistory(object sender, RoutedEventArgs e)
@@ -80,29 +82,29 @@ namespace LiveCaptionsTranslator
             if (result == ContentDialogResult.Primary)
             {
                 currentPage = 1;
-                SQLiteHistoryLogger.ClearHistory();
+                await SQLiteHistoryLogger.ClearHistory();
                 await LoadHistory();
             }
         }
 
-        private void maxRow_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void maxRow_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             string text = (e.AddedItems[0] as ComboBoxItem).Tag as string;
             maxRow = Convert.ToInt32(text);
             App.Settings.HistoryMaxRow = HistoryMaxRow.SelectedIndex;
 
-            LoadHistory();
+            await LoadHistory();
 
             if (currentPage > maxPage)
             {
                 currentPage = maxPage;
-                LoadHistory();
+                await LoadHistory();
             }
         }
 
-        private void ReloadLogs(object sender, RoutedEventArgs e)
+        private async void ReloadLogs(object sender, RoutedEventArgs e)
         {
-            LoadHistory();
+            await LoadHistory();
         }
 
         private async void ExportHistory(object ain, RoutedEventArgs e)
@@ -132,7 +134,6 @@ namespace LiveCaptionsTranslator
 
         private void ShowSnackbar(string title, string message, bool isError = false)
         {
-
             var snackbar = new Snackbar(SnackbarHost)
             {
                 Title = title,
@@ -144,17 +145,17 @@ namespace LiveCaptionsTranslator
             snackbar.Show();
         }
 
-        private void HistorySearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void HistorySearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             string searchText = (sender as AutoSuggestBox)?.Text ?? "";
 
             // Clear search by Ctrl+A and Delete and Enter
             if (string.IsNullOrEmpty(searchText))
             {
-                searching = null;
+                searching = string.Empty;
                 currentPage = searchPage;
             }
-            else // Submit search 
+            else // Submit search
             {
                 if (string.IsNullOrEmpty(searching))
                 {
@@ -163,10 +164,10 @@ namespace LiveCaptionsTranslator
                 searching = (sender as AutoSuggestBox)?.Text;
                 currentPage = 1;
             }
-            LoadHistory();
+            await LoadHistory();
         }
 
-        private void HistorySearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void HistorySearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             // Press X to clear search box
             if (args.Reason == AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
@@ -175,7 +176,7 @@ namespace LiveCaptionsTranslator
                 {
                     searching = null;
                     currentPage = searchPage;
-                    LoadHistory();
+                    await LoadHistory();
                 }
             }
         }

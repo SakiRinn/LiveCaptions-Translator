@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="SettingPage"
+    JournalEntry.KeepAlive="False"
     mc:Ignorable="d">
 
     <Grid x:Name="PageGrid" Margin="15,15,15,15">

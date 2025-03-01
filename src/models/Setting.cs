@@ -28,7 +28,7 @@ namespace LiveCaptionsTranslator.models
             { "Main", "1, 1, 1, 1" },
             { "Overlay", "1, 1, 1, 1" },
         };
-   
+
         private TranslateAPIConfig? currentAPIConfig;
 
         private bool enableLogging = true;
@@ -160,11 +160,12 @@ namespace LiveCaptionsTranslator.models
             };
         }
 
-        public Setting(string apiName, string targetLanguage,
+        public Setting(string apiName, string targetLanguage, string prompt,
                        Dictionary<string, TranslateAPIConfig> configs)
         {
             this.apiName = apiName;
             this.targetLanguage = targetLanguage;
+            this.prompt = prompt;
             this.configs = configs;
         }
 

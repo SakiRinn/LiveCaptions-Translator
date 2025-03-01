@@ -96,15 +96,13 @@ namespace LiveCaptionsTranslator
             {
                 if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 160)
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
+                    Dispatcher.BeginInvoke(new Action(() => {
                         this.TranslatedCaption.FontSize = 15;
                     }), DispatcherPriority.Background);
                 }
                 else
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
+                    Dispatcher.BeginInvoke(new Action(() => {
                         this.TranslatedCaption.FontSize = 18;
                     }), DispatcherPriority.Background);
                 }

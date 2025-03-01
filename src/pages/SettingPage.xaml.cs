@@ -31,7 +31,8 @@ namespace LiveCaptionsTranslator
             var button = sender as Wpf.Ui.Controls.Button;
             var text = ButtonText.Text;
 
-            if (text == "Show")
+            bool isHide = App.Window.Current.BoundingRectangle == Rect.Empty;
+            if (isHide)
             {
                 LiveCaptionsHandler.RestoreLiveCaptions(App.Window);
                 ButtonText.Text = "Hide";

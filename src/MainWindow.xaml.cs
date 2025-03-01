@@ -49,9 +49,9 @@ namespace LiveCaptionsTranslator
 
                 SubtitleWindow = new SubtitleWindow();
                 WindowStateRestore(SubtitleWindow, "Overlay");
-                SubtitleWindow.SizeChanged += 
+                SubtitleWindow.SizeChanged +=
                     (s, e) => WindowStateSave(SubtitleWindow, "Overlay");
-                SubtitleWindow.LocationChanged += 
+                SubtitleWindow.LocationChanged +=
                     (s, e) => WindowStateSave(SubtitleWindow, "Overlay");
                 SubtitleWindow.Show();
             }
