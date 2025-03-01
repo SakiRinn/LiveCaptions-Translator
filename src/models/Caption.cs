@@ -113,6 +113,7 @@ namespace LiveCaptionsTranslator.models
                     lastEOSIndex = fullText.LastIndexOfAny(PUNC_EOS);
                 string latestCaption = fullText.Substring(lastEOSIndex + 1);
 
+
                 // DisplayOriginalCaption: The sentence to be displayed to the user.
                 if (DisplayOriginalCaption.CompareTo(latestCaption) != 0)
                 {
