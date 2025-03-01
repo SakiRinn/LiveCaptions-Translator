@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Automation;
 
 namespace LiveCaptionsTranslator.models
@@ -23,10 +24,6 @@ namespace LiveCaptionsTranslator.models
                 if (attemptCount > 10000)
                     throw new Exception("Failed to launch!");
             }
-
-            // Hide window
-            HideLiveCaptions(window);
-
             return window;
         }
 
@@ -59,6 +56,25 @@ namespace LiveCaptionsTranslator.models
             WindowsAPI.SetWindowLong(hWnd, WindowsAPI.GWL_EXSTYLE, exStyle & ~WindowsAPI.WS_EX_TOOLWINDOW);
             WindowsAPI.ShowWindow(hWnd, WindowsAPI.SW_RESTORE);
             WindowsAPI.SetForegroundWindow(hWnd);
+        }
+
+        public static void FixLiveCaptions(AutomationElement window)
+        {
+            IntPtr hWnd = new IntPtr((long)window.Current.NativeWindowHandle);
+
+            RECT rect;
+            if (!WindowsAPI.GetWindowRect(hWnd, out rect))
+                throw new Exception("Unable to get the window rectangle of LiveCaptions!");
+            int width = rect.Right - rect.Left;
+            int height = rect.Bottom - rect.Top;
+            int x = rect.Left;
+            int y = rect.Top;
+
+            bool isSuccess = true;
+            if (x < 0 || y < 0 || width < 100 || height < 100)
+                isSuccess = WindowsAPI.MoveWindow(hWnd, 800, 600, 600, 200, true);
+            if (!isSuccess)
+                throw new Exception("Failed to fix LiveCaptions!");
         }
 
         private static void KillAllProcessesByPName(string processName)
