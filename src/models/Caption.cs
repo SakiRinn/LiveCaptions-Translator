@@ -252,6 +252,8 @@ namespace LiveCaptionsTranslator.models
 
                 if (TranslateFlag)
                 {
+                    var originalSnapshot = OriginalCaption;
+
                     // Log Only
                     if (LogOnlyFlag)
                     {
