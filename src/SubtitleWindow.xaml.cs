@@ -131,5 +131,14 @@ namespace LiveCaptionsTranslator
                 this.MinHeight += 40;
             }
         }
+        
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            if (App.Captions != null)
+            {
+                App.Captions.PropertyChanged -= TranslatedChanged;
+            }
+        }
     }
 }

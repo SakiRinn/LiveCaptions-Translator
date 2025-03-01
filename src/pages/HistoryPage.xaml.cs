@@ -22,7 +22,18 @@ namespace LiveCaptionsTranslator
             LoadHistory();
 
             HistoryMaxRow.SelectedIndex = App.Settings.HistoryMaxRow;
-            Translator.TranslationLogged += async () => await LoadHistory();
+            TranslationController.TranslationLogged += OnTranslationLogged;
+            Unloaded += HistoryPage_Unloaded;
+        }
+        
+        private async void OnTranslationLogged()
+        {
+            await LoadHistory();
+        }
+        
+        private void HistoryPage_Unloaded(object sender, RoutedEventArgs e)
+        {
+            TranslationController.TranslationLogged -= OnTranslationLogged;
         }
 
         private async Task LoadHistory()
