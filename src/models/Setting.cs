@@ -24,6 +24,9 @@ namespace LiveCaptionsTranslator.models
         private Dictionary<string, string> windowBounds;
         private bool topmost = true;
 
+        private bool captionLogEnable = true;
+        private int captionLogMax = 0;
+
         private Dictionary<string, TranslateAPIConfig> configs;
         private TranslateAPIConfig? currentAPIConfig;
 
@@ -69,6 +72,27 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("MaxSyncInterval");
             }
         }
+
+        public bool CaptionLogEnable
+        {
+            get => captionLogEnable;
+            set
+            {
+                captionLogEnable = value;
+                OnPropertyChanged("CaptionLogEnable");
+            }
+        }
+
+        public int CaptionLogMax
+        {
+            get => captionLogMax;
+            set
+            {
+                captionLogMax = value;
+                OnPropertyChanged("CaptionLogMax");
+            }
+        }
+
         public string Prompt
         {
             get => prompt;

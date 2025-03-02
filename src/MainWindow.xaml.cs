@@ -29,6 +29,7 @@ namespace LiveCaptionsTranslator
             var windowState = WindowHandler.LoadState(this, App.Settings);
             WindowHandler.RestoreState(this, windowState);
             ToggleTopmost(App.Settings.TopMost);
+            EnableCaptionLog(App.Settings.CaptionLogEnable);
         }
 
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
@@ -105,6 +106,28 @@ namespace LiveCaptionsTranslator
             Topmost = enable;
             symbolIcon.Filled = enable;
             App.Settings.TopMost = enable;
+        }
+
+        private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.CaptionLogEnable = !App.Settings.CaptionLogEnable;
+            EnableCaptionLog(App.Settings.CaptionLogEnable);
+        }
+
+        private void EnableCaptionLog(bool enable)
+        {
+            if (captionLog.Icon is SymbolIcon icon)
+            {
+                if (enable)
+                {
+                    icon.Symbol = SymbolRegular.History24;
+                }
+                else
+                {
+                    icon.Symbol = SymbolRegular.HistoryDismiss24;
+                    App.Captions.ClearCaptionLog();
+                }
+            }
         }
     }
 }
