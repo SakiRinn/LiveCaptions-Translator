@@ -1,14 +1,13 @@
 ﻿using System.Windows;
-using System.Text.RegularExpressions;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+
+using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator
 {
     public partial class MainWindow : FluentWindow
     {
-        private uint OverlayMode = 0;
-
         public SubtitleWindow? SubtitleWindow { get; set; } = null;
 
 
@@ -27,8 +26,9 @@ namespace LiveCaptionsTranslator
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
 
-            WindowStateRestore(this, "Main");
-            ToggleTopmost(App.Settings.MainTopmost);
+            var windowState = WindowHandler.LoadState(this, App.Settings);
+            WindowHandler.RestoreState(this, windowState);
+            ToggleTopmost(App.Settings.TopMost);
         }
 
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
@@ -41,40 +41,37 @@ namespace LiveCaptionsTranslator
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
 
-            if (OverlayMode == 0)
+            if (SubtitleWindow == null)
             {
-                // Mode 1: Caption + Translation
-                OverlayMode = 1;
+                // Caption + Translation
                 symbolIcon.Symbol = SymbolRegular.TextUnderlineDouble20;
 
                 SubtitleWindow = new SubtitleWindow();
-                WindowStateRestore(SubtitleWindow, "Overlay");
                 SubtitleWindow.SizeChanged +=
-                    (s, e) => WindowStateSave(SubtitleWindow, "Overlay");
+                    (s, e) => WindowHandler.SaveState(SubtitleWindow, App.Settings);
                 SubtitleWindow.LocationChanged +=
-                    (s, e) => WindowStateSave(SubtitleWindow, "Overlay");
+                    (s, e) => WindowHandler.SaveState(SubtitleWindow, App.Settings);
+
+                var windowState = WindowHandler.LoadState(SubtitleWindow, App.Settings);
+                WindowHandler.RestoreState(SubtitleWindow, windowState);
                 SubtitleWindow.Show();
             }
-            else if (OverlayMode == 1)
+            else if (!SubtitleWindow.IsTranslationOnly)
             {
-                // Mode 2: Translation Only
-                OverlayMode = 2;
+                // Translation Only
                 symbolIcon.Symbol = SymbolRegular.TextAddSpaceBefore20;
 
-                SubtitleWindow.TranslationOnly(true);
+                SubtitleWindow.IsTranslationOnly = true;
                 SubtitleWindow.Focus();
             }
             else
             {
-                // Mode 0: Close
-                OverlayMode = 0;
+                // Closed
                 symbolIcon.Symbol = SymbolRegular.WindowNew20;
 
-                SubtitleWindow.TranslationOnly(false);
+                SubtitleWindow.IsTranslationOnly = false;
                 SubtitleWindow.Close();
-
                 SubtitleWindow = null;
-                symbolIcon.Filled = false;
             }
         }
 
@@ -98,7 +95,7 @@ namespace LiveCaptionsTranslator
         private void MainWindow_BoundsChanged(object sender, EventArgs e)
         {
             var window = sender as Window;
-            WindowStateSave(window, "Main");
+            WindowHandler.SaveState(window, App.Settings);
         }
 
         private void ToggleTopmost(bool enable)
@@ -107,37 +104,7 @@ namespace LiveCaptionsTranslator
             var symbolIcon = button?.Icon as SymbolIcon;
             Topmost = enable;
             symbolIcon.Filled = enable;
-            App.Settings.MainTopmost = enable;
-        }
-
-        private void WindowStateSave(Window window, string windowType)
-        {
-            if (window != null)
-            {
-                App.Settings.WindowBounds[windowType] = Regex.Replace(
-                    window.RestoreBounds.ToString(), @"(\d+\.\d{1})\d+", "$1");
-                App.Settings?.Save();
-            }
-        }
-
-        private void WindowStateRestore(Window window, string windowType)
-        {
-            if (window != null)
-            {
-                Rect bounds = Rect.Parse(App.Settings.WindowBounds[windowType]);
-                if (!bounds.IsEmpty)
-                {
-                    window.Top = bounds.Top;
-                    window.Left = bounds.Left;
-
-                    // Restore the size only for a manually sized
-                    if (window.SizeToContent == SizeToContent.Manual)
-                    {
-                        window.Width = bounds.Width;
-                        window.Height = bounds.Height;
-                    }
-                }
-            }
+            App.Settings.TopMost = enable;
         }
     }
 }

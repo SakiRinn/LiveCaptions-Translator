@@ -59,7 +59,7 @@
                     Margin="5,0,0,0"
                     Padding="10,4,10,7"
                     VerticalAlignment="Stretch"
-                    SelectionChanged="maxRow_SelectionChanged">
+                    SelectedIndex="1">
                     <ComboBoxItem Content="20/page" Tag="20" />
                     <ComboBoxItem Content="30/page" Tag="30" />
                     <ComboBoxItem Content="50/page" Tag="50" />

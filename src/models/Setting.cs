@@ -16,42 +16,24 @@ namespace LiveCaptionsTranslator.models
 
         private string apiName;
         private string targetLanguage;
-        private Dictionary<string, TranslateAPIConfig> configs;
         private string prompt;
 
         private int maxIdleInterval = 20;
         private int maxSyncInterval = 5;
-        private int historyMaxRow = 1;
 
-        private Dictionary<string, string> windowBounds = new()
-        {
-            { "Main", "1, 1, 1, 1" },
-            { "Overlay", "1, 1, 1, 1" },
-        };
+        private Dictionary<string, string> windowBounds;
+        private bool topmost = true;
 
+        private Dictionary<string, TranslateAPIConfig> configs;
         private TranslateAPIConfig? currentAPIConfig;
 
-        private bool enableLogging = true;
-
-        private bool mainTopmost = true;
-
-        public bool MainTopmost
+        public bool TopMost
         {
-            get => mainTopmost;
+            get => topmost;
             set
             {
-                mainTopmost = value;
-                OnPropertyChanged("MainTopMost");
-            }
-        }
-
-        public bool EnableLogging
-        {
-            get => enableLogging;
-            set
-            {
-                enableLogging = value;
-                OnPropertyChanged();
+                topmost = value;
+                OnPropertyChanged("TopMost");
             }
         }
 
@@ -85,16 +67,6 @@ namespace LiveCaptionsTranslator.models
             {
                 maxSyncInterval = value;
                 OnPropertyChanged("MaxSyncInterval");
-            }
-        }
-
-        public int HistoryMaxRow
-        {
-            get => historyMaxRow;
-            set
-            {
-                historyMaxRow = value;
-                OnPropertyChanged("HistoryMaxRow");
             }
         }
         public string Prompt
@@ -158,15 +130,21 @@ namespace LiveCaptionsTranslator.models
                 { "OpenAI", new OpenAIConfig() },
                 { "OpenRouter", new OpenRouterConfig() },
             };
+            windowBounds = new Dictionary<string, string>
+            {
+                { "MainWindow", "1, 1, 1, 1" },
+                { "SubtitleWindow", "1, 1, 1, 1" },
+            };
         }
 
         public Setting(string apiName, string targetLanguage, string prompt,
-                       Dictionary<string, TranslateAPIConfig> configs)
+                       Dictionary<string, TranslateAPIConfig> configs, Dictionary<string, string> windowBounds)
         {
             this.apiName = apiName;
             this.targetLanguage = targetLanguage;
             this.prompt = prompt;
             this.configs = configs;
+            this.windowBounds = windowBounds;
         }
 
         public static Setting Load()

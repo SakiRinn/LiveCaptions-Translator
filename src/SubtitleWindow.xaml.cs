@@ -9,11 +9,24 @@ namespace LiveCaptionsTranslator
 {
     public partial class SubtitleWindow : Window
     {
+        private bool isTranslationOnly = false;
+        public bool IsTranslationOnly
+        {
+            get => isTranslationOnly;
+            set
+            {
+                isTranslationOnly = value;
+                ResizeForTranslationOnly();
+            }
+        }
+
         public SubtitleWindow()
         {
             InitializeComponent();
             DataContext = App.Captions;
-            App.Captions.PropertyChanged += TranslatedChanged;
+
+            Loaded += (s, e) => App.Captions.PropertyChanged += TranslatedChanged;
+            Unloaded += (s, e) => App.Captions.PropertyChanged -= TranslatedChanged;
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -109,7 +122,7 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        public void TranslationOnly(bool isTranslationOnly)
+        public void ResizeForTranslationOnly()
         {
             if (isTranslationOnly)
             {
@@ -127,15 +140,6 @@ namespace LiveCaptionsTranslator
                 this.Top -= 40;
                 this.Height += 40;
                 this.MinHeight += 40;
-            }
-        }
-        
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-            if (App.Captions != null)
-            {
-                App.Captions.PropertyChanged -= TranslatedChanged;
             }
         }
     }

@@ -12,7 +12,8 @@ namespace LiveCaptionsTranslator
         {
             InitializeComponent();
             DataContext = App.Captions;
-            App.Captions.PropertyChanged += TranslatedChanged;
+
+            Loaded += (s, e) => App.Captions.PropertyChanged += TranslatedChanged;
             Unloaded += (s, e) => App.Captions.PropertyChanged -= TranslatedChanged;
         }
 

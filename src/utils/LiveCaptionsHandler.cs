@@ -76,18 +76,6 @@ namespace LiveCaptionsTranslator.utils
                 throw new Exception("Failed to fix LiveCaptions!");
         }
 
-        private static void KillAllProcessesByPName(string processName)
-        {
-            var processes = Process.GetProcessesByName(processName);
-            if (processes.Length == 0)
-                return;
-            foreach (Process process in processes)
-            {
-                process.Kill();
-                process.WaitForExit();
-            }
-        }
-
         private static AutomationElement FindWindowByPId(int processId)
         {
             var condition = new PropertyCondition(AutomationElement.ProcessIdProperty, processId);
@@ -150,6 +138,18 @@ namespace LiveCaptionsTranslator.utils
                 }
             }
             return false;
+        }
+
+        private static void KillAllProcessesByPName(string processName)
+        {
+            var processes = Process.GetProcessesByName(processName);
+            if (processes.Length == 0)
+                return;
+            foreach (Process process in processes)
+            {
+                process.Kill();
+                process.WaitForExit();
+            }
         }
     }
 }

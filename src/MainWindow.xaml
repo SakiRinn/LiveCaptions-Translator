@@ -34,7 +34,7 @@
                 Height="27"
                 ShowMaximize="False">
                 <ui:TitleBar.Header>
-                    <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center">LiveCaptionsTranslator</ui:TextBlock>
+                    <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center">LiveCaptions Translator</ui:TextBlock>
                 </ui:TitleBar.Header>
                 <ui:TitleBar.TrailingContent>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
@@ -87,21 +87,21 @@
                         Content="Setting"
                         FontFamily="Bahnschrift"
                         Icon="{ui:SymbolIcon Settings24}"
-                        NavigationCacheMode="Enabled"
+                        NavigationCacheMode="Required"
                         TargetPageType="{x:Type local:SettingPage}" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
                         Content="Prompt"
                         FontFamily="Bahnschrift"
                         Icon="{ui:SymbolIcon Chat24}"
-                        NavigationCacheMode="Enabled"
-                        TargetPageType="{x:Type local:PromptSetting}" />
+                        NavigationCacheMode="Required"
+                        TargetPageType="{x:Type local:PromptSetting}" Cursor="" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
                         Content="History"
                         FontFamily="Bahnschrift"
                         Icon="{ui:SymbolIcon History24}"
-                        NavigationCacheMode="Enabled"
+                        NavigationCacheMode="Disabled"
                         TargetPageType="{x:Type local:HistoryPage}" />
                 </ui:NavigationView.MenuItems>
             </ui:NavigationView>

@@ -10,21 +10,29 @@ namespace LiveCaptionsTranslator
 {
     public partial class HistoryPage : Page
     {
-        int currentPage = 1;
-        int maxPage = 1;
-        int maxRow = 20;
-        int searchPage = 1;
-        string searching = string.Empty;
+        private int currentPage = 1;
+        private int searchPage = 1;
+        private int maxPage = 1;
+        private int maxRowPerPage = 30;
+
+        public string SearchText { get; set; } = string.Empty;
 
         public HistoryPage()
         {
             InitializeComponent();
 
-            Loaded += async (s, e) => await LoadHistory();
-            Unloaded += HistoryPage_Unloaded;
+            Loaded += async (s, e) =>
+            {
+                await LoadHistory();
+                Translator.TranslationLogged += OnTranslationLogged;
+            };
+            Unloaded += (s, e) =>
+            {
+                HistoryDataGrid.ItemsSource = null;
+                Translator.TranslationLogged -= OnTranslationLogged;
+            };
 
-            HistoryMaxRow.SelectedIndex = App.Settings.HistoryMaxRow;
-            Translator.TranslationLogged += OnTranslationLogged;
+            HistoryMaxRow.SelectionChanged += maxRow_SelectionChanged;
         }
 
         private async void OnTranslationLogged()
@@ -32,15 +40,9 @@ namespace LiveCaptionsTranslator
             await LoadHistory();
         }
 
-        private void HistoryPage_Unloaded(object sender, RoutedEventArgs e)
-        {
-            Translator.TranslationLogged -= OnTranslationLogged;
-            HistoryDataGrid.ItemsSource = null;
-        }
-
         private async Task LoadHistory()
         {
-            var data = await SQLiteHistoryLogger.LoadHistoryAsync(currentPage, maxRow, searching);
+            var data = await SQLiteHistoryLogger.LoadHistoryAsync(currentPage, maxRowPerPage, SearchText);
             List<TranslationHistoryEntry> history = data.Item1;
 
             maxPage = (data.Item2 > 0) ? data.Item2 : 1;
@@ -89,9 +91,8 @@ namespace LiveCaptionsTranslator
 
         private async void maxRow_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string text = (e.AddedItems[0] as ComboBoxItem).Tag as string;
-            maxRow = Convert.ToInt32(text);
-            App.Settings.HistoryMaxRow = HistoryMaxRow.SelectedIndex;
+            string tag = (e.AddedItems[0] as ComboBoxItem).Tag as string;
+            maxRowPerPage = Convert.ToInt32(tag);
 
             await LoadHistory();
 
@@ -107,7 +108,7 @@ namespace LiveCaptionsTranslator
             await LoadHistory();
         }
 
-        private async void ExportHistory(object ain, RoutedEventArgs e)
+        private async void ExportHistory(object sender, RoutedEventArgs e)
         {
 
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -152,16 +153,16 @@ namespace LiveCaptionsTranslator
             // Clear search by Ctrl+A and Delete and Enter
             if (string.IsNullOrEmpty(searchText))
             {
-                searching = string.Empty;
+                SearchText = string.Empty;
                 currentPage = searchPage;
             }
             else // Submit search
             {
-                if (string.IsNullOrEmpty(searching))
+                if (string.IsNullOrEmpty(SearchText))
                 {
                     searchPage = currentPage;
                 }
-                searching = (sender as AutoSuggestBox)?.Text;
+                SearchText = (sender as AutoSuggestBox)?.Text;
                 currentPage = 1;
             }
             await LoadHistory();
@@ -172,9 +173,9 @@ namespace LiveCaptionsTranslator
             // Press X to clear search box
             if (args.Reason == AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
-                if (!string.IsNullOrEmpty(searching))
+                if (!string.IsNullOrEmpty(SearchText))
                 {
-                    searching = null;
+                    SearchText = string.Empty;
                     currentPage = searchPage;
                     await LoadHistory();
                 }

@@ -186,7 +186,7 @@ namespace LiveCaptionsTranslator.models
                         DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 240);
                         // Log
                         var LogTask = Task.Run(
-                            () => Translator.Log(originalSnapshot, TranslatedCaption, isOverWrite));
+                            () => Translator.Log(originalSnapshot, TranslatedCaption, App.Settings, isOverWrite));
                     }
 
                     TranslateFlag = false;

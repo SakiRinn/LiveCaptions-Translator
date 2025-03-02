@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 
+using LiveCaptionsTranslator.models;
+
 namespace LiveCaptionsTranslator.utils
 {
     public static class Translator
@@ -28,10 +30,20 @@ namespace LiveCaptionsTranslator.utils
             return translatedText;
         }
 
-        public static async Task Log(string originalText, string translatedText, bool isOverWrite = false)
+        public static async Task Log(string originalText, string translatedText, 
+            Setting? setting = null, bool isOverWrite = false)
         {
-            string targetLanguage = App.Settings.TargetLanguage;
-            string apiName = App.Settings.ApiName;
+            string targetLanguage, apiName;
+            if (setting != null)
+            {
+                targetLanguage = App.Settings.TargetLanguage;
+                apiName = App.Settings.ApiName;
+            } 
+            else
+            {
+                targetLanguage = "N/A";
+                apiName = "N/A";
+            }
 
             try
             {
