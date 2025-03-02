@@ -112,7 +112,7 @@ namespace LiveCaptionsTranslator.utils
             using (var connection = new SqliteConnection(CONNECTION_STRING))
             {
                 await connection.OpenAsync();
-                string selectQuery = "DELETE FROM TranslationHistory; DELETE FROM sqlite_sequence WHERE NAME='TranslationHistory";
+                string selectQuery = "DELETE FROM TranslationHistory; DELETE FROM sqlite_sequence WHERE NAME='TranslationHistory'";
                 using (var command = new SqliteCommand(selectQuery, connection))
                 {
                     command.ExecuteNonQuery();
