@@ -96,15 +96,13 @@ namespace LiveCaptionsTranslator
             {
                 if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 160)
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
+                    Dispatcher.BeginInvoke(new Action(() => {
                         this.TranslatedCaption.FontSize = 15;
                     }), DispatcherPriority.Background);
                 }
                 else
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
+                    Dispatcher.BeginInvoke(new Action(() => {
                         this.TranslatedCaption.FontSize = 18;
                     }), DispatcherPriority.Background);
                 }
@@ -129,6 +127,15 @@ namespace LiveCaptionsTranslator
                 this.Top -= 40;
                 this.Height += 40;
                 this.MinHeight += 40;
+            }
+        }
+        
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            if (App.Captions != null)
+            {
+                App.Captions.PropertyChanged -= TranslatedChanged;
             }
         }
     }

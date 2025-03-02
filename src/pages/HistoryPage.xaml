@@ -9,6 +9,7 @@
     Title="HistoryPage"
     HorizontalAlignment="Left"
     VerticalAlignment="Top"
+    JournalEntry.KeepAlive="False"
     mc:Ignorable="d">
     <Grid Margin="15,15,15,15" VerticalAlignment="Top">
         <Grid.RowDefinitions>
@@ -37,7 +38,7 @@
                     ToolTip="Previous " />
 
                 <TextBlock
-                    x:Name="PageNamber"
+                    x:Name="PageNumber"
                     Margin="10,0,10,0"
                     VerticalAlignment="Center"
                     FontSize="15"
@@ -123,8 +124,11 @@
             VerticalAlignment="Stretch"
             AutoGenerateColumns="False"
             BorderThickness="0,0,0,0"
+            EnableRowVirtualization="True"
             GridLinesVisibility="Horizontal"
-            IsReadOnly="True">
+            IsReadOnly="True"
+            VirtualizingPanel.IsVirtualizing="True"
+            VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.VerticalGridLinesBrush>
                 <LinearGradientBrush MappingMode="Absolute" EndPoint="0,3">
                     <GradientStop Offset="0.33" Color="#18FFFFFF" />

@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="PromptSetting"
+    Title="PromptPage"
+    JournalEntry.KeepAlive="False"
     mc:Ignorable="d">
     <Grid Margin="15,15,15,15">
         <StackPanel HorizontalAlignment="Stretch">

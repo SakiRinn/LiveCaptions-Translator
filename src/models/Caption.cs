@@ -154,8 +154,9 @@ namespace LiveCaptionsTranslator.models
             {
                 if (App.Window == null)
                 {
-                    App.Window = LiveCaptionsHandler.LaunchLiveCaptions();
                     DisplayTranslatedCaption = "[WARNING] LiveCaptions was unexpectedly closed, restarting...";
+                    App.Window = LiveCaptionsHandler.LaunchLiveCaptions();
+                    DisplayTranslatedCaption = "";
                 }
 
                 if (TranslateFlag)
@@ -165,7 +166,7 @@ namespace LiveCaptionsTranslator.models
                     // If the old sentence is the prefix of the new sentence,
                     // overwrite the previous entry when logging.
                     string lastLoggedOriginal = await SQLiteHistoryLogger.LoadLatestSourceText();
-                    bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal) 
+                    bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal)
                         && originalSnapshot.StartsWith(lastLoggedOriginal);
 
                     // Log Only
@@ -175,8 +176,8 @@ namespace LiveCaptionsTranslator.models
                         TranslatedCaption = string.Empty;
                         DisplayTranslatedCaption = "[Paused]";
                         // Log
-                        var LogOnlyTask = Task.Run(() => Translator.LogOnly(
-                            originalSnapshot, isOverWrite));
+                        var LogOnlyTask = Task.Run(
+                            () => Translator.LogOnly(originalSnapshot, isOverWrite));
                     }
                     else
                     {
@@ -184,8 +185,8 @@ namespace LiveCaptionsTranslator.models
                         TranslatedCaption = await Translator.Translate(originalSnapshot);
                         DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 240);
                         // Log
-                        var LogTask = Task.Run(() => Translator.Log(
-                            originalSnapshot, TranslatedCaption, isOverWrite));
+                        var LogTask = Task.Run(
+                            () => Translator.Log(originalSnapshot, TranslatedCaption, isOverWrite));
                     }
 
                     TranslateFlag = false;

@@ -13,6 +13,7 @@ namespace LiveCaptionsTranslator
             InitializeComponent();
             DataContext = App.Captions;
             App.Captions.PropertyChanged += TranslatedChanged;
+            Unloaded += (s, e) => App.Captions.PropertyChanged -= TranslatedChanged;
         }
 
         private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
