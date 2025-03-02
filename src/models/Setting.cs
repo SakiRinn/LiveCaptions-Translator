@@ -23,6 +23,9 @@ namespace LiveCaptionsTranslator.models
         private int maxSyncInterval = 5;
         private int historyMaxRow = 1;
 
+        private bool captionLogEnable = true;
+        private int captionLogMax = 0;
+
         private Dictionary<string, string> windowBounds = new()
         {
             { "Main", "1, 1, 1, 1" },
@@ -97,6 +100,27 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("HistoryMaxRow");
             }
         }
+
+        public bool CaptionLogEnable
+        {
+            get => captionLogEnable;
+            set
+            {
+                captionLogEnable = value;
+                OnPropertyChanged("CaptionLogEnable");
+            }
+        }
+
+        public int CaptionLogMax
+        {
+            get => captionLogMax;
+            set
+            {
+                captionLogMax = value;
+                OnPropertyChanged("CaptionLogMax");
+            }
+        }
+
         public string Prompt
         {
             get => prompt;
