@@ -8,7 +8,7 @@ namespace LiveCaptionsTranslator.utils
     {
         public static event Action? TranslationLogged;
 
-        public static async Task<string> Translate(string text)
+        public static async Task<string> Translate(string text, CancellationToken token = default)
         {
             string translatedText;
             try
@@ -16,7 +16,7 @@ namespace LiveCaptionsTranslator.utils
 #if DEBUG
                 var sw = Stopwatch.StartNew();
 #endif
-                translatedText = await TranslateAPI.TranslateFunc(text);
+                translatedText = await TranslateAPI.TranslateFunc(text, token);
 #if DEBUG
                 sw.Stop();
                 translatedText = $"[{sw.ElapsedMilliseconds} ms] " + translatedText;
@@ -30,8 +30,8 @@ namespace LiveCaptionsTranslator.utils
             return translatedText;
         }
 
-        public static async Task Log(string originalText, string translatedText, 
-            Setting? setting = null, bool isOverWrite = false)
+        public static async Task Log(string originalText, string translatedText, Setting? setting,
+            bool isOverWrite = false, CancellationToken token = default)
         {
             string targetLanguage, apiName;
             if (setting != null)
@@ -48,9 +48,13 @@ namespace LiveCaptionsTranslator.utils
             try
             {
                 if (isOverWrite)
-                    await SQLiteHistoryLogger.DeleteLatestTranslation();
-                await SQLiteHistoryLogger.LogTranslation(originalText, translatedText, targetLanguage, apiName);
+                    await SQLiteHistoryLogger.DeleteLatestTranslation(token);
+                await SQLiteHistoryLogger.LogTranslation(originalText, translatedText, targetLanguage, apiName, token);
                 TranslationLogged?.Invoke();
+            }
+            catch (OperationCanceledException)
+            {
+                return;
             }
             catch (Exception ex)
             {
@@ -58,14 +62,19 @@ namespace LiveCaptionsTranslator.utils
             }
         }
 
-        public static async Task LogOnly(string originalText, bool isOverWrite = false)
+        public static async Task LogOnly(string originalText, 
+            bool isOverWrite = false, CancellationToken token = default)
         {
             try
             {
                 if (isOverWrite)
-                    await SQLiteHistoryLogger.DeleteLatestTranslation();
-                await SQLiteHistoryLogger.LogTranslation(originalText, "N/A", "N/A", "LogOnly");
+                    await SQLiteHistoryLogger.DeleteLatestTranslation(token);
+                await SQLiteHistoryLogger.LogTranslation(originalText, "N/A", "N/A", "LogOnly", token);
                 TranslationLogged?.Invoke();
+            }
+            catch (OperationCanceledException)
+            {
+                return;
             }
             catch (Exception ex)
             {

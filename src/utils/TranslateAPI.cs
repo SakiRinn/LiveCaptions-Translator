@@ -9,7 +9,8 @@ namespace LiveCaptionsTranslator.utils
 {
     public static class TranslateAPI
     {
-        public static readonly Dictionary<string, Func<string, Task<string>>> TRANSLATE_FUNCS = new()
+        public static readonly Dictionary<string, Func<string, CancellationToken, Task<string>>> 
+            TRANSLATE_FUNCS = new()
         {
             { "Google", Google },
             { "Google2", Google2 },
@@ -17,7 +18,7 @@ namespace LiveCaptionsTranslator.utils
             { "OpenAI", OpenAI },
             { "OpenRouter", OpenRouter },
         };
-        public static Func<string, Task<string>> TranslateFunc
+        public static Func<string, CancellationToken, Task<string>> TranslateFunc
         {
             get => TRANSLATE_FUNCS[App.Settings.ApiName];
         }
@@ -28,7 +29,7 @@ namespace LiveCaptionsTranslator.utils
 
         private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromSeconds(5) };
 
-        public static async Task<string> OpenAI(string text)
+        public static async Task<string> OpenAI(string text, CancellationToken token = default)
         {
             var config = App.Settings.CurrentAPIConfig as OpenAIConfig;
             string language = config.SupportedLanguages.TryGetValue(App.Settings.TargetLanguage, out var langValue) 
@@ -55,7 +56,11 @@ namespace LiveCaptionsTranslator.utils
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(config?.ApiUrl, content);
+                response = await client.PostAsync(config?.ApiUrl, content, token);
+            }
+            catch (OperationCanceledException)
+            {
+                return string.Empty;
             }
             catch (Exception ex)
             {
@@ -72,7 +77,7 @@ namespace LiveCaptionsTranslator.utils
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
 
-        public static async Task<string> Ollama(string text)
+        public static async Task<string> Ollama(string text, CancellationToken token = default)
         {
             var config = App.Settings?.CurrentAPIConfig as OllamaConfig;
             var apiUrl = $"http://localhost:{config.Port}/api/chat";
@@ -100,7 +105,11 @@ namespace LiveCaptionsTranslator.utils
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content);
+                response = await client.PostAsync(apiUrl, content, token);
+            }
+            catch (OperationCanceledException)
+            {
+                return string.Empty;
             }
             catch (Exception ex)
             {
@@ -117,37 +126,41 @@ namespace LiveCaptionsTranslator.utils
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
 
-        private static async Task<string> Google(string text)
+        private static async Task<string> Google(string text, CancellationToken token = default)
         {
             var language = App.Settings?.TargetLanguage;
 
             string encodedText = Uri.EscapeDataString(text);
             var url = $"https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl={language}&q={encodedText}";
 
+            HttpResponseMessage response;
             try
             {
-                var response = await client.GetAsync(url);
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseString = await response.Content.ReadAsStringAsync();
-
-                    var responseObj = JsonSerializer.Deserialize<List<List<string>>>(responseString);
-
-                    string translatedText = responseObj[0][0];
-                    return translatedText;
-                }
-                else
-                {
-                    return $"[Translation Failed] HTTP Error - {response.StatusCode}";
-                }
+                response = await client.GetAsync(url, token);
+            }
+            catch (OperationCanceledException)
+            {
+                return string.Empty;
             }
             catch (Exception ex)
             {
                 return $"[Translation Failed] {ex.Message}";
             }
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseString = await response.Content.ReadAsStringAsync();
+
+                var responseObj = JsonSerializer.Deserialize<List<List<string>>>(responseString);
+
+                string translatedText = responseObj[0][0];
+                return translatedText;
+            }
+            else
+                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
 
-        private static async Task<string> Google2(string text)
+        private static async Task<string> Google2(string text, CancellationToken token = default)
         {
             string apiKey = "AIzaSyA6EEtrDCfBkHV8uU2lgGY-N383ZgAOo7Y";
             var language = App.Settings?.TargetLanguage;
@@ -160,41 +173,43 @@ namespace LiveCaptionsTranslator.utils
                          $"term={encodedText}&" +
                          $"strategy={strategy}";
 
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Add("x-referer", "chrome-extension://mgijmajocgfcbeboacabfgobmjgjcoja");
+
+            HttpResponseMessage response;
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, url);
-                request.Headers.Add("x-referer", "chrome-extension://mgijmajocgfcbeboacabfgobmjgjcoja");
-
-                var response = await client.SendAsync(request);
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseBody = await response.Content.ReadAsStringAsync();
-                    
-                    using var jsonDoc = JsonDocument.Parse(responseBody);
-                    var root = jsonDoc.RootElement;
-
-                    if (root.TryGetProperty("translateResponse", out JsonElement translateResponse))
-                    {
-                        string translatedText = translateResponse.GetProperty("translateText").GetString();
-                        return translatedText;
-                    }
-                    else
-                    {
-                        return "[Translation Failed] Unexpected API response format";
-                    }
-                }
-                else
-                {
-                    return $"[Translation Failed] HTTP Error - {response.StatusCode}";
-                }
+                response = await client.SendAsync(request, token);
+            }
+            catch (OperationCanceledException)
+            {
+                return string.Empty;
             }
             catch (Exception ex)
             {
                 return $"[Translation Failed] {ex.Message}";
             }
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                using var jsonDoc = JsonDocument.Parse(responseBody);
+                var root = jsonDoc.RootElement;
+
+                if (root.TryGetProperty("translateResponse", out JsonElement translateResponse))
+                {
+                    string translatedText = translateResponse.GetProperty("translateText").GetString();
+                    return translatedText;
+                }
+                else
+                    return "[Translation Failed] Unexpected API response format";
+            }
+            else
+                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
         
-        public static async Task<string> OpenRouter(string text)
+        public static async Task<string> OpenRouter(string text, CancellationToken token = default)
         {
             var config = App.Settings.CurrentAPIConfig as OpenRouterConfig;
             var language = config?.SupportedLanguages[App.Settings.TargetLanguage];
@@ -223,27 +238,31 @@ namespace LiveCaptionsTranslator.utils
             request.Headers.Add("HTTP-Referer", "https://github.com/SakiRinn/LiveCaptionsTranslator");
             request.Headers.Add("X-Title", "LiveCaptionsTranslator");
 
+            HttpResponseMessage response;
             try
             {
-                var response = await client.SendAsync(request);
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseContent);
-                    return jsonResponse.GetProperty("choices")[0]
-                                       .GetProperty("message")
-                                       .GetProperty("content")
-                                       .GetString() ?? string.Empty;
-                }
-                else
-                {
-                    return $"[Translation Failed] HTTP Error - {response.StatusCode}";
-                }
+                response = await client.SendAsync(request, token);
+            }
+            catch (OperationCanceledException)
+            {
+                return string.Empty;
             }
             catch (Exception ex)
             {
                 return $"[Translation Failed] {ex.Message}";
             }
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseContent);
+                return jsonResponse.GetProperty("choices")[0]
+                                   .GetProperty("message")
+                                   .GetProperty("content")
+                                   .GetString() ?? string.Empty;
+            }
+            else
+                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
     }
 
