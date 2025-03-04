@@ -13,6 +13,8 @@
     MinHeight="135"
     AllowsTransparency="True"
     Background="Transparent"
+    MouseEnter="Window_MouseEnter"
+    MouseLeave="Window_MouseLeave"
     ResizeMode="CanResize"
     ShowInTaskbar="False"
     Topmost="True"
@@ -30,6 +32,7 @@
 
     <Grid>
         <Border
+            x:Name="BorderBackground"
             Margin="5"
             Background="#80000000"
             CornerRadius="8"
@@ -77,6 +80,64 @@
                         Style="{StaticResource CaptionBlockStyle}"
                         Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}" />
                 </ui:Card>
+
+                <StackPanel
+                    x:Name="ControlPanel"
+                    Grid.Row="1"
+                    Margin="0,0,10,10"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
+                    <ui:Button
+                        x:Name="FontIncrease"
+                        Background="#B2FFFFFF"
+                        Click="FontIncrease_Click"
+                        Icon="{ui:SymbolIcon fontIncrease20,
+                                             Filled=False}"
+                        ToolTip="Font Increase" />
+                    <ui:Button
+                        x:Name="FontDecrease"
+                        Background="#B2FFFFFF"
+                        Click="FontDecrease_Click"
+                        Icon="{ui:SymbolIcon fontDecrease20,
+                                             Filled=False}"
+                        ToolTip="Font Decrease" />
+                    <ui:Button
+                        x:Name="FontColorCycle"
+                        Background="#B2FFFFFF"
+                        Click="FontColorCycle_Click"
+                        Icon="{ui:SymbolIcon color16,
+                                             Filled=False}"
+                        ToolTip="Font Color" />
+                    <ui:Button
+                        x:Name="FontBold"
+                        Background="#B2FFFFFF"
+                        Click="FontBold_Click"
+                        Icon="{ui:SymbolIcon textBold16,
+                                             Filled=False}"
+                        ToolTip="Font Bold" />
+                    <ui:Button
+                        x:Name="OpacityIncrease"
+                        Background="#B2FFFFFF"
+                        Click="OpacityIncrease_Click"
+                        Icon="{ui:SymbolIcon arrowAutofitUp20,
+                                             Filled=False}"
+                        ToolTip="Opacity Increase" />
+                    <ui:Button
+                        x:Name="OpacityDecrease"
+                        Background="#B2FFFFFF"
+                        Click="OpacityDecrease_Click"
+                        Icon="{ui:SymbolIcon arrowAutofitDown20,
+                                             Filled=False}"
+                        ToolTip="Opacity Decrease" />
+                    <ui:Button
+                        x:Name="ClickThrough"
+                        Background="#B2FFFFFF"
+                        Click="ClickThrough_Click"
+                        Icon="{ui:SymbolIcon cursorHoverOff16,
+                                             Filled=False}"
+                        ToolTip="Click Through" />
+                </StackPanel>
             </Grid>
         </Border>
 

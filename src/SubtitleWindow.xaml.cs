@@ -1,14 +1,26 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace LiveCaptionsTranslator
 {
     public partial class SubtitleWindow : Window
     {
+        private Dictionary<int, Brush> ColorList = new Dictionary<int, Brush> {
+            {1, Brushes.White},
+            {2, Brushes.Black},
+            {3, Brushes.Yellow},
+            {4, Brushes.Blue},
+            {5, Brushes.LawnGreen},
+            {6, Brushes.Red},
+        };
         private bool isTranslationOnly = false;
         public bool IsTranslationOnly
         {
@@ -109,14 +121,16 @@ namespace LiveCaptionsTranslator
             {
                 if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 160)
                 {
-                    Dispatcher.BeginInvoke(new Action(() => {
-                        this.TranslatedCaption.FontSize = 15;
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        this.TranslatedCaption.FontSize = App.Settings.OverlayFontSize;
                     }), DispatcherPriority.Background);
                 }
                 else
                 {
-                    Dispatcher.BeginInvoke(new Action(() => {
-                        this.TranslatedCaption.FontSize = 18;
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        this.TranslatedCaption.FontSize = App.Settings.OverlayFontSize + 3;
                     }), DispatcherPriority.Background);
                 }
             }
@@ -141,6 +155,95 @@ namespace LiveCaptionsTranslator
                 this.Height += 40;
                 this.MinHeight += 40;
             }
+        }
+
+        // Control Panel
+
+        private void SetWindowExTransparent(IntPtr hwnd)
+        {
+            const int WS_EX_TRANSPARENT = 0x00000020;
+            const int GWL_EXSTYLE = (-20);
+
+            [DllImport("user32.dll")]
+            static extern int GetWindowLong(IntPtr hwnd, int index);
+
+            [DllImport("user32.dll")]
+            static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+
+            var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+            SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+        }
+
+        protected async override void OnSourceInitialized(EventArgs e)
+        {
+            int opacity = App.Settings.OverlayOpacity;
+
+            TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold ? FontWeights.Bold : FontWeights.Regular);
+            TranslatedCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
+            OriginalCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
+            BorderBackground.Background = new SolidColorBrush(Color.FromArgb((byte)opacity, (byte)0, (byte)0, (byte)0));
+        }
+
+        private void Window_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ControlPanel.Visibility = Visibility.Visible;
+        }
+
+        private void Window_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ControlPanel.Visibility = Visibility.Hidden;
+        }
+
+        private void FontIncrease_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.OverlayFontSize++;
+        }
+
+        private void FontDecrease_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.OverlayFontSize--;
+        }
+
+        private void OpacityIncrease_Click(object sender, RoutedEventArgs e)
+        {
+            if (App.Settings.OverlayOpacity + 10 < 255)
+            {
+                App.Settings.OverlayOpacity += 10;
+                BorderBackground.Background = new SolidColorBrush(Color.FromArgb((byte)App.Settings.OverlayOpacity, (byte)0, (byte)0, (byte)0));
+            }
+        }
+
+        private void OpacityDecrease_Click(object sender, RoutedEventArgs e)
+        {
+            if (App.Settings.OverlayOpacity - 10 > 0)
+            {
+
+                App.Settings.OverlayOpacity -= 10;
+                BorderBackground.Background = new SolidColorBrush(Color.FromArgb((byte)App.Settings.OverlayOpacity, (byte)0, (byte)0, (byte)0));
+            }
+        }
+
+        private void FontColorCycle_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.OverlayFontColor++;
+            if (App.Settings.OverlayFontColor > ColorList.Count)
+                App.Settings.OverlayFontColor = 1;
+            TranslatedCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
+            OriginalCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
+        }
+
+        private void ClickThrough_Click(object sender, RoutedEventArgs e)
+        {
+            var hwnd = new WindowInteropHelper(this).Handle;
+            SetWindowExTransparent(hwnd);
+
+            ControlPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void FontBold_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.OverlayFontBold = !App.Settings.OverlayFontBold;
+            TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold ? FontWeights.Bold : FontWeights.Regular);
         }
     }
 }

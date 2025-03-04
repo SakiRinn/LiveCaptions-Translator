@@ -21,6 +21,11 @@ namespace LiveCaptionsTranslator.models
         private int maxIdleInterval = 20;
         private int maxSyncInterval = 5;
 
+        private int overlayFontSize = 15;
+        private int overlayOpacity = 100;
+        private int overlayFontColor = 1;
+        private bool overlayFontBold = false;
+
         private Dictionary<string, string> windowBounds;
         private bool topmost = true;
 
@@ -67,6 +72,42 @@ namespace LiveCaptionsTranslator.models
             {
                 maxSyncInterval = value;
                 OnPropertyChanged("MaxSyncInterval");
+            }
+        }
+        public int OverlayFontSize
+        {
+            get => overlayFontSize;
+            set
+            {
+                overlayFontSize = value;
+                OnPropertyChanged("OverlayFontSize");
+            }
+        }
+        public int OverlayOpacity
+        {
+            get => overlayOpacity;
+            set
+            {
+                overlayOpacity = value;
+                OnPropertyChanged("OverlayOpacity");
+            }
+        }
+        public int OverlayFontColor
+        {
+            get => overlayFontColor;
+            set
+            {
+                overlayFontColor = value;
+                OnPropertyChanged("OverlayFontColor");
+            }
+        }
+        public bool OverlayFontBold
+        {
+            get => overlayFontBold;
+            set
+            {
+                overlayFontBold = value;
+                OnPropertyChanged("OverlayFontBold");
             }
         }
         public string Prompt
