@@ -55,12 +55,12 @@
 
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="API Frequency" />
+                    <TextBlock Margin="2.5,0,0,5" Text="API Interval" />
                     <ui:Flyout x:Name="FrequencyInfoFlyout">
-                        <TextBlock Width="340" TextWrapping="Wrap">
-                            <Run Text="Determines the frequency of translate API calls." />
+                        <TextBlock Width="320" TextWrapping="Wrap">
+                            <Run Text="Determines the frequency of translate API calls. The smaller it is, the more frequent API calls." />
                             <Run Text="&#x0A;The translate API is called once after the caption changes" />
-                            <Run FontWeight="SemiBold" Text="[API Frequency]" />
+                            <Run FontWeight="SemiBold" Text="[API Interval]" />
                             <Run Text="times" />
                         </TextBlock>
                     </ui:Flyout>
