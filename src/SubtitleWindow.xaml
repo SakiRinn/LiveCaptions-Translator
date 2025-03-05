@@ -59,7 +59,7 @@
                     Grid.Row="0"
                     Margin="5,3,5,1"
                     Padding="8"
-                    VerticalAlignment="Stretch"
+                    VerticalAlignment="Top"
                     Background="Transparent"
                     BorderThickness="0">
                     <TextBlock
@@ -74,7 +74,7 @@
                     Grid.Row="1"
                     Margin="5,1,5,3"
                     Padding="8"
-                    VerticalAlignment="Stretch"
+                    VerticalAlignment="Top"
                     Background="Transparent"
                     BorderThickness="0">
                     <TextBlock
