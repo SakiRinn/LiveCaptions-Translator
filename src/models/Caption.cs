@@ -20,7 +20,6 @@ namespace LiveCaptionsTranslator.models
         private string displayTranslatedCaption = "";
 
         public bool TranslateFlag { get; set; } = false;
-        public bool EOSFlag { get; set; } = false;
         public bool LogOnlyFlag { get; set; } = false;
 
         public string OriginalCaption { get; set; } = "";
@@ -87,6 +86,8 @@ namespace LiveCaptionsTranslator.models
                     continue;
 
                 // Note: For certain languages (such as Japanese), LiveCaptions excessively uses `\n`.
+                // Preprocess - remove the `.` between 2 uppercase letters.
+                fullText = Regex.Replace(fullText, @"(?<=[A-Z])\s*\.\s*(?=[A-Z])", "");
                 // Preprocess - Remove redundant `\n` around punctuation.
                 fullText = Regex.Replace(fullText, @"\s*([.!?,])\s*", "$1 ");
                 fullText = Regex.Replace(fullText, @"\s*([。！？，、])\s*", "$1");
@@ -123,15 +124,11 @@ namespace LiveCaptionsTranslator.models
                     idleCount = 0;
                     if (Encoding.UTF8.GetByteCount(latestCaption) >= 10)
                         syncCount++;
-
                     if (Array.IndexOf(PUNC_EOS, OriginalCaption[^1]) != -1)
                     {
                         syncCount = 0;
                         TranslateFlag = true;
-                        EOSFlag = true;
                     }
-                    else
-                        EOSFlag = false;
                 }
                 else
                     idleCount++;
@@ -150,6 +147,7 @@ namespace LiveCaptionsTranslator.models
 
         public async Task Translate()
         {
+            var translationTaskQueue = new TranslationTaskQueue();
             while (true)
             {
                 if (App.Window == null)
@@ -157,6 +155,14 @@ namespace LiveCaptionsTranslator.models
                     DisplayTranslatedCaption = "[WARNING] LiveCaptions was unexpectedly closed, restarting...";
                     App.Window = LiveCaptionsHandler.LaunchLiveCaptions();
                     DisplayTranslatedCaption = "";
+                } else if (LogOnlyFlag)
+                {
+                    TranslatedCaption = string.Empty;
+                    DisplayTranslatedCaption = "[Paused]";
+                } else if (!string.IsNullOrEmpty(translationTaskQueue.Output))
+                {
+                    TranslatedCaption = translationTaskQueue.Output;
+                    DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 200);
                 }
 
                 if (TranslateFlag)
@@ -169,28 +175,26 @@ namespace LiveCaptionsTranslator.models
                     bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal)
                         && originalSnapshot.StartsWith(lastLoggedOriginal);
 
-                    // Log Only
                     if (LogOnlyFlag)
                     {
-                        // Do not translate
-                        TranslatedCaption = string.Empty;
-                        DisplayTranslatedCaption = "[Paused]";
-                        // Log
                         var LogOnlyTask = Task.Run(
-                            () => Translator.LogOnly(originalSnapshot, isOverWrite));
+                            () => Translator.LogOnly(originalSnapshot, isOverWrite)
+                        );
                     }
                     else
                     {
-                        // Translate and display
-                        TranslatedCaption = await Translator.Translate(originalSnapshot);
-                        DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 240);
-                        // Log
-                        var LogTask = Task.Run(
-                            () => Translator.Log(originalSnapshot, TranslatedCaption, App.Settings, isOverWrite));
+                        translationTaskQueue.Enqueue(token => Task.Run(() =>
+                        {
+                            var TranslateTask = Translator.Translate(OriginalCaption, token);
+                            var LogTask = Translator.Log(
+                                originalSnapshot, TranslateTask.Result, App.Settings, isOverWrite, token);
+                            return TranslateTask;
+                        }));
                     }
 
                     TranslateFlag = false;
-                    if (EOSFlag)
+                    // If the original sentence is a complete sentence, pause for better visual experience.
+                    if (Array.IndexOf(PUNC_EOS, originalSnapshot[^1]) != -1)
                         Thread.Sleep(600);
                 }
                 Thread.Sleep(40);

@@ -123,7 +123,7 @@ namespace LiveCaptionsTranslator
             {
                 try
                 {
-                    await SQLiteHistoryLogger.ExportToCsv(saveFileDialog.FileName);
+                    await SQLiteHistoryLogger.ExportToCSV(saveFileDialog.FileName);
                     ShowSnackbar("Saved Success", $"File saved to: {saveFileDialog.FileName}");
                 }
                 catch (Exception ex)
