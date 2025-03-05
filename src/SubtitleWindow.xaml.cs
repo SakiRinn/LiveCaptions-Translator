@@ -42,7 +42,6 @@ namespace LiveCaptionsTranslator
             Unloaded += (s, e) => App.Captions.PropertyChanged -= TranslatedChanged;
 
             ApplyFontSize();
-            TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold ? FontWeights.Bold : FontWeights.Regular);
             TranslatedCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
             OriginalCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
             BorderBackground.Opacity = App.Settings.OverlayOpacity;
@@ -135,16 +134,21 @@ namespace LiveCaptionsTranslator
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    this.TranslatedCaption.FontSize = App.Settings.OverlayFontSize;
+                    this.OriginalCaption.FontSize = App.Settings.OverlayFontSize;
+                    this.TranslatedCaption.FontSize = this.OriginalCaption.FontSize + 4;
                 }), DispatcherPriority.Background);
             }
             else
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    this.TranslatedCaption.FontSize = App.Settings.OverlayFontSize + 3;
+                    this.OriginalCaption.FontSize = App.Settings.OverlayFontSize + 3;
+                    this.TranslatedCaption.FontSize = this.OriginalCaption.FontSize + 4;
                 }), DispatcherPriority.Background);
             }
+
+            this.OriginalCaption.FontWeight = (App.Settings.OverlayFontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
+            this.TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
         }
 
         public void ResizeForTranslationOnly()
@@ -251,8 +255,10 @@ namespace LiveCaptionsTranslator
 
         private void FontBold_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.OverlayFontBold = !App.Settings.OverlayFontBold;
-            TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold ? FontWeights.Bold : FontWeights.Regular);
+            App.Settings.OverlayFontBold++;
+            if (App.Settings.OverlayFontBold > 3)
+                App.Settings.OverlayFontBold = 1;
+            ApplyFontSize();
         }
         private void BackgroundColorCycle_Click(object sender, RoutedEventArgs e)
         {
