@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -15,11 +14,13 @@ namespace LiveCaptionsTranslator
     {
         private Dictionary<int, Brush> ColorList = new Dictionary<int, Brush> {
             {1, Brushes.White},
-            {2, Brushes.Black},
-            {3, Brushes.Yellow},
-            {4, Brushes.Blue},
-            {5, Brushes.LawnGreen},
-            {6, Brushes.Red},
+            {2, Brushes.Yellow},
+            {3, Brushes.LimeGreen},
+            {4, Brushes.Aqua},
+            {5, Brushes.Blue},
+            {6, Brushes.DeepPink},
+            {7, Brushes.Red},
+            {8, Brushes.Black},
         };
         private bool isTranslationOnly = false;
         public bool IsTranslationOnly
@@ -176,12 +177,10 @@ namespace LiveCaptionsTranslator
 
         protected async override void OnSourceInitialized(EventArgs e)
         {
-            int opacity = App.Settings.OverlayOpacity;
-
             TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold ? FontWeights.Bold : FontWeights.Regular);
             TranslatedCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
             OriginalCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
-            BorderBackground.Background = new SolidColorBrush(Color.FromArgb((byte)opacity, (byte)0, (byte)0, (byte)0));
+            BorderBackground.Opacity = App.Settings.OverlayOpacity;
         }
 
         private void Window_MouseEnter(object sender, MouseEventArgs e)
@@ -206,20 +205,20 @@ namespace LiveCaptionsTranslator
 
         private void OpacityIncrease_Click(object sender, RoutedEventArgs e)
         {
-            if (App.Settings.OverlayOpacity + 10 < 255)
+            if (App.Settings.OverlayOpacity + 0.05 < 1)
             {
-                App.Settings.OverlayOpacity += 10;
-                BorderBackground.Background = new SolidColorBrush(Color.FromArgb((byte)App.Settings.OverlayOpacity, (byte)0, (byte)0, (byte)0));
+                App.Settings.OverlayOpacity += 0.05;
+                BorderBackground.Opacity = App.Settings.OverlayOpacity;
             }
         }
 
         private void OpacityDecrease_Click(object sender, RoutedEventArgs e)
         {
-            if (App.Settings.OverlayOpacity - 10 > 0)
+            if (App.Settings.OverlayOpacity - 0.05 > 0.05)
             {
 
-                App.Settings.OverlayOpacity -= 10;
-                BorderBackground.Background = new SolidColorBrush(Color.FromArgb((byte)App.Settings.OverlayOpacity, (byte)0, (byte)0, (byte)0));
+                App.Settings.OverlayOpacity -= 0.05;
+                BorderBackground.Opacity = App.Settings.OverlayOpacity;
             }
         }
 
@@ -244,6 +243,14 @@ namespace LiveCaptionsTranslator
         {
             App.Settings.OverlayFontBold = !App.Settings.OverlayFontBold;
             TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold ? FontWeights.Bold : FontWeights.Regular);
+        }
+        private void BackgroundColorCycle_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.OverlayBackgroundColor++;
+            if (App.Settings.OverlayBackgroundColor > ColorList.Count)
+                App.Settings.OverlayBackgroundColor = 1;
+            BorderBackground.Background = ColorList[App.Settings.OverlayBackgroundColor];
+            BorderBackground.Opacity = App.Settings.OverlayOpacity;
         }
     }
 }

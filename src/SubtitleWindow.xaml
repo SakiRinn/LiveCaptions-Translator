@@ -35,6 +35,10 @@
             x:Name="BorderBackground"
             Margin="5"
             Background="#80000000"
+            CornerRadius="8" />
+        <Border
+            Margin="5"
+            Background="Transparent"
             CornerRadius="8"
             Cursor="SizeAll"
             MouseLeftButtonDown="Border_MouseLeftButtonDown">
@@ -130,6 +134,13 @@
                         Icon="{ui:SymbolIcon arrowAutofitDown20,
                                              Filled=False}"
                         ToolTip="Opacity Decrease" />
+                    <ui:Button
+                        x:Name="BackgroundColorCycle"
+                        Background="#B2FFFFFF"
+                        Click="BackgroundColorCycle_Click"
+                        Icon="{ui:SymbolIcon color16,
+                                             Filled=False}"
+                        ToolTip="Font Color" />
                     <ui:Button
                         x:Name="ClickThrough"
                         Background="#B2FFFFFF"

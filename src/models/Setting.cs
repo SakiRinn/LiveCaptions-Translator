@@ -22,9 +22,10 @@ namespace LiveCaptionsTranslator.models
         private int maxSyncInterval = 5;
 
         private int overlayFontSize = 15;
-        private int overlayOpacity = 100;
+        private double overlayOpacity = 0.5;
         private int overlayFontColor = 1;
         private bool overlayFontBold = false;
+        private int overlayBackgroundColor = 1;
 
         private Dictionary<string, string> windowBounds;
         private bool topmost = true;
@@ -83,7 +84,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("OverlayFontSize");
             }
         }
-        public int OverlayOpacity
+        public double OverlayOpacity
         {
             get => overlayOpacity;
             set
@@ -108,6 +109,15 @@ namespace LiveCaptionsTranslator.models
             {
                 overlayFontBold = value;
                 OnPropertyChanged("OverlayFontBold");
+            }
+        }
+        public int OverlayBackgroundColor
+        {
+            get => overlayBackgroundColor;
+            set
+            {
+                overlayBackgroundColor = value;
+                OnPropertyChanged("OverlayBackgroundColor");
             }
         }
         public string Prompt
