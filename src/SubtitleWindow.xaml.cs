@@ -41,11 +41,15 @@ namespace LiveCaptionsTranslator
             Loaded += (s, e) => App.Captions.PropertyChanged += TranslatedChanged;
             Unloaded += (s, e) => App.Captions.PropertyChanged -= TranslatedChanged;
 
-            ApplyFontSize();
-            TranslatedCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
-            OriginalCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
-            BorderBackground.Background = ColorList[App.Settings.OverlayBackgroundColor];
-            BorderBackground.Opacity = App.Settings.OverlayOpacity;
+            this.OriginalCaption.FontWeight = (App.Settings.OverlayFontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
+            this.TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
+            this.OriginalCaptionShadow.Opacity = (App.Settings.OverlayFontShadow == 3 ? 1.0 : 0.0);
+            this.TranslatedCaptionShadow.Opacity = (App.Settings.OverlayFontShadow >= 2 ? 1.0 : 0.0);
+
+            this.TranslatedCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
+            this.OriginalCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
+            this.BorderBackground.Background = ColorList[App.Settings.OverlayBackgroundColor];
+            this.BorderBackground.Opacity = App.Settings.OverlayOpacity;
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -147,11 +151,6 @@ namespace LiveCaptionsTranslator
                     this.TranslatedCaption.FontSize = this.OriginalCaption.FontSize + 4;
                 }), DispatcherPriority.Background);
             }
-
-            this.OriginalCaption.FontWeight = (App.Settings.OverlayFontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
-            this.TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
-            this.OriginalCaptionShadow.Opacity = (App.Settings.OverlayFontShadow == 3 ? 1.0 : 0.0);
-            this.TranslatedCaptionShadow.Opacity = (App.Settings.OverlayFontShadow >= 2 ? 1.0 : 0.0);
         }
 
         public void ResizeForTranslationOnly()
@@ -258,7 +257,8 @@ namespace LiveCaptionsTranslator
             App.Settings.OverlayFontBold++;
             if (App.Settings.OverlayFontBold > (isTranslationOnly ? 2 : 3))
                 App.Settings.OverlayFontBold = 1;
-            ApplyFontSize();
+            this.OriginalCaption.FontWeight = (App.Settings.OverlayFontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
+            this.TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
         }
         private void BackgroundColorCycle_Click(object sender, RoutedEventArgs e)
         {
@@ -274,7 +274,8 @@ namespace LiveCaptionsTranslator
             App.Settings.OverlayFontShadow++;
             if (App.Settings.OverlayFontShadow > (isTranslationOnly ? 2 : 3))
                 App.Settings.OverlayFontShadow = 1;
-            ApplyFontSize();
+            this.OriginalCaptionShadow.Opacity = (App.Settings.OverlayFontShadow == 3 ? 1.0 : 0.0);
+            this.TranslatedCaptionShadow.Opacity = (App.Settings.OverlayFontShadow >= 2 ? 1.0 : 0.0);
         }
     }
 }

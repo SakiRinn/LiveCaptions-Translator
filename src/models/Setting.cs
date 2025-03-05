@@ -26,7 +26,7 @@ namespace LiveCaptionsTranslator.models
         private int overlayFontColor = 1;
         private int overlayFontBold = 1;
         private int overlayFontShadow = 1;
-        private int overlayBackgroundColor = 1;
+        private int overlayBackgroundColor = 8;
 
         private Dictionary<string, string> windowBounds;
         private bool topmost = true;
