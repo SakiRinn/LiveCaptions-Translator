@@ -40,6 +40,12 @@ namespace LiveCaptionsTranslator
 
             Loaded += (s, e) => App.Captions.PropertyChanged += TranslatedChanged;
             Unloaded += (s, e) => App.Captions.PropertyChanged -= TranslatedChanged;
+
+            ApplyFontSize();
+            TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold ? FontWeights.Bold : FontWeights.Regular);
+            TranslatedCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
+            OriginalCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
+            BorderBackground.Opacity = App.Settings.OverlayOpacity;
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -120,20 +126,24 @@ namespace LiveCaptionsTranslator
         {
             if (e.PropertyName == nameof(App.Captions.DisplayTranslatedCaption))
             {
-                if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 160)
+                ApplyFontSize();
+            }
+        }
+        private void ApplyFontSize()
+        {
+            if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 160)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        this.TranslatedCaption.FontSize = App.Settings.OverlayFontSize;
-                    }), DispatcherPriority.Background);
-                }
-                else
+                    this.TranslatedCaption.FontSize = App.Settings.OverlayFontSize;
+                }), DispatcherPriority.Background);
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        this.TranslatedCaption.FontSize = App.Settings.OverlayFontSize + 3;
-                    }), DispatcherPriority.Background);
-                }
+                    this.TranslatedCaption.FontSize = App.Settings.OverlayFontSize + 3;
+                }), DispatcherPriority.Background);
             }
         }
 
@@ -175,14 +185,6 @@ namespace LiveCaptionsTranslator
             SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
         }
 
-        protected async override void OnSourceInitialized(EventArgs e)
-        {
-            TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold ? FontWeights.Bold : FontWeights.Regular);
-            TranslatedCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
-            OriginalCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
-            BorderBackground.Opacity = App.Settings.OverlayOpacity;
-        }
-
         private void Window_MouseEnter(object sender, MouseEventArgs e)
         {
             ControlPanel.Visibility = Visibility.Visible;
@@ -195,12 +197,20 @@ namespace LiveCaptionsTranslator
 
         private void FontIncrease_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.OverlayFontSize++;
+            if (App.Settings.OverlayFontSize + 1 < 60)
+            {
+                App.Settings.OverlayFontSize++;
+                ApplyFontSize();
+            }
         }
 
         private void FontDecrease_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.OverlayFontSize--;
+            if (App.Settings.OverlayFontSize - 1 > 8)
+            {
+                App.Settings.OverlayFontSize--;
+                ApplyFontSize();
+            }
         }
 
         private void OpacityIncrease_Click(object sender, RoutedEventArgs e)
