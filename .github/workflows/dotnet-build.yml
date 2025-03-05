@@ -68,16 +68,16 @@ jobs:
           cd release
           mv x64/framework/LiveCaptionsTranslator.exe LiveCaptionsTranslator-win-x64.exe
           mv arm64/framework/LiveCaptionsTranslator.exe LiveCaptionsTranslator-win-arm64.exe
-          zip -r LiveCaptionsTranslator-win-x64-withruntime.zip x64/selfcontained
-          zip -r LiveCaptionsTranslator-win-arm64-withruntime.zip arm64/selfcontained
+          mv x64/selfcontained/LiveCaptionsTranslator.exe LiveCaptionsTranslator-win-x64-withruntime.exe
+          mv arm64/selfcontained/LiveCaptionsTranslator.exe LiveCaptionsTranslator-win-arm64-withruntime.exe
 
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             release/LiveCaptionsTranslator-win-x64.exe
-            release/LiveCaptionsTranslator-win-x64-withruntime.zip
+            release/LiveCaptionsTranslator-win-x64-withruntime.exe
             release/LiveCaptionsTranslator-win-arm64.exe
-            release/LiveCaptionsTranslator-win-arm64-withruntime.zip
+            release/LiveCaptionsTranslator-win-arm64-withruntime.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
