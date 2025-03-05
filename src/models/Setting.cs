@@ -25,6 +25,7 @@ namespace LiveCaptionsTranslator.models
         private double overlayOpacity = 0.5;
         private int overlayFontColor = 1;
         private int overlayFontBold = 1;
+        private int overlayFontShadow = 1;
         private int overlayBackgroundColor = 1;
 
         private Dictionary<string, string> windowBounds;
@@ -109,6 +110,15 @@ namespace LiveCaptionsTranslator.models
             {
                 overlayFontBold = value;
                 OnPropertyChanged("OverlayFontBold");
+            }
+        }
+        public int OverlayFontShadow
+        {
+            get => overlayFontShadow;
+            set
+            {
+                overlayFontShadow = value;
+                OnPropertyChanged("OverlayFontShdow");
             }
         }
         public int OverlayBackgroundColor

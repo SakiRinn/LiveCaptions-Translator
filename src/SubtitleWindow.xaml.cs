@@ -44,6 +44,7 @@ namespace LiveCaptionsTranslator
             ApplyFontSize();
             TranslatedCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
             OriginalCaption.Foreground = ColorList[App.Settings.OverlayFontColor];
+            BorderBackground.Background = ColorList[App.Settings.OverlayBackgroundColor];
             BorderBackground.Opacity = App.Settings.OverlayOpacity;
         }
 
@@ -149,6 +150,8 @@ namespace LiveCaptionsTranslator
 
             this.OriginalCaption.FontWeight = (App.Settings.OverlayFontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
             this.TranslatedCaption.FontWeight = (App.Settings.OverlayFontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
+            this.OriginalCaptionShadow.Opacity = (App.Settings.OverlayFontShadow == 3 ? 1.0 : 0.0);
+            this.TranslatedCaptionShadow.Opacity = (App.Settings.OverlayFontShadow >= 2 ? 1.0 : 0.0);
         }
 
         public void ResizeForTranslationOnly()
@@ -219,21 +222,18 @@ namespace LiveCaptionsTranslator
 
         private void OpacityIncrease_Click(object sender, RoutedEventArgs e)
         {
-            if (App.Settings.OverlayOpacity + 0.05 < 1)
-            {
-                App.Settings.OverlayOpacity += 0.05;
-                BorderBackground.Opacity = App.Settings.OverlayOpacity;
-            }
+            App.Settings.OverlayOpacity += 0.05;
+            if (App.Settings.OverlayOpacity >= 1)
+                App.Settings.OverlayOpacity = 1.0; // Opacity = 0 make Border unhove
+            BorderBackground.Opacity = App.Settings.OverlayOpacity;
         }
 
         private void OpacityDecrease_Click(object sender, RoutedEventArgs e)
         {
-            if (App.Settings.OverlayOpacity - 0.05 > 0.05)
-            {
-
-                App.Settings.OverlayOpacity -= 0.05;
-                BorderBackground.Opacity = App.Settings.OverlayOpacity;
-            }
+            App.Settings.OverlayOpacity -= 0.05;
+            if (App.Settings.OverlayOpacity <= 0)
+                App.Settings.OverlayOpacity = 0.01;
+            BorderBackground.Opacity = App.Settings.OverlayOpacity;
         }
 
         private void FontColorCycle_Click(object sender, RoutedEventArgs e)
@@ -256,7 +256,7 @@ namespace LiveCaptionsTranslator
         private void FontBold_Click(object sender, RoutedEventArgs e)
         {
             App.Settings.OverlayFontBold++;
-            if (App.Settings.OverlayFontBold > 3)
+            if (App.Settings.OverlayFontBold > (isTranslationOnly ? 2 : 3))
                 App.Settings.OverlayFontBold = 1;
             ApplyFontSize();
         }
@@ -267,6 +267,14 @@ namespace LiveCaptionsTranslator
                 App.Settings.OverlayBackgroundColor = 1;
             BorderBackground.Background = ColorList[App.Settings.OverlayBackgroundColor];
             BorderBackground.Opacity = App.Settings.OverlayOpacity;
+        }
+
+        private void FontShadow_Click(object sender, RoutedEventArgs e)
+        {
+            App.Settings.OverlayFontShadow++;
+            if (App.Settings.OverlayFontShadow > (isTranslationOnly ? 2 : 3))
+                App.Settings.OverlayFontShadow = 1;
+            ApplyFontSize();
         }
     }
 }
