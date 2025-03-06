@@ -1,8 +1,9 @@
-﻿# LiveCaptions Translator
+﻿# LiveCaptions Translator ![master-build](https://github.com/SakiRinn/LiveCaptions-Translator/actions/workflows/dotnet-build.yml/badge.svg?branch=master)   [![GitHub Release](https://img.shields.io/github/v/release/SakiRinn/LiveCaptions-Translator?label=Latest)](https://github.com/SakiRinn/LiveCaptions-Translator/releases/latest) [![Wiki](https://img.shields.io/badge/Wiki-GitHub-blue?style=flat-square)](https://github.com/SakiRinn/LiveCaptions-Translatorwiki)
+
 
 ***LiveCaptions Translator = Windows LiveCaptions + Translate API***
 
-A small and useful tool that integrate a translate API into Windows Live Captions to enable real-time speech translation.
+A small and useful tool that integrate a translate API into Windows Live Captions to enable real-time speech translation, even without Copilot+ PC.
 
 Download it from the [Releases](https://github.com/SakiRinn/LiveCaptions-Translator/releases), and it's ready to use with just a click.
 
@@ -13,14 +14,15 @@ Download it from the [Releases](https://github.com/SakiRinn/LiveCaptions-Transla
 + Automatically invoke Windows LiveCaptions without opening two windows.
 + Simple and beautiful Fluent UI.
 + Switch bright and dark theme automatically. (Follow system theme)
-+ Currently supports Ollama, OpenAI API, OpenRouter, and Google Translate. You are welcomed to implement more apis.
-+ Directly open the setting menu of Windows LiveCaptions.
++ Currently supports Ollama, OpenAI like API, OpenRouter, and Google Translate. You are welcomed to implement more apis.
 + Buttons to keep the window on top and pause translation, translation-only mode, transparent mode.
 + Record what have been translated though Live Captions.
 
 ## Prerequisite
 
 This tool is based on Windows LiveCaptions, which is available in Windows 11, version 22H2 and later.
+
+Read the [![Wiki](https://img.shields.io/badge/Wiki-GitHub-blue?style=flat-square)](https://github.com/SakiRinn/LiveCaptions-Translatorwiki) before you use.
 
 If your Windows version is proper, you can confirm whether Windows LiveCaptions is available by doing one of the following:
 
@@ -48,6 +50,7 @@ To enhance your experience with LiveCaptions Translator, we strongly recommend c
 
 Now, close Windows LiveCaptions and open LiveCaptions Translator to start using it!
 
-## Known Issue
 
-On Windows 24H2 or higher, you might fail to change the language of live captions. You can try to manually launch live caption and then run the python script at root to solve this.
+## Star History
+
+[![Stargazers over time](https://starchart.cc/SakiRinn/LiveCaptions-Translator.svg?variant=adaptive)](https://starchart.cc/SakiRinn/LiveCaptions-Translator)
