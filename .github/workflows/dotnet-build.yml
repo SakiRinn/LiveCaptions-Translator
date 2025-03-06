@@ -4,11 +4,19 @@ on:
   push:
     branches:
       - '*'
+    paths:
+      - 'src/**'
+      - 'Properties/**'
   pull_request:
   workflow_dispatch:
 
 jobs:
   build:
+    if: >
+      contains(github.event.head_commit.message, 'feat') ||
+      contains(github.event.head_commit.message, 'fix') ||
+      contains(github.event.head_commit.message, 'perf') ||
+      contains(github.event.head_commit.message, 'build')
     name: Build and Test
     runs-on: windows-latest
 
