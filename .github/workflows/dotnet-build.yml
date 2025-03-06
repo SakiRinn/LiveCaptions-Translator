@@ -49,6 +49,12 @@ jobs:
       - name: Run Tests
         run: dotnet test --verbosity normal
 
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: LiveCaptionsTranslator
+          path: ./publish
+
   release:
     name: Create GitHub Release
     needs: build
