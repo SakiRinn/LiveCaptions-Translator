@@ -125,7 +125,13 @@ namespace LiveCaptionsTranslator
                 else
                 {
                     icon.Symbol = SymbolRegular.HistoryDismiss24;
+
                     App.Captions.ClearCaptionLog();
+                }
+
+                if (CaptionPage.Current != null)
+                {
+                    CaptionPage.Current.CollapseTranslatedCaption(enable);
                 }
             }
         }

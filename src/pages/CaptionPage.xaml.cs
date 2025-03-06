@@ -8,13 +8,17 @@ namespace LiveCaptionsTranslator
 {
     public partial class CaptionPage : Page
     {
+        public static CaptionPage Current;
         public CaptionPage()
         {
             InitializeComponent();
             DataContext = App.Captions;
+            Current = this;
 
             Loaded += (s, e) => App.Captions.PropertyChanged += TranslatedChanged;
             Unloaded += (s, e) => App.Captions.PropertyChanged -= TranslatedChanged;
+
+            CollapseTranslatedCaption(App.Settings.CaptionLogEnable);
         }
 
         private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
@@ -53,6 +57,22 @@ namespace LiveCaptionsTranslator
                         this.TranslatedCaption.FontSize = 18;
                     }), DispatcherPriority.Background);
                 }
+            }
+        }
+
+        public void CollapseTranslatedCaption(bool collapse)
+        {
+            var converter = new GridLengthConverter();
+
+            if (collapse)
+            {
+                TranslatedCaption_Row.Height = (GridLength)converter.ConvertFromString("Auto");
+                CaptionLogCard.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TranslatedCaption_Row.Height = (GridLength)converter.ConvertFromString("*");
+                CaptionLogCard.Visibility = Visibility.Collapsed;
             }
         }
     }
