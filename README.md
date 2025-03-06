@@ -22,7 +22,15 @@ Download it from the [Releases](https://github.com/SakiRinn/LiveCaptions-Transla
 
 This tool is based on Windows LiveCaptions, which is available in Windows 11, version 22H2 and later.
 
-Read the [![Wiki](https://img.shields.io/badge/Wiki-GitHub-blue?style=flat-square)](https://github.com/SakiRinn/LiveCaptions-Translatorwiki) before you use.
+We suggest you have .NET runtime 8.0 or higher installed. If you are not available to install one, you can download the `with runtime` version but its size is bigger.
+
+Read the [![Wiki](https://img.shields.io/badge/Wiki-GitHub-blue?style=flat-square)](https://github.com/SakiRinn/LiveCaptions-Translator/wiki) before you use.
+
+## Before your first running
+
+> ***Importantly:*** *You must complete the following step before running LiveCaption Translator firstly*.
+> 
+> For more detailed information, see [Use live captions to better understand audio](https://support.microsoft.com/en-us/windows/use-live-captions-to-better-understand-audio-b52da59c-14b8-4031-aeeb-f6a47e6055df).
 
 If your Windows version is proper, you can confirm whether Windows LiveCaptions is available by doing one of the following:
 
@@ -33,11 +41,6 @@ If your Windows version is proper, you can confirm whether Windows LiveCaptions 
 + Go to **Settings** > **Accessibility** > **Captions** and turn on the **Live captions** toggle.
 
 When turned on the first time, live captions will ask for your consent to process voice data on your device and prompt you to download language files to be used by on-device speech recognition.
-
-***Importantly:*** *You must complete the above step before running LiveCaption Translator*.
-
-> For more information, see [Use live captions to better understand audio](https://support.microsoft.com/en-us/windows/use-live-captions-to-better-understand-audio-b52da59c-14b8-4031-aeeb-f6a47e6055df).
-
 
 After launching Windows LiveCaptions, you can click the **⚙️gear** icon to open the setting menu.
 
