@@ -1,9 +1,10 @@
-name: Release
+name: CI/CD Pipeline
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - '*'
+  pull_request:
   workflow_dispatch:
 
 jobs:
@@ -25,18 +26,14 @@ jobs:
 
       - name: Build
         run: |
-
           dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -o ./publish/x64/selfcontained
           del ./publish/x64/selfcontained/*.pdb 2>nul || echo "No pdb found in x64 selfcontained"
-
 
           dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish/x64/framework
           del ./publish/x64/framework/*.pdb 2>nul || echo "No pdb found in x64 framework"
 
-
           dotnet publish -c Release -r win-arm64 --self-contained true -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -o ./publish/arm64/selfcontained
           del ./publish/arm64/selfcontained/*.pdb 2>nul || echo "No pdb found in arm64 selfcontained"
-
 
           dotnet publish -c Release -r win-arm64 --self-contained false -p:PublishSingleFile=true -o ./publish/arm64/framework
           del ./publish/arm64/framework/*.pdb 2>nul || echo "No pdb found in arm64 framework"
@@ -44,17 +41,11 @@ jobs:
       - name: Run Tests
         run: dotnet test --verbosity normal
 
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: LiveCaptionsTranslator
-          path: ./publish
-
   release:
     name: Create GitHub Release
     needs: build
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
 
     steps:
       - name: Download Build Artifacts
