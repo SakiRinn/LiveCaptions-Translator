@@ -21,6 +21,13 @@ namespace LiveCaptionsTranslator.models
         private int maxIdleInterval = 20;
         private int maxSyncInterval = 5;
 
+        private int overlayFontSize = 15;
+        private double overlayOpacity = 0.5;
+        private int overlayFontColor = 1;
+        private int overlayFontBold = 1;
+        private int overlayFontShadow = 1;
+        private int overlayBackgroundColor = 8;
+
         private Dictionary<string, string> windowBounds;
         private bool topmost = true;
 
@@ -67,6 +74,60 @@ namespace LiveCaptionsTranslator.models
             {
                 maxSyncInterval = value;
                 OnPropertyChanged("MaxSyncInterval");
+            }
+        }
+        public int OverlayFontSize
+        {
+            get => overlayFontSize;
+            set
+            {
+                overlayFontSize = value;
+                OnPropertyChanged("OverlayFontSize");
+            }
+        }
+        public double OverlayOpacity
+        {
+            get => overlayOpacity;
+            set
+            {
+                overlayOpacity = value;
+                OnPropertyChanged("OverlayOpacity");
+            }
+        }
+        public int OverlayFontColor
+        {
+            get => overlayFontColor;
+            set
+            {
+                overlayFontColor = value;
+                OnPropertyChanged("OverlayFontColor");
+            }
+        }
+        public int OverlayFontBold
+        {
+            get => overlayFontBold;
+            set
+            {
+                overlayFontBold = value;
+                OnPropertyChanged("OverlayFontBold");
+            }
+        }
+        public int OverlayFontShadow
+        {
+            get => overlayFontShadow;
+            set
+            {
+                overlayFontShadow = value;
+                OnPropertyChanged("OverlayFontShdow");
+            }
+        }
+        public int OverlayBackgroundColor
+        {
+            get => overlayBackgroundColor;
+            set
+            {
+                overlayBackgroundColor = value;
+                OnPropertyChanged("OverlayBackgroundColor");
             }
         }
         public string Prompt
