@@ -1,4 +1,4 @@
-﻿# LiveCaptions Translator ![master-build](https://github.com/SakiRinn/LiveCaptions-Translator/actions/workflows/dotnet-build.yml/badge.svg?branch=master)   [![GitHub Release](https://img.shields.io/github/v/release/SakiRinn/LiveCaptions-Translator?label=Latest)](https://github.com/SakiRinn/LiveCaptions-Translator/releases/latest) [![Wiki](https://img.shields.io/badge/Wiki-GitHub-blue?style=flat-square)](https://github.com/SakiRinn/LiveCaptions-Translatorwiki)
+﻿# LiveCaptions Translator ![master-build](https://github.com/SakiRinn/LiveCaptions-Translator/actions/workflows/dotnet-build.yml/badge.svg?branch=master)   [![GitHub Release](https://img.shields.io/github/v/release/SakiRinn/LiveCaptions-Translator?label=Latest)](https://github.com/SakiRinn/LiveCaptions-Translator/releases/latest) [![Wiki](https://img.shields.io/badge/Wiki-GitHub-blue)](https://github.com/SakiRinn/LiveCaptions-Translatorwiki)
 
 
 ***LiveCaptions Translator = Windows LiveCaptions + Translate API***
