@@ -37,6 +37,7 @@ namespace LiveCaptionsTranslator.models
         private Dictionary<string, TranslateAPIConfig> configs;
         private TranslateAPIConfig? currentAPIConfig;
 
+        private bool latency = false;
         public bool TopMost
         {
             get => topmost;
@@ -164,6 +165,15 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
+        public bool Latency
+        {
+            get => latency;
+            set
+            {
+                latency = value;
+                OnPropertyChanged("Latency");
+            }
+        }
         public Dictionary<string, string> WindowBounds
         {
             get => windowBounds;

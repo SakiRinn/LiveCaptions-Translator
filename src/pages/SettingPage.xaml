@@ -156,6 +156,18 @@
                     <ComboBoxItem Content="6" />
                 </ComboBox>
             </StackPanel>
+            
+            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Show Latency" />
+                <ui:ToggleSwitch 
+                    Width="150"
+                    Height="30"
+                    Margin="0,0,0,0"
+                    Padding="10,4,10,7"
+                    OffContent="Off" 
+                    OnContent="On"
+                    IsChecked="{Binding Latency, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
         </StackPanel>
 
         <Grid x:Name="OpenAIGrid" Grid.Column="3">

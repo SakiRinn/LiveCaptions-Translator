@@ -13,14 +13,19 @@ namespace LiveCaptionsTranslator.utils
             string translatedText;
             try
             {
-#if DEBUG
-                var sw = Stopwatch.StartNew();
-#endif
+                Stopwatch? sw = null;
+                if (App.Settings.Latency)
+                {
+                    sw = Stopwatch.StartNew();
+                }
+
                 translatedText = await TranslateAPI.TranslateFunc(text, token);
-#if DEBUG
-                sw.Stop();
-                translatedText = $"[{sw.ElapsedMilliseconds} ms] " + translatedText;
-#endif
+
+                if (sw != null)
+                {
+                    sw.Stop();
+                    translatedText = $"[{sw.ElapsedMilliseconds} ms] " + translatedText;
+                }
             }
             catch (Exception ex)
             {
