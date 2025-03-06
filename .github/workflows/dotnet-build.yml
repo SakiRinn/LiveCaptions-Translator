@@ -13,6 +13,8 @@ on:
 jobs:
   build:
     if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') ||
       contains(github.event.head_commit.message, 'feat') ||
       contains(github.event.head_commit.message, 'fix') ||
       contains(github.event.head_commit.message, 'perf') ||
