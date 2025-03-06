@@ -12,8 +12,9 @@
 
     <Grid Margin="15,10,15,15">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition x:Name="OriginalCaption_Row" Height="Auto" />
+            <RowDefinition x:Name="TranslatedCaption_Row" Height="Auto" />
+            <RowDefinition x:Name="CaptionLogCard_Row" Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
@@ -22,47 +23,41 @@
             </Style>
         </Grid.Resources>
 
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <ui:Card
+            Grid.Row="0"
+            Padding="8"
+            VerticalAlignment="Stretch">
+            <TextBlock
+                x:Name="OriginalCaption"
+                Background="Transparent"
+                Cursor="Hand"
+                FontSize="15"
+                MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                Style="{StaticResource CaptionBlockStyle}"
+                Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Click To Copy" />
+        </ui:Card>
 
-            <ui:Card
-                Grid.Row="0"
-                Padding="8"
-                VerticalAlignment="Stretch">
-                <TextBlock
-                    x:Name="OriginalCaption"
-                    Background="Transparent"
-                    Cursor="Hand"
-                    FontSize="15"
-                    MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
-                    Style="{StaticResource CaptionBlockStyle}"
-                    Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}"
-                    ToolTip="Click To Copy" />
-            </ui:Card>
-            <ui:Card
-                Grid.Row="1"
-                Margin="0,3,0,0"
-                Padding="8"
-                VerticalAlignment="Stretch">
-                <TextBlock
-                    x:Name="TranslatedCaption"
-                    Background="Transparent"
-                    Cursor="Hand"
-                    FontSize="18"
-                    MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
-                    Style="{StaticResource CaptionBlockStyle}"
-                    Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}"
-                    ToolTip="Click To Copy" />
-            </ui:Card>
-        </Grid>
+        <ui:Card
+            Grid.Row="1"
+            Margin="0,3,0,0"
+            Padding="8"
+            VerticalAlignment="Stretch" MinHeight="43">
+            <TextBlock
+                x:Name="TranslatedCaption"
+                Background="Transparent"
+                Cursor="Hand"
+                FontSize="18"
+                MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
+                Style="{StaticResource CaptionBlockStyle}"
+                Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Click To Copy" />
+        </ui:Card>
 
         <ui:Card
             x:Name="CaptionLogCard"
-            Grid.Row="1"
-            Margin="0,3,0,5"
+            Grid.Row="2"
+            Margin="0,0,0,5"
             Padding="8"
             VerticalAlignment="Top"
             Background="Transparent"
