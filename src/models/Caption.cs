@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 using LiveCaptionsTranslator.utils;
+using System.Windows;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -18,6 +19,8 @@ namespace LiveCaptionsTranslator.models
 
         private string displayOriginalCaption = "";
         private string displayTranslatedCaption = "";
+
+        private AutomationElement? captionsTextBlock;
 
         public bool TranslateFlag { get; set; } = false;
         public bool LogOnlyFlag { get; set; } = false;
@@ -87,6 +90,10 @@ namespace LiveCaptionsTranslator.models
                 string fullText = string.Empty;
                 try
                 {
+                    // Check LiveCaptions.exe alive
+                    var info = App.Window.Current;
+                    var name = info.Name;
+
                     fullText = GetCaptions(App.Window);         // about 10-20ms
                 }
                 catch (ElementNotAvailableException ex)
@@ -94,6 +101,7 @@ namespace LiveCaptionsTranslator.models
                     App.Window = null;
                     continue;
                 }
+
                 if (string.IsNullOrEmpty(fullText))
                     continue;
 
@@ -241,7 +249,7 @@ namespace LiveCaptionsTranslator.models
             OnPropertyChanged(nameof(CaptionHistory));
         }
 
-        public async Task Translate()
+        public Task Translate()
         {
             var translationTaskQueue = new TranslationTaskQueue();
             while (true)
@@ -251,11 +259,14 @@ namespace LiveCaptionsTranslator.models
                     DisplayTranslatedCaption = "[WARNING] LiveCaptions was unexpectedly closed, restarting...";
                     App.Window = LiveCaptionsHandler.LaunchLiveCaptions();
                     DisplayTranslatedCaption = "";
-                } else if (LogOnlyFlag)
+                    captionsTextBlock = null;
+                }
+                else if (LogOnlyFlag)
                 {
                     TranslatedCaption = string.Empty;
                     DisplayTranslatedCaption = "[Paused]";
-                } else if (!string.IsNullOrEmpty(translationTaskQueue.Output))
+                }
+                else if (!string.IsNullOrEmpty(translationTaskQueue.Output))
                 {
                     TranslatedCaption = translationTaskQueue.Output;
                     DisplayTranslatedCaption = ShortenDisplaySentence(TranslatedCaption, 200);
@@ -287,12 +298,18 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public static string GetCaptions(AutomationElement window)
+        private string GetCaptions(AutomationElement window)
         {
-            var captionsTextBlock = LiveCaptionsHandler.FindElementByAId(window, "CaptionsTextBlock");
             if (captionsTextBlock == null)
+                captionsTextBlock = LiveCaptionsHandler.FindElementByAId(window, "CaptionsTextBlock");
+            try
+            {
+                return captionsTextBlock?.Current.Name ?? string.Empty;
+            }
+            catch
+            {
                 return string.Empty;
-            return captionsTextBlock.Current.Name;
+            }
         }
 
         private static string ShortenDisplaySentence(string displaySentence, int maxByteLength)
