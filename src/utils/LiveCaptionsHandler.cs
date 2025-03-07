@@ -94,11 +94,18 @@ namespace LiveCaptionsTranslator.utils
                 if (element.Current.AutomationId.CompareTo(automationId) == 0)
                     return element;
 
-                var child = treeWalker.GetFirstChild(element);
-                while (child != null)
+                try
                 {
-                    stack.Push(child);
-                    child = treeWalker.GetNextSibling(child);
+                    var child = treeWalker.GetFirstChild(element);
+                    while (child != null)
+                    {
+                        stack.Push(child);
+                        child = treeWalker.GetNextSibling(child);
+                    }
+                }
+                catch
+                {
+
                 }
             }
             return null;
