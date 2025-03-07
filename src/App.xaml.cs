@@ -11,6 +11,7 @@ namespace LiveCaptionsTranslator
         private static AutomationElement? window = null;
         private static Caption? captions = null;
         private static Setting? settings = null;
+        public static bool IsClose = false;
 
         public static AutomationElement? Window
         {
@@ -43,6 +44,7 @@ namespace LiveCaptionsTranslator
         {
             if (window != null)
             {
+                IsClose = true;
                 LiveCaptionsHandler.RestoreLiveCaptions(window);
                 LiveCaptionsHandler.KillLiveCaptions(window);
             }

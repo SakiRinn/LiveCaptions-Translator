@@ -256,10 +256,13 @@ namespace LiveCaptionsTranslator.models
             {
                 if (App.Window == null)
                 {
-                    DisplayTranslatedCaption = "[WARNING] LiveCaptions was unexpectedly closed, restarting...";
-                    App.Window = LiveCaptionsHandler.LaunchLiveCaptions();
-                    DisplayTranslatedCaption = "";
-                    captionsTextBlock = null;
+                    if (!App.IsClose)
+                    {
+                        DisplayTranslatedCaption = "[WARNING] LiveCaptions was unexpectedly closed, restarting...";
+                        App.Window = LiveCaptionsHandler.LaunchLiveCaptions();
+                        DisplayTranslatedCaption = "";
+                        captionsTextBlock = null;
+                    }
                 }
                 else if (LogOnlyFlag)
                 {

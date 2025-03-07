@@ -94,12 +94,12 @@ namespace LiveCaptionsTranslator.utils
 
             while (stack.Count > 0)
             {
-                var element = stack.Pop();
-                if (element.Current.AutomationId.CompareTo(automationId) == 0)
-                    return element;
-
                 try
                 {
+                    var element = stack.Pop();
+                    if (element.Current.AutomationId.CompareTo(automationId) == 0)
+                        return element;
+
                     var child = treeWalker.GetFirstChild(element);
                     while (child != null)
                     {
