@@ -7,12 +7,12 @@ namespace LiveCaptionsTranslator
         public PromptSetting()
         {
             InitializeComponent();
-            DataContext = App.Settings;
+            DataContext = App.Setting;
         }
 
         private void PromptTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            App.Settings?.Save();
+            App.Setting?.Save();
         }
     }
 }

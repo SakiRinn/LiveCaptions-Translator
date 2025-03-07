@@ -40,9 +40,6 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        private readonly Queue<CaptionLog> captionLogs = new(6);
-        public IEnumerable<CaptionLog> CaptionHistory => captionLogs.Reverse();
-
         private Caption() { }
 
         public static Caption GetInstance()
@@ -135,8 +132,8 @@ namespace LiveCaptionsTranslator.models
 
                 // `TranslateFlag` determines whether this sentence should be translated.
                 // When `OriginalCaption` remains unchanged, `idleCount` +1; when `OriginalCaption` changes, `MaxSyncInterval` +1.
-                if (syncCount > App.Settings.MaxSyncInterval ||
-                    idleCount == App.Settings.MaxIdleInterval)
+                if (syncCount > App.Setting.MaxSyncInterval ||
+                    idleCount == App.Setting.MaxIdleInterval)
                 {
                     syncCount = 0;
                     TranslateFlag = true;
@@ -189,7 +186,7 @@ namespace LiveCaptionsTranslator.models
                         {
                             var TranslateTask = Translator.Translate(OriginalCaption, token);
                             var LogTask = Translator.Log(
-                                originalSnapshot, TranslateTask.Result, App.Settings, isOverWrite, token);
+                                originalSnapshot, TranslateTask.Result, App.Setting, isOverWrite, token);
                             return TranslateTask;
                         }));
                     }
@@ -212,7 +209,7 @@ namespace LiveCaptionsTranslator.models
 
     public class CaptionLog
     {
-        public required string OriginalCaption { get; set; }
-        public required string TranslatedCaption { get; set; }
+        public required string OriginalCaptionLog { get; set; }
+        public required string TranslatedCaptionLog { get; set; }
     }
 }

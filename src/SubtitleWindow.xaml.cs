@@ -37,18 +37,18 @@ namespace LiveCaptionsTranslator
         public SubtitleWindow()
         {
             InitializeComponent();
-            DataContext = App.Captions;
+            DataContext = App.Caption;
 
-            Loaded += (s, e) => App.Captions.PropertyChanged += TranslatedChanged;
-            Unloaded += (s, e) => App.Captions.PropertyChanged -= TranslatedChanged;
+            Loaded += (s, e) => App.Caption.PropertyChanged += TranslatedChanged;
+            Unloaded += (s, e) => App.Caption.PropertyChanged -= TranslatedChanged;
 
-            this.OriginalCaption.FontWeight = (App.Settings.SubtitleWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
-            this.TranslatedCaption.FontWeight = (App.Settings.SubtitleWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
+            this.OriginalCaption.FontWeight = (App.Setting.SubtitleWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
+            this.TranslatedCaption.FontWeight = (App.Setting.SubtitleWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
 
-            this.TranslatedCaption.Foreground = ColorList[App.Settings.SubtitleWindow.FontColor];
-            this.OriginalCaption.Foreground = ColorList[App.Settings.SubtitleWindow.FontColor];
-            this.BorderBackground.Background = ColorList[App.Settings.SubtitleWindow.BackgroundColor];
-            this.BorderBackground.Opacity = App.Settings.SubtitleWindow.Opacity;
+            this.TranslatedCaption.Foreground = ColorList[App.Setting.SubtitleWindow.FontColor];
+            this.OriginalCaption.Foreground = ColorList[App.Setting.SubtitleWindow.FontColor];
+            this.BorderBackground.Background = ColorList[App.Setting.SubtitleWindow.BackgroundColor];
+            this.BorderBackground.Opacity = App.Setting.SubtitleWindow.Opacity;
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -127,18 +127,18 @@ namespace LiveCaptionsTranslator
 
         private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(App.Captions.DisplayTranslatedCaption))
+            if (e.PropertyName == nameof(App.Caption.DisplayTranslatedCaption))
             {
                 ApplyFontSize();
             }
         }
         private void ApplyFontSize()
         {
-            if (Encoding.UTF8.GetByteCount(App.Captions.DisplayTranslatedCaption) >= 160)
+            if (Encoding.UTF8.GetByteCount(App.Caption.DisplayTranslatedCaption) >= 160)
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    this.OriginalCaption.FontSize = App.Settings.SubtitleWindow.FontSize;
+                    this.OriginalCaption.FontSize = App.Setting.SubtitleWindow.FontSize;
                     this.TranslatedCaption.FontSize = this.OriginalCaption.FontSize + 4;
                 }), DispatcherPriority.Background);
             }
@@ -146,7 +146,7 @@ namespace LiveCaptionsTranslator
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    this.OriginalCaption.FontSize = App.Settings.SubtitleWindow.FontSize + 3;
+                    this.OriginalCaption.FontSize = App.Setting.SubtitleWindow.FontSize + 3;
                     this.TranslatedCaption.FontSize = this.OriginalCaption.FontSize + 4;
                 }), DispatcherPriority.Background);
             }
@@ -202,45 +202,45 @@ namespace LiveCaptionsTranslator
 
         private void FontIncrease_Click(object sender, RoutedEventArgs e)
         {
-            if (App.Settings.SubtitleWindow.FontSize + 1 < 60)
+            if (App.Setting.SubtitleWindow.FontSize + 1 < 60)
             {
-                App.Settings.SubtitleWindow.FontSize++;
+                App.Setting.SubtitleWindow.FontSize++;
                 ApplyFontSize();
             }
         }
 
         private void FontDecrease_Click(object sender, RoutedEventArgs e)
         {
-            if (App.Settings.SubtitleWindow.FontSize - 1 > 8)
+            if (App.Setting.SubtitleWindow.FontSize - 1 > 8)
             {
-                App.Settings.SubtitleWindow.FontSize--;
+                App.Setting.SubtitleWindow.FontSize--;
                 ApplyFontSize();
             }
         }
 
         private void OpacityIncrease_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.SubtitleWindow.Opacity += 0.05;
-            if (App.Settings.SubtitleWindow.Opacity >= 1)
-                App.Settings.SubtitleWindow.Opacity = 1.0; // Opacity = 0 make Border unhove
-            BorderBackground.Opacity = App.Settings.SubtitleWindow.Opacity;
+            App.Setting.SubtitleWindow.Opacity += 0.05;
+            if (App.Setting.SubtitleWindow.Opacity >= 1)
+                App.Setting.SubtitleWindow.Opacity = 1.0; // Opacity = 0 make Border unhove
+            BorderBackground.Opacity = App.Setting.SubtitleWindow.Opacity;
         }
 
         private void OpacityDecrease_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.SubtitleWindow.Opacity -= 0.05;
-            if (App.Settings.SubtitleWindow.Opacity <= 0)
-                App.Settings.SubtitleWindow.Opacity = 0.01;
-            BorderBackground.Opacity = App.Settings.SubtitleWindow.Opacity;
+            App.Setting.SubtitleWindow.Opacity -= 0.05;
+            if (App.Setting.SubtitleWindow.Opacity <= 0)
+                App.Setting.SubtitleWindow.Opacity = 0.01;
+            BorderBackground.Opacity = App.Setting.SubtitleWindow.Opacity;
         }
 
         private void FontColorCycle_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.SubtitleWindow.FontColor++;
-            if (App.Settings.SubtitleWindow.FontColor > ColorList.Count)
-                App.Settings.SubtitleWindow.FontColor = 1;
-            TranslatedCaption.Foreground = ColorList[App.Settings.SubtitleWindow.FontColor];
-            OriginalCaption.Foreground = ColorList[App.Settings.SubtitleWindow.FontColor];
+            App.Setting.SubtitleWindow.FontColor++;
+            if (App.Setting.SubtitleWindow.FontColor > ColorList.Count)
+                App.Setting.SubtitleWindow.FontColor = 1;
+            TranslatedCaption.Foreground = ColorList[App.Setting.SubtitleWindow.FontColor];
+            OriginalCaption.Foreground = ColorList[App.Setting.SubtitleWindow.FontColor];
         }
 
         private void ClickThrough_Click(object sender, RoutedEventArgs e)
@@ -253,19 +253,19 @@ namespace LiveCaptionsTranslator
 
         private void FontBold_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.SubtitleWindow.FontBold++;
-            if (App.Settings.SubtitleWindow.FontBold > (isTranslationOnly ? 2 : 3))
-                App.Settings.SubtitleWindow.FontBold = 1;
-            this.OriginalCaption.FontWeight = (App.Settings.SubtitleWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
-            this.TranslatedCaption.FontWeight = (App.Settings.SubtitleWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
+            App.Setting.SubtitleWindow.FontBold++;
+            if (App.Setting.SubtitleWindow.FontBold > (isTranslationOnly ? 2 : 3))
+                App.Setting.SubtitleWindow.FontBold = 1;
+            this.OriginalCaption.FontWeight = (App.Setting.SubtitleWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
+            this.TranslatedCaption.FontWeight = (App.Setting.SubtitleWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
         }
         private void BackgroundColorCycle_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.SubtitleWindow.BackgroundColor++;
-            if (App.Settings.SubtitleWindow.BackgroundColor > ColorList.Count)
-                App.Settings.SubtitleWindow.BackgroundColor = 1;
-            BorderBackground.Background = ColorList[App.Settings.SubtitleWindow.BackgroundColor];
-            BorderBackground.Opacity = App.Settings.SubtitleWindow.Opacity;
+            App.Setting.SubtitleWindow.BackgroundColor++;
+            if (App.Setting.SubtitleWindow.BackgroundColor > ColorList.Count)
+                App.Setting.SubtitleWindow.BackgroundColor = 1;
+            BorderBackground.Background = ColorList[App.Setting.SubtitleWindow.BackgroundColor];
+            BorderBackground.Opacity = App.Setting.SubtitleWindow.Opacity;
         }
     }
 }

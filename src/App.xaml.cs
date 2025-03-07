@@ -9,21 +9,21 @@ namespace LiveCaptionsTranslator
     public partial class App : Application
     {
         private static AutomationElement? window = null;
-        private static Caption? captions = null;
-        private static Setting? settings = null;
+        private static Caption? caption = null;
+        private static Setting? setting = null;
 
         public static AutomationElement? Window
         {
             get => window;
             set => window = value;
         }
-        public static Caption? Captions
+        public static Caption? Caption
         {
-            get => captions;
+            get => caption;
         }
-        public static Setting? Settings
+        public static Setting? Setting
         {
-            get => settings;
+            get => setting;
         }
 
         App()
@@ -34,11 +34,11 @@ namespace LiveCaptionsTranslator
             LiveCaptionsHandler.FixLiveCaptions(window);
             LiveCaptionsHandler.HideLiveCaptions(window);
 
-            captions = Caption.GetInstance();
-            settings = Setting.Load();
+            caption = Caption.GetInstance();
+            setting = Setting.Load();
 
-            Task.Run(() => Captions?.Sync());
-            Task.Run(() => Captions?.Translate());
+            Task.Run(() => App.Caption?.Sync());
+            Task.Run(() => App.Caption?.Translate());
         }
 
         static void OnProcessExit(object sender, EventArgs e)

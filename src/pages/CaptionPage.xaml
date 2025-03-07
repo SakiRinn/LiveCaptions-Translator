@@ -65,7 +65,7 @@
             BorderBrush="#00000000">
             <ItemsControl
                 MinHeight="50"
-                ItemsSource="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}"
+                ItemsSource="{Binding CaptionHistory}"
                 VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -91,7 +91,7 @@
                                         FontSize="12"
                                         MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                                         Style="{StaticResource CaptionBlockStyle}"
-                                        Text="{Binding OriginalCaption}"
+                                        Text="{Binding OriginalCaptionLog}"
                                         ToolTip="Click To Copy" />
                                 </ui:Card>
                                 <ui:Card
@@ -103,10 +103,10 @@
                                         x:Name="TranslatedCaptionLog"
                                         Background="Transparent"
                                         Cursor="Hand"
-                                        FontSize="15"
+                                        FontSize="16"
                                         MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                                         Style="{StaticResource CaptionBlockStyle}"
-                                        Text="{Binding TranslatedCaption}"
+                                        Text="{Binding TranslatedCaptionLog}"
                                         ToolTip="Click To Copy" />
                                 </ui:Card>
                             </Grid>
