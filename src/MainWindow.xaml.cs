@@ -25,10 +25,10 @@ namespace LiveCaptionsTranslator
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
 
-            var windowState = WindowHandler.LoadState(this, App.Settings);
+            var windowState = WindowHandler.LoadState(this, App.Setting);
             WindowHandler.RestoreState(this, windowState);
-            ToggleTopmost(App.Settings.MainWindow.Topmost);
-            EnableCaptionLog(App.Settings.MainWindow.CaptionLogEnabled);
+            ToggleTopmost(App.Setting.MainWindow.Topmost);
+            EnableCaptionLog(App.Setting.MainWindow.CaptionLogEnabled);
         }
 
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
@@ -48,11 +48,11 @@ namespace LiveCaptionsTranslator
 
                 SubtitleWindow = new SubtitleWindow();
                 SubtitleWindow.SizeChanged +=
-                    (s, e) => WindowHandler.SaveState(SubtitleWindow, App.Settings);
+                    (s, e) => WindowHandler.SaveState(SubtitleWindow, App.Setting);
                 SubtitleWindow.LocationChanged +=
-                    (s, e) => WindowHandler.SaveState(SubtitleWindow, App.Settings);
+                    (s, e) => WindowHandler.SaveState(SubtitleWindow, App.Setting);
 
-                var windowState = WindowHandler.LoadState(SubtitleWindow, App.Settings);
+                var windowState = WindowHandler.LoadState(SubtitleWindow, App.Setting);
                 WindowHandler.RestoreState(SubtitleWindow, windowState);
                 SubtitleWindow.Show();
             }
@@ -80,14 +80,14 @@ namespace LiveCaptionsTranslator
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
 
-            if (App.Captions.LogOnlyFlag)
+            if (App.Caption.LogOnlyFlag)
             {
-                App.Captions.LogOnlyFlag = false;
+                App.Caption.LogOnlyFlag = false;
                 symbolIcon.Filled = false;
             }
             else
             {
-                App.Captions.LogOnlyFlag = true;
+                App.Caption.LogOnlyFlag = true;
                 symbolIcon.Filled = true;
             }
         }
@@ -95,7 +95,7 @@ namespace LiveCaptionsTranslator
         private void MainWindow_BoundsChanged(object sender, EventArgs e)
         {
             var window = sender as Window;
-            WindowHandler.SaveState(window, App.Settings);
+            WindowHandler.SaveState(window, App.Setting);
         }
 
         private void ToggleTopmost(bool enabled)
@@ -104,13 +104,13 @@ namespace LiveCaptionsTranslator
             var symbolIcon = button?.Icon as SymbolIcon;
             symbolIcon.Filled = enabled;
             this.Topmost = enabled;
-            App.Settings.MainWindow.Topmost = enabled;
+            App.Setting.MainWindow.Topmost = enabled;
         }
 
         private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.MainWindow.CaptionLogEnabled = !App.Settings.MainWindow.CaptionLogEnabled;
-            EnableCaptionLog(App.Settings.MainWindow.CaptionLogEnabled);
+            App.Setting.MainWindow.CaptionLogEnabled = !App.Setting.MainWindow.CaptionLogEnabled;
+            EnableCaptionLog(App.Setting.MainWindow.CaptionLogEnabled);
         }
 
         private void EnableCaptionLog(bool enable)
@@ -124,7 +124,7 @@ namespace LiveCaptionsTranslator
                 else
                 {
                     icon.Symbol = SymbolRegular.HistoryDismiss24;
-                    App.Captions?.ClearCaptionLog();
+                    App.Caption?.ClearCaptionLog();
                 }
                 var captionPage = this.Content as CaptionPage;
                 captionPage?.CollapseTranslatedCaption(enable);

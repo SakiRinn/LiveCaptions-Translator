@@ -14,7 +14,7 @@ namespace LiveCaptionsTranslator.utils
             try
             {
                 Stopwatch? sw = null;
-                if (App.Settings.MainWindow.LatencyShow)
+                if (App.Setting.MainWindow.LatencyShow)
                 {
                     sw = Stopwatch.StartNew();
                 }
@@ -41,8 +41,8 @@ namespace LiveCaptionsTranslator.utils
             string targetLanguage, apiName;
             if (setting != null)
             {
-                targetLanguage = App.Settings.TargetLanguage;
-                apiName = App.Settings.ApiName;
+                targetLanguage = App.Setting.TargetLanguage;
+                apiName = App.Setting.ApiName;
             }
             else
             {

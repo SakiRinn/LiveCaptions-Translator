@@ -13,9 +13,9 @@ namespace LiveCaptionsTranslator
         {
             InitializeComponent();
             ApplicationThemeManager.ApplySystemTheme();
-            DataContext = App.Settings;
+            DataContext = App.Setting;
 
-            translateAPIBox.ItemsSource = App.Settings.Configs.Keys;
+            translateAPIBox.ItemsSource = App.Setting.Configs.Keys;
             translateAPIBox.SelectedIndex = 0;
             LoadAPISetting();
 
@@ -53,13 +53,13 @@ namespace LiveCaptionsTranslator
         {
             if (targetLangBox.SelectedItem != null)
             {
-                App.Settings.TargetLanguage = targetLangBox.SelectedItem.ToString();
+                App.Setting.TargetLanguage = targetLangBox.SelectedItem.ToString();
             }
         }
 
         private void targetLangBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            App.Settings.TargetLanguage = targetLangBox.Text;
+            App.Setting.TargetLanguage = targetLangBox.Text;
         }
 
         private void TargetLangButton_MouseEnter(object sender, MouseEventArgs e)
@@ -94,13 +94,13 @@ namespace LiveCaptionsTranslator
 
         private void captionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            App.Captions?.ClearCaptionLog();
+            App.Caption?.ClearCaptionLog();
         }
 
         private void LoadAPISetting()
         {
-            string targetLang = App.Settings.TargetLanguage;
-            var supportedLanguages = App.Settings.CurrentAPIConfig.SupportedLanguages;
+            string targetLang = App.Setting.TargetLanguage;
+            var supportedLanguages = App.Setting.CurrentAPIConfig.SupportedLanguages;
             targetLangBox.ItemsSource = supportedLanguages.Keys;
 
             // Add custom target language to ComboBox
@@ -115,7 +115,7 @@ namespace LiveCaptionsTranslator
                 if (element is Grid childGrid)
                     childGrid.Visibility = Visibility.Collapsed;
             }
-            var settingGrid = FindName($"{App.Settings.ApiName}Grid") as Grid ?? FindName($"NoSettingGrid") as Grid;
+            var settingGrid = FindName($"{App.Setting.ApiName}Grid") as Grid ?? FindName($"NoSettingGrid") as Grid;
             settingGrid.Visibility = Visibility.Visible;
         }
     }
