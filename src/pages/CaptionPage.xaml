@@ -10,7 +10,7 @@
     Title="CaptionPage"
     mc:Ignorable="d">
 
-    <Grid Margin="15,10,15,15">
+    <Grid Margin="5,5,15,5">
         <Grid.RowDefinitions>
             <RowDefinition x:Name="OriginalCaption_Row" Height="Auto" />
             <RowDefinition x:Name="TranslatedCaption_Row" Height="Auto" />
@@ -40,9 +40,10 @@
 
         <ui:Card
             Grid.Row="1"
+            MinHeight="43"
             Margin="0,3,0,0"
             Padding="8"
-            VerticalAlignment="Stretch" MinHeight="43">
+            VerticalAlignment="Stretch">
             <TextBlock
                 x:Name="TranslatedCaption"
                 Background="Transparent"
@@ -64,7 +65,7 @@
             BorderBrush="#00000000">
             <ItemsControl
                 MinHeight="50"
-                ItemsSource="{Binding CaptionHistory}"
+                ItemsSource="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}"
                 VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -90,7 +91,7 @@
                                         FontSize="12"
                                         MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                                         Style="{StaticResource CaptionBlockStyle}"
-                                        Text="{Binding OriginalCaptionLog}"
+                                        Text="{Binding OriginalCaption}"
                                         ToolTip="Click To Copy" />
                                 </ui:Card>
                                 <ui:Card
@@ -102,10 +103,10 @@
                                         x:Name="TranslatedCaptionLog"
                                         Background="Transparent"
                                         Cursor="Hand"
-                                        FontSize="16"
+                                        FontSize="15"
                                         MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                                         Style="{StaticResource CaptionBlockStyle}"
-                                        Text="{Binding TranslatedCaptionLog}"
+                                        Text="{Binding TranslatedCaption}"
                                         ToolTip="Click To Copy" />
                                 </ui:Card>
                             </Grid>

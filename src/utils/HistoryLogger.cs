@@ -31,7 +31,7 @@ namespace LiveCaptionsTranslator.utils
             }
         }
 
-        public static async Task LogTranslation(string unixTime, string sourceText, string translatedText, 
+        public static async Task LogTranslation(string sourceText, string translatedText,
             string targetLanguage, string apiUsed, CancellationToken token = default)
         {
             using (var connection = new SqliteConnection(CONNECTION_STRING))
@@ -43,7 +43,7 @@ namespace LiveCaptionsTranslator.utils
 
                 using (var command = new SqliteCommand(insertQuery, connection))
                 {
-                    command.Parameters.AddWithValue("@Timestamp", unixTime);
+                    command.Parameters.AddWithValue("@Timestamp", DateTimeOffset.UtcNow.ToUnixTimeSeconds());
                     command.Parameters.AddWithValue("@SourceText", sourceText);
                     command.Parameters.AddWithValue("@TranslatedText", translatedText);
                     command.Parameters.AddWithValue("@TargetLanguage", targetLanguage);
@@ -150,7 +150,7 @@ namespace LiveCaptionsTranslator.utils
                 await connection.OpenAsync(token);
                 using (var command = new SqliteCommand(@"
                     DELETE FROM TranslationHistory
-                    WHERE Id IN ( SELECT Id FROM TranslationHistory ORDER BY Id DESC LIMIT 1)", 
+                    WHERE Id IN ( SELECT Id FROM TranslationHistory ORDER BY Id DESC LIMIT 1)",
                     connection))
                 {
                     command.ExecuteNonQuery();
@@ -213,7 +213,7 @@ namespace LiveCaptionsTranslator.utils
                     records.Add((id, timestamp));
                 }
             }
-            
+
             foreach (var (id, timestamp) in records)
             {
                 if (DateTime.TryParse(timestamp, out DateTime dt))

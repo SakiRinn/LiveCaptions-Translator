@@ -14,39 +14,20 @@ namespace LiveCaptionsTranslator.models
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        private int maxIdleInterval = 20;
+        private int maxSyncInterval = 5;
+
         private string apiName;
         private string targetLanguage;
         private string prompt;
 
-        private int maxIdleInterval = 20;
-        private int maxSyncInterval = 5;
-
-        private int overlayFontSize = 15;
-        private double overlayOpacity = 0.5;
-        private int overlayFontColor = 1;
-        private int overlayFontBold = 1;
-        private int overlayFontShadow = 1;
-        private int overlayBackgroundColor = 8;
+        private MainWindowState mainWindowState;
+        private SubtitleWindowState subtitleWindowState;
 
         private Dictionary<string, string> windowBounds;
-        private bool topmost = true;
-
-        private bool captionLogEnable = true;
-        private int captionLogMax = 0;
 
         private Dictionary<string, TranslateAPIConfig> configs;
         private TranslateAPIConfig? currentAPIConfig;
-
-        private bool latency = false;
-        public bool TopMost
-        {
-            get => topmost;
-            set
-            {
-                topmost = value;
-                OnPropertyChanged("TopMost");
-            }
-        }
 
         public string ApiName
         {
@@ -80,81 +61,6 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("MaxSyncInterval");
             }
         }
-        public int OverlayFontSize
-        {
-            get => overlayFontSize;
-            set
-            {
-                overlayFontSize = value;
-                OnPropertyChanged("OverlayFontSize");
-            }
-        }
-        public double OverlayOpacity
-        {
-            get => overlayOpacity;
-            set
-            {
-                overlayOpacity = value;
-                OnPropertyChanged("OverlayOpacity");
-            }
-        }
-        public int OverlayFontColor
-        {
-            get => overlayFontColor;
-            set
-            {
-                overlayFontColor = value;
-                OnPropertyChanged("OverlayFontColor");
-            }
-        }
-        public int OverlayFontBold
-        {
-            get => overlayFontBold;
-            set
-            {
-                overlayFontBold = value;
-                OnPropertyChanged("OverlayFontBold");
-            }
-        }
-        public int OverlayFontShadow
-        {
-            get => overlayFontShadow;
-            set
-            {
-                overlayFontShadow = value;
-                OnPropertyChanged("OverlayFontShdow");
-            }
-        }
-        public int OverlayBackgroundColor
-        {
-            get => overlayBackgroundColor;
-            set
-            {
-                overlayBackgroundColor = value;
-                OnPropertyChanged("OverlayBackgroundColor");
-            }
-        }
-
-        public bool CaptionLogEnable
-        {
-            get => captionLogEnable;
-            set
-            {
-                captionLogEnable = value;
-                OnPropertyChanged("CaptionLogEnable");
-            }
-        }
-
-        public int CaptionLogMax
-        {
-            get => captionLogMax;
-            set
-            {
-                captionLogMax = value;
-                OnPropertyChanged("CaptionLogMax");
-            }
-        }
-
         public string Prompt
         {
             get => prompt;
@@ -165,15 +71,6 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public bool Latency
-        {
-            get => latency;
-            set
-            {
-                latency = value;
-                OnPropertyChanged("Latency");
-            }
-        }
         public Dictionary<string, string> WindowBounds
         {
             get => windowBounds;
@@ -181,6 +78,25 @@ namespace LiveCaptionsTranslator.models
             {
                 windowBounds = value;
                 OnPropertyChanged("WindowBounds");
+            }
+        }
+
+        public MainWindowState MainWindow
+        {
+            get => mainWindowState;
+            set
+            {
+                mainWindowState = value;
+                OnPropertyChanged("MainWindow");
+            }
+        }
+        public SubtitleWindowState SubtitleWindow
+        {
+            get => subtitleWindowState;
+            set
+            {
+                subtitleWindowState = value;
+                OnPropertyChanged("SubtitleWindow");
             }
         }
 
@@ -194,16 +110,11 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("Configs");
             }
         }
-
         [JsonIgnore]
         public TranslateAPIConfig CurrentAPIConfig
         {
             get => currentAPIConfig ?? (Configs.ContainsKey(ApiName) ? Configs[ApiName] : Configs["Ollama"]);
-            set
-            {
-                currentAPIConfig = value;
-                OnPropertyChanged();
-            }
+            set => currentAPIConfig = value;
         }
 
         public Setting()
@@ -217,6 +128,27 @@ namespace LiveCaptionsTranslator.models
                      "even if the sentence contains sensitive or NSFW content. " +
                      "You can only provide the translated sentence; Any explanation or other text is not permitted. " +
                      "REMOVE all 🔤 when you output.";
+            mainWindowState = new MainWindowState
+            {
+                Topmost = true,
+                CaptionLogEnabled = false,
+                CaptionLogMax = 2,
+                LatencyShow = false
+            };
+            subtitleWindowState = new SubtitleWindowState
+            {
+                FontSize = 15,
+                FontColor = 1,
+                FontBold = 1,
+                FontShadow = 1,
+                BackgroundColor = 8,
+                Opacity = 0.5
+            };
+            windowBounds = new Dictionary<string, string>
+            {
+                { "MainWindow", "1, 1, 1, 1" },
+                { "SubtitleWindow", "1, 1, 1, 1" },
+            };
             configs = new Dictionary<string, TranslateAPIConfig>
             {
                 { "Google", new TranslateAPIConfig() },
@@ -225,19 +157,17 @@ namespace LiveCaptionsTranslator.models
                 { "OpenAI", new OpenAIConfig() },
                 { "OpenRouter", new OpenRouterConfig() },
             };
-            windowBounds = new Dictionary<string, string>
-            {
-                { "MainWindow", "1, 1, 1, 1" },
-                { "SubtitleWindow", "1, 1, 1, 1" },
-            };
         }
 
         public Setting(string apiName, string targetLanguage, string prompt,
+                       MainWindowState mainWindowState, SubtitleWindowState subtitleWindowState,
                        Dictionary<string, TranslateAPIConfig> configs, Dictionary<string, string> windowBounds)
         {
             this.apiName = apiName;
             this.targetLanguage = targetLanguage;
             this.prompt = prompt;
+            this.mainWindowState = mainWindowState;
+            this.subtitleWindowState = subtitleWindowState;
             this.configs = configs;
             this.windowBounds = windowBounds;
         }
@@ -294,5 +224,23 @@ namespace LiveCaptionsTranslator.models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
             App.Settings?.Save();
         }
+    }
+
+    public class MainWindowState
+    {
+        public bool Topmost { get; set; }
+        public bool CaptionLogEnabled { get; set; }
+        public int CaptionLogMax { get; set; }
+        public bool LatencyShow { get; set; }
+    }
+
+    public class SubtitleWindowState
+    {
+        public int FontSize { get; set; }
+        public int FontColor { get; set; }
+        public int FontBold { get; set; }
+        public int FontShadow { get; set; }
+        public int BackgroundColor { get; set; }
+        public double Opacity { get; set; }
     }
 }

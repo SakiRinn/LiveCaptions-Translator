@@ -47,5 +47,4 @@ namespace LiveCaptionsTranslator.utils
         public int Right;
         public int Bottom;
     }
-
 }

@@ -76,6 +76,14 @@ namespace LiveCaptionsTranslator.utils
                 throw new Exception("Failed to fix LiveCaptions!");
         }
 
+        public static string GetCaptions(AutomationElement window)
+        {
+            var captionsTextBlock = FindElementByAId(window, "CaptionsTextBlock");
+            if (captionsTextBlock == null)
+                return string.Empty;
+            return captionsTextBlock.Current.Name;
+        }
+
         private static AutomationElement FindWindowByPId(int processId)
         {
             var condition = new PropertyCondition(AutomationElement.ProcessIdProperty, processId);

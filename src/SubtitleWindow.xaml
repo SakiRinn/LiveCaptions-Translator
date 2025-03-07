@@ -40,7 +40,6 @@
             Margin="5"
             Background="Transparent"
             CornerRadius="8"
-            Cursor="SizeAll"
             MouseLeftButtonDown="Border_MouseLeftButtonDown">
             <Grid>
                 <Grid.RowDefinitions>
@@ -67,16 +66,7 @@
                         FontSize="15"
                         Foreground="#FFFFFFFF"
                         Style="{StaticResource CaptionBlockStyle}"
-                        Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}">
-                        <TextBlock.Effect>
-                            <DropShadowEffect
-                                x:Name="OriginalCaptionShadow"
-                                BlurRadius="5"
-                                Direction="0"
-                                ShadowDepth="0"
-                                Color="Black" />
-                        </TextBlock.Effect>
-                    </TextBlock>
+                        Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}" />
                 </ui:Card>
                 <ui:Card
                     x:Name="TranslatedCaptionCard"
@@ -91,88 +81,80 @@
                         FontSize="18"
                         Foreground="#FFFFFFFF"
                         Style="{StaticResource CaptionBlockStyle}"
-                        Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}">
-                        <TextBlock.Effect>
-                            <DropShadowEffect
-                                x:Name="TranslatedCaptionShadow"
-                                BlurRadius="5"
-                                Direction="0"
-                                ShadowDepth="0"
-                                Color="Black" />
-                        </TextBlock.Effect>
-                    </TextBlock>
+                        Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}" />
                 </ui:Card>
 
                 <StackPanel
                     x:Name="ControlPanel"
                     Grid.Row="1"
-                    Margin="0,0,10,10"
+                    Margin="0,0,5,5"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Orientation="Horizontal">
                     <ui:Button
                         x:Name="FontIncrease"
-                        Background="#B2FFFFFF"
+                        Background="#80AAAAAA"
                         Click="FontIncrease_Click"
+                        Cursor="Hand"
                         Icon="{ui:SymbolIcon fontIncrease20,
                                              Filled=False}"
                         ToolTip="Font Increase" />
                     <ui:Button
                         x:Name="FontDecrease"
-                        Background="#B2FFFFFF"
+                        Background="#80AAAAAA"
                         Click="FontDecrease_Click"
+                        Cursor="Hand"
                         Icon="{ui:SymbolIcon fontDecrease20,
                                              Filled=False}"
                         ToolTip="Font Decrease" />
                     <ui:Button
                         x:Name="FontColorCycle"
-                        Background="#B2FFFFFF"
+                        Background="#80AAAAAA"
                         Click="FontColorCycle_Click"
+                        Cursor="Hand"
                         Icon="{ui:SymbolIcon color16,
                                              Filled=False}"
                         ToolTip="Font Color" />
                     <ui:Button
                         x:Name="FontBold"
-                        Background="#B2FFFFFF"
+                        Background="#80AAAAAA"
                         Click="FontBold_Click"
+                        Cursor="Hand"
                         Icon="{ui:SymbolIcon textBold16,
                                              Filled=False}"
                         ToolTip="Font Bold" />
                     <ui:Button
-                        x:Name="FontShadow"
-                        Background="#B2FFFFFF"
-                        Click="FontShadow_Click"
-                        Icon="{ui:SymbolIcon squareShadow12,
-                                             Filled=False}"
-                        ToolTip="Font Shadow" />
-                    <ui:Button
                         x:Name="OpacityIncrease"
                         Margin="5,0,0,0"
-                        Background="#B2FFFFFF"
+                        Background="#80AAAAAA"
                         Click="OpacityIncrease_Click"
+                        Cursor="Hand"
                         Icon="{ui:SymbolIcon arrowAutofitUp20,
                                              Filled=False}"
                         ToolTip="Opacity Increase" />
                     <ui:Button
                         x:Name="OpacityDecrease"
-                        Background="#B2FFFFFF"
+                        Background="#80AAAAAA"
                         Click="OpacityDecrease_Click"
+                        Cursor="Hand"
                         Icon="{ui:SymbolIcon arrowAutofitDown20,
                                              Filled=False}"
                         ToolTip="Opacity Decrease" />
                     <ui:Button
                         x:Name="BackgroundColorCycle"
-                        Background="#B2FFFFFF"
+                        Background="#80AAAAAA"
                         Click="BackgroundColorCycle_Click"
+                        Cursor="Hand"
                         Icon="{ui:SymbolIcon color16,
                                              Filled=False}"
-                        ToolTip="Font Color" />
+                        ToolTip="Background Color" />
                     <ui:Button
                         x:Name="ClickThrough"
                         Margin="5,0,0,0"
-                        Background="#B2FFFFFF"
+                        Background="#80AAAAAA"
                         Click="ClickThrough_Click"
-                        Icon="{ui:SymbolIcon cursorHoverOff16,
+                        Cursor="Hand"
+                        Icon="{ui:SymbolIcon lockClosed16,
                                              Filled=False}"
                         ToolTip="Click Through" />
                 </StackPanel>
