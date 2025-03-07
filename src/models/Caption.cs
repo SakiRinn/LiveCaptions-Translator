@@ -305,14 +305,11 @@ namespace LiveCaptionsTranslator.models
         {
             if (captionsTextBlock == null)
                 captionsTextBlock = LiveCaptionsHandler.FindElementByAId(window, "CaptionsTextBlock");
-            try
-            {
-                return captionsTextBlock?.Current.Name ?? string.Empty;
-            }
-            catch
-            {
+            if (captionsTextBlock == null) { 
+                Thread.Sleep(1500);
                 return string.Empty;
             }
+            return captionsTextBlock?.Current.Name ?? string.Empty;
         }
 
         private static string ShortenDisplaySentence(string displaySentence, int maxByteLength)
