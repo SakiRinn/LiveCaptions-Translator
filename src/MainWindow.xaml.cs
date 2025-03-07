@@ -10,7 +10,6 @@ namespace LiveCaptionsTranslator
     {
         public SubtitleWindow? SubtitleWindow { get; set; } = null;
 
-
         public MainWindow()
         {
             InitializeComponent();
@@ -28,13 +27,13 @@ namespace LiveCaptionsTranslator
 
             var windowState = WindowHandler.LoadState(this, App.Settings);
             WindowHandler.RestoreState(this, windowState);
-            ToggleTopmost(App.Settings.TopMost);
-            EnableCaptionLog(App.Settings.CaptionLogEnable);
+            ToggleTopmost(App.Settings.MainWindow.Topmost);
+            EnableCaptionLog(App.Settings.MainWindow.CaptionLogEnabled);
         }
 
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
         {
-            ToggleTopmost(!Topmost);
+            ToggleTopmost(!this.Topmost);
         }
 
         private void OverlaySubtitleModeButton_Click(object sender, RoutedEventArgs e)
@@ -99,19 +98,19 @@ namespace LiveCaptionsTranslator
             WindowHandler.SaveState(window, App.Settings);
         }
 
-        private void ToggleTopmost(bool enable)
+        private void ToggleTopmost(bool enabled)
         {
             var button = topmost as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
-            Topmost = enable;
-            symbolIcon.Filled = enable;
-            App.Settings.TopMost = enable;
+            symbolIcon.Filled = enabled;
+            this.Topmost = enabled;
+            App.Settings.MainWindow.Topmost = enabled;
         }
 
         private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Settings.CaptionLogEnable = !App.Settings.CaptionLogEnable;
-            EnableCaptionLog(App.Settings.CaptionLogEnable);
+            App.Settings.MainWindow.CaptionLogEnabled = !App.Settings.MainWindow.CaptionLogEnabled;
+            EnableCaptionLog(App.Settings.MainWindow.CaptionLogEnabled);
         }
 
         private void EnableCaptionLog(bool enable)
@@ -125,14 +124,10 @@ namespace LiveCaptionsTranslator
                 else
                 {
                     icon.Symbol = SymbolRegular.HistoryDismiss24;
-
-                    App.Captions.ClearCaptionLog();
+                    App.Captions?.ClearCaptionLog();
                 }
-
-                if (CaptionPage.Current != null)
-                {
-                    CaptionPage.Current.CollapseTranslatedCaption(enable);
-                }
+                var captionPage = this.Content as CaptionPage;
+                captionPage?.CollapseTranslatedCaption(enable);
             }
         }
     }

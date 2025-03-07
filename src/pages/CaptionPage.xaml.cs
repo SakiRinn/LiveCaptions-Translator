@@ -8,17 +8,15 @@ namespace LiveCaptionsTranslator
 {
     public partial class CaptionPage : Page
     {
-        public static CaptionPage Current;
         public CaptionPage()
         {
             InitializeComponent();
             DataContext = App.Captions;
-            Current = this;
 
             Loaded += (s, e) => App.Captions.PropertyChanged += TranslatedChanged;
             Unloaded += (s, e) => App.Captions.PropertyChanged -= TranslatedChanged;
 
-            CollapseTranslatedCaption(App.Settings.CaptionLogEnable);
+            CollapseTranslatedCaption(App.Settings.MainWindow.CaptionLogEnabled);
         }
 
         private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)

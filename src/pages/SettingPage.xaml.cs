@@ -94,8 +94,9 @@ namespace LiveCaptionsTranslator
 
         private void captionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            App.Captions.ClearCaptionLog();
+            App.Captions?.ClearCaptionLog();
         }
+
         private void LoadAPISetting()
         {
             string targetLang = App.Settings.TargetLanguage;
