@@ -1,37 +1,40 @@
-﻿namespace LiveCaptionsTranslator.models
+﻿using LiveCaptionsTranslator.utils;
+
+namespace LiveCaptionsTranslator.models
 {
     public class TranslationTaskQueue
     {
         private readonly object _lock = new object();
 
         private readonly List<TranslationTask> tasks;
-        private string output;
+        private string translatedText;
 
         public string Output
         {
-            get => output;
+            get => translatedText;
         }
 
         public TranslationTaskQueue()
         {
             tasks = new List<TranslationTask>();
-            output = string.Empty;
+            translatedText = string.Empty;
         }
 
-        public void Enqueue(Func<CancellationToken, Task<string>> worker)
+        public void Enqueue(Func<CancellationToken, Task<string>> worker, string originalText)
         {
-            var newTranslationTask = new TranslationTask(worker, new CancellationTokenSource());
+            var newTranslationTask = new TranslationTask(worker, originalText, new CancellationTokenSource());
             lock (_lock)
             {
                 tasks.Add(newTranslationTask);
             }
+            // Run `OnTaskCompleted` in a new thread.
             newTranslationTask.Task.ContinueWith(
                 task => OnTaskCompleted(newTranslationTask),
                 TaskContinuationOptions.OnlyOnRanToCompletion
             );
         }
 
-        private void OnTaskCompleted(TranslationTask translationTask)
+        private async Task OnTaskCompleted(TranslationTask translationTask)
         {
             lock (_lock)
             {
@@ -40,19 +43,24 @@
                     tasks[i].CTS.Cancel();
                 for (int i = index; i >= 0; i--)
                     tasks.RemoveAt(i);
-                output = translationTask.Task.Result;
             }
+            translatedText = translationTask.Task.Result;
+            bool isOverwrite = await Translator.IsOverwrite(translationTask.OriginalText);
+            await Translator.Log(translationTask.OriginalText, translatedText, isOverwrite);
         }
     }
 
     public class TranslationTask
     {
         public Task<string> Task { get; }
+        public string OriginalText { get; }
         public CancellationTokenSource CTS { get; }
 
-        public TranslationTask(Func<CancellationToken, Task<string>> worker, CancellationTokenSource cts)
+        public TranslationTask(Func<CancellationToken, Task<string>> worker, 
+            string originalText, CancellationTokenSource cts)
         {
             Task = worker(cts.Token);
+            OriginalText = originalText;
             CTS = cts;
         }
     }
