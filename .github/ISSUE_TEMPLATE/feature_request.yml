@@ -1,0 +1,61 @@
+﻿---
+name: Feature Request
+description: Suggest an idea for this project
+labels: help wanted
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request!
+        
+        _The more information you share, the better we can understand your idea._
+        Prior to opening the issue, please make sure that you:
+
+        - Use English in the title and description is required. You can also add your preferred language.
+        - Search the [issues](https://github.com/SakiRinn/LiveCaptions-Translator/issues)/[wiki](https://github.com/SakiRinn/LiveCaptions-Translator/wiki)/[discussions](https://github.com/SakiRinn/LiveCaptions-Translator/discussions) to avoid duplicating the issue.
+  - type: textarea
+    id: problem-description
+    attributes:
+      label: Is your feature request related to a problem? Please describe.
+      description: A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+      placeholder: Describe the problem you are facing.
+    validations:
+      required: true
+  - type: textarea
+    id: solution-description
+    attributes:
+      label: Describe the solution you'd like
+      description: A clear and concise description of what you want to happen.
+      placeholder: Describe the solution you would like to see.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives-description
+    attributes:
+      label: Describe alternatives you've considered
+      description: A clear and concise description of any alternative solutions or features you've considered.
+      placeholder: Describe any alternative solutions or features you have considered.
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context or screenshots about the feature request here.
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: Validations
+      description: Before submitting the issue, please make sure you do the following
+      options:
+        - label: I confirm that I am submitting a Feature request
+          required: true
+        - label: I have read all the [issues](https://github.com/SakiRinn/LiveCaptions-Translator/issues)/[wiki](https://github.com/SakiRinn/LiveCaptions-Translator/wiki) and made sure there is no duplicate
+          required: true
+        - label: I have tried the latest version and the function still not exists
+          required: true
+        - label: I have checked if the issue is related to my environment configuration, network, etc.
+          required: true
+        - label: Besides my preferred language, I have added English in the title and description
+          required: true
+        - label: I will be polite and respectful in my communication
+          required: true
