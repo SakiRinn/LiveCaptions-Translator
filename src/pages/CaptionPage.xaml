@@ -64,8 +64,9 @@
             Background="Transparent"
             BorderBrush="#00000000">
             <ItemsControl
+                x:Name="CaptionLogItems"
                 MinHeight="50"
-                ItemsSource="{Binding CaptionHistory}"
+                ItemsSource="{Binding DisplayLogCards, UpdateSourceTrigger=PropertyChanged}"
                 VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

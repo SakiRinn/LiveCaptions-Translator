@@ -121,7 +121,7 @@ namespace LiveCaptionsTranslator.utils
             }
         }
 
-        public static async Task<string> LoadLatestSourceText(CancellationToken token = default)
+        public static async Task<string> LoadLastSourceText(CancellationToken token = default)
         {
             using (var connection = new SqliteConnection(CONNECTION_STRING))
             {
@@ -143,7 +143,41 @@ namespace LiveCaptionsTranslator.utils
             }
         }
 
-        public static async Task DeleteLatestTranslation(CancellationToken token = default)
+        public static async Task<TranslationHistoryEntry?> LoadLastTranslation(CancellationToken token = default)
+        {
+            using (var connection = new SqliteConnection(CONNECTION_STRING))
+            {
+                await connection.OpenAsync(token);
+                string selectQuery = @"
+                    SELECT Id, SourceText
+                    FROM TranslationHistory
+                    ORDER BY Id DESC
+                    LIMIT 1";
+
+                using (var command = new SqliteCommand(selectQuery, connection))
+                using (var reader = await command.ExecuteReaderAsync(token))
+                {
+                    while (await reader.ReadAsync(token))
+                    {
+                        string unixTime = reader.GetString(reader.GetOrdinal("Timestamp"));
+                        DateTime localTime =
+                            DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(unixTime)).LocalDateTime;
+                        return new TranslationHistoryEntry
+                        {
+                            Timestamp = localTime.ToString("MM/dd HH:mm"),
+                            TimestampFull = localTime.ToString("MM/dd/yy, HH:mm:ss"),
+                            SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
+                            TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
+                            TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
+                            ApiUsed = reader.GetString(reader.GetOrdinal("ApiUsed"))
+                        };
+                    }
+                    return null;
+                }
+            }
+        }
+
+        public static async Task DeleteLastTranslation(CancellationToken token = default)
         {
             using (var connection = new SqliteConnection(CONNECTION_STRING))
             {

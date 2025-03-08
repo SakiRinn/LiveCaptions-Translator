@@ -66,7 +66,16 @@
                         FontSize="15"
                         Foreground="#FFFFFFFF"
                         Style="{StaticResource CaptionBlockStyle}"
-                        Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBlock.Effect>
+                            <DropShadowEffect
+                                x:Name="OriginalCaptionShadow"
+                                BlurRadius="5"
+                                Direction="0"
+                                ShadowDepth="0"
+                                Color="Black" />
+                        </TextBlock.Effect>
+                    </TextBlock>
                 </ui:Card>
                 <ui:Card
                     x:Name="TranslatedCaptionCard"
@@ -81,7 +90,16 @@
                         FontSize="18"
                         Foreground="#FFFFFFFF"
                         Style="{StaticResource CaptionBlockStyle}"
-                        Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}" />
+                        Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBlock.Effect>
+                            <DropShadowEffect
+                                x:Name="TranslatedCaptionShadow"
+                                BlurRadius="5"
+                                Direction="0"
+                                ShadowDepth="0"
+                                Color="Black" />
+                        </TextBlock.Effect>
+                    </TextBlock>
                 </ui:Card>
 
                 <StackPanel
@@ -123,6 +141,13 @@
                         Icon="{ui:SymbolIcon textBold16,
                                              Filled=False}"
                         ToolTip="Font Bold" />
+                    <ui:Button
+                        x:Name="FontShadow"
+                        Background="#80AAAAAA"
+                        Click="FontShadow_Click"
+                        Icon="{ui:SymbolIcon squareShadow12,
+                                             Filled=False}"
+                        ToolTip="Font Shadow" />
                     <ui:Button
                         x:Name="OpacityIncrease"
                         Margin="5,0,0,0"

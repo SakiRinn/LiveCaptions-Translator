@@ -53,7 +53,7 @@ namespace LiveCaptionsTranslator.utils
             try
             {
                 if (isOverWrite)
-                    await SQLiteHistoryLogger.DeleteLatestTranslation(token);
+                    await SQLiteHistoryLogger.DeleteLastTranslation(token);
                 await SQLiteHistoryLogger.LogTranslation(originalText, translatedText, targetLanguage, apiName, token);
                 TranslationLogged?.Invoke();
             }
@@ -73,8 +73,8 @@ namespace LiveCaptionsTranslator.utils
             try
             {
                 if (isOverWrite)
-                    await SQLiteHistoryLogger.DeleteLatestTranslation(token);
-                await SQLiteHistoryLogger.LogTranslation(originalText, "N/A", "N/A", "LogOnly", token);
+                    await SQLiteHistoryLogger.DeleteLastTranslation(token);
+                await SQLiteHistoryLogger.LogTranslation(originalText, "N/A", "N/A", "LogOnly");
                 TranslationLogged?.Invoke();
             }
             catch (OperationCanceledException)
