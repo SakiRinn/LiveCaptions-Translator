@@ -171,30 +171,16 @@ namespace LiveCaptionsTranslator.models
                 {
                     var originalSnapshot = OriginalCaption;
 
-                    // If the old sentence is the prefix of the new sentence,
-                    // overwrite the previous entry when logging.
-                    string lastLoggedOriginal = await SQLiteHistoryLogger.LoadLastSourceText();
-                    bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal) 
-                        && TextUtil.Similarity(originalSnapshot, lastLoggedOriginal) > 0.6;
-
                     if (LogOnlyFlag)
                     {
-                        var worker = Task.Run(() =>
-                        {
-                            var logOnlyTask = Translator.LogOnly(originalSnapshot, isOverWrite);
-                            var addCardTask = AddLogCard();
-                        });
+                        bool isOverwrite = await Translator.IsOverwrite(originalSnapshot);
+                        await Translator.LogOnly(originalSnapshot, isOverwrite);
                     }
                     else
                     {
-                        translationTaskQueue.Enqueue(token => Task.Run(() =>
-                        {
-                            var translateTask = Translator.Translate(OriginalCaption, token);
-                            var logTask = Translator.Log(
-                                originalSnapshot, translateTask.Result, App.Setting, isOverWrite, token);
-                            var addCardTask = AddLogCard(token);
-                            return translateTask;
-                        }));
+                        translationTaskQueue.Enqueue(token => Task.Run(
+                            () => Translator.Translate(OriginalCaption, token), token)
+                        , originalSnapshot);
                     }
 
                     TranslateFlag = false;
@@ -204,17 +190,6 @@ namespace LiveCaptionsTranslator.models
                 }
                 Thread.Sleep(40);
             }
-        }
-
-        private async Task AddLogCard(CancellationToken token = default)
-        {
-            var lastLog = await SQLiteHistoryLogger.LoadLastTranslation(token);
-            if (lastLog == null)
-                return;
-            if (LogCards.Count >= App.Setting?.MainWindow.CaptionLogMax - 1)
-                LogCards.Dequeue();
-            LogCards.Enqueue(lastLog);
-            OnPropertyChanged("DisplayLogCards");
         }
     }
 }
