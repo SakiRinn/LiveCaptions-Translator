@@ -8,7 +8,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="LiveCaptionsTranslator"
     Width="750"
-    Height="167"
+    Height="170"
     MinWidth="750"
     MinHeight="167"
     Background="Transparent"
@@ -100,10 +100,11 @@
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
                         Content="Prompt"
+                        Cursor=""
                         FontFamily="Bahnschrift"
                         Icon="{ui:SymbolIcon Chat24}"
                         NavigationCacheMode="Required"
-                        TargetPageType="{x:Type local:PromptSetting}" Cursor="" />
+                        TargetPageType="{x:Type local:PromptSetting}" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
                         Content="History"

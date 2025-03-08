@@ -8,10 +8,13 @@ namespace LiveCaptionsTranslator
 {
     public partial class CaptionPage : Page
     {
+        public static CaptionPage? Instance { get; set; } = null;
+
         public CaptionPage()
         {
             InitializeComponent();
             DataContext = App.Caption;
+            Instance = this;
 
             Loaded += (s, e) => App.Caption.PropertyChanged += TranslatedChanged;
             Unloaded += (s, e) => App.Caption.PropertyChanged -= TranslatedChanged;

@@ -92,6 +92,12 @@ namespace LiveCaptionsTranslator
             }
         }
 
+        private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Setting.MainWindow.CaptionLogEnabled = !App.Setting.MainWindow.CaptionLogEnabled;
+            EnableCaptionLog(App.Setting.MainWindow.CaptionLogEnabled);
+        }
+
         private void MainWindow_BoundsChanged(object sender, EventArgs e)
         {
             var window = sender as Window;
@@ -107,27 +113,15 @@ namespace LiveCaptionsTranslator
             App.Setting.MainWindow.Topmost = enabled;
         }
 
-        private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
-        {
-            App.Setting.MainWindow.CaptionLogEnabled = !App.Setting.MainWindow.CaptionLogEnabled;
-            EnableCaptionLog(App.Setting.MainWindow.CaptionLogEnabled);
-        }
-
         private void EnableCaptionLog(bool enable)
         {
             if (captionLog.Icon is SymbolIcon icon)
             {
                 if (enable)
-                {
                     icon.Symbol = SymbolRegular.History24;
-                }
                 else
-                {
                     icon.Symbol = SymbolRegular.HistoryDismiss24;
-                    App.Caption?.ClearCaptionLog();
-                }
-                var captionPage = this.Content as CaptionPage;
-                captionPage?.CollapseTranslatedCaption(enable);
+                CaptionPage.Instance?.CollapseTranslatedCaption(enable);
             }
         }
     }

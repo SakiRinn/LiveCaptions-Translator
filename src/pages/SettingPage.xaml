@@ -142,12 +142,11 @@
                 <TextBlock Margin="2.5,0,0,5" Text="Max Caption Log" />
                 <ComboBox
                     x:Name="captionLogMax"
-                    Width="150"
+                    Width="120"
                     Height="30"
                     Padding="10,4,10,7"
                     FontSize="13.3"
-                    SelectedIndex="{Binding MainWindow.CaptionLogMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectionChanged="captionLogMax_SelectionChanged">
+                    SelectedIndex="{Binding MainWindow.CaptionLogMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     <ComboBoxItem Content="1" />
                     <ComboBoxItem Content="2" />
                     <ComboBoxItem Content="3" />
@@ -160,7 +159,7 @@
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Show Latency" />
                 <ui:ToggleSwitch
-                    Width="150"
+                    Width="120"
                     Height="30"
                     Margin="0,0,0,0"
                     Padding="10,4,10,7"

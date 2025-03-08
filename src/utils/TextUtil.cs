@@ -7,16 +7,16 @@ namespace LiveCaptionsTranslator.utils
         public static readonly char[] PUNC_EOS = ".?!。？！".ToCharArray();
         public static readonly char[] PUNC_COMMA = ",，、—\n".ToCharArray();
 
-        public static string ShortenDisplaySentence(string displaySentence, int maxByteLength)
+        public static string ShortenDisplaySentence(string text, int maxByteLength)
         {
-            while (Encoding.UTF8.GetByteCount(displaySentence) >= maxByteLength)
+            while (Encoding.UTF8.GetByteCount(text) >= maxByteLength)
             {
-                int commaIndex = displaySentence.IndexOfAny(PUNC_COMMA);
-                if (commaIndex < 0 || commaIndex + 1 >= displaySentence.Length)
+                int commaIndex = text.IndexOfAny(PUNC_COMMA);
+                if (commaIndex < 0 || commaIndex + 1 >= text.Length)
                     break;
-                displaySentence = displaySentence.Substring(commaIndex + 1);
+                text = text.Substring(commaIndex + 1);
             }
-            return displaySentence;
+            return text;
         }
 
         public static string ReplaceNewlines(string text, int byteThreshold)
@@ -40,6 +40,56 @@ namespace LiveCaptionsTranslator.utils
                     splits[i] += isCJ && !isKorean ? "——" : "—";
             }
             return string.Join("", splits);
+        }
+
+        public static double Similarity(string text1, string text2)
+        {
+            if (text1.StartsWith(text2) || text2.StartsWith(text1))
+                return 1.0;
+            int distance = LevenshteinDistance(text1, text2);
+            int maxLen = Math.Max(text1.Length, text2.Length);
+            return (maxLen == 0) ? 1.0 : (1.0 - (double)distance / maxLen);
+        }
+
+        public static int LevenshteinDistance(string text1, string text2)
+        {
+            if (string.IsNullOrEmpty(text1))
+                return string.IsNullOrEmpty(text2) ? 0 : text2.Length;
+            if (string.IsNullOrEmpty(text2))
+                return text1.Length;
+
+            if (text1.Length > text2.Length)
+            {
+                var temp = text1;
+                text1 = text2;
+                text2 = temp;
+            }
+
+            int len1 = text1.Length;
+            int len2 = text2.Length;
+
+            int[] previous = new int[len1 + 1];
+            int[] current = new int[len1 + 1];
+
+            for (int i = 0; i <= len1; i++)
+                previous[i] = i;
+            for (int j = 1; j <= len2; j++)
+            {
+                current[0] = j;
+                for (int i = 1; i <= len1; i++)
+                {
+                    int cost = (text1[i - 1] == text2[j - 1]) ? 0 : 1;
+
+                    current[i] = Math.Min(
+                        Math.Min(current[i - 1] + 1, previous[i] + 1),
+                        previous[i - 1] + cost);
+                }
+                var temp = previous;
+                previous = current;
+                current = temp;
+            }
+
+            return previous[len1];
         }
     }
 }

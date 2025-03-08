@@ -226,21 +226,129 @@ namespace LiveCaptionsTranslator.models
         }
     }
 
-    public class MainWindowState
+    public class MainWindowState : INotifyPropertyChanged
     {
-        public bool Topmost { get; set; }
-        public bool CaptionLogEnabled { get; set; }
-        public int CaptionLogMax { get; set; }
-        public bool LatencyShow { get; set; }
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private bool topmost;
+        private bool captionLogEnabled;
+        private int captionLogMax;
+        private bool latencyShow;
+
+        public bool Topmost
+        {
+            get => topmost;
+            set
+            {
+                topmost = value;
+                OnPropertyChanged("Topmost");
+            }
+        }
+        public bool CaptionLogEnabled
+        {
+            get => captionLogEnabled;
+            set
+            {
+                captionLogEnabled = value;
+                OnPropertyChanged("CaptionLogEnabled");
+            }
+        }
+        public int CaptionLogMax
+        {
+            get => captionLogMax;
+            set
+            {
+                captionLogMax = value;
+                OnPropertyChanged("CaptionLogMax");
+            }
+        }
+        public bool LatencyShow
+        {
+            get => latencyShow;
+            set
+            {
+                latencyShow = value;
+                OnPropertyChanged("LatencyShow");
+            }
+        }
+
+        public void OnPropertyChanged([CallerMemberName] string propName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            App.Setting?.Save();
+        }
     }
 
-    public class SubtitleWindowState
+    public class SubtitleWindowState : INotifyPropertyChanged
     {
-        public int FontSize { get; set; }
-        public int FontColor { get; set; }
-        public int FontBold { get; set; }
-        public int FontShadow { get; set; }
-        public int BackgroundColor { get; set; }
-        public double Opacity { get; set; }
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private int fontSize;
+        private int fontColor;
+        private int fontBold;
+        private int fontShadow;
+        private int backgroundColor;
+        private double opacity;
+
+        public int FontSize
+        {
+            get => fontSize;
+            set
+            {
+                fontSize = value;
+                OnPropertyChanged("FontSize");
+            }
+        }
+        public int FontColor
+        {
+            get => fontColor;
+            set
+            {
+                fontColor = value;
+                OnPropertyChanged("FontColor");
+            }
+        }
+        public int FontBold
+        {
+            get => fontBold;
+            set
+            {
+                fontBold = value;
+                OnPropertyChanged("FontBold");
+            }
+        }
+        public int FontShadow
+        {
+            get => fontShadow;
+            set
+            {
+                fontShadow = value;
+                OnPropertyChanged("FontShadow");
+            }
+        }
+        public int BackgroundColor
+        {
+            get => backgroundColor;
+            set
+            {
+                backgroundColor = value;
+                OnPropertyChanged("BackgroundColor");
+            }
+        }
+        public double Opacity
+        {
+            get => opacity;
+            set
+            {
+                opacity = value;
+                OnPropertyChanged("Opacity");
+            }
+        }
+
+        public void OnPropertyChanged([CallerMemberName] string propName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+            App.Setting?.Save();
+        }
     }
 }

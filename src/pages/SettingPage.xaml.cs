@@ -92,11 +92,6 @@ namespace LiveCaptionsTranslator
             FrequencyInfoFlyout.Hide();
         }
 
-        private void captionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            App.Caption?.ClearCaptionLog();
-        }
-
         private void LoadAPISetting()
         {
             string targetLang = App.Setting.TargetLanguage;

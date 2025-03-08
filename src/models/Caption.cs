@@ -16,9 +16,6 @@ namespace LiveCaptionsTranslator.models
         private string displayOriginalCaption = "";
         private string displayTranslatedCaption = "";
 
-        public bool TranslateFlag { get; set; } = false;
-        public bool LogOnlyFlag { get; set; } = false;
-
         public string OriginalCaption { get; set; } = "";
         public string TranslatedCaption { get; set; } = "";
         public string DisplayOriginalCaption
@@ -39,6 +36,12 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("DisplayTranslatedCaption");
             }
         }
+
+        public bool TranslateFlag { get; set; } = false;
+        public bool LogOnlyFlag { get; set; } = false;
+
+        public Queue<TranslationHistoryEntry> LogCards { get; } = new(6);
+        public IEnumerable<TranslationHistoryEntry> DisplayLogCards => LogCards.Reverse();
 
         private Caption() { }
 
@@ -170,24 +173,27 @@ namespace LiveCaptionsTranslator.models
 
                     // If the old sentence is the prefix of the new sentence,
                     // overwrite the previous entry when logging.
-                    string lastLoggedOriginal = await SQLiteHistoryLogger.LoadLatestSourceText();
-                    bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal)
-                        && originalSnapshot.StartsWith(lastLoggedOriginal);
+                    string lastLoggedOriginal = await SQLiteHistoryLogger.LoadLastSourceText();
+                    bool isOverWrite = !string.IsNullOrEmpty(lastLoggedOriginal) 
+                        && TextUtil.Similarity(originalSnapshot, lastLoggedOriginal) > 0.6;
 
                     if (LogOnlyFlag)
                     {
-                        var LogOnlyTask = Task.Run(
-                            () => Translator.LogOnly(originalSnapshot, isOverWrite)
-                        );
+                        var worker = Task.Run(() =>
+                        {
+                            var logOnlyTask = Translator.LogOnly(originalSnapshot, isOverWrite);
+                            var addCardTask = AddLogCard();
+                        });
                     }
                     else
                     {
                         translationTaskQueue.Enqueue(token => Task.Run(() =>
                         {
-                            var TranslateTask = Translator.Translate(OriginalCaption, token);
-                            var LogTask = Translator.Log(
-                                originalSnapshot, TranslateTask.Result, App.Setting, isOverWrite, token);
-                            return TranslateTask;
+                            var translateTask = Translator.Translate(OriginalCaption, token);
+                            var logTask = Translator.Log(
+                                originalSnapshot, translateTask.Result, App.Setting, isOverWrite, token);
+                            var addCardTask = AddLogCard(token);
+                            return translateTask;
                         }));
                     }
 
@@ -200,16 +206,15 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public void ClearCaptionLog()
+        private async Task AddLogCard(CancellationToken token = default)
         {
-            captionLogs.Clear();
-            OnPropertyChanged("CaptionHistory");
+            var lastLog = await SQLiteHistoryLogger.LoadLastTranslation(token);
+            if (lastLog == null)
+                return;
+            if (LogCards.Count >= App.Setting?.MainWindow.CaptionLogMax - 1)
+                LogCards.Dequeue();
+            LogCards.Enqueue(lastLog);
+            OnPropertyChanged("DisplayLogCards");
         }
-    }
-
-    public class CaptionLog
-    {
-        public required string OriginalCaptionLog { get; set; }
-        public required string TranslatedCaptionLog { get; set; }
     }
 }
