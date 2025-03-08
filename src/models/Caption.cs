@@ -87,6 +87,10 @@ namespace LiveCaptionsTranslator.models
                 string fullText = string.Empty;
                 try
                 {
+                    // Check LiveCaptions.exe still alive
+                    var info = App.Window.Current;
+                    var name = info.Name;
+
                     fullText = GetCaptions(App.Window);         // about 10-20ms
                 }
                 catch (ElementNotAvailableException ex)
