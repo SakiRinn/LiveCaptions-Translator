@@ -92,6 +92,13 @@ namespace LiveCaptionsTranslator
             FrequencyInfoFlyout.Hide();
         }
 
+        private void captionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            while (App.Caption.LogCards.Count > App.Setting.MainWindow.CaptionLogMax)
+                App.Caption.LogCards.Dequeue();
+            App.Caption.OnPropertyChanged("DisplayLogCards");
+        }
+
         private void LoadAPISetting()
         {
             string targetLang = App.Setting.TargetLanguage;

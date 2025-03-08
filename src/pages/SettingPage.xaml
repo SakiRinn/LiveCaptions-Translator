@@ -141,13 +141,13 @@
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Max Caption Log" />
                 <ComboBox
-                    x:Name="captionLogMax"
                     Width="120"
                     Height="30"
                     Padding="10,4,10,7"
                     FontSize="13.3"
                     SelectedValue="{Binding MainWindow.CaptionLogMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Content">
+                    SelectedValuePath="Content"
+                    SelectionChanged="captionLogMax_SelectionChanged">
                     <ComboBoxItem Content="1" />
                     <ComboBoxItem Content="2" />
                     <ComboBoxItem Content="3" />

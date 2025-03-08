@@ -59,11 +59,7 @@ namespace LiveCaptionsTranslator.utils
                 return text1.Length;
 
             if (text1.Length > text2.Length)
-            {
-                var temp = text1;
-                text1 = text2;
-                text2 = temp;
-            }
+                (text2, text1) = (text1, text2);
 
             int len1 = text1.Length;
             int len2 = text2.Length;
@@ -79,14 +75,11 @@ namespace LiveCaptionsTranslator.utils
                 for (int i = 1; i <= len1; i++)
                 {
                     int cost = (text1[i - 1] == text2[j - 1]) ? 0 : 1;
-
                     current[i] = Math.Min(
                         Math.Min(current[i - 1] + 1, previous[i] + 1),
                         previous[i - 1] + cost);
                 }
-                var temp = previous;
-                previous = current;
-                current = temp;
+                (current, previous) = (previous, current);
             }
 
             return previous[len1];

@@ -58,9 +58,11 @@ namespace LiveCaptionsTranslator.utils
             {
                 response = await client.PostAsync(config?.ApiUrl, content, token);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
-                return string.Empty;
+                if (ex.Message.StartsWith("The request"))
+                    return $"[Translation Failed] {ex.Message}";
+               return string.Empty;
             }
             catch (Exception ex)
             {
@@ -107,8 +109,10 @@ namespace LiveCaptionsTranslator.utils
             {
                 response = await client.PostAsync(apiUrl, content, token);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[Translation Failed] {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
@@ -138,8 +142,10 @@ namespace LiveCaptionsTranslator.utils
             {
                 response = await client.GetAsync(url, token);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[Translation Failed] {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
@@ -181,8 +187,10 @@ namespace LiveCaptionsTranslator.utils
             {
                 response = await client.SendAsync(request, token);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[Translation Failed] {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
@@ -243,8 +251,10 @@ namespace LiveCaptionsTranslator.utils
             {
                 response = await client.SendAsync(request, token);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[Translation Failed] {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
