@@ -92,7 +92,7 @@
                                         FontSize="12"
                                         MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                                         Style="{StaticResource CaptionBlockStyle}"
-                                        Text="{Binding OriginalCaptionLog}"
+                                        Text="{Binding SourceText}"
                                         ToolTip="Click To Copy" />
                                 </ui:Card>
                                 <ui:Card
@@ -107,7 +107,7 @@
                                         FontSize="16"
                                         MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                                         Style="{StaticResource CaptionBlockStyle}"
-                                        Text="{Binding TranslatedCaptionLog}"
+                                        Text="{Binding TranslatedText}"
                                         ToolTip="Click To Copy" />
                                 </ui:Card>
                             </Grid>

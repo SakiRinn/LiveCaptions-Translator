@@ -146,7 +146,8 @@
                     Height="30"
                     Padding="10,4,10,7"
                     FontSize="13.3"
-                    SelectedIndex="{Binding MainWindow.CaptionLogMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    SelectedValue="{Binding MainWindow.CaptionLogMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValuePath="Content">
                     <ComboBoxItem Content="1" />
                     <ComboBoxItem Content="2" />
                     <ComboBoxItem Content="3" />

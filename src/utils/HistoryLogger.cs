@@ -20,7 +20,7 @@ namespace LiveCaptionsTranslator.utils
         private static void InitializeDatabase()
         {
             GetConnection();
-            
+
             using (var command = new SqliteCommand(@"
                 CREATE TABLE IF NOT EXISTS TranslationHistory (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -92,7 +92,7 @@ namespace LiveCaptionsTranslator.utils
             {
                 maxPage = Convert.ToInt32(await command.ExecuteScalarAsync(token)) / maxRow;
             }
-            
+
             using (var command = new SqliteCommand(@$"
                 SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed
                 FROM TranslationHistory
@@ -232,6 +232,8 @@ namespace LiveCaptionsTranslator.utils
 
             await File.WriteAllTextAsync(filePath, csv.ToString());
         }
+
+        // DEPRECATED
         private static async Task MigrateOldTimestampFormat()
         {
             var records = new List<(long id, string timestamp)>();
