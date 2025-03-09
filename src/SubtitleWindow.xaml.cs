@@ -36,6 +36,10 @@ namespace LiveCaptionsTranslator
 
             this.OriginalCaption.FontWeight = (App.Setting.SubtitleWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
             this.TranslatedCaption.FontWeight = (App.Setting.SubtitleWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
+            this.OriginalCaptionShadow.Opacity =
+                (App.Setting.SubtitleWindow.FontShadow == 3 ? 1.0 : 0.0);
+            this.TranslatedCaptionShadow.Opacity =
+                (App.Setting.SubtitleWindow.FontShadow >= 2 ? 1.0 : 0.0);
 
             this.TranslatedCaption.Foreground = App.Setting.CCColorList[App.Setting.SubtitleWindow.FontColor];
             this.OriginalCaption.Foreground = App.Setting.CCColorList[App.Setting.SubtitleWindow.FontColor];
