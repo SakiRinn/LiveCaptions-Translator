@@ -7,12 +7,13 @@ namespace LiveCaptionsTranslator.models
     public class TranslateAPIConfig : INotifyPropertyChanged
     {
         /*
-         * The key of this field is used as the content for `targetLangBox` in the `SettingPage`.
+         * The key of this property is used as the content for `targetLangBox` in the `SettingPage`.
          * Its purpose is to standardize the language selection interface.
-         * Therefore, if your API doesn't follow the key format, please override this field with the `new` keyword.
+         * Therefore, if your API doesn't follow the key format, please override this property.
          * (See the definition of `DeepLConfig` for an example)
          */
-        protected static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
+        [JsonIgnore]
+        public virtual Dictionary<string, string> SupportedLanguages { get; } = new()
         {
             { "zh-CN", "zh-CN" },
             { "zh-TW", "zh-TW" },
@@ -23,11 +24,6 @@ namespace LiveCaptionsTranslator.models
             { "fr-FR", "fr-FR" },
             { "th-TH", "th-TH" },
         };
-        [JsonIgnore]
-        public virtual Dictionary<string, string> SupportedLanguages
-        {
-            get => SUPPORTED_LANGUAGES;
-        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -165,7 +161,8 @@ namespace LiveCaptionsTranslator.models
     
     public class DeepLConfig : TranslateAPIConfig
     {
-        private new static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
+        [JsonIgnore]
+        public override Dictionary<string, string> SupportedLanguages { get; } = new()
         {
             { "zh-CN", "ZH-HANS" },
             { "zh-TW", "ZH-HANT" },

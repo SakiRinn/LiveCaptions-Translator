@@ -19,7 +19,7 @@ namespace LiveCaptionsTranslator.utils
                     sw = Stopwatch.StartNew();
                 }
 
-                translatedText = await TranslateAPI.TranslateFunc(text, token);
+                translatedText = await TranslateAPI.TranslateFunction(text, token);
 
                 if (sw != null)
                 {

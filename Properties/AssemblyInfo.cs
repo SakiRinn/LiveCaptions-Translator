@@ -5,10 +5,8 @@
 //
 
 using System.Reflection;
-using System.Runtime.Versioning;
 
-[assembly: SupportedOSPlatform("windows7.0")]
 
 [assembly: AssemblyTitle("LiveCaptions Translator")]
-[assembly: AssemblyVersion("1.3.1251.517")]
-[assembly: AssemblyFileVersion("1.3.1251.517")]
+[assembly: AssemblyVersion("1.3.1251.1001")]
+[assembly: AssemblyFileVersion("1.3.1251.1001")]

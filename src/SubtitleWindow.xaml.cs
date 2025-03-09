@@ -290,7 +290,8 @@ namespace LiveCaptionsTranslator
         private void ApplyBackgroundOpacity()
         {
             Color color = ((SolidColorBrush)BorderBackground.Background).Color;
-            BorderBackground.Background = new SolidColorBrush(Color.FromArgb(App.Setting.SubtitleWindow.Opacity, color.R, color.G, color.B));
+            BorderBackground.Background = new SolidColorBrush(
+                Color.FromArgb(App.Setting.SubtitleWindow.Opacity, color.R, color.G, color.B));
         }
     }
 }
