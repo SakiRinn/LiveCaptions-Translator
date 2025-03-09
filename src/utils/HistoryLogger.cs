@@ -189,7 +189,7 @@ namespace LiveCaptionsTranslator.utils
                         FontColor = App.Setting.CCColorList[App.Setting.SubtitleWindow.FontColor],
                         FontWeightOriginal = (App.Setting.SubtitleWindow.FontBold >= 3 ? FontWeights.Bold : FontWeights.Regular),
                         FontWeightTranslated = (App.Setting.SubtitleWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular),
-                        TranslationOnly = ((MainWindow.Current?.SubtitleWindow != null && MainWindow.Current.SubtitleWindow.IsTranslationOnly) ? Visibility.Collapsed : Visibility.Visible),
+                        TranslationOnly = ((MainWindow.Instance?.SubtitleWindow != null && MainWindow.Instance.SubtitleWindow.IsTranslationOnly) ? Visibility.Collapsed : Visibility.Visible),
                     };
                 }
                 return null;

@@ -8,13 +8,14 @@ namespace LiveCaptionsTranslator
 {
     public partial class MainWindow : FluentWindow
     {
-        public static MainWindow Current;
+        public static MainWindow? Instance { get; set; } = null;
         public SubtitleWindow? SubtitleWindow { get; set; } = null;
 
         public MainWindow()
         {
             InitializeComponent();
             ApplicationThemeManager.ApplySystemTheme();
+            Instance = this;
 
             Loaded += (sender, args) =>
             {
@@ -30,8 +31,6 @@ namespace LiveCaptionsTranslator
             WindowHandler.RestoreState(this, windowState);
             ToggleTopmost(App.Setting.MainWindow.Topmost);
             EnableCaptionLog(App.Setting.MainWindow.CaptionLogEnabled);
-
-            Current = this;
         }
 
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
@@ -125,6 +124,7 @@ namespace LiveCaptionsTranslator
                 else
                     icon.Symbol = SymbolRegular.HistoryDismiss24;
                 CaptionPage.Instance?.CollapseTranslatedCaption(enable);
+                SubtitleWindow.Instance?.CollapseTranslatedCaption(enable);
             }
         }
     }

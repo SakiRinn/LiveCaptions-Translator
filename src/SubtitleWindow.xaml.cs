@@ -11,6 +11,7 @@ namespace LiveCaptionsTranslator
 {
     public partial class SubtitleWindow : Window
     {
+        public static SubtitleWindow? Instance { get; set; } = null;
         private bool isTranslationOnly = false;
         public bool IsTranslationOnly
         {
@@ -26,6 +27,7 @@ namespace LiveCaptionsTranslator
         {
             InitializeComponent();
             DataContext = App.Caption;
+            Instance = this;
 
             Loaded += (s, e) => App.Caption.PropertyChanged += TranslatedChanged;
             Unloaded += (s, e) => App.Caption.PropertyChanged -= TranslatedChanged;
@@ -160,6 +162,22 @@ namespace LiveCaptionsTranslator
                 this.Top -= 40;
                 this.Height += 40;
                 this.MinHeight += 40;
+            }
+        }
+
+        public void CollapseTranslatedCaption(bool collapse)
+        {
+            var converter = new GridLengthConverter();
+
+            if (collapse)
+            {
+                TranslatedCaption_Row.Height = (GridLength)converter.ConvertFromString("Auto");
+                CaptionLogCard.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TranslatedCaption_Row.Height = (GridLength)converter.ConvertFromString("*");
+                CaptionLogCard.Visibility = Visibility.Collapsed;
             }
         }
 

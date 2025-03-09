@@ -43,9 +43,9 @@
             MouseLeftButtonDown="Border_MouseLeftButtonDown">
             <Grid Margin="15,15,15,15">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition x:Name="OriginalCaption_Row" Height="Auto" />
+                    <RowDefinition x:Name="TranslatedCaption_Row" Height="Auto" />
+                    <RowDefinition x:Name="CaptionLogCard_Row" Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.Resources>
                     <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
@@ -105,6 +105,7 @@
                 </ui:Card>
 
                 <ItemsControl
+                    x:Name="CaptionLogCard"
                     Grid.Row="2"
                     MinHeight="50"
                     Margin="20,0,0,0"
