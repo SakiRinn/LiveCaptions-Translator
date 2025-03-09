@@ -270,10 +270,5 @@ namespace LiveCaptionsTranslator
             SetWindowExTransparent(hwnd);
             ControlPanel.Visibility = Visibility.Collapsed;
         }
-
-        private void DisableOriginalCaption_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
