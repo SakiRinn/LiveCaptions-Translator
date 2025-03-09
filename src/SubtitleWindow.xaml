@@ -35,10 +35,6 @@
             x:Name="BorderBackground"
             Margin="5"
             Background="#80000000"
-            CornerRadius="8" />
-        <Border
-            Margin="5"
-            Background="Transparent"
             CornerRadius="8"
             MouseLeftButtonDown="Border_MouseLeftButtonDown">
             <Grid>
@@ -111,7 +107,7 @@
                     Orientation="Horizontal">
                     <ui:Button
                         x:Name="FontIncrease"
-                        Background="#80AAAAAA"
+                        Background="#FFAAAAAA"
                         Click="FontIncrease_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon fontIncrease20,
@@ -119,7 +115,7 @@
                         ToolTip="Font Increase" />
                     <ui:Button
                         x:Name="FontDecrease"
-                        Background="#80AAAAAA"
+                        Background="#FFAAAAAA"
                         Click="FontDecrease_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon fontDecrease20,
@@ -127,7 +123,7 @@
                         ToolTip="Font Decrease" />
                     <ui:Button
                         x:Name="FontColorCycle"
-                        Background="#80AAAAAA"
+                        Background="#FFAAAAAA"
                         Click="FontColorCycle_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon color16,
@@ -135,7 +131,7 @@
                         ToolTip="Font Color" />
                     <ui:Button
                         x:Name="FontBold"
-                        Background="#80AAAAAA"
+                        Background="#FFAAAAAA"
                         Click="FontBold_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon textBold16,
@@ -143,7 +139,7 @@
                         ToolTip="Font Bold" />
                     <ui:Button
                         x:Name="FontShadow"
-                        Background="#80AAAAAA"
+                        Background="#FFAAAAAA"
                         Click="FontShadow_Click"
                         Icon="{ui:SymbolIcon squareShadow12,
                                              Filled=False}"
@@ -151,7 +147,7 @@
                     <ui:Button
                         x:Name="OpacityIncrease"
                         Margin="5,0,0,0"
-                        Background="#80AAAAAA"
+                        Background="#FFAAAAAA"
                         Click="OpacityIncrease_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon arrowAutofitUp20,
@@ -159,7 +155,7 @@
                         ToolTip="Opacity Increase" />
                     <ui:Button
                         x:Name="OpacityDecrease"
-                        Background="#80AAAAAA"
+                        Background="#FFAAAAAA"
                         Click="OpacityDecrease_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon arrowAutofitDown20,
@@ -167,7 +163,7 @@
                         ToolTip="Opacity Decrease" />
                     <ui:Button
                         x:Name="BackgroundColorCycle"
-                        Background="#80AAAAAA"
+                        Background="#FFAAAAAA"
                         Click="BackgroundColorCycle_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon color16,
@@ -176,7 +172,7 @@
                     <ui:Button
                         x:Name="ClickThrough"
                         Margin="5,0,0,0"
-                        Background="#80AAAAAA"
+                        Background="#FFAAAAAA"
                         Click="ClickThrough_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon lockClosed16,

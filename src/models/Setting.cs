@@ -142,7 +142,7 @@ namespace LiveCaptionsTranslator.models
                 FontBold = 1,
                 FontShadow = 1,
                 BackgroundColor = 8,
-                Opacity = 0.5
+                Opacity = 151
             };
             windowBounds = new Dictionary<string, string>
             {
@@ -288,7 +288,7 @@ namespace LiveCaptionsTranslator.models
         private int fontBold;
         private int fontShadow;
         private int backgroundColor;
-        private double opacity;
+        private byte opacity;
 
         public int FontSize
         {
@@ -335,7 +335,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("BackgroundColor");
             }
         }
-        public double Opacity
+        public byte Opacity
         {
             get => opacity;
             set

@@ -49,6 +49,9 @@ namespace LiveCaptionsTranslator
             this.OriginalCaption.Foreground = ColorList[App.Setting.SubtitleWindow.FontColor];
             this.BorderBackground.Background = ColorList[App.Setting.SubtitleWindow.BackgroundColor];
             this.BorderBackground.Opacity = App.Setting.SubtitleWindow.Opacity;
+
+            ApplyFontSize();
+            ApplyBackgroundOpacity();
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -223,9 +226,9 @@ namespace LiveCaptionsTranslator
             App.Setting.SubtitleWindow.FontBold++;
             if (App.Setting.SubtitleWindow.FontBold > (isTranslationOnly ? 2 : 3))
                 App.Setting.SubtitleWindow.FontBold = 1;
-            this.OriginalCaption.FontWeight = 
+            this.OriginalCaption.FontWeight =
                 (App.Setting.SubtitleWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
-            this.TranslatedCaption.FontWeight = 
+            this.TranslatedCaption.FontWeight =
                 (App.Setting.SubtitleWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
         }
 
@@ -234,9 +237,9 @@ namespace LiveCaptionsTranslator
             App.Setting.SubtitleWindow.FontShadow++;
             if (App.Setting.SubtitleWindow.FontShadow > (isTranslationOnly ? 2 : 3))
                 App.Setting.SubtitleWindow.FontShadow = 1;
-            this.OriginalCaptionShadow.Opacity = 
+            this.OriginalCaptionShadow.Opacity =
                 (App.Setting.SubtitleWindow.FontShadow == 3 ? 1.0 : 0.0);
-            this.TranslatedCaptionShadow.Opacity = 
+            this.TranslatedCaptionShadow.Opacity =
                 (App.Setting.SubtitleWindow.FontShadow >= 2 ? 1.0 : 0.0);
         }
 
@@ -251,18 +254,21 @@ namespace LiveCaptionsTranslator
 
         private void OpacityIncrease_Click(object sender, RoutedEventArgs e)
         {
-            App.Setting.SubtitleWindow.Opacity += 0.05;
-            if (App.Setting.SubtitleWindow.Opacity >= 1)
-                App.Setting.SubtitleWindow.Opacity = 1.0; // Opacity = 0 make Border unhove
-            BorderBackground.Opacity = App.Setting.SubtitleWindow.Opacity;
+            if (App.Setting.SubtitleWindow.Opacity + 20 < 251)
+                App.Setting.SubtitleWindow.Opacity += 20;
+            else
+                App.Setting.SubtitleWindow.Opacity = 251;
+            ApplyBackgroundOpacity();
         }
 
         private void OpacityDecrease_Click(object sender, RoutedEventArgs e)
         {
-            App.Setting.SubtitleWindow.Opacity -= 0.05;
-            if (App.Setting.SubtitleWindow.Opacity <= 0)
-                App.Setting.SubtitleWindow.Opacity = 0.01;
-            BorderBackground.Opacity = App.Setting.SubtitleWindow.Opacity;
+            if (App.Setting.SubtitleWindow.Opacity - 20 > 1)
+                App.Setting.SubtitleWindow.Opacity -= 20;
+            else
+                App.Setting.SubtitleWindow.Opacity = 1;
+
+            ApplyBackgroundOpacity();
         }
 
         private void BackgroundColorCycle_Click(object sender, RoutedEventArgs e)
@@ -279,6 +285,12 @@ namespace LiveCaptionsTranslator
             var hwnd = new WindowInteropHelper(this).Handle;
             SetWindowExTransparent(hwnd);
             ControlPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void ApplyBackgroundOpacity()
+        {
+            Color color = ((SolidColorBrush)BorderBackground.Background).Color;
+            BorderBackground.Background = new SolidColorBrush(Color.FromArgb(App.Setting.SubtitleWindow.Opacity, color.R, color.G, color.B));
         }
     }
 }
