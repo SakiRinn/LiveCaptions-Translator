@@ -49,6 +49,9 @@ namespace LiveCaptionsTranslator
             this.OriginalCaption.Foreground = ColorList[App.Setting.SubtitleWindow.FontColor];
             this.BorderBackground.Background = ColorList[App.Setting.SubtitleWindow.BackgroundColor];
             this.BorderBackground.Opacity = App.Setting.SubtitleWindow.Opacity;
+
+            ApplyFontSize();
+            ApplyBackgroundOpacity();
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
