@@ -65,7 +65,7 @@ namespace LiveCaptionsTranslator.utils
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(config?.ApiUrl, content, token);
+                response = await client.PostAsync(TextUtil.NormalizeUrl(config?.ApiUrl), content, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -303,7 +303,8 @@ namespace LiveCaptionsTranslator.utils
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {config?.ApiKey}");
 
-            string apiUrl = string.IsNullOrEmpty(config?.ApiUrl) ? "https://api.deepl.com/v2/translate" : config.ApiUrl;
+            string apiUrl = string.IsNullOrEmpty(config?.ApiUrl) ? 
+                "https://api.deepl.com/v2/translate" : TextUtil.NormalizeUrl(config.ApiUrl);
 
             HttpResponseMessage response;
             try

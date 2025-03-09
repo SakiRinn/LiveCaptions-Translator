@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace LiveCaptionsTranslator.utils
 {
@@ -83,6 +84,18 @@ namespace LiveCaptionsTranslator.utils
             }
 
             return previous[len1];
+        }
+
+        public static string NormalizeUrl(string url)
+        {
+            var protocolMatch = Regex.Match(url, @"^(https?:\/\/)");
+            string protocol = protocolMatch.Success ? protocolMatch.Value : "";
+
+            string rest = url.Substring(protocol.Length);
+            rest = Regex.Replace(rest, @"\/{2,}", "/");
+            rest = rest.TrimEnd('/');
+
+            return protocol + rest;
         }
     }
 }
