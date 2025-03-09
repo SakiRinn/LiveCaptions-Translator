@@ -63,7 +63,7 @@ namespace LiveCaptionsTranslator.utils
             {
                 if (ex.Message.StartsWith("The request"))
                     return $"[Translation Failed] {ex.Message}";
-               return string.Empty;
+                return string.Empty;
             }
             catch (Exception ex)
             {
