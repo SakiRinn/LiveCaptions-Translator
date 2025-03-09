@@ -302,8 +302,10 @@ namespace LiveCaptionsTranslator.utils
             {
                 response = await client.PostAsync(apiUrl, content, token);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[Translation Failed] {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
