@@ -18,7 +18,7 @@ namespace LiveCaptionsTranslator.models
             { "th-TH", "th-TH" },
         };
         [JsonIgnore]
-        public Dictionary<string, string> SupportedLanguages
+        public virtual Dictionary<string, string> SupportedLanguages
         {
             get => SUPPORTED_LANGUAGES;
         }
@@ -39,19 +39,7 @@ namespace LiveCaptionsTranslator.models
             public string role { get; set; }
             public string content { get; set; }
         }
-
-        protected static new readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
-        {
-            { "zh-CN", "Simplified Chinese" },
-            { "zh-TW", "Traditional Chinese" },
-            { "en-US", "American English" },
-            { "en-GB", "British English" },
-            { "ja-JP", "Japanese" },
-            { "ko-KR", "Korean" },
-            { "fr-FR", "French" },
-            { "th-TH", "Thai" },
-        };
-
+        
         private string modelName = "";
         private double temperature = 1.0;
 
@@ -203,5 +191,10 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "KO" },
             { "fr-FR", "FR" },
         };
+        
+        public override Dictionary<string, string> SupportedLanguages
+        {
+            get => DEEPL_SUPPORTED_LANGUAGES;
+        }
     }
 }
