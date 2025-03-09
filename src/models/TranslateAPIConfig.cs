@@ -6,6 +6,12 @@ namespace LiveCaptionsTranslator.models
 {
     public class TranslateAPIConfig : INotifyPropertyChanged
     {
+        /*
+         * The key of this field is used as the content for `targetLangBox` in the `SettingPage`.
+         * Its purpose is to standardize the language selection interface.
+         * Therefore, if your API doesn't follow the key format, please override this field with the `new` keyword.
+         * (See the definition of `DeepLConfig` for an example)
+         */
         protected static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
         {
             { "zh-CN", "zh-CN" },
@@ -159,29 +165,7 @@ namespace LiveCaptionsTranslator.models
     
     public class DeepLConfig : TranslateAPIConfig
     {
-        private string _apiKey = "";
-
-        private string _apiUrl = "";
-        public string ApiKey
-        {
-            get => _apiKey;
-            set
-            {
-                _apiKey = value;
-                OnPropertyChanged("ApiKey");
-            }
-        }
-        public string ApiUrl
-        {
-            get => _apiUrl;
-            set
-            {
-                _apiUrl = value;
-                OnPropertyChanged("ApiUrl");
-            }
-        }
-
-        private static readonly Dictionary<string, string> DEEPL_SUPPORTED_LANGUAGES = new()
+        private new static readonly Dictionary<string, string> SUPPORTED_LANGUAGES = new()
         {
             { "zh-CN", "ZH-HANS" },
             { "zh-TW", "ZH-HANT" },
@@ -191,10 +175,27 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "KO" },
             { "fr-FR", "FR" },
         };
-        
-        public override Dictionary<string, string> SupportedLanguages
+
+        private string apiKey = "";
+        private string apiUrl = "";
+
+        public string ApiKey
         {
-            get => DEEPL_SUPPORTED_LANGUAGES;
+            get => apiKey;
+            set
+            {
+                apiKey = value;
+                OnPropertyChanged("ApiKey");
+            }
+        }
+        public string ApiUrl
+        {
+            get => apiUrl;
+            set
+            {
+                apiUrl = value;
+                OnPropertyChanged("ApiUrl");
+            }
         }
     }
 }

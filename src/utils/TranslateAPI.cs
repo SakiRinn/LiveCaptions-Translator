@@ -9,6 +9,10 @@ namespace LiveCaptionsTranslator.utils
 {
     public static class TranslateAPI
     {
+        /*
+         * The key of this field is used as the content for `translateAPIBox` in the `SettingPage`.
+         * If you'd like to add a new API, please insert the key-value pair here.
+         */
         public static readonly Dictionary<string, Func<string, CancellationToken, Task<string>>> 
             TRANSLATE_FUNCS = new()
         {
@@ -19,6 +23,12 @@ namespace LiveCaptionsTranslator.utils
             { "DeepL", DeepL },
             { "OpenRouter", OpenRouter },
         };
+
+        private static readonly HttpClient client = new HttpClient()
+        {
+            Timeout = TimeSpan.FromSeconds(5)
+        };
+
         public static Func<string, CancellationToken, Task<string>> TranslateFunc
         {
             get => TRANSLATE_FUNCS[App.Setting.ApiName];
@@ -27,8 +37,6 @@ namespace LiveCaptionsTranslator.utils
         {
             get => App.Setting.Prompt;
         }
-
-        private static readonly HttpClient client = new HttpClient() { Timeout = TimeSpan.FromSeconds(5) };
 
         public static async Task<string> OpenAI(string text, CancellationToken token = default)
         {
