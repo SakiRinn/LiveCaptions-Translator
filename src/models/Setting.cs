@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Windows.Media;
 
 using LiveCaptionsTranslator.utils;
 
@@ -28,6 +29,17 @@ namespace LiveCaptionsTranslator.models
 
         private Dictionary<string, TranslateAPIConfig> configs;
         private TranslateAPIConfig? currentAPIConfig;
+
+        public Dictionary<int, Brush> CCColorList = new Dictionary<int, Brush> {
+             {1, Brushes.White},
+             {2, Brushes.Yellow},
+             {3, Brushes.LimeGreen},
+             {4, Brushes.Aqua},
+             {5, Brushes.Blue},
+             {6, Brushes.DeepPink},
+             {7, Brushes.Red},
+             {8, Brushes.Black},
+         };
 
         public string ApiName
         {

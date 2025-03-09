@@ -10,7 +10,7 @@
     Width="650"
     Height="135"
     MinWidth="650"
-    MinHeight="135"
+    MinHeight="160"
     AllowsTransparency="True"
     Background="Transparent"
     MouseEnter="Window_MouseEnter"
@@ -41,8 +41,9 @@
             Background="Transparent"
             CornerRadius="8"
             MouseLeftButtonDown="Border_MouseLeftButtonDown">
-            <Grid>
+            <Grid Margin="15,15,15,15">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -56,13 +57,13 @@
                 <ui:Card
                     x:Name="OriginalCaptionCard"
                     Grid.Row="0"
-                    Margin="5,3,5,1"
-                    Padding="8"
+                    Padding="8,0,8,0"
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderThickness="0">
                     <TextBlock
                         x:Name="OriginalCaption"
+                        HorizontalAlignment="Left"
                         FontSize="15"
                         Foreground="#FFFFFFFF"
                         Style="{StaticResource CaptionBlockStyle}"
@@ -80,13 +81,14 @@
                 <ui:Card
                     x:Name="TranslatedCaptionCard"
                     Grid.Row="1"
-                    Margin="5,1,5,3"
-                    Padding="8"
+                    Margin="0,3,0,0"
+                    Padding="8,3,8,0"
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderThickness="0">
                     <TextBlock
                         x:Name="TranslatedCaption"
+                        HorizontalAlignment="Left"
                         FontSize="18"
                         Foreground="#FFFFFFFF"
                         Style="{StaticResource CaptionBlockStyle}"
@@ -102,10 +104,85 @@
                     </TextBlock>
                 </ui:Card>
 
+                <ItemsControl
+                    Grid.Row="2"
+                    MinHeight="50"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Top"
+                    ItemsSource="{Binding DisplayLogCards, UpdateSourceTrigger=PropertyChanged}"
+                    VirtualizingPanel.IsVirtualizing="True">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,15,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.Resources>
+                                    <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                                    </Style>
+                                </Grid.Resources>
+
+                                <ui:Card
+                                    Grid.Row="0"
+                                    Margin="0,0,0,0"
+                                    Padding="8,0,8,0"
+                                    VerticalAlignment="Top"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Visibility="{Binding TranslationOnly}">
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        FontSize="{Binding FontSizeOriginal}"
+                                        FontWeight="{Binding FontWeightOriginal}"
+                                        Foreground="{Binding FontColor}"
+                                        Style="{StaticResource CaptionBlockStyle}"
+                                        Text="{Binding SourceText}">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect
+                                                BlurRadius="5"
+                                                Direction="0"
+                                                Opacity="{Binding FontShadowOriginal}"
+                                                ShadowDepth="0"
+                                                Color="Black" />
+                                        </TextBlock.Effect>
+                                    </TextBlock>
+                                </ui:Card>
+
+                                <ui:Card
+                                    Grid.Row="1"
+                                    Margin="0,0,0,0"
+                                    Padding="8,0,8,0"
+                                    VerticalAlignment="Top"
+                                    Background="Transparent"
+                                    BorderThickness="0">
+                                    <TextBlock
+                                        HorizontalAlignment="Left"
+                                        FontSize="{Binding FontSizeTranslated}"
+                                        FontWeight="{Binding FontWeightTranslated}"
+                                        Foreground="{Binding FontColor}"
+                                        Style="{StaticResource CaptionBlockStyle}"
+                                        Text="{Binding TranslatedText}">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect
+                                                BlurRadius="5"
+                                                Direction="0"
+                                                Opacity="{Binding FontShadowTranslated}"
+                                                ShadowDepth="0"
+                                                Color="Black" />
+                                        </TextBlock.Effect>
+                                    </TextBlock>
+                                </ui:Card>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
                 <StackPanel
                     x:Name="ControlPanel"
-                    Grid.Row="1"
-                    Margin="0,0,5,5"
+                    Grid.Row="2"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Orientation="Horizontal">

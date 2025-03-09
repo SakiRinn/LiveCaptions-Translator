@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.Data.Sqlite;
 
 using LiveCaptionsTranslator.models;
+using System.Windows;
 
 namespace LiveCaptionsTranslator.utils
 {
@@ -179,7 +180,16 @@ namespace LiveCaptionsTranslator.utils
                         SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
                         TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
                         TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
-                        ApiUsed = reader.GetString(reader.GetOrdinal("ApiUsed"))
+                        ApiUsed = reader.GetString(reader.GetOrdinal("ApiUsed")),
+
+                        FontSizeOriginal = App.Setting.SubtitleWindow.FontSize,
+                        FontSizeTranslated = App.Setting.SubtitleWindow.FontSize + 4,
+                        FontShadowOriginal = (App.Setting.SubtitleWindow.FontShadow == 3 ? 1.0 : 0.0),
+                        FontShadowTranslated = (App.Setting.SubtitleWindow.FontShadow >= 2 ? 1.0 : 0.0),
+                        FontColor = App.Setting.CCColorList[App.Setting.SubtitleWindow.FontColor],
+                        FontWeightOriginal = (App.Setting.SubtitleWindow.FontBold >= 3 ? FontWeights.Bold : FontWeights.Regular),
+                        FontWeightTranslated = (App.Setting.SubtitleWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular),
+                        TranslationOnly = ((MainWindow.Current?.SubtitleWindow != null && MainWindow.Current.SubtitleWindow.IsTranslationOnly) ? Visibility.Collapsed : Visibility.Visible),
                     };
                 }
                 return null;

@@ -8,6 +8,7 @@ namespace LiveCaptionsTranslator
 {
     public partial class MainWindow : FluentWindow
     {
+        public static MainWindow Current;
         public SubtitleWindow? SubtitleWindow { get; set; } = null;
 
         public MainWindow()
@@ -29,6 +30,8 @@ namespace LiveCaptionsTranslator
             WindowHandler.RestoreState(this, windowState);
             ToggleTopmost(App.Setting.MainWindow.Topmost);
             EnableCaptionLog(App.Setting.MainWindow.CaptionLogEnabled);
+
+            Current = this;
         }
 
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
