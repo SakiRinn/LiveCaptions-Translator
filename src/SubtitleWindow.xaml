@@ -35,10 +35,6 @@
             x:Name="BorderBackground"
             Margin="5"
             Background="#80000000"
-            CornerRadius="8" />
-        <Border
-            Margin="5"
-            Background="Transparent"
             CornerRadius="8"
             MouseLeftButtonDown="Border_MouseLeftButtonDown">
             <Grid>
