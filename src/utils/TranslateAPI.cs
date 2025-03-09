@@ -278,10 +278,10 @@ namespace LiveCaptionsTranslator.utils
         
         public static async Task<string> DeepL(string text, CancellationToken token = default)
         {
-            var config = App.Settings.CurrentAPIConfig as DeepLConfig;
-            string language = config.SupportedLanguages.TryGetValue(App.Settings.TargetLanguage, out var langValue) 
+            var config = App.Setting.CurrentAPIConfig as DeepLConfig;
+            string language = config.SupportedLanguages.TryGetValue(App.Setting.TargetLanguage, out var langValue) 
                 ? langValue 
-                : App.Settings.TargetLanguage;
+                : App.Setting.TargetLanguage;
 
             var requestData = new
             {
