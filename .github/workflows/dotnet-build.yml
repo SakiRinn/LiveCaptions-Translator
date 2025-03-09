@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - '*'
+    tags:
+      - 'v*'
     paths:
       - 'src/**'
       - 'Properties/**'
