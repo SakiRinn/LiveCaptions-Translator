@@ -1,4 +1,4 @@
-﻿# LiveCaptions Translator ![master-build](https://github.com/SakiRinn/LiveCaptions-Translator/actions/workflows/dotnet-build.yml/badge.svg?branch=master)   [![GitHub Release](https://img.shields.io/github/v/release/SakiRinn/LiveCaptions-Translator?label=Latest)](https://github.com/SakiRinn/LiveCaptions-Translator/releases/latest) [![Wiki](https://img.shields.io/badge/Wiki-GitHub-blue)](https://github.com/SakiRinn/LiveCaptions-Translatorwiki)
+﻿# LiveCaptions Translator ![master-build](https://github.com/SakiRinn/LiveCaptions-Translator/actions/workflows/dotnet-build.yml/badge.svg?branch=master)   [![GitHub Release](https://img.shields.io/github/v/release/SakiRinn/LiveCaptions-Translator?label=Latest)](https://github.com/SakiRinn/LiveCaptions-Translator/releases/latest) [![Wiki](https://img.shields.io/badge/Wiki-GitHub-blue)](https://github.com/SakiRinn/LiveCaptions-Translator/wiki)
 
 
 ***LiveCaptions Translator = Windows LiveCaptions + Translate API***
@@ -16,15 +16,16 @@ Download it from the [Releases](https://github.com/SakiRinn/LiveCaptions-Transla
 + Switch bright and dark theme automatically. (Follow system theme)
 + Currently supports Ollama, OpenAI like API, OpenRouter, and Google Translate. You are welcomed to implement more apis.
 + Buttons to keep the window on top and pause translation, translation-only mode, transparent mode.
-+ Record what have been translated though Live Captions.
++ Record what have been translated through Live Captions.
++ Copy the translated text with a click.
 
 ## Prerequisite
 
-This tool is based on Windows LiveCaptions, which is available in Windows 11, version 22H2 and later.
+This tool is based on Windows LiveCaptions, which is available since Windows 11 22H2.
 
 We suggest you have .NET runtime 8.0 or higher installed. If you are not available to install one, you can download the `with runtime` version but its size is bigger.
 
-Read the [![Wiki](https://img.shields.io/badge/Wiki-GitHub-blue?style=flat-square)](https://github.com/SakiRinn/LiveCaptions-Translator/wiki) before you use.
+Read the [![Wiki](https://img.shields.io/badge/Wiki-GitHub-blue)](https://github.com/SakiRinn/LiveCaptions-Translator/wiki) before getting started.
 
 ## Before your first running
 
@@ -40,7 +41,7 @@ If your Windows version is proper, you can confirm whether Windows LiveCaptions 
 + Select **Start** > **All apps** > **Accessibility** > **Live captions**.
 + Go to **Settings** > **Accessibility** > **Captions** and turn on the **Live captions** toggle.
 
-When turned on the first time, live captions will ask for your consent to process voice data on your device and prompt you to download language files to be used by on-device speech recognition.
+When you start for the first time, live captions will ask for your consent to process voice data on your device and prompt you to download language files to be used by on-device speech recognition.
 
 After launching Windows LiveCaptions, you can click the **⚙️gear** icon to open the setting menu.
 
