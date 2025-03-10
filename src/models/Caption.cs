@@ -77,7 +77,7 @@ namespace LiveCaptionsTranslator.models
                 {
                     fullText = LiveCaptionsHandler.GetCaptions(App.Window);     // 10-20ms
                 }
-                catch (ElementNotAvailableException ex)
+                catch (ElementNotAvailableException)
                 {
                     App.Window = null;
                     continue;

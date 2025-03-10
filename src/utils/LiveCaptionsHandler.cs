@@ -7,6 +7,8 @@ namespace LiveCaptionsTranslator.utils
     {
         public static readonly string PROCESS_NAME = "LiveCaptions";
 
+        private static AutomationElement? captionsTextBlock = null;
+
         public static AutomationElement LaunchLiveCaptions()
         {
             // Init
@@ -78,10 +80,17 @@ namespace LiveCaptionsTranslator.utils
 
         public static string GetCaptions(AutomationElement window)
         {
-            var captionsTextBlock = FindElementByAId(window, "CaptionsTextBlock");
             if (captionsTextBlock == null)
-                return string.Empty;
-            return captionsTextBlock.Current.Name;
+                captionsTextBlock = FindElementByAId(window, "CaptionsTextBlock");
+            try
+            {
+                return captionsTextBlock?.Current.Name ?? string.Empty;
+            }
+            catch (ElementNotAvailableException)
+            {
+                captionsTextBlock = null;
+                throw;
+            }
         }
 
         private static AutomationElement FindWindowByPId(int processId)
@@ -91,12 +100,8 @@ namespace LiveCaptionsTranslator.utils
         }
 
         public static AutomationElement? FindElementByAId(
-            AutomationElement window, 
-            string automationId,
-            CancellationToken cancellationToken = default)
+            AutomationElement window, string automationId, CancellationToken token = default)
         {
-            if (window == null) return null;
-
             try
             {
                 PropertyCondition condition = new PropertyCondition(
@@ -104,7 +109,7 @@ namespace LiveCaptionsTranslator.utils
                     automationId);
                 return window.FindFirst(TreeScope.Descendants, condition);
             }
-            catch (Exception) when (cancellationToken.IsCancellationRequested)
+            catch (Exception) when (token.IsCancellationRequested)
             {
                 return null;
             }
