@@ -40,8 +40,13 @@ namespace LiveCaptionsTranslator.models
         public bool TranslateFlag { get; set; } = false;
         public bool LogOnlyFlag { get; set; } = false;
 
-        public Queue<TranslationHistoryEntry> LogCards { get; } = new(6);
-        public IEnumerable<TranslationHistoryEntry> DisplayLogCards => LogCards.Reverse();
+        public class CaptionLogItem
+        {
+            public required string SourceText { get; set; }
+            public required string TranslatedText { get; set; }
+        }
+        public Queue<CaptionLogItem> LogCards { get; } = new(6);
+        public IEnumerable<CaptionLogItem> DisplayLogCards => LogCards.Reverse();
 
         private Caption() { }
 
@@ -62,6 +67,8 @@ namespace LiveCaptionsTranslator.models
         {
             int idleCount = 0;
             int syncCount = 0;
+            string originalLatest = "originalLatest";
+            string captionLatest = "";
 
             while (true)
             {
@@ -71,6 +78,8 @@ namespace LiveCaptionsTranslator.models
                     continue;
                 }
 
+                // Is original caption textbox change to next sentence?
+                bool captionChanged = false;
                 // Get the text recognized by LiveCaptions.
                 string fullText = string.Empty;
                 try
@@ -109,11 +118,17 @@ namespace LiveCaptionsTranslator.models
                     // If the last sentence is too short, extend it by adding the previous sentence when displayed.
                     if (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 12)
                     {
+                        captionChanged = true;
                         lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(TextUtil.PUNC_EOS);
                         DisplayOriginalCaption = fullText.Substring(lastEOSIndex + 1);
                     }
                     // If the last sentence is too long, truncate it when displayed.
-                    DisplayOriginalCaption = TextUtil.ShortenDisplaySentence(DisplayOriginalCaption, 160);
+                    string newDOC = TextUtil.ShortenDisplaySentence(DisplayOriginalCaption, 160);
+                    if (DisplayOriginalCaption != newDOC)
+                    {
+                        captionChanged = true;
+                    }
+                    DisplayOriginalCaption = newDOC;
                 }
 
                 // OriginalCaption: The sentence to be really translated.
@@ -128,7 +143,23 @@ namespace LiveCaptionsTranslator.models
                     {
                         syncCount = 0;
                         TranslateFlag = true;
+                        captionChanged = true;
                     }
+
+                    if (DisplayOriginalCaption != OriginalCaption)
+                        captionChanged = true;
+
+                    // If the sentence changerd, push previous DisplayOriginalCaption to history handler
+                    if (captionChanged)
+                    {
+                        if (captionLatest != originalLatest) // Prevent from spamming logging
+                        {
+                            originalLatest = captionLatest;
+                            Task.Run(() => HistoryAdd(DisplayOriginalCaption)); // Spawn a new thread to push DisplayOriginalCaption to async function
+                        }
+                    }
+                    else
+                        captionLatest = DisplayOriginalCaption;
                 }
                 else
                     idleCount++;
@@ -171,12 +202,7 @@ namespace LiveCaptionsTranslator.models
                 {
                     var originalSnapshot = OriginalCaption;
 
-                    if (LogOnlyFlag)
-                    {
-                        bool isOverwrite = await Translator.IsOverwrite(originalSnapshot);
-                        await Translator.LogOnly(originalSnapshot, isOverwrite);
-                    }
-                    else
+                    if (!LogOnlyFlag)
                     {
                         translationTaskQueue.Enqueue(token => Task.Run(
                             () => Translator.Translate(OriginalCaption, token), token)
@@ -192,15 +218,45 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public async Task AddLogCard(CancellationToken token = default)
+        private async Task HistoryAdd(string original)
         {
-            var lastLog = await SQLiteHistoryLogger.LoadLastTranslation(token);
-            if (lastLog == null)
-                return;
-            if (LogCards.Count >= App.Setting?.MainWindow.CaptionLogMax)
-                LogCards.Dequeue();
-            LogCards.Enqueue(lastLog);
-            OnPropertyChanged("DisplayLogCards");
+            string unixTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+            string translated = "[Paused]";
+            string targetLanguage = App.Setting.TargetLanguage;
+            string apiName = App.Setting.ApiName;
+            bool captionLog = App.Setting.MainWindow.CaptionLogEnabled;
+
+            // Add history to sqlite
+            try
+            {
+                if (LogOnlyFlag) // Log only mode, don't translate
+                {
+                    SQLiteHistoryLogger.LogTranslation(unixTime, original, "N/A", "N/A", "LogOnly");
+                }
+                else
+                {
+                    // Translate the full sentence again due to tick of Task Translate() and TranslateFlag make it lack of translated
+                    translated = await Translator.Translate(original);
+                    SQLiteHistoryLogger.LogTranslation(unixTime, original, translated, targetLanguage, apiName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
+            }
+
+            // Add caption log card
+            if (captionLog)
+            {
+                if (LogCards.Count >= App.Setting?.MainWindow.CaptionLogMax)
+                    LogCards.Dequeue();
+                LogCards.Enqueue(new CaptionLogItem
+                {
+                    SourceText = original,
+                    TranslatedText = translated
+                });
+                OnPropertyChanged("DisplayLogCards");
+            }
         }
     }
 }

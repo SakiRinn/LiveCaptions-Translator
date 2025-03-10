@@ -62,7 +62,7 @@ namespace LiveCaptionsTranslator.utils
             }
         }
 
-        public static async Task LogTranslation(string sourceText, string translatedText,
+        public static async Task LogTranslation(string unixTime, string sourceText, string translatedText,
             string targetLanguage, string apiUsed, CancellationToken token = default)
         {
             string insertQuery = @"
@@ -71,7 +71,7 @@ namespace LiveCaptionsTranslator.utils
 
             using (var command = new SqliteCommand(insertQuery, GetConnection()))
             {
-                command.Parameters.AddWithValue("@Timestamp", DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+                command.Parameters.AddWithValue("@Timestamp", unixTime);
                 command.Parameters.AddWithValue("@SourceText", sourceText);
                 command.Parameters.AddWithValue("@TranslatedText", translatedText);
                 command.Parameters.AddWithValue("@TargetLanguage", targetLanguage);
