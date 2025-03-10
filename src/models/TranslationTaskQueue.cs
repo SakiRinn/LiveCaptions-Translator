@@ -45,11 +45,6 @@ namespace LiveCaptionsTranslator.models
                     tasks.RemoveAt(i);
             }
             translatedText = translationTask.Task.Result;
-            // Log after translation.
-            bool isOverwrite = await Translator.IsOverwrite(translationTask.OriginalText);
-            if (!isOverwrite)
-                await App.Caption.AddLogCard();
-            await Translator.Log(translationTask.OriginalText, translatedText, isOverwrite);
         }
     }
 
