@@ -25,6 +25,10 @@ namespace LiveCaptionsTranslator.utils
                 if (attemptCount > 10000)
                     throw new Exception("Failed to launch!");
             }
+
+            LiveCaptionsHandler.FixLiveCaptions(window);
+            LiveCaptionsHandler.HideLiveCaptions(window);
+
             return window;
         }
 
