@@ -26,9 +26,6 @@ namespace LiveCaptionsTranslator.utils
                     throw new Exception("Failed to launch!");
             }
 
-            LiveCaptionsHandler.FixLiveCaptions(window);
-            LiveCaptionsHandler.HideLiveCaptions(window);
-
             return window;
         }
 
@@ -109,15 +106,14 @@ namespace LiveCaptionsTranslator.utils
             try
             {
                 PropertyCondition condition = new PropertyCondition(
-                    AutomationElement.AutomationIdProperty,
-                    automationId);
+                    AutomationElement.AutomationIdProperty, automationId);
                 return window.FindFirst(TreeScope.Descendants, condition);
             }
-            catch (Exception) when (token.IsCancellationRequested)
+            catch (OperationCanceledException)
             {
                 return null;
             }
-            catch (Exception)
+            catch (NullReferenceException)
             {
                 return null;
             }

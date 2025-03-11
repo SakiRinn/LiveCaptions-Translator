@@ -31,6 +31,8 @@ namespace LiveCaptionsTranslator
             AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
 
             window = LiveCaptionsHandler.LaunchLiveCaptions();
+            LiveCaptionsHandler.FixLiveCaptions(window);
+            LiveCaptionsHandler.HideLiveCaptions(window);
 
             caption = Caption.GetInstance();
             setting = Setting.Load();
