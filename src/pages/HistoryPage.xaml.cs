@@ -5,6 +5,7 @@ using Wpf.Ui.Controls;
 
 using LiveCaptionsTranslator.utils;
 using LiveCaptionsTranslator.models;
+using TextBlock = System.Windows.Controls.TextBlock;
 
 namespace LiveCaptionsTranslator
 {
@@ -70,17 +71,28 @@ namespace LiveCaptionsTranslator
 
         private async void DeleteHistory(object sender, RoutedEventArgs e)
         {
+            var dialogHostContainer = (Application.Current.MainWindow as MainWindow)?.DialogHostContainer;
+
             var dialog = new ContentDialog
             {
-                Title = "Do you want to delete all history?",
+                Title = new TextBlock
+                {
+                    Text = "Do you want to delete all history?", 
+                    FontSize = 18, 
+                    FontWeight = FontWeights.Regular
+                },
+                Content = "This operation cannot be undone!",
                 PrimaryButtonText = "Yes",
                 CloseButtonText = "No",
                 DefaultButton = ContentDialogButton.Close,
-                DialogHost = (Application.Current.MainWindow as MainWindow)?.DialogHostContainer,
+                DialogHost = dialogHostContainer,
                 Padding = new Thickness(8, 4, 8, 8),
             };
 
+            dialogHostContainer.Visibility = Visibility.Visible;
             var result = await dialog.ShowAsync();
+            dialogHostContainer.Visibility = Visibility.Collapsed;
+
             if (result == ContentDialogResult.Primary)
             {
                 currentPage = 1;

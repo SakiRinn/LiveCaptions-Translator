@@ -8,7 +8,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="LiveCaptionsTranslator"
     Width="750"
-    Height="170"
+    Height="167"
     MinWidth="750"
     MinHeight="167"
     Background="Transparent"
@@ -43,7 +43,7 @@
                             Margin="0,0,5,0"
                             Appearance="Transparent"
                             Click="CaptionLog_OnClickButton_Click"
-                            Icon="{ui:SymbolIcon History24,
+                            Icon="{ui:SymbolIcon History16,
                                                  Filled=False}"
                             ToolTip="Caption Log" />
                         <ui:Button
@@ -59,7 +59,7 @@
                             Margin="0,0,5,0"
                             Appearance="Transparent"
                             Click="OverlaySubtitleModeButton_Click"
-                            Icon="{ui:SymbolIcon WindowNew20,
+                            Icon="{ui:SymbolIcon WindowNew24,
                                                  Filled=False}"
                             ToolTip="Overlay Translate Mode" />
                         <ui:Button
@@ -80,8 +80,9 @@
                 Height="Auto"
                 HeaderVisibility="Collapsed"
                 IsBackButtonVisible="Collapsed"
+                IsPaneOpen="False"
                 IsPaneToggleVisible="False"
-                PaneDisplayMode="LeftFluent">
+                PaneDisplayMode="LeftMinimal">
                 <ui:NavigationView.MenuItems>
                     <ui:NavigationViewItem
                         Margin="0,6,0,3"
@@ -115,6 +116,9 @@
                 </ui:NavigationView.MenuItems>
             </ui:NavigationView>
         </Grid>
-        <ContentPresenter x:Name="DialogHostContainer" MinHeight="175" />
+        <ContentPresenter
+            x:Name="DialogHostContainer"
+            MinHeight="167"
+            Visibility="Collapsed" />
     </Grid>
 </ui:FluentWindow>

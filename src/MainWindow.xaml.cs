@@ -18,9 +18,9 @@ namespace LiveCaptionsTranslator
             Loaded += (sender, args) =>
             {
                 SystemThemeWatcher.Watch(
-                    this,                                   // Window class
-                    WindowBackdropType.Mica,                // Background type
-                    true                                    // Whether to change accents automatically
+                    this,
+                    WindowBackdropType.Mica,
+                    true
                 );
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
@@ -59,7 +59,7 @@ namespace LiveCaptionsTranslator
             else if (!SubtitleWindow.IsTranslationOnly)
             {
                 // Translation Only
-                symbolIcon.Symbol = SymbolRegular.TextAddSpaceBefore20;
+                symbolIcon.Symbol = SymbolRegular.TextAddSpaceBefore24;
 
                 SubtitleWindow.IsTranslationOnly = true;
                 SubtitleWindow.Focus();
