@@ -129,13 +129,16 @@ namespace LiveCaptionsTranslator.models
                 if (previousEOSIndex != lastEOSIndex)
                 {
                     previousEOSIndex = lastEOSIndex;
-                    if (previousHistory.CompareTo(previousCaption) != 0) // Prevent from spamming logging
+
+                    int eosIndex = previousCaption.LastIndexOfAny(TextUtil.PUNC_EOS) + 1;
+                    string caption = previousCaption.Substring(0, eosIndex);
+                    if (!string.IsNullOrEmpty(caption))
                     {
-                        previousHistory = previousCaption;
-                        int eosIndex = previousCaption.LastIndexOfAny(TextUtil.PUNC_EOS) + 1;
-                        string caption = previousCaption.Substring(0, eosIndex);
-                        if (!string.IsNullOrEmpty(caption))
+                        if (previousHistory.CompareTo(caption) != 0) // Prevent from spamming logging
+                        {
+                            previousHistory = caption;
                             Task.Run(() => HistoryAdd(caption)); // Spawn a new thread to push DisplayOriginalCaption to async function
+                        }
                     }
                 }
                 else // Keep storing previous sentence
