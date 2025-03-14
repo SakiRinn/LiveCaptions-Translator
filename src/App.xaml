@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     ShutdownMode="OnMainWindowClose"
-    StartupUri="MainWindow.xaml">
+    StartupUri="windows\MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -26,11 +26,11 @@ namespace LiveCaptionsTranslator.utils
 
         public static Func<string, CancellationToken, Task<string>> TranslateFunction
         {
-            get => TRANSLATE_FUNCTIONS[App.Setting.ApiName];
+            get => TRANSLATE_FUNCTIONS[Translator.Setting.ApiName];
         }
         public static string Prompt
         {
-            get => App.Setting.Prompt;
+            get => Translator.Setting.Prompt;
         }
 
         private static readonly HttpClient client = new HttpClient()
@@ -40,10 +40,10 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> OpenAI(string text, CancellationToken token = default)
         {
-            var config = App.Setting.CurrentAPIConfig as OpenAIConfig;
-            string language = config.SupportedLanguages.TryGetValue(App.Setting.TargetLanguage, out var langValue) 
+            var config = Translator.Setting.CurrentAPIConfig as OpenAIConfig;
+            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue) 
                 ? langValue 
-                : App.Setting.TargetLanguage; 
+                : Translator.Setting.TargetLanguage; 
             var requestData = new
             {
                 model = config?.ModelName,
@@ -90,11 +90,11 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> Ollama(string text, CancellationToken token = default)
         {
-            var config = App.Setting?.CurrentAPIConfig as OllamaConfig;
+            var config = Translator.Setting?.CurrentAPIConfig as OllamaConfig;
             var apiUrl = $"http://localhost:{config.Port}/api/chat";
-            string language = config.SupportedLanguages.TryGetValue(App.Setting.TargetLanguage, out var langValue) 
+            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue) 
                 ? langValue 
-                : App.Setting.TargetLanguage; 
+                : Translator.Setting.TargetLanguage; 
 
             var requestData = new
             {
@@ -141,7 +141,7 @@ namespace LiveCaptionsTranslator.utils
 
         private static async Task<string> Google(string text, CancellationToken token = default)
         {
-            var language = App.Setting?.TargetLanguage;
+            var language = Translator.Setting?.TargetLanguage;
 
             string encodedText = Uri.EscapeDataString(text);
             var url = $"https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl={language}&q={encodedText}";
@@ -178,7 +178,7 @@ namespace LiveCaptionsTranslator.utils
         private static async Task<string> Google2(string text, CancellationToken token = default)
         {
             string apiKey = "AIzaSyA6EEtrDCfBkHV8uU2lgGY-N383ZgAOo7Y";
-            var language = App.Setting?.TargetLanguage;
+            var language = Translator.Setting?.TargetLanguage;
             string strategy = "2";
 
             string encodedText = Uri.EscapeDataString(text);
@@ -228,8 +228,8 @@ namespace LiveCaptionsTranslator.utils
         
         public static async Task<string> OpenRouter(string text, CancellationToken token = default)
         {
-            var config = App.Setting.CurrentAPIConfig as OpenRouterConfig;
-            var language = config?.SupportedLanguages[App.Setting.TargetLanguage];
+            var config = Translator.Setting.CurrentAPIConfig as OpenRouterConfig;
+            var language = config?.SupportedLanguages[Translator.Setting.TargetLanguage];
             var apiUrl = "https://openrouter.ai/api/v1/chat/completions";
 
             var requestData = new
@@ -286,10 +286,10 @@ namespace LiveCaptionsTranslator.utils
         
         public static async Task<string> DeepL(string text, CancellationToken token = default)
         {
-            var config = App.Setting.CurrentAPIConfig as DeepLConfig;
-            string language = config.SupportedLanguages.TryGetValue(App.Setting.TargetLanguage, out var langValue) 
+            var config = Translator.Setting.CurrentAPIConfig as DeepLConfig;
+            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue) 
                 ? langValue 
-                : App.Setting.TargetLanguage;
+                : Translator.Setting.TargetLanguage;
 
             var requestData = new
             {

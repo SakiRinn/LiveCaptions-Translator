@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
+using LiveCaptionsTranslator.utils;
+
 namespace LiveCaptionsTranslator
 {
     public partial class CaptionPage : Page
@@ -13,13 +15,13 @@ namespace LiveCaptionsTranslator
         public CaptionPage()
         {
             InitializeComponent();
-            DataContext = App.Caption;
+            DataContext = Translator.Caption;
             Instance = this;
 
-            Loaded += (s, e) => App.Caption.PropertyChanged += TranslatedChanged;
-            Unloaded += (s, e) => App.Caption.PropertyChanged -= TranslatedChanged;
+            Loaded += (s, e) => Translator.Caption.PropertyChanged += TranslatedChanged;
+            Unloaded += (s, e) => Translator.Caption.PropertyChanged -= TranslatedChanged;
 
-            CollapseTranslatedCaption(App.Setting.MainWindow.CaptionLogEnabled);
+            CollapseTranslatedCaption(Translator.Setting.MainWindow.CaptionLogEnabled);
         }
 
         private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
@@ -42,9 +44,9 @@ namespace LiveCaptionsTranslator
 
         private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(App.Caption.DisplayTranslatedCaption))
+            if (e.PropertyName == nameof(Translator.Caption.DisplayTranslatedCaption))
             {
-                if (Encoding.UTF8.GetByteCount(App.Caption.DisplayTranslatedCaption) >= AppMain.LONG_THRESHOLD)
+                if (Encoding.UTF8.GetByteCount(Translator.Caption.DisplayTranslatedCaption) >= TextUtil.LONG_THRESHOLD)
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                     {

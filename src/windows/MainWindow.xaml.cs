@@ -8,7 +8,7 @@ namespace LiveCaptionsTranslator
 {
     public partial class MainWindow : FluentWindow
     {
-        public SubtitleWindow? SubtitleWindow { get; set; } = null;
+        public OverlayWindow? SubtitleWindow { get; set; } = null;
 
         public MainWindow()
         {
@@ -25,10 +25,10 @@ namespace LiveCaptionsTranslator
             };
             Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
 
-            var windowState = WindowHandler.LoadState(this, App.Setting);
+            var windowState = WindowHandler.LoadState(this, Translator.Setting);
             WindowHandler.RestoreState(this, windowState);
-            ToggleTopmost(App.Setting.MainWindow.Topmost);
-            EnableCaptionLog(App.Setting.MainWindow.CaptionLogEnabled);
+            ToggleTopmost(Translator.Setting.MainWindow.Topmost);
+            EnableCaptionLog(Translator.Setting.MainWindow.CaptionLogEnabled);
         }
 
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
@@ -46,13 +46,13 @@ namespace LiveCaptionsTranslator
                 // Caption + Translation
                 symbolIcon.Symbol = SymbolRegular.TextUnderlineDouble20;
 
-                SubtitleWindow = new SubtitleWindow();
+                SubtitleWindow = new OverlayWindow();
                 SubtitleWindow.SizeChanged +=
-                    (s, e) => WindowHandler.SaveState(SubtitleWindow, App.Setting);
+                    (s, e) => WindowHandler.SaveState(SubtitleWindow, Translator.Setting);
                 SubtitleWindow.LocationChanged +=
-                    (s, e) => WindowHandler.SaveState(SubtitleWindow, App.Setting);
+                    (s, e) => WindowHandler.SaveState(SubtitleWindow, Translator.Setting);
 
-                var windowState = WindowHandler.LoadState(SubtitleWindow, App.Setting);
+                var windowState = WindowHandler.LoadState(SubtitleWindow, Translator.Setting);
                 WindowHandler.RestoreState(SubtitleWindow, windowState);
                 SubtitleWindow.Show();
             }
@@ -80,28 +80,28 @@ namespace LiveCaptionsTranslator
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
 
-            if (AppMain.LogOnlyFlag)
+            if (Translator.LogOnlyFlag)
             {
-                AppMain.LogOnlyFlag = false;
+                Translator.LogOnlyFlag = false;
                 symbolIcon.Filled = false;
             }
             else
             {
-                AppMain.LogOnlyFlag = true;
+                Translator.LogOnlyFlag = true;
                 symbolIcon.Filled = true;
             }
         }
 
         private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Setting.MainWindow.CaptionLogEnabled = !App.Setting.MainWindow.CaptionLogEnabled;
-            EnableCaptionLog(App.Setting.MainWindow.CaptionLogEnabled);
+            Translator.Setting.MainWindow.CaptionLogEnabled = !Translator.Setting.MainWindow.CaptionLogEnabled;
+            EnableCaptionLog(Translator.Setting.MainWindow.CaptionLogEnabled);
         }
 
         private void MainWindow_BoundsChanged(object sender, EventArgs e)
         {
             var window = sender as Window;
-            WindowHandler.SaveState(window, App.Setting);
+            WindowHandler.SaveState(window, Translator.Setting);
         }
 
         private void ToggleTopmost(bool enabled)
@@ -110,7 +110,7 @@ namespace LiveCaptionsTranslator
             var symbolIcon = button?.Icon as SymbolIcon;
             symbolIcon.Filled = enabled;
             this.Topmost = enabled;
-            App.Setting.MainWindow.Topmost = enabled;
+            Translator.Setting.MainWindow.Topmost = enabled;
         }
 
         private void EnableCaptionLog(bool enable)

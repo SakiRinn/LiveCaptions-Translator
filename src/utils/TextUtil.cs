@@ -7,6 +7,11 @@ namespace LiveCaptionsTranslator.utils
     {
         public static readonly char[] PUNC_EOS = ".?!。？！".ToCharArray();
         public static readonly char[] PUNC_COMMA = ",，、—\n".ToCharArray();
+        
+        public const int SHORT_THRESHOLD = 12;
+        public const int MEDIUM_THRESHOLD = 32;
+        public const int LONG_THRESHOLD = 160;
+        public const int VERYLONG_THRESHOLD = 200;
 
         public static string ShortenDisplaySentence(string text, int maxByteLength)
         {

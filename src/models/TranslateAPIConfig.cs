@@ -30,7 +30,7 @@ namespace LiveCaptionsTranslator.models
         public void OnPropertyChanged([CallerMemberName] string propName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-            App.Setting?.Save();
+            Translator.Setting?.Save();
         }
     }
 

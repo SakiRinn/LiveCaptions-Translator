@@ -54,16 +54,5 @@ namespace LiveCaptionsTranslator.models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
         }
-
-        public async Task AddLogCard(CancellationToken token = default)
-        {
-            var lastLog = await SQLiteHistoryLogger.LoadLastTranslation(token);
-            if (lastLog == null)
-                return;
-            if (LogCards.Count >= App.Setting?.MainWindow.CaptionLogMax)
-                LogCards.Dequeue();
-            LogCards.Enqueue(lastLog);
-            OnPropertyChanged("DisplayLogCards");
-        }
     }
 }

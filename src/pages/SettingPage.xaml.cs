@@ -13,9 +13,9 @@ namespace LiveCaptionsTranslator
         {
             InitializeComponent();
             ApplicationThemeManager.ApplySystemTheme();
-            DataContext = App.Setting;
+            DataContext = Translator.Setting;
 
-            translateAPIBox.ItemsSource = App.Setting.Configs.Keys;
+            translateAPIBox.ItemsSource = Translator.Setting?.Configs.Keys;
             translateAPIBox.SelectedIndex = 0;
             LoadAPISetting();
 
@@ -25,21 +25,21 @@ namespace LiveCaptionsTranslator
 
         private void Button_LiveCaptions(object sender, RoutedEventArgs e)
         {
-            if (App.Window == null)
+            if (Translator.Window == null)
                 return;
 
             var button = sender as Wpf.Ui.Controls.Button;
             var text = ButtonText.Text;
 
-            bool isHide = App.Window.Current.BoundingRectangle == Rect.Empty;
+            bool isHide = Translator.Window.Current.BoundingRectangle == Rect.Empty;
             if (isHide)
             {
-                LiveCaptionsHandler.RestoreLiveCaptions(App.Window);
+                LiveCaptionsHandler.RestoreLiveCaptions(Translator.Window);
                 ButtonText.Text = "Hide";
             }
             else
             {
-                LiveCaptionsHandler.HideLiveCaptions(App.Window);
+                LiveCaptionsHandler.HideLiveCaptions(Translator.Window);
                 ButtonText.Text = "Show";
             }
         }
@@ -53,13 +53,13 @@ namespace LiveCaptionsTranslator
         {
             if (targetLangBox.SelectedItem != null)
             {
-                App.Setting.TargetLanguage = targetLangBox.SelectedItem.ToString();
+                Translator.Setting.TargetLanguage = targetLangBox.SelectedItem.ToString();
             }
         }
 
         private void targetLangBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            App.Setting.TargetLanguage = targetLangBox.Text;
+            Translator.Setting.TargetLanguage = targetLangBox.Text;
         }
 
         private void TargetLangButton_MouseEnter(object sender, MouseEventArgs e)
@@ -94,15 +94,15 @@ namespace LiveCaptionsTranslator
 
         private void captionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            while (App.Caption.LogCards.Count > App.Setting.MainWindow.CaptionLogMax)
-                App.Caption.LogCards.Dequeue();
-            App.Caption.OnPropertyChanged("DisplayLogCards");
+            while (Translator.Caption.LogCards.Count > Translator.Setting.MainWindow.CaptionLogMax)
+                Translator.Caption.LogCards.Dequeue();
+            Translator.Caption.OnPropertyChanged("DisplayLogCards");
         }
 
         private void LoadAPISetting()
         {
-            string targetLang = App.Setting.TargetLanguage;
-            var supportedLanguages = App.Setting.CurrentAPIConfig.SupportedLanguages;
+            string targetLang = Translator.Setting.TargetLanguage;
+            var supportedLanguages = Translator.Setting.CurrentAPIConfig.SupportedLanguages;
             targetLangBox.ItemsSource = supportedLanguages.Keys;
 
             // Add custom target language to ComboBox
@@ -117,7 +117,7 @@ namespace LiveCaptionsTranslator
                 if (element is Grid childGrid)
                     childGrid.Visibility = Visibility.Collapsed;
             }
-            var settingGrid = FindName($"{App.Setting.ApiName}Grid") as Grid ?? FindName($"NoSettingGrid") as Grid;
+            var settingGrid = FindName($"{Translator.Setting.ApiName}Grid") as Grid ?? FindName($"NoSettingGrid") as Grid;
             settingGrid.Visibility = Visibility.Visible;
         }
     }

@@ -147,7 +147,7 @@ namespace LiveCaptionsTranslator.models
             windowBounds = new Dictionary<string, string>
             {
                 { "MainWindow", "1, 1, 1, 1" },
-                { "SubtitleWindow", "1, 1, 1, 1" },
+                { "OverlayWindow", "1, 1, 1, 1" },
             };
             configs = new Dictionary<string, TranslateAPIConfig>
             {
@@ -223,7 +223,7 @@ namespace LiveCaptionsTranslator.models
         public void OnPropertyChanged([CallerMemberName] string propName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-            App.Setting?.Save();
+            Translator.Setting?.Save();
         }
     }
 
@@ -276,7 +276,7 @@ namespace LiveCaptionsTranslator.models
         public void OnPropertyChanged([CallerMemberName] string propName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-            App.Setting?.Save();
+            Translator.Setting?.Save();
         }
     }
 
@@ -349,7 +349,7 @@ namespace LiveCaptionsTranslator.models
         public void OnPropertyChanged([CallerMemberName] string propName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-            App.Setting?.Save();
+            Translator.Setting?.Save();
         }
     }
 }
