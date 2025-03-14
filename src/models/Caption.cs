@@ -69,7 +69,7 @@ namespace LiveCaptionsTranslator.models
             int idleCount = 0;
             int syncCount = 0;
             int previousEOSIndex = -1;
-            string previousHistory = string.Empty;
+            string previousHistory = "--";
             string previousCaption = string.Empty;
 
             while (true)
@@ -129,9 +129,14 @@ namespace LiveCaptionsTranslator.models
                 if (previousEOSIndex != lastEOSIndex)
                 {
                     previousEOSIndex = lastEOSIndex;
-                    if (previousHistory.CompareTo(previousCaption) == 0) // Prevent from spamming logging
+                    if (previousHistory.CompareTo(previousCaption) != 0) // Prevent from spamming logging
+                    {
                         previousHistory = previousCaption;
-                        Task.Run(() => HistoryAdd(previousCaption)); // Spawn a new thread to push DisplayOriginalCaption to async function
+                        int eosIndex = previousCaption.LastIndexOfAny(TextUtil.PUNC_EOS) + 1;
+                        string caption = previousCaption.Substring(0, eosIndex);
+                        if (!string.IsNullOrEmpty(caption))
+                            Task.Run(() => HistoryAdd(caption)); // Spawn a new thread to push DisplayOriginalCaption to async function
+                    }
                 }
                 else // Keep storing previous sentence
                     previousCaption = DisplayOriginalCaption;
