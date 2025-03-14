@@ -8,7 +8,7 @@ namespace LiveCaptionsTranslator
 {
     public partial class MainWindow : FluentWindow
     {
-        public OverlayWindow? SubtitleWindow { get; set; } = null;
+        public OverlayWindow? OverlayWindow { get; set; } = null;
 
         public MainWindow()
         {
@@ -36,42 +36,42 @@ namespace LiveCaptionsTranslator
             ToggleTopmost(!this.Topmost);
         }
 
-        private void OverlaySubtitleModeButton_Click(object sender, RoutedEventArgs e)
+        private void OverlayModeButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
 
-            if (SubtitleWindow == null)
+            if (OverlayWindow == null)
             {
                 // Caption + Translation
                 symbolIcon.Symbol = SymbolRegular.TextUnderlineDouble20;
 
-                SubtitleWindow = new OverlayWindow();
-                SubtitleWindow.SizeChanged +=
-                    (s, e) => WindowHandler.SaveState(SubtitleWindow, Translator.Setting);
-                SubtitleWindow.LocationChanged +=
-                    (s, e) => WindowHandler.SaveState(SubtitleWindow, Translator.Setting);
+                OverlayWindow = new OverlayWindow();
+                OverlayWindow.SizeChanged +=
+                    (s, e) => WindowHandler.SaveState(OverlayWindow, Translator.Setting);
+                OverlayWindow.LocationChanged +=
+                    (s, e) => WindowHandler.SaveState(OverlayWindow, Translator.Setting);
 
-                var windowState = WindowHandler.LoadState(SubtitleWindow, Translator.Setting);
-                WindowHandler.RestoreState(SubtitleWindow, windowState);
-                SubtitleWindow.Show();
+                var windowState = WindowHandler.LoadState(OverlayWindow, Translator.Setting);
+                WindowHandler.RestoreState(OverlayWindow, windowState);
+                OverlayWindow.Show();
             }
-            else if (!SubtitleWindow.IsTranslationOnly)
+            else if (!OverlayWindow.IsTranslationOnly)
             {
                 // Translation Only
                 symbolIcon.Symbol = SymbolRegular.TextAddSpaceBefore24;
 
-                SubtitleWindow.IsTranslationOnly = true;
-                SubtitleWindow.Focus();
+                OverlayWindow.IsTranslationOnly = true;
+                OverlayWindow.Focus();
             }
             else
             {
                 // Closed
                 symbolIcon.Symbol = SymbolRegular.WindowNew20;
 
-                SubtitleWindow.IsTranslationOnly = false;
-                SubtitleWindow.Close();
-                SubtitleWindow = null;
+                OverlayWindow.IsTranslationOnly = false;
+                OverlayWindow.Close();
+                OverlayWindow = null;
             }
         }
 

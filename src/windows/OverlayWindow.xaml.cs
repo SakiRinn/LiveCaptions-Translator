@@ -44,14 +44,14 @@ namespace LiveCaptionsTranslator
             Unloaded += (s, e) => Translator.Caption.PropertyChanged -= TranslatedChanged;
 
             this.OriginalCaption.FontWeight = 
-                (Translator.Setting.SubtitleWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
+                (Translator.Setting.OverlayWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
             this.TranslatedCaption.FontWeight = 
-                (Translator.Setting.SubtitleWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
+                (Translator.Setting.OverlayWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
 
-            this.TranslatedCaption.Foreground = ColorList[Translator.Setting.SubtitleWindow.FontColor];
-            this.OriginalCaption.Foreground = ColorList[Translator.Setting.SubtitleWindow.FontColor];
-            this.BorderBackground.Background = ColorList[Translator.Setting.SubtitleWindow.BackgroundColor];
-            this.BorderBackground.Opacity = Translator.Setting.SubtitleWindow.Opacity;
+            this.TranslatedCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
+            this.OriginalCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
+            this.BorderBackground.Background = ColorList[Translator.Setting.OverlayWindow.BackgroundColor];
+            this.BorderBackground.Opacity = Translator.Setting.OverlayWindow.Opacity;
 
             ApplyFontSize();
             ApplyBackgroundOpacity();
@@ -145,16 +145,16 @@ namespace LiveCaptionsTranslator
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    this.OriginalCaption.FontSize = Translator.Setting.SubtitleWindow.FontSize;
-                    this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 0.8);
+                    this.OriginalCaption.FontSize = Translator.Setting.OverlayWindow.FontSize;
+                    this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 1.25);
                 }), DispatcherPriority.Background);
             }
             else
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    this.OriginalCaption.FontSize = (int)(Translator.Setting.SubtitleWindow.FontSize * 0.8);
-                    this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 0.8);
+                    this.OriginalCaption.FontSize = (int)(Translator.Setting.OverlayWindow.FontSize * 0.8);
+                    this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 1.25);
                 }), DispatcherPriority.Background);
             }
         }
@@ -209,79 +209,79 @@ namespace LiveCaptionsTranslator
 
         private void FontIncrease_Click(object sender, RoutedEventArgs e)
         {
-            if (Translator.Setting.SubtitleWindow.FontSize + 1 < 60)
+            if (Translator.Setting.OverlayWindow.FontSize + 1 < 60)
             {
-                Translator.Setting.SubtitleWindow.FontSize++;
+                Translator.Setting.OverlayWindow.FontSize++;
                 ApplyFontSize();
             }
         }
 
         private void FontDecrease_Click(object sender, RoutedEventArgs e)
         {
-            if (Translator.Setting.SubtitleWindow.FontSize - 1 > 8)
+            if (Translator.Setting.OverlayWindow.FontSize - 1 > 8)
             {
-                Translator.Setting.SubtitleWindow.FontSize--;
+                Translator.Setting.OverlayWindow.FontSize--;
                 ApplyFontSize();
             }
         }
 
         private void FontBold_Click(object sender, RoutedEventArgs e)
         {
-            Translator.Setting.SubtitleWindow.FontBold++;
-            if (Translator.Setting.SubtitleWindow.FontBold > (isTranslationOnly ? 2 : 3))
-                Translator.Setting.SubtitleWindow.FontBold = 1;
+            Translator.Setting.OverlayWindow.FontBold++;
+            if (Translator.Setting.OverlayWindow.FontBold > (isTranslationOnly ? 2 : 3))
+                Translator.Setting.OverlayWindow.FontBold = 1;
             this.OriginalCaption.FontWeight =
-                (Translator.Setting.SubtitleWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
+                (Translator.Setting.OverlayWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
             this.TranslatedCaption.FontWeight =
-                (Translator.Setting.SubtitleWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
+                (Translator.Setting.OverlayWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
         }
 
         private void FontShadow_Click(object sender, RoutedEventArgs e)
         {
-            Translator.Setting.SubtitleWindow.FontShadow++;
-            if (Translator.Setting.SubtitleWindow.FontShadow > (isTranslationOnly ? 2 : 3))
-                Translator.Setting.SubtitleWindow.FontShadow = 1;
+            Translator.Setting.OverlayWindow.FontShadow++;
+            if (Translator.Setting.OverlayWindow.FontShadow > (isTranslationOnly ? 2 : 3))
+                Translator.Setting.OverlayWindow.FontShadow = 1;
             this.OriginalCaptionShadow.Opacity =
-                (Translator.Setting.SubtitleWindow.FontShadow == 3 ? 1.0 : 0.0);
+                (Translator.Setting.OverlayWindow.FontShadow == 3 ? 1.0 : 0.0);
             this.TranslatedCaptionShadow.Opacity =
-                (Translator.Setting.SubtitleWindow.FontShadow >= 2 ? 1.0 : 0.0);
+                (Translator.Setting.OverlayWindow.FontShadow >= 2 ? 1.0 : 0.0);
         }
 
         private void FontColorCycle_Click(object sender, RoutedEventArgs e)
         {
-            Translator.Setting.SubtitleWindow.FontColor++;
-            if (Translator.Setting.SubtitleWindow.FontColor > ColorList.Count)
-                Translator.Setting.SubtitleWindow.FontColor = 1;
-            TranslatedCaption.Foreground = ColorList[Translator.Setting.SubtitleWindow.FontColor];
-            OriginalCaption.Foreground = ColorList[Translator.Setting.SubtitleWindow.FontColor];
+            Translator.Setting.OverlayWindow.FontColor++;
+            if (Translator.Setting.OverlayWindow.FontColor > ColorList.Count)
+                Translator.Setting.OverlayWindow.FontColor = 1;
+            TranslatedCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
+            OriginalCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
         }
 
         private void OpacityIncrease_Click(object sender, RoutedEventArgs e)
         {
-            if (Translator.Setting.SubtitleWindow.Opacity + 20 < 251)
-                Translator.Setting.SubtitleWindow.Opacity += 20;
+            if (Translator.Setting.OverlayWindow.Opacity + 20 < 251)
+                Translator.Setting.OverlayWindow.Opacity += 20;
             else
-                Translator.Setting.SubtitleWindow.Opacity = 251;
+                Translator.Setting.OverlayWindow.Opacity = 251;
             ApplyBackgroundOpacity();
         }
 
         private void OpacityDecrease_Click(object sender, RoutedEventArgs e)
         {
-            if (Translator.Setting.SubtitleWindow.Opacity - 20 > 1)
-                Translator.Setting.SubtitleWindow.Opacity -= 20;
+            if (Translator.Setting.OverlayWindow.Opacity - 20 > 1)
+                Translator.Setting.OverlayWindow.Opacity -= 20;
             else
-                Translator.Setting.SubtitleWindow.Opacity = 1;
+                Translator.Setting.OverlayWindow.Opacity = 1;
 
             ApplyBackgroundOpacity();
         }
 
         private void BackgroundColorCycle_Click(object sender, RoutedEventArgs e)
         {
-            Translator.Setting.SubtitleWindow.BackgroundColor++;
-            if (Translator.Setting.SubtitleWindow.BackgroundColor > ColorList.Count)
-                Translator.Setting.SubtitleWindow.BackgroundColor = 1;
-            BorderBackground.Background = ColorList[Translator.Setting.SubtitleWindow.BackgroundColor];
-            BorderBackground.Opacity = Translator.Setting.SubtitleWindow.Opacity;
+            Translator.Setting.OverlayWindow.BackgroundColor++;
+            if (Translator.Setting.OverlayWindow.BackgroundColor > ColorList.Count)
+                Translator.Setting.OverlayWindow.BackgroundColor = 1;
+            BorderBackground.Background = ColorList[Translator.Setting.OverlayWindow.BackgroundColor];
+            BorderBackground.Opacity = Translator.Setting.OverlayWindow.Opacity;
         }
 
         private void ClickThrough_Click(object sender, RoutedEventArgs e)
@@ -295,7 +295,7 @@ namespace LiveCaptionsTranslator
         {
             Color color = ((SolidColorBrush)BorderBackground.Background).Color;
             BorderBackground.Background = new SolidColorBrush(
-                Color.FromArgb(Translator.Setting.SubtitleWindow.Opacity, color.R, color.G, color.B));
+                Color.FromArgb(Translator.Setting.OverlayWindow.Opacity, color.R, color.G, color.B));
         }
     }
 }

@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="LiveCaptionsTranslator"
+    Title="LiveCaptions Translator"
     Width="750"
     Height="167"
     MinWidth="750"
@@ -55,10 +55,10 @@
                                                  Filled=False}"
                             ToolTip="Pause Translation" />
                         <ui:Button
-                            x:Name="overlaySubtitleMode"
+                            x:Name="overlayMode"
                             Margin="0,0,5,0"
                             Appearance="Transparent"
-                            Click="OverlaySubtitleModeButton_Click"
+                            Click="OverlayModeButton_Click"
                             Icon="{ui:SymbolIcon WindowNew24,
                                                  Filled=False}"
                             ToolTip="Overlay Translate Mode" />

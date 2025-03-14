@@ -36,7 +36,7 @@ namespace LiveCaptionsTranslator
             setting = Setting.Load();
         }
 
-        public static void Sync()
+        public static void SyncLoop()
         {
             int idleCount = 0;
             int syncCount = 0;
@@ -136,7 +136,7 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        public static async Task Translate()
+        public static async Task TranslateLoop()
         {
             var translationTaskQueue = new TranslationTaskQueue();
 
@@ -155,14 +155,13 @@ namespace LiveCaptionsTranslator
 
                     if (LogOnlyFlag)
                     {
-                        bool isOverwrite = await Translator.IsOverwrite(originalSnapshot);
-                        await Translator.LogOnly(originalSnapshot, isOverwrite);
+                        bool isOverwrite = await IsOverwrite(originalSnapshot);
+                        await LogOnly(originalSnapshot, isOverwrite);
                     }
                     else
                     {
                         translationTaskQueue.Enqueue(token => Task.Run(
-                            () => Translator.Translate(originalSnapshot, token), token)
-                        , originalSnapshot);
+                            () => Translate(originalSnapshot, token), token), originalSnapshot);
                     }
 
                     if (LogOnlyFlag)

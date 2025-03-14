@@ -22,7 +22,7 @@ namespace LiveCaptionsTranslator.models
         private string prompt;
 
         private MainWindowState mainWindowState;
-        private SubtitleWindowState subtitleWindowState;
+        private OverlayWindowState overlayWindowState;
 
         private Dictionary<string, string> windowBounds;
 
@@ -90,13 +90,13 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("MainWindow");
             }
         }
-        public SubtitleWindowState SubtitleWindow
+        public OverlayWindowState OverlayWindow
         {
-            get => subtitleWindowState;
+            get => overlayWindowState;
             set
             {
-                subtitleWindowState = value;
-                OnPropertyChanged("SubtitleWindow");
+                overlayWindowState = value;
+                OnPropertyChanged("OverlayWindow");
             }
         }
 
@@ -135,7 +135,7 @@ namespace LiveCaptionsTranslator.models
                 CaptionLogMax = 2,
                 LatencyShow = false
             };
-            subtitleWindowState = new SubtitleWindowState
+            overlayWindowState = new OverlayWindowState
             {
                 FontSize = 15,
                 FontColor = 1,
@@ -161,14 +161,14 @@ namespace LiveCaptionsTranslator.models
         }
 
         public Setting(string apiName, string targetLanguage, string prompt,
-                       MainWindowState mainWindowState, SubtitleWindowState subtitleWindowState,
+                       MainWindowState mainWindowState, OverlayWindowState overlayWindowState,
                        Dictionary<string, TranslateAPIConfig> configs, Dictionary<string, string> windowBounds)
         {
             this.apiName = apiName;
             this.targetLanguage = targetLanguage;
             this.prompt = prompt;
             this.mainWindowState = mainWindowState;
-            this.subtitleWindowState = subtitleWindowState;
+            this.overlayWindowState = overlayWindowState;
             this.configs = configs;
             this.windowBounds = windowBounds;
         }
@@ -280,7 +280,7 @@ namespace LiveCaptionsTranslator.models
         }
     }
 
-    public class SubtitleWindowState : INotifyPropertyChanged
+    public class OverlayWindowState : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

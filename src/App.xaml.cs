@@ -10,8 +10,8 @@ namespace LiveCaptionsTranslator
         {
             AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
 
-            Task.Run(() => Translator.Sync());
-            Task.Run(() => Translator.Translate());
+            Task.Run(() => Translator.SyncLoop());
+            Task.Run(() => Translator.TranslateLoop());
         }
 
         static void OnProcessExit(object sender, EventArgs e)
