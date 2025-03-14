@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 using LiveCaptionsTranslator.utils;
+using System.Diagnostics;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -67,8 +68,9 @@ namespace LiveCaptionsTranslator.models
         {
             int idleCount = 0;
             int syncCount = 0;
-            string originalLatest = "originalLatest";
-            string captionLatest = "";
+            int previousEOSIndex = -1;
+            string previousHistory = string.Empty;
+            string previousCaption = string.Empty;
 
             while (true)
             {
@@ -78,8 +80,6 @@ namespace LiveCaptionsTranslator.models
                     continue;
                 }
 
-                // Is original caption textbox change to next sentence?
-                bool captionChanged = false;
                 // Get the text recognized by LiveCaptions.
                 string fullText = string.Empty;
                 try
@@ -114,22 +114,27 @@ namespace LiveCaptionsTranslator.models
                 // DisplayOriginalCaption: The sentence to be displayed to the user.
                 if (DisplayOriginalCaption.CompareTo(latestCaption) != 0)
                 {
-                    DisplayOriginalCaption = latestCaption;
+                    string caption = latestCaption;
                     // If the last sentence is too short, extend it by adding the previous sentence when displayed.
-                    if (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < 12)
+                    if (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(caption) < 12)
                     {
-                        captionChanged = true;
                         lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(TextUtil.PUNC_EOS);
-                        DisplayOriginalCaption = fullText.Substring(lastEOSIndex + 1);
+                        caption = fullText.Substring(lastEOSIndex + 1);
                     }
                     // If the last sentence is too long, truncate it when displayed.
-                    string newDOC = TextUtil.ShortenDisplaySentence(DisplayOriginalCaption, 160);
-                    if (DisplayOriginalCaption != newDOC)
-                    {
-                        captionChanged = true;
-                    }
-                    DisplayOriginalCaption = newDOC;
+                    DisplayOriginalCaption = TextUtil.ShortenDisplaySentence(caption, 160);
                 }
+
+                // If the sentence changerd, push previous DisplayOriginalCaption to history handler
+                if (previousEOSIndex != lastEOSIndex)
+                {
+                    previousEOSIndex = lastEOSIndex;
+                    if (previousHistory.CompareTo(previousCaption) == 0) // Prevent from spamming logging
+                        previousHistory = previousCaption;
+                        Task.Run(() => HistoryAdd(previousCaption)); // Spawn a new thread to push DisplayOriginalCaption to async function
+                }
+                else // Keep storing previous sentence
+                    previousCaption = DisplayOriginalCaption;
 
                 // OriginalCaption: The sentence to be really translated.
                 if (OriginalCaption.CompareTo(latestCaption) != 0)
@@ -143,23 +148,7 @@ namespace LiveCaptionsTranslator.models
                     {
                         syncCount = 0;
                         TranslateFlag = true;
-                        captionChanged = true;
                     }
-
-                    if (DisplayOriginalCaption != OriginalCaption)
-                        captionChanged = true;
-
-                    // If the sentence changerd, push previous DisplayOriginalCaption to history handler
-                    if (captionChanged)
-                    {
-                        if (captionLatest != originalLatest) // Prevent from spamming logging
-                        {
-                            originalLatest = captionLatest;
-                            Task.Run(() => HistoryAdd(DisplayOriginalCaption)); // Spawn a new thread to push DisplayOriginalCaption to async function
-                        }
-                    }
-                    else
-                        captionLatest = DisplayOriginalCaption;
                 }
                 else
                     idleCount++;
