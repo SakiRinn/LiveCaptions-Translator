@@ -80,14 +80,14 @@ namespace LiveCaptionsTranslator
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
 
-            if (App.Caption.LogOnlyFlag)
+            if (AppMain.LogOnlyFlag)
             {
-                App.Caption.LogOnlyFlag = false;
+                AppMain.LogOnlyFlag = false;
                 symbolIcon.Filled = false;
             }
             else
             {
-                App.Caption.LogOnlyFlag = true;
+                AppMain.LogOnlyFlag = true;
                 symbolIcon.Filled = true;
             }
         }

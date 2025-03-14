@@ -137,7 +137,7 @@ namespace LiveCaptionsTranslator
         }
         private void ApplyFontSize()
         {
-            if (Encoding.UTF8.GetByteCount(App.Caption.DisplayTranslatedCaption) >= 160)
+            if (Encoding.UTF8.GetByteCount(App.Caption.DisplayTranslatedCaption) >= AppMain.LONG_THRESHOLD)
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {

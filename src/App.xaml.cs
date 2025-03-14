@@ -37,8 +37,8 @@ namespace LiveCaptionsTranslator
             caption = Caption.GetInstance();
             setting = Setting.Load();
 
-            Task.Run(() => App.Caption?.Sync());
-            Task.Run(() => App.Caption?.Translate());
+            Task.Run(() => AppMain.Sync());
+            Task.Run(() => AppMain.Translate());
         }
 
         static void OnProcessExit(object sender, EventArgs e)
