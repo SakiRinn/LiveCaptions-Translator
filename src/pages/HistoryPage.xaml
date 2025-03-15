@@ -29,9 +29,9 @@
                 HorizontalAlignment="Left"
                 Orientation="Horizontal">
                 <ui:Button
-                    x:Name="Previous"
+                    x:Name="PageDown"
                     Appearance="Transparent"
-                    Click="PageDown"
+                    Click="PageDown_click"
                     Icon="{ui:SymbolIcon chevronLeft12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
@@ -45,9 +45,9 @@
                     Text="1" />
 
                 <ui:Button
-                    x:Name="Next"
+                    x:Name="PageUp"
                     Appearance="Transparent"
-                    Click="PageUp"
+                    Click="PageUp_click"
                     Icon="{ui:SymbolIcon chevronRight12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
@@ -88,7 +88,7 @@
                     Margin="0,0,0,0"
                     HorizontalAlignment="Right"
                     Appearance="Transparent"
-                    Click="ExportHistory"
+                    Click="Export_click"
                     Icon="{ui:SymbolIcon ArrowDown12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
@@ -98,7 +98,7 @@
                     Margin="5,0,0,0"
                     HorizontalAlignment="Right"
                     Appearance="Transparent"
-                    Click="DeleteHistory"
+                    Click="Delete_click"
                     Icon="{ui:SymbolIcon Delete12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
@@ -109,7 +109,7 @@
                     Margin="5,0,0,0"
                     HorizontalAlignment="Right"
                     Appearance="Transparent"
-                    Click="ReloadLogs"
+                    Click="Refresh_click"
                     Icon="{ui:SymbolIcon ArrowClockwise12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"

@@ -33,22 +33,24 @@
                         </TextBlock>
                     </ui:Flyout>
                     <Button
+                        x:Name="LiveCaptionsInfo"
                         Width="15"
                         Height="15"
                         Margin="-5,-3,0,0"
                         Padding="0"
                         Background="Transparent"
                         BorderThickness="0"
-                        MouseEnter="LiveCaptionsButton_MouseEnter"
-                        MouseLeave="LiveCaptionsButton_MouseLeave">
+                        MouseEnter="LiveCaptionsInfo_MouseEnter"
+                        MouseLeave="LiveCaptionsInfo_MouseLeave">
                         <ui:SymbolIcon Symbol="Info16" />
                     </Button>
                 </StackPanel>
                 <ui:Button
+                    x:Name="LiveCaptionsButton"
                     Width="145"
                     Height="30"
                     Padding="11,4,11,4"
-                    Click="Button_LiveCaptions">
+                    Click="LiveCaptionsButton_click">
                     <TextBlock x:Name="ButtonText" Text="Show" />
                 </ui:Button>
             </StackPanel>
@@ -65,14 +67,15 @@
                         </TextBlock>
                     </ui:Flyout>
                     <Button
+                        x:Name="FrequencyInfo"
                         Width="15"
                         Height="15"
                         Margin="-5,-3,0,0"
                         Padding="0"
                         Background="Transparent"
                         BorderThickness="0"
-                        MouseEnter="FrequencyButton_MouseEnter"
-                        MouseLeave="FrequencyButton_MouseLeave">
+                        MouseEnter="FrequencyInfo_MouseEnter"
+                        MouseLeave="FrequencyInfo_MouseLeave">
                         <ui:SymbolIcon Symbol="Info16" />
                     </Button>
                 </StackPanel>
@@ -141,13 +144,14 @@
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <TextBlock Margin="2.5,0,0,5" Text="Max Caption Log" />
                 <ComboBox
+                    x:Name="CaptionLogMax"
                     Width="120"
                     Height="30"
                     Padding="10,4,10,7"
                     FontSize="13.3"
                     SelectedValue="{Binding MainWindow.CaptionLogMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     SelectedValuePath="Content"
-                    SelectionChanged="captionLogMax_SelectionChanged">
+                    SelectionChanged="CaptionLogMax_SelectionChanged">
                     <ComboBoxItem Content="1" />
                     <ComboBoxItem Content="2" />
                     <ComboBoxItem Content="3" />

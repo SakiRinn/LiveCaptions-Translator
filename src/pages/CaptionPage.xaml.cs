@@ -63,11 +63,11 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        public void CollapseTranslatedCaption(bool collapse)
+        public void CollapseTranslatedCaption(bool isCollapsed)
         {
             var converter = new GridLengthConverter();
 
-            if (collapse)
+            if (isCollapsed)
             {
                 TranslatedCaption_Row.Height = (GridLength)converter.ConvertFromString("Auto");
                 CaptionLogCard.Visibility = Visibility.Visible;

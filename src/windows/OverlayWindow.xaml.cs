@@ -23,8 +23,8 @@ namespace LiveCaptionsTranslator
             {7, Brushes.Red},
             {8, Brushes.Black},
         };
-
         private bool isTranslationOnly = false;
+        
         public bool IsTranslationOnly
         {
             get => isTranslationOnly;
@@ -133,54 +133,8 @@ namespace LiveCaptionsTranslator
 
         private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(Translator.Caption.DisplayTranslatedCaption))
-            {
-                ApplyFontSize();
-            }
+            ApplyFontSize();
         }
-        
-        private void ApplyFontSize()
-        {
-            if (Encoding.UTF8.GetByteCount(Translator.Caption.DisplayTranslatedCaption) >= TextUtil.LONG_THRESHOLD)
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    this.OriginalCaption.FontSize = Translator.Setting.OverlayWindow.FontSize;
-                    this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 1.25);
-                }), DispatcherPriority.Background);
-            }
-            else
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    this.OriginalCaption.FontSize = (int)(Translator.Setting.OverlayWindow.FontSize * 0.8);
-                    this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 1.25);
-                }), DispatcherPriority.Background);
-            }
-        }
-
-        public void ResizeForTranslationOnly()
-        {
-            if (isTranslationOnly)
-            {
-                OriginalCaptionCard.Visibility = Visibility.Collapsed;
-                if (this.MinHeight > 40 && this.Height > 40)
-                {
-                    this.MinHeight -= 40;
-                    this.Height -= 40;
-                    this.Top += 40;
-                }
-            }
-            else if (OriginalCaptionCard.Visibility == Visibility.Collapsed)
-            {
-                OriginalCaptionCard.Visibility = Visibility.Visible;
-                this.Top -= 40;
-                this.Height += 40;
-                this.MinHeight += 40;
-            }
-        }
-
-        // Control Panel
 
         private void Window_MouseEnter(object sender, MouseEventArgs e)
         {
@@ -276,8 +230,49 @@ namespace LiveCaptionsTranslator
             WindowsAPI.SetWindowLong(hwnd, WindowsAPI.GWL_EXSTYLE, extendedStyle | WindowsAPI.WS_EX_TRANSPARENT);
             ControlPanel.Visibility = Visibility.Collapsed;
         }
+        
+        public void ApplyFontSize()
+        {
+            if (Encoding.UTF8.GetByteCount(Translator.Caption.DisplayTranslatedCaption) >= TextUtil.LONG_THRESHOLD)
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    this.OriginalCaption.FontSize = (int)(Translator.Setting.OverlayWindow.FontSize * 0.8);
+                    this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 1.25);
+                }), DispatcherPriority.Background);
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    this.OriginalCaption.FontSize = Translator.Setting.OverlayWindow.FontSize;
+                    this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 1.25);
+                }), DispatcherPriority.Background);
+            }
+        }
 
-        private void ApplyBackgroundOpacity()
+        public void ResizeForTranslationOnly()
+        {
+            if (isTranslationOnly)
+            {
+                OriginalCaptionCard.Visibility = Visibility.Collapsed;
+                if (this.MinHeight > 40 && this.Height > 40)
+                {
+                    this.MinHeight -= 40;
+                    this.Height -= 40;
+                    this.Top += 40;
+                }
+            }
+            else if (OriginalCaptionCard.Visibility == Visibility.Collapsed)
+            {
+                OriginalCaptionCard.Visibility = Visibility.Visible;
+                this.Top -= 40;
+                this.Height += 40;
+                this.MinHeight += 40;
+            }
+        }
+
+        public void ApplyBackgroundOpacity()
         {
             Color color = ((SolidColorBrush)BorderBackground.Background).Color;
             BorderBackground.Background = new SolidColorBrush(

@@ -23,7 +23,7 @@ namespace LiveCaptionsTranslator
             targetLangBox.LostFocus += targetLangBox_LostFocus;
         }
 
-        private void Button_LiveCaptions(object sender, RoutedEventArgs e)
+        private void LiveCaptionsButton_click(object sender, RoutedEventArgs e)
         {
             if (Translator.Window == null)
                 return;
@@ -72,34 +72,34 @@ namespace LiveCaptionsTranslator
             TargetLangInfoFlyout.Hide();
         }
 
-        private void LiveCaptionsButton_MouseEnter(object sender, MouseEventArgs e)
+        private void LiveCaptionsInfo_MouseEnter(object sender, MouseEventArgs e)
         {
             LiveCaptionsInfoFlyout.Show();
         }
 
-        private void LiveCaptionsButton_MouseLeave(object sender, MouseEventArgs e)
+        private void LiveCaptionsInfo_MouseLeave(object sender, MouseEventArgs e)
         {
             LiveCaptionsInfoFlyout.Hide();
         }
 
-        private void FrequencyButton_MouseEnter(object sender, MouseEventArgs e)
+        private void FrequencyInfo_MouseEnter(object sender, MouseEventArgs e)
         {
             FrequencyInfoFlyout.Show();
         }
 
-        private void FrequencyButton_MouseLeave(object sender, MouseEventArgs e)
+        private void FrequencyInfo_MouseLeave(object sender, MouseEventArgs e)
         {
             FrequencyInfoFlyout.Hide();
         }
 
-        private void captionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CaptionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             while (Translator.Caption.LogCards.Count > Translator.Setting.MainWindow.CaptionLogMax)
                 Translator.Caption.LogCards.Dequeue();
             Translator.Caption.OnPropertyChanged("DisplayLogCards");
         }
 
-        private void LoadAPISetting()
+        public void LoadAPISetting()
         {
             string targetLang = Translator.Setting.TargetLanguage;
             var supportedLanguages = Translator.Setting.CurrentAPIConfig.SupportedLanguages;

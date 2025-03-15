@@ -41,35 +41,21 @@ namespace LiveCaptionsTranslator
             await LoadHistory();
         }
 
-        private async Task LoadHistory()
-        {
-            var data = await SQLiteHistoryLogger.LoadHistoryAsync(currentPage, maxRowPerPage, SearchText);
-            List<TranslationHistoryEntry> history = data.Item1;
-
-            maxPage = (data.Item2 > 0) ? data.Item2 : 1;
-
-            await Dispatcher.InvokeAsync(() =>
-            {
-                HistoryDataGrid.ItemsSource = history;
-                PageNumber.Text = currentPage.ToString() + "/" + maxPage.ToString();
-            });
-        }
-
-        private async void PageDown(object sender, RoutedEventArgs e)
+        private async void PageDown_click(object sender, RoutedEventArgs e)
         {
             if (currentPage - 1 >= 1)
                 currentPage--;
             await LoadHistory();
         }
 
-        private async void PageUp(object sender, RoutedEventArgs e)
+        private async void PageUp_click(object sender, RoutedEventArgs e)
         {
             if (currentPage < maxPage)
                 currentPage++;
             await LoadHistory();
         }
 
-        private async void DeleteHistory(object sender, RoutedEventArgs e)
+        private async void Delete_click(object sender, RoutedEventArgs e)
         {
             var dialogHostContainer = (Application.Current.MainWindow as MainWindow)?.DialogHostContainer;
 
@@ -115,12 +101,12 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        private async void ReloadLogs(object sender, RoutedEventArgs e)
+        private async void Refresh_click(object sender, RoutedEventArgs e)
         {
             await LoadHistory();
         }
 
-        private async void ExportHistory(object sender, RoutedEventArgs e)
+        private async void Export_click(object sender, RoutedEventArgs e)
         {
 
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -136,26 +122,13 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCSV(saveFileDialog.FileName);
-                    ShowSnackbar("Saved Success", $"File saved to: {saveFileDialog.FileName}");
+                    Snackbar_Show("Saved Success", $"File saved to: {saveFileDialog.FileName}");
                 }
                 catch (Exception ex)
                 {
-                    ShowSnackbar("Save Failed", $"File saved faild:{ex.Message}");
+                    Snackbar_Show("Save Failed", $"File saved faild:{ex.Message}");
                 }
             }
-        }
-
-        private void ShowSnackbar(string title, string message, bool isError = false)
-        {
-            var snackbar = new Snackbar(SnackbarHost)
-            {
-                Title = title,
-                Content = message,
-                Appearance = isError ? ControlAppearance.Danger : ControlAppearance.Light,
-                Timeout = TimeSpan.FromSeconds(2)
-            };
-
-            snackbar.Show();
         }
 
         private async void HistorySearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -192,6 +165,33 @@ namespace LiveCaptionsTranslator
                     await LoadHistory();
                 }
             }
+        }
+        
+        private void Snackbar_Show(string title, string message, bool isError = false)
+        {
+            var snackbar = new Snackbar(SnackbarHost)
+            {
+                Title = title,
+                Content = message,
+                Appearance = isError ? ControlAppearance.Danger : ControlAppearance.Light,
+                Timeout = TimeSpan.FromSeconds(2)
+            };
+
+            snackbar.Show();
+        }
+        
+        public async Task LoadHistory()
+        {
+            var data = await SQLiteHistoryLogger.LoadHistoryAsync(currentPage, maxRowPerPage, SearchText);
+            List<TranslationHistoryEntry> history = data.Item1;
+
+            maxPage = (data.Item2 > 0) ? data.Item2 : 1;
+
+            await Dispatcher.InvokeAsync(() =>
+            {
+                HistoryDataGrid.ItemsSource = history;
+                PageNumber.Text = currentPage.ToString() + "/" + maxPage.ToString();
+            });
         }
     }
 }

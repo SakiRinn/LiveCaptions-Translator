@@ -27,8 +27,9 @@ namespace LiveCaptionsTranslator
 
             var windowState = WindowHandler.LoadState(this, Translator.Setting);
             WindowHandler.RestoreState(this, windowState);
+            
             ToggleTopmost(Translator.Setting.MainWindow.Topmost);
-            EnableCaptionLog(Translator.Setting.MainWindow.CaptionLogEnabled);
+            ShowLogCard(Translator.Setting.MainWindow.CaptionLogEnabled);
         }
 
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
@@ -95,7 +96,7 @@ namespace LiveCaptionsTranslator
         private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
         {
             Translator.Setting.MainWindow.CaptionLogEnabled = !Translator.Setting.MainWindow.CaptionLogEnabled;
-            EnableCaptionLog(Translator.Setting.MainWindow.CaptionLogEnabled);
+            ShowLogCard(Translator.Setting.MainWindow.CaptionLogEnabled);
         }
 
         private void MainWindow_BoundsChanged(object sender, EventArgs e)
@@ -104,7 +105,7 @@ namespace LiveCaptionsTranslator
             WindowHandler.SaveState(window, Translator.Setting);
         }
 
-        private void ToggleTopmost(bool enabled)
+        public void ToggleTopmost(bool enabled)
         {
             var button = topmost as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
@@ -113,15 +114,15 @@ namespace LiveCaptionsTranslator
             Translator.Setting.MainWindow.Topmost = enabled;
         }
 
-        private void EnableCaptionLog(bool enable)
+        public void ShowLogCard(bool enabled)
         {
             if (captionLog.Icon is SymbolIcon icon)
             {
-                if (enable)
+                if (enabled)
                     icon.Symbol = SymbolRegular.History24;
                 else
                     icon.Symbol = SymbolRegular.HistoryDismiss24;
-                CaptionPage.Instance?.CollapseTranslatedCaption(enable);
+                CaptionPage.Instance?.CollapseTranslatedCaption(enabled);
             }
         }
     }

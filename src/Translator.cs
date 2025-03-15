@@ -29,8 +29,8 @@ namespace LiveCaptionsTranslator
         static Translator()
         {
             window = LiveCaptionsHandler.LaunchLiveCaptions();
-            LiveCaptionsHandler.FixLiveCaptions(Translator.Window);
-            LiveCaptionsHandler.HideLiveCaptions(Translator.Window);
+            LiveCaptionsHandler.FixLiveCaptions(Window);
+            LiveCaptionsHandler.HideLiveCaptions(Window);
             
             caption = Caption.GetInstance();
             setting = Setting.Load();
