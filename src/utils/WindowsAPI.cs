@@ -5,6 +5,8 @@ namespace LiveCaptionsTranslator.utils
     public static class WindowsAPI
     {
         public const int GWL_EXSTYLE = -20;
+        
+        public const int WS_EX_TRANSPARENT = 0x00000020;
         public const int WS_EX_TOOLWINDOW = 0x00000080;
 
         public const int SW_MINIMIZE = 6;
