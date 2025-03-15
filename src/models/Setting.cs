@@ -15,7 +15,7 @@ namespace LiveCaptionsTranslator.models
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private int maxIdleInterval = 20;
-        private int maxSyncInterval = 5;
+        private int maxSyncInterval = 3;
 
         private string apiName;
         private string targetLanguage;
@@ -142,7 +142,8 @@ namespace LiveCaptionsTranslator.models
                 FontBold = 1,
                 FontShadow = 1,
                 BackgroundColor = 8,
-                Opacity = 151
+                Opacity = 150,
+                HistoryMax = 1
             };
             windowBounds = new Dictionary<string, string>
             {
@@ -290,6 +291,7 @@ namespace LiveCaptionsTranslator.models
         private int fontShadow;
         private int backgroundColor;
         private byte opacity;
+        private int historyMax;
 
         public int FontSize
         {
@@ -343,6 +345,15 @@ namespace LiveCaptionsTranslator.models
             {
                 opacity = value;
                 OnPropertyChanged("Opacity");
+            }
+        }
+        public int HistoryMax
+        {
+            get => historyMax;
+            set
+            {
+                historyMax = value;
+                OnPropertyChanged("HistoryMax");
             }
         }
 

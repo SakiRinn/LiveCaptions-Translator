@@ -68,7 +68,7 @@ namespace LiveCaptionsTranslator
                     continue;
 
                 // Note: For certain languages (such as Japanese), LiveCaptions excessively uses `\n`.
-                // Preprocess - remove the `.` between 2 uppercase letters.
+                // Preprocess - remove the `.` between 2 uppercase letters. (For acronym)
                 fullText = Regex.Replace(fullText, @"(?<=[A-Z])\s*\.\s*(?=[A-Z])", "");
                 // Preprocess - Remove redundant `\n` around punctuation.
                 fullText = Regex.Replace(fullText, @"\s*([.!?,])\s*", "$1 ");
@@ -85,15 +85,24 @@ namespace LiveCaptionsTranslator
                 string latestCaption = fullText.Substring(lastEOSIndex + 1);
                 
                 // If the last sentence is too short, extend it by adding the previous sentence.
-                // Note: Expand `lastestCaption` instead of `DisplayOriginalCaption`,
-                // because LiveCaptions may generate multiple characters including EOS at once.
+                // Note: LiveCaptions may generate multiple characters including EOS at once.
                 if (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < TextUtil.SHORT_THRESHOLD)
                 {
                     lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(TextUtil.PUNC_EOS);
                     latestCaption = fullText.Substring(lastEOSIndex + 1);
                 }
+                
+                // `OverlayOriginalCaption`: The sentence to be displayed on Overlay Window.
+                Caption.OverlayOriginalCaption = latestCaption;
+                for (int historyCount = Math.Min(Setting.OverlayWindow.HistoryMax, Caption.LogCards.Count);
+                     historyCount > 0 && lastEOSIndex > 0; 
+                     historyCount--)
+                {
+                    lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(TextUtil.PUNC_EOS);
+                    Caption.OverlayOriginalCaption = fullText.Substring(lastEOSIndex + 1);
+                }
 
-                // `DisplayOriginalCaption`: The sentence to be displayed to the user.
+                // `DisplayOriginalCaption`: The sentence to be displayed on Main Window.
                 if (Caption.DisplayOriginalCaption.CompareTo(latestCaption) != 0)
                 {
                     Caption.DisplayOriginalCaption = latestCaption;
@@ -106,7 +115,6 @@ namespace LiveCaptionsTranslator
                 int lastEOS = latestCaption.LastIndexOfAny(TextUtil.PUNC_EOS);
                 if (lastEOS != -1)
                     latestCaption = latestCaption.Substring(0, lastEOS + 1);
-                
                 // `OriginalCaption`: The sentence to be really translated.
                 if (Caption.OriginalCaption.CompareTo(latestCaption) != 0)
                 {
@@ -168,12 +176,19 @@ namespace LiveCaptionsTranslator
                     {
                         Caption.TranslatedCaption = string.Empty;
                         Caption.DisplayTranslatedCaption = "[Paused]";
+                        Caption.OverlayTranslatedCaption = "[Paused]";
                     }
                     else if (!string.IsNullOrEmpty(translationTaskQueue.Output))
                     {
                         Caption.TranslatedCaption = translationTaskQueue.Output;
                         Caption.DisplayTranslatedCaption = 
                             TextUtil.ShortenDisplaySentence(Caption.TranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
+                        
+                        string replacement = "$1" + Caption.OverlayTranslatedPrefix;
+                        if (Encoding.Default.GetByteCount(replacement[^1].ToString()) <= 1)
+                            replacement += " ";
+                        Caption.OverlayTranslatedCaption = 
+                            Regex.Replace(Caption.TranslatedCaption, @"^(\[\d+ ms\] )", replacement);
                     }
 
                     // If the original sentence is a complete sentence, pause for better visual experience.
@@ -189,14 +204,8 @@ namespace LiveCaptionsTranslator
             string translatedText;
             try
             {
-                Stopwatch? sw = null;
-                if (Setting.MainWindow.LatencyShow)
-                {
-                    sw = Stopwatch.StartNew();
-                }
-
+                var sw = Setting.MainWindow.LatencyShow? Stopwatch.StartNew() : null;
                 translatedText = await TranslateAPI.TranslateFunction(text, token);
-
                 if (sw != null)
                 {
                     sw.Stop();
@@ -269,7 +278,7 @@ namespace LiveCaptionsTranslator
             if (lastLog == null)
                 return;
             if (Caption?.LogCards.Count >= Setting?.MainWindow.CaptionLogMax)
-                Caption?.LogCards.Dequeue();
+                Caption.LogCards.Dequeue();
             Caption?.LogCards.Enqueue(lastLog);
             Caption?.OnPropertyChanged("DisplayLogCards");
         }

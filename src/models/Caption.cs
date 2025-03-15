@@ -1,9 +1,6 @@
-﻿using System.Windows.Automation;
-using System.Text;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-
 using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator.models
@@ -15,6 +12,8 @@ namespace LiveCaptionsTranslator.models
 
         private string displayOriginalCaption = "";
         private string displayTranslatedCaption = "";
+        private string overlayOriginalCaption = "";
+        private string overlayTranslatedCaption = "";
 
         public string OriginalCaption { get; set; } = "";
         public string TranslatedCaption { get; set; } = "";
@@ -36,11 +35,55 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("DisplayTranslatedCaption");
             }
         }
-
+        public string OverlayOriginalCaption
+        {
+            get => overlayOriginalCaption;
+            set
+            {
+                overlayOriginalCaption = value;
+                OnPropertyChanged("OverlayOriginalCaption");
+            }
+        }
+        public string OverlayTranslatedCaption
+        {
+            get => overlayTranslatedCaption;
+            set
+            {
+                overlayTranslatedCaption = value;
+                OnPropertyChanged("OverlayTranslatedCaption");
+            }
+        }
+        
         public Queue<TranslationHistoryEntry> LogCards { get; } = new(6);
         public IEnumerable<TranslationHistoryEntry> DisplayLogCards => LogCards.Reverse();
 
-        private Caption() { }
+        public string OverlayTranslatedPrefix
+        {
+            get
+            {
+                int historyCount = Math.Min(Translator.Setting.OverlayWindow.HistoryMax, LogCards.Count);
+                if (historyCount <= 0)
+                    return string.Empty;
+                var prefix = DisplayLogCards.Take(historyCount)
+                                            .Reverse()
+                                            .Select(entry => entry.TranslatedText)
+                                            .Aggregate((accu, cur) =>
+                        {
+                            accu = Regex.Replace(accu, @"^\[\d+ ms\] ", "");
+                            if (Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
+                                accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                            cur = Regex.Replace(cur, @"^\[\d+ ms\] ", "");
+                            return accu + cur;
+                        });
+                if (Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
+                    prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ". ";
+                return prefix;
+            }
+        }
+
+        private Caption()
+        {
+        }
 
         public static Caption GetInstance()
         {

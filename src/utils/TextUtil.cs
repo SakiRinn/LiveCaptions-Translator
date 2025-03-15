@@ -8,8 +8,8 @@ namespace LiveCaptionsTranslator.utils
         public static readonly char[] PUNC_EOS = ".?!。？！".ToCharArray();
         public static readonly char[] PUNC_COMMA = ",，、—\n".ToCharArray();
         
-        public const int SHORT_THRESHOLD = 12;
-        public const int MEDIUM_THRESHOLD = 32;
+        public const int SHORT_THRESHOLD = 10;
+        public const int MEDIUM_THRESHOLD = 40;
         public const int LONG_THRESHOLD = 160;
         public const int VERYLONG_THRESHOLD = 200;
 
@@ -35,17 +35,19 @@ namespace LiveCaptionsTranslator.utils
                     continue;
 
                 char lastChar = splits[i][^1];
-                bool isCJ = (lastChar >= '\u4E00' && lastChar <= '\u9FFF') ||
-                            (lastChar >= '\u3400' && lastChar <= '\u4DBF') ||
-                            (lastChar >= '\u3040' && lastChar <= '\u30FF');
-                bool isKorean = (lastChar >= '\uAC00' && lastChar <= '\uD7AF');
-
                 if (Encoding.UTF8.GetByteCount(splits[i]) >= byteThreshold)
-                    splits[i] += isCJ && !isKorean ? "。" : ". ";
+                    splits[i] += isCJChar(lastChar) ? "。" : ". ";
                 else
-                    splits[i] += isCJ && !isKorean ? "——" : "—";
+                    splits[i] += isCJChar(lastChar) ? "——" : "—";
             }
             return string.Join("", splits);
+        }
+
+        public static bool isCJChar(char ch)
+        {
+            return (ch >= '\u4E00' && ch <= '\u9FFF') ||
+                   (ch >= '\u3400' && ch <= '\u4DBF') ||
+                   (ch >= '\u3040' && ch <= '\u30FF');
         }
 
         public static double Similarity(string text1, string text2)
