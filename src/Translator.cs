@@ -75,6 +75,11 @@ namespace LiveCaptionsTranslator
                 fullText = Regex.Replace(fullText, @"\s*([。！？，、])\s*", "$1");
                 // Preprocess - Replace redundant `\n` within sentences with comma or period.
                 fullText = TextUtil.ReplaceNewlines(fullText, TextUtil.MEDIUM_THRESHOLD);
+                
+                // Prevent adding the last sentence from previous running to log cards
+                // before the first sentence is completed.
+                while (fullText.IndexOfAny(TextUtil.PUNC_EOS) == -1 && Caption.LogCards.Count > 0)
+                    Caption.LogCards.Dequeue();
 
                 // Get the last sentence.
                 int lastEOSIndex;
