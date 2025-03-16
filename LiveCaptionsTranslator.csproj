@@ -15,6 +15,7 @@
 
 		<Title>LiveCaptions Translator</Title>
 		<Description>A real-time speech translation tool based on Windows LiveCaptions.</Description>
+		<Copyright>Copyright (c) 2024 SakiRinn and other contributors</Copyright>
 		<Authors>SakiRinn</Authors>
 		<ApplicationIcon>src\LiveCaptions.ico</ApplicationIcon>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
