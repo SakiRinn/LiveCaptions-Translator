@@ -67,15 +67,15 @@ namespace LiveCaptionsTranslator.models
                 var prefix = DisplayLogCards
                     .Take(historyCount)
                     .Reverse()
-                    .Select(entry => entry.TranslatedText)
+                    .Select(entry => entry?.TranslatedText ?? "")
                     .Aggregate((accu, cur) =>
                     {
-                        accu = Regex.Replace(accu, @"^\[.+\] ", "");
                         if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
                             accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
                         cur = Regex.Replace(cur, @"^\[.+\] ", "");
                         return accu + cur;
                     });
+                prefix = Regex.Replace(prefix, @"^\[.+\] ", "");
                 if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
                     prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ". ";
                 return prefix;

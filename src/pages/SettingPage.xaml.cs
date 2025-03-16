@@ -131,13 +131,12 @@ namespace LiveCaptionsTranslator
 
         public void LoadAPISetting()
         {
-            string targetLang = Translator.Setting.TargetLanguage;
             var supportedLanguages = Translator.Setting.CurrentAPIConfig.SupportedLanguages;
             TargetLangBox.ItemsSource = supportedLanguages.Keys;
 
-            // Add custom target language to ComboBox
+            string targetLang = Translator.Setting.TargetLanguage;
             if (!supportedLanguages.ContainsKey(targetLang))
-                supportedLanguages[targetLang] = targetLang;
+                supportedLanguages[targetLang] = targetLang;    // add custom language to supported languages
             TargetLangBox.SelectedItem = targetLang;
         }
     }
