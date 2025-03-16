@@ -11,16 +11,16 @@ namespace LiveCaptionsTranslator.utils
         public const int SHORT_THRESHOLD = 10;
         public const int MEDIUM_THRESHOLD = 40;
         public const int LONG_THRESHOLD = 160;
-        public const int VERYLONG_THRESHOLD = 200;
+        public const int VERYLONG_THRESHOLD = 220;
 
         public static string ShortenDisplaySentence(string text, int maxByteLength)
         {
             while (Encoding.UTF8.GetByteCount(text) >= maxByteLength)
             {
-                int commaIndex = text.IndexOfAny(PUNC_COMMA);
-                if (commaIndex < 0 || commaIndex + 1 >= text.Length)
+                int puncIndex = text.IndexOfAny(PUNC_EOS.Concat(PUNC_COMMA).ToArray());
+                if (puncIndex < 0 || puncIndex + 1 >= text.Length)
                     break;
-                text = text.Substring(commaIndex + 1);
+                text = text.Substring(puncIndex + 1);
             }
             return text;
         }

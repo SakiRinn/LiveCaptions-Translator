@@ -48,16 +48,16 @@ namespace LiveCaptionsTranslator
                     Thread.Sleep(2000);
                     continue;
                 }
+                Console.WriteLine($"{pendingTextQueue.Count}");
 
-                // Get the text recognized by LiveCaptions.
                 string fullText = string.Empty;
                 try
                 {
                     // Check LiveCaptions.exe still alive
                     var info = Window.Current;
                     var name = info.Name;
-
-                    fullText = LiveCaptionsHandler.GetCaptions(Window);     // 10-20ms
+                    // Get the text recognized by LiveCaptions (10-20ms)
+                    fullText = LiveCaptionsHandler.GetCaptions(Window);     
                 }
                 catch (ElementNotAvailableException)
                 {
@@ -68,8 +68,9 @@ namespace LiveCaptionsTranslator
                     continue;
 
                 // Note: For certain languages (such as Japanese), LiveCaptions excessively uses `\n`.
-                // Preprocess - remove the `.` between 2 uppercase letters. (For acronym)
-                fullText = Regex.Replace(fullText, @"(?<=[A-Z])\s*\.\s*(?=[A-Z])", "");
+                // Preprocess - remove the `.` between two uppercase letters. (Cope with acronym)
+                fullText = Regex.Replace(fullText, @"([A-Z])\s*\.\s*([A-Z])(?![A-Za-z]+)", "$1$2");
+                fullText = Regex.Replace(fullText, @"([A-Z])\s*\.\s*([A-Z])(?=[A-Za-z]+)", "$1 $2");
                 // Preprocess - Remove redundant `\n` around punctuation.
                 fullText = Regex.Replace(fullText, @"\s*([.!?,])\s*", "$1 ");
                 fullText = Regex.Replace(fullText, @"\s*([。！？，、])\s*", "$1");
@@ -79,7 +80,10 @@ namespace LiveCaptionsTranslator
                 // Prevent adding the last sentence from previous running to log cards
                 // before the first sentence is completed.
                 while (fullText.IndexOfAny(TextUtil.PUNC_EOS) == -1 && Caption.LogCards.Count > 0)
+                {
                     Caption.LogCards.Dequeue();
+                    Caption.OnPropertyChanged("DisplayLogCards");
+                }
 
                 // Get the last sentence.
                 int lastEOSIndex;
@@ -106,6 +110,8 @@ namespace LiveCaptionsTranslator
                     lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(TextUtil.PUNC_EOS);
                     Caption.OverlayOriginalCaption = fullText.Substring(lastEOSIndex + 1);
                 }
+                // Caption.DisplayOriginalCaption = 
+                //     TextUtil.ShortenDisplaySentence(Caption.OverlayOriginalCaption, TextUtil.VERYLONG_THRESHOLD);
 
                 // `DisplayOriginalCaption`: The sentence to be displayed on Main Window.
                 if (Caption.DisplayOriginalCaption.CompareTo(latestCaption) != 0)
@@ -113,7 +119,7 @@ namespace LiveCaptionsTranslator
                     Caption.DisplayOriginalCaption = latestCaption;
                     // If the last sentence is too long, truncate it when displayed.
                     Caption.DisplayOriginalCaption = 
-                        TextUtil.ShortenDisplaySentence(Caption.DisplayOriginalCaption, TextUtil.LONG_THRESHOLD);
+                        TextUtil.ShortenDisplaySentence(Caption.DisplayOriginalCaption, TextUtil.VERYLONG_THRESHOLD);
                 }
 
                 // Prepare for `OriginalCaption`. If Expanded, only retain the complete sentence.
@@ -189,11 +195,12 @@ namespace LiveCaptionsTranslator
                         Caption.DisplayTranslatedCaption = 
                             TextUtil.ShortenDisplaySentence(Caption.TranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
                         
-                        string replacement = "$1" + Caption.OverlayTranslatedPrefix;
-                        if (Encoding.Default.GetByteCount(replacement[^1].ToString()) <= 1)
-                            replacement += " ";
-                        Caption.OverlayTranslatedCaption = 
-                            Regex.Replace(Caption.TranslatedCaption, @"^(\[\d+ ms\] )", replacement);
+                        var match = Regex.Match(Caption.TranslatedCaption, @"^(\[.+\] )?(.*)$");
+                        string noticePrefix = match.Groups[1].Value;
+                        string translatedText = match.Groups[2].Value;
+                        Caption.OverlayTranslatedCaption = noticePrefix + Caption.OverlayTranslatedPrefix + translatedText;
+                        // Caption.OverlayTranslatedCaption = 
+                        //     TextUtil.ShortenDisplaySentence(Caption.OverlayTranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
                     }
 
                     // If the original sentence is a complete sentence, pause for better visual experience.

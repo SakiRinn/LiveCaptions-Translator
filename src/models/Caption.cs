@@ -64,17 +64,18 @@ namespace LiveCaptionsTranslator.models
                 int historyCount = Math.Min(Translator.Setting.OverlayWindow.HistoryMax, LogCards.Count);
                 if (historyCount <= 0)
                     return string.Empty;
-                var prefix = DisplayLogCards.Take(historyCount)
-                                            .Reverse()
-                                            .Select(entry => entry.TranslatedText)
-                                            .Aggregate((accu, cur) =>
-                        {
-                            accu = Regex.Replace(accu, @"^\[\d+ ms\] ", "");
-                            if (Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
-                                accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
-                            cur = Regex.Replace(cur, @"^\[\d+ ms\] ", "");
-                            return accu + cur;
-                        });
+                var prefix = DisplayLogCards
+                    .Take(historyCount)
+                    .Reverse()
+                    .Select(entry => entry.TranslatedText)
+                    .Aggregate((accu, cur) =>
+                    {
+                        accu = Regex.Replace(accu, @"^\[.+\] ", "");
+                        if (Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
+                            accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                        cur = Regex.Replace(cur, @"^\[.+\] ", "");
+                        return accu + cur;
+                    });
                 if (Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
                     prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ". ";
                 return prefix;
