@@ -48,7 +48,6 @@ namespace LiveCaptionsTranslator
                     Thread.Sleep(2000);
                     continue;
                 }
-                Console.WriteLine($"{pendingTextQueue.Count}");
 
                 string fullText = string.Empty;
                 try
@@ -79,9 +78,9 @@ namespace LiveCaptionsTranslator
                 
                 // Prevent adding the last sentence from previous running to log cards
                 // before the first sentence is completed.
-                while (fullText.IndexOfAny(TextUtil.PUNC_EOS) == -1 && Caption.LogCards.Count > 0)
+                if (fullText.IndexOfAny(TextUtil.PUNC_EOS) == -1 && Caption.LogCards.Count > 0)
                 {
-                    Caption.LogCards.Dequeue();
+                    Caption.LogCards.Clear();
                     Caption.OnPropertyChanged("DisplayLogCards");
                 }
 

@@ -15,12 +15,10 @@ namespace LiveCaptionsTranslator
             ApplicationThemeManager.ApplySystemTheme();
             DataContext = Translator.Setting;
 
-            translateAPIBox.ItemsSource = Translator.Setting?.Configs.Keys;
-            translateAPIBox.SelectedIndex = 0;
-            LoadAPISetting();
+            TranslateAPIBox.ItemsSource = Translator.Setting?.Configs.Keys;
+            TranslateAPIBox.SelectedIndex = 0;
 
-            targetLangBox.SelectionChanged += targetLangBox_SelectionChanged;
-            targetLangBox.LostFocus += targetLangBox_LostFocus;
+            LoadAPISetting();
         }
 
         private void LiveCaptionsButton_click(object sender, RoutedEventArgs e)
@@ -44,34 +42,43 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        private void translateAPIBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TranslateAPIBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadAPISetting();
         }
 
-        private void targetLangBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TargetLangBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (targetLangBox.SelectedItem != null)
-            {
-                Translator.Setting.TargetLanguage = targetLangBox.SelectedItem.ToString();
-            }
+            if (TargetLangBox.SelectedItem != null)
+                Translator.Setting.TargetLanguage = TargetLangBox.SelectedItem.ToString();
         }
 
-        private void targetLangBox_LostFocus(object sender, RoutedEventArgs e)
+        private void TargetLangBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            Translator.Setting.TargetLanguage = targetLangBox.Text;
+            Translator.Setting.TargetLanguage = TargetLangBox.Text;
         }
-
-        private void TargetLangButton_MouseEnter(object sender, MouseEventArgs e)
+        
+        private void APISettingButton_click(object sender, RoutedEventArgs e)
         {
-            TargetLangInfoFlyout.Show();
+            
         }
-
-        private void TargetLangButton_MouseLeave(object sender, MouseEventArgs e)
+        
+        private void CaptionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TargetLangInfoFlyout.Hide();
+            if (Translator.Setting.OverlayWindow.HistoryMax > Translator.Setting.MainWindow.CaptionLogMax)
+                Translator.Setting.OverlayWindow.HistoryMax = Translator.Setting.MainWindow.CaptionLogMax;
+            
+            while (Translator.Caption.LogCards.Count > Translator.Setting.MainWindow.CaptionLogMax)
+                Translator.Caption.LogCards.Dequeue();
+            Translator.Caption.OnPropertyChanged("DisplayLogCards");
         }
-
+        
+        private void OverlayHistoryMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Translator.Setting.OverlayWindow.HistoryMax > Translator.Setting.MainWindow.CaptionLogMax)
+                Translator.Setting.MainWindow.CaptionLogMax = Translator.Setting.OverlayWindow.HistoryMax;
+        }
+        
         private void LiveCaptionsInfo_MouseEnter(object sender, MouseEventArgs e)
         {
             LiveCaptionsInfoFlyout.Show();
@@ -81,7 +88,7 @@ namespace LiveCaptionsTranslator
         {
             LiveCaptionsInfoFlyout.Hide();
         }
-
+        
         private void FrequencyInfo_MouseEnter(object sender, MouseEventArgs e)
         {
             FrequencyInfoFlyout.Show();
@@ -91,34 +98,47 @@ namespace LiveCaptionsTranslator
         {
             FrequencyInfoFlyout.Hide();
         }
-
-        private void CaptionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        
+        private void TranslateAPIInfo_MouseEnter(object sender, MouseEventArgs e)
         {
-            while (Translator.Caption.LogCards.Count > Translator.Setting.MainWindow.CaptionLogMax)
-                Translator.Caption.LogCards.Dequeue();
-            Translator.Caption.OnPropertyChanged("DisplayLogCards");
+            TranslateAPIInfoFlyout.Show();
+        }
+
+        private void TranslateAPIInfo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            TranslateAPIInfoFlyout.Hide();
+        }
+
+        private void TargetLangInfo_MouseEnter(object sender, MouseEventArgs e)
+        {
+            TargetLangInfoFlyout.Show();
+        }
+
+        private void TargetLangInfo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            TargetLangInfoFlyout.Hide();
+        }
+
+        private void CaptionLogMaxInfo_MouseEnter(object sender, MouseEventArgs e)
+        {
+            CaptionLogMaxInfoFlyout.Show();
+        }
+
+        private void CaptionLogMaxInfo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            CaptionLogMaxInfoFlyout.Hide();
         }
 
         public void LoadAPISetting()
         {
             string targetLang = Translator.Setting.TargetLanguage;
             var supportedLanguages = Translator.Setting.CurrentAPIConfig.SupportedLanguages;
-            targetLangBox.ItemsSource = supportedLanguages.Keys;
+            TargetLangBox.ItemsSource = supportedLanguages.Keys;
 
             // Add custom target language to ComboBox
             if (!supportedLanguages.ContainsKey(targetLang))
-            {
                 supportedLanguages[targetLang] = targetLang;
-            }
-            targetLangBox.SelectedItem = targetLang;
-
-            foreach (UIElement element in PageGrid.Children)
-            {
-                if (element is Grid childGrid)
-                    childGrid.Visibility = Visibility.Collapsed;
-            }
-            var settingGrid = FindName($"{Translator.Setting.ApiName}Grid") as Grid ?? FindName($"NoSettingGrid") as Grid;
-            settingGrid.Visibility = Visibility.Visible;
+            TargetLangBox.SelectedItem = targetLang;
         }
     }
 }

@@ -45,7 +45,7 @@
                             Click="CaptionLog_OnClickButton_Click"
                             Icon="{ui:SymbolIcon History16,
                                                  Filled=False}"
-                            ToolTip="Caption Log" />
+                            ToolTip="Log Cards of Captions" />
                         <ui:Button
                             x:Name="logOnly"
                             Margin="0,0,5,0"
@@ -53,7 +53,7 @@
                             Click="LogOnly_OnClickButton_Click"
                             Icon="{ui:SymbolIcon Pause16,
                                                  Filled=False}"
-                            ToolTip="Pause Translation" />
+                            ToolTip="Pause Translation (Log Only)" />
                         <ui:Button
                             x:Name="overlayMode"
                             Margin="0,0,5,0"
@@ -61,7 +61,7 @@
                             Click="OverlayModeButton_Click"
                             Icon="{ui:SymbolIcon WindowNew24,
                                                  Filled=False}"
-                            ToolTip="Overlay Translate Mode" />
+                            ToolTip="Overlay Window" />
                         <ui:Button
                             x:Name="topmost"
                             Margin="0,0,5,0"
@@ -69,7 +69,7 @@
                             Click="TopmostButton_Click"
                             Icon="{ui:SymbolIcon Pin16,
                                                  Filled=True}"
-                            ToolTip="Always On Top" />
+                            ToolTip="Always on Top" />
                     </StackPanel>
                 </ui:TitleBar.TrailingContent>
             </ui:TitleBar>
