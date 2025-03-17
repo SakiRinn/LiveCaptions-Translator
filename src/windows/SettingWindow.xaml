@@ -41,6 +41,29 @@
                             Margin="10"
                             FontSize="20"
                             FontWeight="Medium"
+                            Text="Prompt" />
+                        <ui:Card Padding="15">
+                            <StackPanel
+                                Margin="15,0,15, 0"
+                                Orientation="Vertical">
+                                <ui:TextBlock Margin="2.5,0,0,5" TextWrapping="Wrap">
+                                    <Run FontWeight="Bold" Text="Note:" />
+                                    <Run Text="The {0} in the prompt indicates the target language, so please make sure that your prompt has {0}." />
+                                </ui:TextBlock>
+                                <ui:TextBox
+                                    x:Name="PromptTextBox"
+                                    AcceptsReturn="True"
+                                    Text="{Binding Prompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </ui:Card>
+                    </StackPanel>
+
+                    <StackPanel Margin="20">
+                        <TextBlock
+                            Margin="10"
+                            FontSize="20"
+                            FontWeight="Medium"
                             Text="Ollama" />
                         <ui:Card Padding="15">
                             <Grid x:Name="OllamaGrid">
@@ -258,16 +281,27 @@
                             <Grid x:Name="DeepLGrid">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel
                                     Grid.Row="0"
-                                    Grid.Column="0"
                                     Margin="15,0,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
+                                    <ui:TextBox
+                                        Width="200"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        FontSize="13.3"
+                                        Text="{Binding Configs[DeepL].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Margin="15,10,0,0"
                                     Orientation="Vertical">
                                     <ui:TextBlock Margin="2.5,0,0,5" Text="API Key" />
                                     <ui:TextBox
@@ -276,21 +310,6 @@
                                         Padding="10,4,10,7"
                                         FontSize="13.3"
                                         Text="{Binding Configs[DeepL].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                </StackPanel>
-                                <StackPanel
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Margin="15,0,0,0"
-                                    Orientation="Vertical">
-                                    <TextBlock Margin="2.5,0,0,5" Text="Use Free API" />
-                                    <ui:ToggleSwitch
-                                        Width="100"
-                                        Height="30"
-                                        Margin="0,0,0,0"
-                                        Padding="10,4,10,7"
-                                        IsChecked="{Binding Configs[DeepL].UseFreeApi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        OffContent="Off"
-                                        OnContent="On" />
                                 </StackPanel>
                             </Grid>
                         </ui:Card>

@@ -8,5 +8,5 @@ using System.Reflection;
 
 
 [assembly: AssemblyTitle("LiveCaptions Translator")]
-[assembly: AssemblyVersion("1.3.1251.1001")]
-[assembly: AssemblyFileVersion("1.3.1251.1001")]
+[assembly: AssemblyVersion("1.4.1251.1800")]
+[assembly: AssemblyFileVersion("1.4.1251.1800")]

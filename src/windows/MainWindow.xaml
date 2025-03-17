@@ -100,14 +100,6 @@
                         TargetPageType="{x:Type local:SettingPage}" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
-                        Content="Prompt"
-                        Cursor=""
-                        FontFamily="Bahnschrift"
-                        Icon="{ui:SymbolIcon Chat24}"
-                        NavigationCacheMode="Required"
-                        TargetPageType="{x:Type local:PromptSetting}" />
-                    <ui:NavigationViewItem
-                        Margin="0,3,0,0"
                         Content="History"
                         FontFamily="Bahnschrift"
                         Icon="{ui:SymbolIcon History24}"
