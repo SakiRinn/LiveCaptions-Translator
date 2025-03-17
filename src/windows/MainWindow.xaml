@@ -105,6 +105,13 @@
                         Icon="{ui:SymbolIcon History24}"
                         NavigationCacheMode="Disabled"
                         TargetPageType="{x:Type local:HistoryPage}" />
+                    <ui:NavigationViewItem
+                        Margin="0,3,0,0"
+                        Content="Info"
+                        FontFamily="Bahnschrift"
+                        Icon="{ui:SymbolIcon Info24}"
+                        NavigationCacheMode="Required"
+                        TargetPageType="{x:Type local:InfoPage}" />
                 </ui:NavigationView.MenuItems>
             </ui:NavigationView>
         </Grid>

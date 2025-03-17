@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="LiveCaptionsTranslator.InfoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:LiveCaptionsTranslator"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="InfoPage"
+    JournalEntry.KeepAlive="False"
+    mc:Ignorable="d">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="We highly encourage all forms of contributions, such as code improvements and new features." />
+            <TextBlock Text="You can submit Issues and Pull Requests on GitHub." />
+            <Separator Margin="0,5,0,5" />
+            <TextBlock Margin="0,0,0,3">
+                <Run FontWeight="SemiBold" Text="Repository:" />
+                <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Run Text="https://github.com/SakiRinn/LiveCaptions-Translator" />
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="0,0,0,3">
+                <Run FontWeight="SemiBold" Text="Maintainer:" />
+                <Hyperlink NavigateUri="https://github.com/SakiRinn" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Run Text="@SakiRinn" />
+                </Hyperlink>
+                <Run Text="(Author) and" />
+                <Hyperlink NavigateUri="https://github.com/A-nony-mous" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Run Text="@A-nony-mous" />
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="SemiBold" Text="Version:" />
+                <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator/releases" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Run Text="1.4.1251.1800" />
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>

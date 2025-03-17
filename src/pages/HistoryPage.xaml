@@ -11,7 +11,7 @@
     VerticalAlignment="Top"
     JournalEntry.KeepAlive="False"
     mc:Ignorable="d">
-    <Grid Margin="15,15,15,15" VerticalAlignment="Top">
+    <Grid Margin="15" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -37,7 +37,7 @@
                     MouseOverBackground="#07000000"
                     ToolTip="Previous " />
 
-                <TextBlock
+                <ui:TextBlock
                     x:Name="PageNumber"
                     Margin="10,0,10,0"
                     VerticalAlignment="Center"

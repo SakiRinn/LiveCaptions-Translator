@@ -10,7 +10,7 @@
     JournalEntry.KeepAlive="False"
     mc:Ignorable="d">
 
-    <Grid x:Name="PageGrid" Margin="15,15,15,15">
+    <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />

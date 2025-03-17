@@ -2,9 +2,11 @@
 using System.Windows;
 using Microsoft.Win32;
 using Wpf.Ui.Controls;
+using Wpf.Ui.Appearance;
 
 using LiveCaptionsTranslator.utils;
 using LiveCaptionsTranslator.models;
+
 using TextBlock = System.Windows.Controls.TextBlock;
 
 namespace LiveCaptionsTranslator
@@ -21,6 +23,7 @@ namespace LiveCaptionsTranslator
         public HistoryPage()
         {
             InitializeComponent();
+            ApplicationThemeManager.ApplySystemTheme();
 
             Loaded += async (s, e) =>
             {
