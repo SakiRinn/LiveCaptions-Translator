@@ -1,0 +1,302 @@
+<ui:FluentWindow
+    x:Class="LiveCaptionsTranslator.SettingWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:LiveCaptionsTranslator"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="Setting Window"
+    Width="800"
+    Height="450"
+    Background="Transparent"
+    ExtendsContentIntoTitleBar="True"
+    WindowBackdropType="Mica"
+    WindowStartupLocation="Manual"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Grid.Row="0" Height="27">
+            <ui:TitleBar.Header>
+                <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center">API Setting</ui:TextBlock>
+            </ui:TitleBar.Header>
+        </ui:TitleBar>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="30">
+                <ui:TextBlock
+                    Margin="0,0,0,10"
+                    FontSize="28"
+                    FontWeight="Heavy"
+                    Text="API Setting" />
+
+                <StackPanel x:Name="AllSettings" Margin="5">
+                    <StackPanel Margin="20">
+                        <TextBlock
+                            Margin="10"
+                            FontSize="20"
+                            FontWeight="Medium"
+                            Text="Ollama" />
+                        <ui:Card Padding="15">
+                            <Grid x:Name="OllamaGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="15,0,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="Model Name" />
+                                    <ui:TextBox
+                                        Width="130"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        FontSize="13.3"
+                                        Text="{Binding Configs[Ollama].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="15,10,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="Temperature" />
+                                    <ui:NumberBox
+                                        Width="130"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        ClearButtonEnabled="False"
+                                        FontSize="13.3"
+                                        LargeChange="1"
+                                        Maximum="2"
+                                        Minimum="0"
+                                        SmallChange="0.1"
+                                        Value="{Binding Configs[Ollama].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="15,0,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="Port" />
+                                    <ui:NumberBox
+                                        Width="100"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        ClearButtonEnabled="False"
+                                        FontSize="13.3"
+                                        Maximum="65535"
+                                        Minimum="1"
+                                        SpinButtonPlacementMode="Hidden"
+                                        Value="{Binding Configs[Ollama].Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Grid>
+                        </ui:Card>
+                    </StackPanel>
+
+                    <StackPanel Margin="20">
+                        <TextBlock
+                            Margin="10"
+                            FontSize="20"
+                            FontWeight="Medium"
+                            Text="OpenAI" />
+                        <ui:Card Padding="15">
+                            <Grid x:Name="OpenAIGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="15,0,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="Model Name" />
+                                    <ui:TextBox
+                                        Width="130"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        FontSize="13.3"
+                                        Text="{Binding Configs[OpenAI].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="15,10,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="Temperature" />
+                                    <ui:NumberBox
+                                        Width="130"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        ClearButtonEnabled="False"
+                                        FontSize="13.3"
+                                        LargeChange="1"
+                                        Maximum="2"
+                                        Minimum="0"
+                                        SmallChange="0.1"
+                                        Value="{Binding Configs[OpenAI].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="15,0,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
+                                    <ui:TextBox
+                                        Width="200"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        FontSize="13.3"
+                                        Text="{Binding Configs[OpenAI].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="15,10,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="API Key" />
+                                    <ui:TextBox
+                                        Width="200"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        FontSize="13.3"
+                                        Text="{Binding Configs[OpenAI].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Grid>
+                        </ui:Card>
+                    </StackPanel>
+
+                    <StackPanel Margin="20">
+                        <TextBlock
+                            Margin="10"
+                            FontSize="20"
+                            FontWeight="Medium"
+                            Text="OpenRouter" />
+                        <ui:Card Padding="15">
+                            <Grid x:Name="OpenRouterGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="15,0,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="Model Name" />
+                                    <ui:TextBox
+                                        Width="130"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        FontSize="13.3"
+                                        Text="{Binding Configs[OpenRouter].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="15,10,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="Temperature" />
+                                    <ui:NumberBox
+                                        Width="130"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        ClearButtonEnabled="False"
+                                        FontSize="13.3"
+                                        LargeChange="1"
+                                        Maximum="2"
+                                        Minimum="0"
+                                        SmallChange="0.1"
+                                        Value="{Binding Configs[OpenAI].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="15,0,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="API Key" />
+                                    <ui:TextBox
+                                        Width="200"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        FontSize="13.3"
+                                        Text="{Binding Configs[OpenRouter].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                            </Grid>
+                        </ui:Card>
+                    </StackPanel>
+
+                    <StackPanel Margin="20">
+                        <TextBlock
+                            Margin="10"
+                            FontSize="20"
+                            FontWeight="Medium"
+                            Text="DeepL" />
+                        <ui:Card Padding="15">
+                            <Grid x:Name="DeepLGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="15,0,0,0"
+                                    Orientation="Vertical">
+                                    <ui:TextBlock Margin="2.5,0,0,5" Text="API Key" />
+                                    <ui:TextBox
+                                        Width="200"
+                                        Height="30"
+                                        Padding="10,4,10,7"
+                                        FontSize="13.3"
+                                        Text="{Binding Configs[DeepL].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="15,0,0,0"
+                                    Orientation="Vertical">
+                                    <TextBlock Margin="2.5,0,0,5" Text="Use Free API" />
+                                    <ui:ToggleSwitch
+                                        Width="100"
+                                        Height="30"
+                                        Margin="0,0,0,0"
+                                        Padding="10,4,10,7"
+                                        IsChecked="{Binding Configs[DeepL].UseFreeApi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        OffContent="Off"
+                                        OnContent="On" />
+                                </StackPanel>
+                            </Grid>
+                        </ui:Card>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</ui:FluentWindow>

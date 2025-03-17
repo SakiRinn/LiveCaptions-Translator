@@ -9,6 +9,8 @@ namespace LiveCaptionsTranslator
 {
     public partial class SettingPage : Page
     {
+        private static SettingWindow? SettingWindow;
+        
         public SettingPage()
         {
             InitializeComponent();
@@ -60,7 +62,14 @@ namespace LiveCaptionsTranslator
         
         private void APISettingButton_click(object sender, RoutedEventArgs e)
         {
-            
+            if (SettingWindow != null && SettingWindow.IsLoaded)
+                SettingWindow.Activate();
+            else
+            {
+                SettingWindow = new SettingWindow();
+                SettingWindow.Closed += (sender, args) => SettingWindow = null;
+                SettingWindow.Show();
+            }
         }
         
         private void CaptionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
