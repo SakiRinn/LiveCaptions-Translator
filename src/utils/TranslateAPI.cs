@@ -144,7 +144,10 @@ namespace LiveCaptionsTranslator.utils
             var language = Translator.Setting?.TargetLanguage;
 
             string encodedText = Uri.EscapeDataString(text);
-            var url = $"https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=auto&tl={language}&q={encodedText}";
+            var url = $"https://clients5.google.com/translate_a/t?" +
+                      $"client=dict-chrome-ex&sl=auto&" +
+                      $"tl={language}&" +
+                      $"q={encodedText}";
 
             HttpResponseMessage response;
             try
@@ -290,6 +293,7 @@ namespace LiveCaptionsTranslator.utils
             string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue) 
                 ? langValue 
                 : Translator.Setting.TargetLanguage;
+            string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl);
 
             var requestData = new
             {
@@ -302,9 +306,6 @@ namespace LiveCaptionsTranslator.utils
 
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {config?.ApiKey}");
-
-            string apiUrl = string.IsNullOrEmpty(config?.ApiUrl) ? 
-                "https://api.deepl.com/v2/translate" : TextUtil.NormalizeUrl(config.ApiUrl);
 
             HttpResponseMessage response;
             try
@@ -335,9 +336,7 @@ namespace LiveCaptionsTranslator.utils
                 return "[Translation Failed] No valid feedback";
             }
             else
-            {
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
-            }
         }
     }
 

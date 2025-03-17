@@ -245,6 +245,7 @@
                     SelectedValue="{Binding OverlayWindow.HistoryMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     SelectedValuePath="Content"
                     SelectionChanged="OverlayHistoryMax_SelectionChanged">
+                    <ComboBoxItem Content="0" />
                     <ComboBoxItem Content="1" />
                     <ComboBoxItem Content="2" />
                     <ComboBoxItem Content="3" />

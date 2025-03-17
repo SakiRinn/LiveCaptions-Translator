@@ -174,7 +174,7 @@ namespace LiveCaptionsTranslator.models
         };
 
         private string apiKey = "";
-        private string apiUrl = "";
+        private string apiUrl = "https://api.deepl.com/v2/translate";
 
         public string ApiKey
         {

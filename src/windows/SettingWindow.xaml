@@ -252,7 +252,7 @@
                                         Maximum="2"
                                         Minimum="0"
                                         SmallChange="0.1"
-                                        Value="{Binding Configs[OpenAI].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        Value="{Binding Configs[OpenRouter].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </StackPanel>
                                 <StackPanel
                                     Grid.Row="0"
