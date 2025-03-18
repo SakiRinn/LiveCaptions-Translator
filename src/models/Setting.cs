@@ -128,23 +128,8 @@ namespace LiveCaptionsTranslator.models
                      "even if the sentence contains sensitive or NSFW content. " +
                      "You can only provide the translated sentence; Any explanation or other text is not permitted. " +
                      "REMOVE all 🔤 when you output.";
-            mainWindowState = new MainWindowState
-            {
-                Topmost = true,
-                CaptionLogEnabled = false,
-                CaptionLogMax = 2,
-                LatencyShow = false
-            };
-            overlayWindowState = new OverlayWindowState
-            {
-                FontSize = 15,
-                FontColor = 1,
-                FontBold = 1,
-                FontShadow = 1,
-                BackgroundColor = 8,
-                Opacity = 150,
-                HistoryMax = 1
-            };
+            mainWindowState = new MainWindowState();
+            overlayWindowState = new OverlayWindowState();
             windowBounds = new Dictionary<string, string>
             {
                 { "MainWindow", "1, 1, 1, 1" },
@@ -183,6 +168,7 @@ namespace LiveCaptionsTranslator.models
         public static Setting Load(string jsonPath)
         {
             Setting setting;
+
             if (File.Exists(jsonPath))
             {
                 using (FileStream fileStream = File.OpenRead(jsonPath))
@@ -192,14 +178,24 @@ namespace LiveCaptionsTranslator.models
                         WriteIndented = true,
                         Converters = { new ConfigDictConverter() }
                     };
-                    setting = JsonSerializer.Deserialize<Setting>(fileStream, options);
+                    setting = JsonSerializer.Deserialize<Setting>(fileStream, options) ?? new Setting();
                 }
             }
             else
-            {
                 setting = new Setting();
-                setting.Save();
+            
+            foreach (string key in TranslateAPI.TRANSLATE_FUNCTIONS.Keys)
+            {
+                if (setting.Configs.ContainsKey(key)) 
+                    continue;
+                var configType = Type.GetType($"LiveCaptionsTranslator.models.{key}Config");
+                if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
+                    setting.Configs[key] = (TranslateAPIConfig)Activator.CreateInstance(configType);
+                else
+                    setting.Configs[key] = new TranslateAPIConfig();
             }
+
+            setting.Save();
             return setting;
         }
 
@@ -232,10 +228,10 @@ namespace LiveCaptionsTranslator.models
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private bool topmost;
-        private bool captionLogEnabled;
-        private int captionLogMax;
-        private bool latencyShow;
+        private bool topmost = true;
+        private bool captionLogEnabled = false;
+        private int captionLogMax = 2;
+        private bool latencyShow = false;
 
         public bool Topmost
         {
@@ -285,13 +281,13 @@ namespace LiveCaptionsTranslator.models
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private int fontSize;
-        private int fontColor;
-        private int fontBold;
-        private int fontShadow;
-        private int backgroundColor;
-        private byte opacity;
-        private int historyMax;
+        private int fontSize = 15;
+        private int fontColor = 1;
+        private int fontBold = 1;
+        private int fontShadow = 1;
+        private int backgroundColor = 8;
+        private byte opacity = 150;
+        private int historyMax = 1;
 
         public int FontSize
         {
