@@ -13,9 +13,9 @@
     MinHeight="167"
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
-    LocationChanged="MainWindow_BoundsChanged"
+    LocationChanged="MainWindow_LocationChanged"
+    SizeChanged="MainWindow_SizeChanged"
     ResizeMode="CanResizeWithGrip"
-    SizeChanged="MainWindow_BoundsChanged"
     Topmost="True"
     WindowBackdropType="Mica"
     WindowStartupLocation="Manual"
@@ -39,23 +39,24 @@
                 <ui:TitleBar.TrailingContent>
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                         <ui:Button
-                            x:Name="captionLog"
+                            x:Name="CaptionLogButton"
                             Margin="0,0,5,0"
                             Appearance="Transparent"
-                            Click="CaptionLog_OnClickButton_Click"
+                            Click="CaptionLogButton_Click"
                             Icon="{ui:SymbolIcon History16,
                                                  Filled=False}"
+                            Visibility="Collapsed"
                             ToolTip="Log Cards of Captions" />
                         <ui:Button
-                            x:Name="logOnly"
+                            x:Name="LogOnlyButton"
                             Margin="0,0,5,0"
                             Appearance="Transparent"
-                            Click="LogOnly_OnClickButton_Click"
+                            Click="LogOnlyButton_Click"
                             Icon="{ui:SymbolIcon Pause16,
                                                  Filled=False}"
                             ToolTip="Pause Translation (Log Only)" />
                         <ui:Button
-                            x:Name="overlayMode"
+                            x:Name="OverlayModeButton"
                             Margin="0,0,5,0"
                             Appearance="Transparent"
                             Click="OverlayModeButton_Click"
@@ -63,7 +64,7 @@
                                                  Filled=False}"
                             ToolTip="Overlay Window" />
                         <ui:Button
-                            x:Name="topmost"
+                            x:Name="TopmostButton"
                             Margin="0,0,5,0"
                             Appearance="Transparent"
                             Click="TopmostButton_Click"

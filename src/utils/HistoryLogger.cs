@@ -8,7 +8,8 @@ namespace LiveCaptionsTranslator.utils
 {
     public static class SQLiteHistoryLogger
     {
-        private static readonly string CONNECTION_STRING = "Data Source=translation_history.db;";
+        public static readonly string CONNECTION_STRING = "Data Source=translation_history.db;";
+        
         private static SqliteConnection _sharedConnection;
         private static readonly object _connectionLock = new object();
 

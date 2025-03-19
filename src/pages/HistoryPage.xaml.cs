@@ -13,6 +13,8 @@ namespace LiveCaptionsTranslator
 {
     public partial class HistoryPage : Page
     {
+        public const int MIN_HEIGHT = 300;
+        
         private int currentPage = 1;
         private int searchPage = 1;
         private int maxPage = 1;
@@ -28,6 +30,7 @@ namespace LiveCaptionsTranslator
             Loaded += async (s, e) =>
             {
                 await LoadHistory();
+                (App.Current.MainWindow as MainWindow)?.AutoHeightAdjust(minHeight: MIN_HEIGHT, maxHeight: MIN_HEIGHT);
                 Translator.TranslationLogged += OnTranslationLogged;
             };
             Unloaded += (s, e) =>
@@ -111,7 +114,6 @@ namespace LiveCaptionsTranslator
 
         private async void Export_click(object sender, RoutedEventArgs e)
         {
-
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
                 Filter = "CSV (*.csv)|*.csv|All file (*.*)|*.*",

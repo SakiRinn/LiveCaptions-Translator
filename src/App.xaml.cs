@@ -14,7 +14,7 @@ namespace LiveCaptionsTranslator
             Task.Run(() => Translator.TranslateLoop());
         }
 
-        static void OnProcessExit(object sender, EventArgs e)
+        private static void OnProcessExit(object sender, EventArgs e)
         {
             if (Translator.Window != null)
             {

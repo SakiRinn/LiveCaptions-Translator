@@ -33,7 +33,7 @@
             <TextBlock>
                 <Run FontWeight="SemiBold" Text="Version:" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator/releases" RequestNavigate="Hyperlink_RequestNavigate">
-                    <Run Text="1.4.1251.1800" />
+                    <Run Text="1.4.1251.2000" />
                 </Hyperlink>
             </TextBlock>
         </StackPanel>

@@ -10,16 +10,28 @@ namespace LiveCaptionsTranslator
 {
     public partial class CaptionPage : Page
     {
-        public static CaptionPage? Instance { get; set; } = null;
+        public const int CARD_HEIGHT = 110;
+
+        private static CaptionPage instance;
+        public static CaptionPage Instance => instance;
 
         public CaptionPage()
         {
             InitializeComponent();
             DataContext = Translator.Caption;
-            Instance = this;
+            instance = this;
 
-            Loaded += (s, e) => Translator.Caption.PropertyChanged += TranslatedChanged;
-            Unloaded += (s, e) => Translator.Caption.PropertyChanged -= TranslatedChanged;
+            Loaded += (s, e) =>
+            {
+                AutoHeight();
+                (App.Current.MainWindow as MainWindow).CaptionLogButton.Visibility = Visibility.Visible;
+                Translator.Caption.PropertyChanged += TranslatedChanged;
+            };
+            Unloaded += (s, e) =>
+            {
+                (App.Current.MainWindow as MainWindow).CaptionLogButton.Visibility = Visibility.Collapsed;
+                Translator.Caption.PropertyChanged -= TranslatedChanged;
+            };
 
             CollapseTranslatedCaption(Translator.Setting.MainWindow.CaptionLogEnabled);
         }
@@ -77,6 +89,17 @@ namespace LiveCaptionsTranslator
                 TranslatedCaption_Row.Height = (GridLength)converter.ConvertFromString("*");
                 CaptionLogCard.Visibility = Visibility.Collapsed;
             }
+        }
+        
+        public void AutoHeight()
+        {
+            if (Translator.Setting.MainWindow.CaptionLogEnabled)
+                (App.Current.MainWindow as MainWindow).AutoHeightAdjust(
+                    minHeight: CARD_HEIGHT * (Translator.Setting.MainWindow.CaptionLogMax + 1),
+                    maxHeight: CARD_HEIGHT * (Translator.Setting.MainWindow.CaptionLogMax + 1));
+            else
+                (App.Current.MainWindow as MainWindow).AutoHeightAdjust(
+                    maxHeight: (int)App.Current.MainWindow.MinHeight);
         }
     }
 }

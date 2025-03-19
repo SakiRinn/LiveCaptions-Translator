@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
-
 using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator
@@ -9,25 +8,26 @@ namespace LiveCaptionsTranslator
     public partial class MainWindow : FluentWindow
     {
         public OverlayWindow? OverlayWindow { get; set; } = null;
+        public bool IsAutoHeight { get; set; } = true;
 
         public MainWindow()
         {
             InitializeComponent();
             ApplicationThemeManager.ApplySystemTheme();
 
-            Loaded += (sender, args) =>
+            Loaded += (s, e) =>
             {
                 SystemThemeWatcher.Watch(
                     this,
                     WindowBackdropType.Mica,
                     true
                 );
+                RootNavigation.Navigate(typeof(CaptionPage));
             };
-            Loaded += (sender, args) => RootNavigation.Navigate(typeof(CaptionPage));
 
             var windowState = WindowHandler.LoadState(this, Translator.Setting);
             WindowHandler.RestoreState(this, windowState);
-            
+
             ToggleTopmost(Translator.Setting.MainWindow.Topmost);
             ShowLogCard(Translator.Setting.MainWindow.CaptionLogEnabled);
         }
@@ -76,7 +76,7 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        private void LogOnly_OnClickButton_Click(object sender, RoutedEventArgs e)
+        private void LogOnlyButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
@@ -93,21 +93,28 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        private void CaptionLog_OnClickButton_Click(object sender, RoutedEventArgs e)
+        private void CaptionLogButton_Click(object sender, RoutedEventArgs e)
         {
             Translator.Setting.MainWindow.CaptionLogEnabled = !Translator.Setting.MainWindow.CaptionLogEnabled;
             ShowLogCard(Translator.Setting.MainWindow.CaptionLogEnabled);
+            CaptionPage.Instance?.AutoHeight();
         }
 
-        private void MainWindow_BoundsChanged(object sender, EventArgs e)
+        private void MainWindow_LocationChanged(object sender, EventArgs e)
         {
             var window = sender as Window;
             WindowHandler.SaveState(window, Translator.Setting);
         }
+        
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            MainWindow_LocationChanged(sender, e);
+            IsAutoHeight = false;
+        }
 
         public void ToggleTopmost(bool enabled)
         {
-            var button = topmost as Button;
+            var button = TopmostButton as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
             symbolIcon.Filled = enabled;
             this.Topmost = enabled;
@@ -116,7 +123,7 @@ namespace LiveCaptionsTranslator
 
         public void ShowLogCard(bool enabled)
         {
-            if (captionLog.Icon is SymbolIcon icon)
+            if (CaptionLogButton.Icon is SymbolIcon icon)
             {
                 if (enabled)
                     icon.Symbol = SymbolRegular.History24;
@@ -124,6 +131,17 @@ namespace LiveCaptionsTranslator
                     icon.Symbol = SymbolRegular.HistoryDismiss24;
                 CaptionPage.Instance?.CollapseTranslatedCaption(enabled);
             }
+        }
+
+        public void AutoHeightAdjust(int minHeight = -1, int maxHeight = -1)
+        {
+            if (minHeight > 0 && Height < minHeight)
+            {
+                Height = minHeight;
+                IsAutoHeight = true;
+            }
+            if (IsAutoHeight && maxHeight > 0 && Height > maxHeight)
+                Height = maxHeight;
         }
     }
 }

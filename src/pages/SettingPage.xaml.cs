@@ -17,6 +17,12 @@ namespace LiveCaptionsTranslator
             ApplicationThemeManager.ApplySystemTheme();
             DataContext = Translator.Setting;
 
+            Loaded += (s, e) =>
+            {
+                (App.Current.MainWindow as MainWindow)?.AutoHeightAdjust(
+                    maxHeight: (int)App.Current.MainWindow.MinHeight);
+            };
+
             TranslateAPIBox.ItemsSource = Translator.Setting?.Configs.Keys;
             TranslateAPIBox.SelectedIndex = 0;
 
