@@ -15,7 +15,13 @@ namespace LiveCaptionsTranslator
             InitializeComponent();
             ApplicationThemeManager.ApplySystemTheme();
             DataContext = Translator.Setting;
-            
+            GeneralButton.Background = new SolidColorBrush(Colors.Transparent);
+            PromptButton.Background = new SolidColorBrush(Colors.Transparent);
+            OllamaButton.Background = new SolidColorBrush(Colors.Transparent);
+            OpenAIButton.Background = new SolidColorBrush(Colors.Transparent);
+            OpenRouterButton.Background = new SolidColorBrush(Colors.Transparent);
+            DeepLButton.Background = new SolidColorBrush(Colors.Transparent);
+
             Loaded += (sender, args) =>
             {
                 SystemThemeWatcher.Watch(this, WindowBackdropType.Mica, true);
