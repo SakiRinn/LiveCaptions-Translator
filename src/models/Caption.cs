@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Text.RegularExpressions;
 using LiveCaptionsTranslator.utils;
 
@@ -64,6 +65,7 @@ namespace LiveCaptionsTranslator.models
                 int historyCount = Math.Min(Translator.Setting.OverlayWindow.HistoryMax, LogCards.Count);
                 if (historyCount <= 0)
                     return string.Empty;
+                
                 var prefix = DisplayLogCards
                     .Take(historyCount)
                     .Reverse()
@@ -76,8 +78,11 @@ namespace LiveCaptionsTranslator.models
                         return accu + cur;
                     });
                 prefix = Regex.Replace(prefix, @"^\[.+\] ", "");
+                
                 if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
-                    prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ". ";
+                    prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ".";
+                if (!string.IsNullOrEmpty(prefix) && Encoding.UTF8.GetByteCount(prefix[^1].ToString()) < 2)
+                    prefix += " ";
                 return prefix;
             }
         }
