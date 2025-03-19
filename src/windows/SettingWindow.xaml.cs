@@ -36,7 +36,7 @@ namespace LiveCaptionsTranslator
         {
             sectionReferences = new Dictionary<string, FrameworkElement>
             {
-                { "General", ContentPanel }, // 通用部分就是整个内容面板
+                { "General", ContentPanel },
                 { "Prompt", PromptSection },
                 { "Ollama", OllamaSection },
                 { "OpenAI", OpenAISection },
@@ -50,13 +50,9 @@ namespace LiveCaptionsTranslator
             if (sender is System.Windows.Controls.Button button)
             {
                 SelectButton(button);
-
                 string targetSection = button.Tag.ToString();
-
                 if (sectionReferences.TryGetValue(targetSection, out FrameworkElement element))
-                {
                     element.BringIntoView();
-                }
             }
         }
 
@@ -64,12 +60,8 @@ namespace LiveCaptionsTranslator
         {
 
             if (currentSelected != null)
-            {
                 currentSelected.Background = new SolidColorBrush(Colors.Transparent);
-            }
-            
             button.Background = (Brush)FindResource("ControlFillColorSecondaryBrush");
-
             currentSelected = button;
         }
     }

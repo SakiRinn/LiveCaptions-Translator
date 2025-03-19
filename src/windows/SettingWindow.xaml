@@ -32,10 +32,12 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" BorderBrush="{DynamicResource ControlElevationBorderBrush}"
-                    BorderThickness="0,0,1,0">
+            <Border
+                Grid.Column="0"
+                BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                BorderThickness="0,0,1,0">
                 <StackPanel Width="200" Background="{DynamicResource ControlFillColorDefaultBrush}">
-                    <Button
+                    <ui:Button
                         x:Name="GeneralButton"
                         Margin="10,10,10,0"
                         Padding="10"
@@ -44,12 +46,12 @@
                         Click="NavigationButton_Click"
                         Tag="General">
                         <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="Settings16" Margin="0,0,10,0" />
-                            <TextBlock Text="General" VerticalAlignment="Center" />
+                            <ui:SymbolIcon Margin="0,0,10,0" Symbol="Settings16" />
+                            <TextBlock VerticalAlignment="Center" Text="General" />
                         </StackPanel>
-                    </Button>
+                    </ui:Button>
 
-                    <Button
+                    <ui:Button
                         x:Name="PromptButton"
                         Margin="10,5,10,0"
                         Padding="10"
@@ -58,12 +60,12 @@
                         Click="NavigationButton_Click"
                         Tag="Prompt">
                         <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Symbol="Document16" Margin="0,0,10,0" />
-                            <TextBlock Text="Prompt" VerticalAlignment="Center" />
+                            <ui:SymbolIcon Margin="0,0,10,0" Symbol="Document16" />
+                            <TextBlock VerticalAlignment="Center" Text="Prompt" />
                         </StackPanel>
-                    </Button>
+                    </ui:Button>
 
-                    <Button
+                    <ui:Button
                         x:Name="OllamaButton"
                         Margin="10,5,10,0"
                         Padding="10"
@@ -72,11 +74,11 @@
                         Click="NavigationButton_Click"
                         Tag="Ollama">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Ollama" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Text="Ollama" />
                         </StackPanel>
-                    </Button>
+                    </ui:Button>
 
-                    <Button
+                    <ui:Button
                         x:Name="OpenAIButton"
                         Margin="10,5,10,0"
                         Padding="10"
@@ -85,11 +87,11 @@
                         Click="NavigationButton_Click"
                         Tag="OpenAI">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="OpenAI" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Text="OpenAI" />
                         </StackPanel>
-                    </Button>
+                    </ui:Button>
 
-                    <Button
+                    <ui:Button
                         x:Name="OpenRouterButton"
                         Margin="10,5,10,0"
                         Padding="10"
@@ -98,11 +100,11 @@
                         Click="NavigationButton_Click"
                         Tag="OpenRouter">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="OpenRouter" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Text="OpenRouter" />
                         </StackPanel>
-                    </Button>
+                    </ui:Button>
 
-                    <Button
+                    <ui:Button
                         x:Name="DeepLButton"
                         Margin="10,5,10,0"
                         Padding="10"
@@ -111,13 +113,16 @@
                         Click="NavigationButton_Click"
                         Tag="DeepL">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="DeepL" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Text="DeepL" />
                         </StackPanel>
-                    </Button>
+                    </ui:Button>
                 </StackPanel>
             </Border>
-            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" x:Name="ContentScrollViewer">
-                <StackPanel Margin="30" x:Name="ContentPanel">
+            <ScrollViewer
+                x:Name="ContentScrollViewer"
+                Grid.Column="1"
+                VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="ContentPanel" Margin="30">
                     <ui:TextBlock
                         Margin="0,0,0,10"
                         FontSize="28"
@@ -125,20 +130,17 @@
                         Text="API Setting" />
 
                     <StackPanel x:Name="AllSettings" Margin="5">
-                        <StackPanel Margin="20" x:Name="PromptSection">
+                        <StackPanel x:Name="PromptSection" Margin="20">
                             <TextBlock
                                 Margin="10"
                                 FontSize="20"
                                 FontWeight="Medium"
                                 Text="Prompt" />
                             <ui:Card Padding="15">
-                                <StackPanel
-                                    Margin="15,0,15,0"
-                                    Orientation="Vertical">
+                                <StackPanel Margin="15,0,15,0" Orientation="Vertical">
                                     <ui:TextBlock Margin="2.5,0,0,5" TextWrapping="Wrap">
                                         <Run FontWeight="Bold" Text="Note:" />
-                                        <Run
-                                            Text="The {0} in the prompt indicates the target language, so please make sure that your prompt has {0}." />
+                                        <Run Text="The {0} in the prompt indicates the target language, so please make sure that your prompt has {0}." />
                                     </ui:TextBlock>
                                     <ui:TextBox
                                         x:Name="PromptTextBox"
@@ -149,7 +151,7 @@
                             </ui:Card>
                         </StackPanel>
 
-                        <StackPanel Margin="20" x:Name="OllamaSection">
+                        <StackPanel x:Name="OllamaSection" Margin="20">
                             <TextBlock
                                 Margin="10"
                                 FontSize="20"
@@ -217,7 +219,7 @@
                                 </Grid>
                             </ui:Card>
                         </StackPanel>
-                        <StackPanel Margin="20" x:Name="OpenAISection">
+                        <StackPanel x:Name="OpenAISection" Margin="20">
                             <TextBlock
                                 Margin="10"
                                 FontSize="20"
@@ -295,7 +297,7 @@
                             </ui:Card>
                         </StackPanel>
 
-                        <StackPanel Margin="20" x:Name="OpenRouterSection">
+                        <StackPanel x:Name="OpenRouterSection" Margin="20">
                             <TextBlock
                                 Margin="10"
                                 FontSize="20"
@@ -360,7 +362,7 @@
                             </ui:Card>
                         </StackPanel>
 
-                        <StackPanel Margin="20" x:Name="DeepLSection">
+                        <StackPanel x:Name="DeepLSection" Margin="20">
                             <TextBlock
                                 Margin="10"
                                 FontSize="20"
