@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Security.Cryptography;
 
 using LiveCaptionsTranslator.models;
 
@@ -22,6 +23,7 @@ namespace LiveCaptionsTranslator.utils
             { "OpenAI", OpenAI },
             { "DeepL", DeepL },
             { "OpenRouter", OpenRouter },
+            { "Youdao", Youdao },
         };
 
         public static Func<string, CancellationToken, Task<string>> TranslateFunction
@@ -41,9 +43,9 @@ namespace LiveCaptionsTranslator.utils
         public static async Task<string> OpenAI(string text, CancellationToken token = default)
         {
             var config = Translator.Setting.CurrentAPIConfig as OpenAIConfig;
-            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue) 
-                ? langValue 
-                : Translator.Setting.TargetLanguage; 
+            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
+                ? langValue
+                : Translator.Setting.TargetLanguage;
             var requestData = new
             {
                 model = config?.ModelName,
@@ -92,9 +94,9 @@ namespace LiveCaptionsTranslator.utils
         {
             var config = Translator.Setting?.CurrentAPIConfig as OllamaConfig;
             var apiUrl = $"http://localhost:{config.Port}/api/chat";
-            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue) 
-                ? langValue 
-                : Translator.Setting.TargetLanguage; 
+            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
+                ? langValue
+                : Translator.Setting.TargetLanguage;
 
             var requestData = new
             {
@@ -228,7 +230,7 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
-        
+
         public static async Task<string> OpenRouter(string text, CancellationToken token = default)
         {
             var config = Translator.Setting.CurrentAPIConfig as OpenRouterConfig;
@@ -286,12 +288,12 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
-        
+
         public static async Task<string> DeepL(string text, CancellationToken token = default)
         {
             var config = Translator.Setting.CurrentAPIConfig as DeepLConfig;
-            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue) 
-                ? langValue 
+            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
+                ? langValue
                 : Translator.Setting.TargetLanguage;
             string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl);
 
@@ -327,7 +329,7 @@ namespace LiveCaptionsTranslator.utils
             {
                 string responseString = await response.Content.ReadAsStringAsync();
                 using var doc = JsonDocument.Parse(responseString);
-        
+
                 if (doc.RootElement.TryGetProperty("translations", out var translations) &&
                     translations.ValueKind == JsonValueKind.Array && translations.GetArrayLength() > 0)
                 {
@@ -338,7 +340,64 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
         }
-    }
+
+
+        public static async Task<string> Youdao(string text, CancellationToken token = default)
+        {
+            var config = Translator.Setting.CurrentAPIConfig as YoudaoConfig;
+            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
+                ? langValue : Translator.Setting.TargetLanguage;
+
+            string salt = DateTime.Now.Millisecond.ToString();
+            string sign = BitConverter.ToString(
+                MD5.Create().ComputeHash(
+                    Encoding.UTF8.GetBytes($"{config.AppKey}{text}{salt}{config.AppSecret}"))).Replace("-", "").ToLower();
+
+            var parameters = new Dictionary<string, string>
+            {
+                ["q"] = text,
+                ["from"] = "auto",
+                ["to"] = language,
+                ["appKey"] = config.AppKey,
+                ["salt"] = salt,
+                ["sign"] = sign
+            };
+
+            var content = new FormUrlEncodedContent(parameters);
+            client.DefaultRequestHeaders.Clear();
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.PostAsync(config.ApiUrl, content, token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[Translation Failed] {ex.Message}";
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return $"[Translation Failed] {ex.Message}";
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseString = await response.Content.ReadAsStringAsync();
+                var responseObj = JsonSerializer.Deserialize<YoudaoConfig.TranslationResult>(responseString);
+
+                if (responseObj.errorCode != "0")
+                    return $"[Translation Failed] Youdao Error {responseObj.errorCode}";
+
+                return responseObj.translation?.FirstOrDefault() ?? "[Translation Failed] No content";
+            }
+            else
+            {
+                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+            }
+        }
+    }         
 
     public class ConfigDictConverter : JsonConverter<Dictionary<string, TranslateAPIConfig>>
     {

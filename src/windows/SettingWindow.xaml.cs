@@ -21,7 +21,7 @@ namespace LiveCaptionsTranslator
             OpenAIButton.Background = new SolidColorBrush(Colors.Transparent);
             OpenRouterButton.Background = new SolidColorBrush(Colors.Transparent);
             DeepLButton.Background = new SolidColorBrush(Colors.Transparent);
-
+            YoudaoButton.Background = new SolidColorBrush(Colors.Transparent);
             Loaded += (sender, args) =>
             {
                 SystemThemeWatcher.Watch(this, WindowBackdropType.Mica, true);
@@ -41,7 +41,8 @@ namespace LiveCaptionsTranslator
                 { "Ollama", OllamaSection },
                 { "OpenAI", OpenAISection },
                 { "OpenRouter", OpenRouterSection },
-                { "DeepL", DeepLSection }
+                { "DeepL", DeepLSection },
+                { "Youdao", YoudaoSection }
             };
         }
 

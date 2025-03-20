@@ -195,4 +195,63 @@ namespace LiveCaptionsTranslator.models
             }
         }
     }
+    public class YoudaoConfig : TranslateAPIConfig
+    {
+        public class TranslationResult
+        {
+            public string errorCode { get; set; }
+            public string query { get; set; }
+            public List<string> translation { get; set; }
+            public string l { get; set; }
+            public string tSpeakUrl { get; set; }
+            public string speakUrl { get; set; }
+        }
+
+        [JsonIgnore]
+        public override Dictionary<string, string> SupportedLanguages { get; } = new()
+    {
+        { "zh-CN", "zh-CHS" }, 
+        { "zh-TW", "zh-CHT" }, 
+        { "en-US", "en" },      
+        { "ja-JP", "ja" },      
+        { "ko-KR", "ko" },     
+        { "fr-FR", "fr" },      
+        { "th-TH", "th" },
+    };
+
+        private string appKey = "";
+        private string appSecret = "";
+        private string apiUrl = "https://openapi.youdao.com/api";
+
+        public string AppKey
+        {
+            get => appKey;
+            set
+            {
+                appKey = value;
+                OnPropertyChanged("AppKey");
+            }
+        }
+
+        public string AppSecret
+        {
+            get => appSecret;
+            set
+            {
+                appSecret = value;
+                OnPropertyChanged("AppSecret");
+            }
+        }
+
+        public string ApiUrl
+        {
+            get => apiUrl;
+            set
+            {
+                apiUrl = value;
+                OnPropertyChanged("ApiUrl");
+            }
+        }
+    }
+
 }
