@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Automation;
 
 using LiveCaptionsTranslator.models;
@@ -66,14 +65,13 @@ namespace LiveCaptionsTranslator
                 if (string.IsNullOrEmpty(fullText))
                     continue;
 
+                // Preprocess
+                fullText = RegexPatterns.Acronym().Replace(fullText, "$1$2");
+                fullText = RegexPatterns.AcronymWithWords().Replace(fullText, "$1 $2");
+                fullText = RegexPatterns.PunctuationSpace().Replace(fullText, "$1 ");
+                fullText = RegexPatterns.CJPunctuationSpace().Replace(fullText, "$1");
                 // Note: For certain languages (such as Japanese), LiveCaptions excessively uses `\n`.
-                // Preprocess - remove the `.` between two uppercase letters. (Cope with acronym)
-                fullText = Regex.Replace(fullText, @"([A-Z])\s*\.\s*([A-Z])(?![A-Za-z]+)", "$1$2");
-                fullText = Regex.Replace(fullText, @"([A-Z])\s*\.\s*([A-Z])(?=[A-Za-z]+)", "$1 $2");
-                // Preprocess - Remove redundant `\n` around punctuation.
-                fullText = Regex.Replace(fullText, @"\s*([.!?,])\s*", "$1 ");
-                fullText = Regex.Replace(fullText, @"\s*([。！？，、])\s*", "$1");
-                // Preprocess - Replace redundant `\n` within sentences with comma or period.
+                // Replace redundant `\n` within sentences with comma or period.
                 fullText = TextUtil.ReplaceNewlines(fullText, TextUtil.MEDIUM_THRESHOLD);
                 
                 // Prevent adding the last sentence from previous running to log cards
@@ -194,10 +192,10 @@ namespace LiveCaptionsTranslator
                         Caption.DisplayTranslatedCaption = 
                             TextUtil.ShortenDisplaySentence(Caption.TranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
                         
-                        var match = Regex.Match(Caption.TranslatedCaption, @"^(\[.+\] )?(.*)$");
+                        var match = RegexPatterns.NoticePrefixAndTranslation().Match(Caption.TranslatedCaption);
                         string noticePrefix = match.Groups[1].Value;
                         string translatedText = match.Groups[2].Value;
-                        Caption.OverlayTranslatedCaption = noticePrefix + Caption.OverlayTranslatedPrefix + translatedText;
+                        Caption.OverlayTranslatedCaption = noticePrefix + Caption.OverlayPreviousTranslation + translatedText;
                         // Caption.OverlayTranslatedCaption = 
                         //     TextUtil.ShortenDisplaySentence(Caption.OverlayTranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
                     }

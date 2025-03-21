@@ -95,11 +95,11 @@ namespace LiveCaptionsTranslator.utils
 
         public static string NormalizeUrl(string url)
         {
-            var protocolMatch = Regex.Match(url, @"^(https?:\/\/)");
+            var protocolMatch = RegexPatterns.HttpPrefix().Match(url);
             string protocol = protocolMatch.Success ? protocolMatch.Value : "";
 
             string rest = url.Substring(protocol.Length);
-            rest = Regex.Replace(rest, @"\/{2,}", "/");
+            rest = RegexPatterns.MultipleSlashes().Replace(rest, "/");
             rest = rest.TrimEnd('/');
 
             return protocol + rest;
