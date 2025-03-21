@@ -58,7 +58,7 @@ namespace LiveCaptionsTranslator.models
         public Queue<TranslationHistoryEntry> LogCards { get; } = new(6);
         public IEnumerable<TranslationHistoryEntry> DisplayLogCards => LogCards.Reverse();
 
-        public string OverlayTranslatedPrefix
+        public string OverlayPreviousTranslation
         {
             get
             {
@@ -74,10 +74,10 @@ namespace LiveCaptionsTranslator.models
                     {
                         if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
                             accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
-                        cur = Regex.Replace(cur, @"^\[.+\] ", "");
+                        cur = RegexPatterns.NoticePrefix().Replace(cur, "");
                         return accu + cur;
                     });
-                prefix = Regex.Replace(prefix, @"^\[.+\] ", "");
+                prefix = RegexPatterns.NoticePrefix().Replace(prefix, "");
                 
                 if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
                     prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ".";
