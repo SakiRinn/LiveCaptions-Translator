@@ -24,6 +24,7 @@ namespace LiveCaptionsTranslator.utils
             { "DeepL", DeepL },
             { "OpenRouter", OpenRouter },
             { "Youdao", Youdao },
+            { "MTranServer", MTranServer },
         };
 
         public static Func<string, CancellationToken, Task<string>> TranslateFunction
@@ -397,7 +398,55 @@ namespace LiveCaptionsTranslator.utils
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
             }
         }
-    }         
+
+        public static async Task<string> MTranServer(string text, CancellationToken token = default)
+        {
+            var config = Translator.Setting.CurrentAPIConfig as MTranServerConfig;
+            string targetLanguage = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
+                ? langValue
+                : Translator.Setting.TargetLanguage;
+            string sourceLanguage = config.SourceLanguage;
+            string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl);
+
+            var requestData = new
+            {
+                text = text,
+                to = targetLanguage,
+                from = sourceLanguage
+            };
+
+            string jsonContent = JsonSerializer.Serialize(requestData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.PostAsync(apiUrl, content, token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[Translation Failed] {ex.Message}";
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return $"[Translation Failed] {ex.Message}";
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseString = await response.Content.ReadAsStringAsync();
+                var responseObj = JsonSerializer.Deserialize<MTranServerConfig.Response>(responseString);
+                return responseObj.result;
+            }
+            else
+                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+        }
+    }
 
     public class ConfigDictConverter : JsonConverter<Dictionary<string, TranslateAPIConfig>>
     {
