@@ -143,6 +143,7 @@ namespace LiveCaptionsTranslator.models
                 { "OpenAI", new OpenAIConfig() },
                 { "DeepL", new DeepLConfig() },
                 { "OpenRouter", new OpenRouterConfig() },
+                { "MTranServer", new MTranServerConfig() },
             };
         }
 
