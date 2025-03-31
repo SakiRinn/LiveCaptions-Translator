@@ -45,6 +45,14 @@ body:
     validations:
       required: true
   - type: textarea
+    id: expected
+    attributes:
+      label: Config file
+      description: What is the detail of your setting.json? Remember to delete your api key.
+      placeholder: {...}
+    validations:
+      required: true
+  - type: textarea
     id: system-info
     attributes:
       label: System Info
