@@ -309,9 +309,9 @@ namespace LiveCaptionsTranslator.models
 
     public class MTranServerCoreConfig : TranslateAPIConfig
     {
-        private string apiUrl = "";
+        private string apiUrl = "http://localhost:3000/translate";
         private string apiKey = "";
-        private string sourceLanguage = "auto";
+        private string sourceLanguage = "en";
 
         public string ApiUrl
         {
