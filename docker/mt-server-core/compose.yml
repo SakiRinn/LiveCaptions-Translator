@@ -1,0 +1,24 @@
+services:
+  translation-service:
+    image: docker.cnb.cool/aalivexy/translation-service:latest
+    ports:
+      - "3000:3000"
+    environment:
+      API_KEY: "" # 可选，设置为空字符串则不启用 API 密钥保护
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/bin/sh", "-c", "echo -e 'GET /health HTTP/1.1\r\nHost: localhost:3000\r\n\r\n' | timeout 5 bash -c 'cat > /dev/tcp/localhost/3000' && echo 'Health check passed'"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      
+  nginx-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "7878:7878"
+    depends_on:
+      - translation-service
