@@ -23,6 +23,7 @@ namespace LiveCaptionsTranslator
             DeepLButton.Background = new SolidColorBrush(Colors.Transparent);
             YoudaoButton.Background = new SolidColorBrush(Colors.Transparent);
             MTranServerButton.Background = new SolidColorBrush(Colors.Transparent);
+            MTranServerCoreButton.Background = new SolidColorBrush(Colors.Transparent);
 
             Loaded += (sender, args) =>
             {
@@ -45,7 +46,8 @@ namespace LiveCaptionsTranslator
                 { "OpenRouter", OpenRouterSection },
                 { "DeepL", DeepLSection },
                 { "Youdao", YoudaoSection },
-                { "MTranServer", MTranServerSection }
+                { "MTranServer", MTranServerSection },
+                { "MTranServerCore", MTranServerCoreSection }
             };
         }
 

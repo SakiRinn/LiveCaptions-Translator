@@ -143,6 +143,19 @@
                             <TextBlock VerticalAlignment="Center" Text="MTranServer" />
                         </StackPanel>
                     </ui:Button>
+
+                    <ui:Button
+                        x:Name="MTranServerCoreButton"
+                        Margin="10,5,10,0"
+                        Padding="10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Click="NavigationButton_Click"
+                        Tag="MTranServerCore">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" Text="MTranServerCore" />
+                        </StackPanel>
+                    </ui:Button>
                 </StackPanel>
             </Border>
             <ScrollViewer
@@ -553,6 +566,70 @@
                                             Padding="10,4,10,7"
                                             FontSize="13.3"
                                             Text="{Binding Configs[MTranServer].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                </Grid>
+                            </ui:Card>
+                        </StackPanel>
+
+                        <StackPanel x:Name="MTranServerCoreSection" Margin="20">
+                            <TextBlock
+                                Margin="10"
+                                FontSize="20"
+                                FontWeight="Medium"
+                                Text="MTranServerCore" />
+                            <ui:Card Padding="15">
+                                <Grid x:Name="MTranServerCoreGrid">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel
+                                        Grid.Row="0"
+                                        Margin="15,10,0,0"
+                                        Orientation="Vertical">
+                                        <ui:TextBlock Margin="2.5,0,0,5" Text="Source Language" />
+                                        <ComboBox
+                                            Width="200"
+                                            Height="30"
+                                            Padding="10,4,10,7"
+                                            FontSize="13.3"
+                                            IsEditable="True"
+                                            Text="{Binding Configs[MTranServerCore].SourceLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <ComboBoxItem Content="en" />
+                                            <ComboBoxItem Content="ja" />
+                                            <ComboBoxItem Content="fr" />
+                                            <ComboBoxItem Content="ko" />
+                                            <ComboBoxItem Content="de" />
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Grid.Row="1"
+                                        Margin="15,10,0,0"
+                                        Orientation="Vertical">
+                                        <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
+                                        <ui:TextBox
+                                            Width="200"
+                                            Height="30"
+                                            Padding="10,4,10,7"
+                                            FontSize="13.3"
+                                            Text="{Binding Configs[MTranServerCore].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </StackPanel>
+                                    <StackPanel
+                                        Grid.Row="2"
+                                        Margin="15,10,0,0"
+                                        Orientation="Vertical">
+                                        <ui:TextBlock Margin="2.5,0,0,5" Text="API Key" />
+                                        <ui:TextBox
+                                            Width="200"
+                                            Height="30"
+                                            Padding="10,4,10,7"
+                                            FontSize="13.3"
+                                            Text="{Binding Configs[MTranServerCore].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </StackPanel>
                                 </Grid>
                             </ui:Card>
