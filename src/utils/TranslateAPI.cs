@@ -25,6 +25,7 @@ namespace LiveCaptionsTranslator.utils
             { "OpenRouter", OpenRouter },
             { "Youdao", Youdao },
             { "MTranServer", MTranServer },
+            { "Baidu", Baidu },
         };
 
         public static Func<string, CancellationToken, Task<string>> TranslateFunction
@@ -445,6 +446,62 @@ namespace LiveCaptionsTranslator.utils
             }
             else
                 return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+        }
+
+        public static async Task<string> Baidu(string text, CancellationToken token = default)
+        {
+            var config = Translator.Setting.CurrentAPIConfig as BaiduConfig;
+            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
+                ? langValue : Translator.Setting.TargetLanguage;
+
+            string salt = DateTime.Now.Millisecond.ToString();
+            string sign = BitConverter.ToString(
+                MD5.Create().ComputeHash(
+                    Encoding.UTF8.GetBytes($"{config.AppId}{text}{salt}{config.AppSecret}"))).Replace("-", "").ToLower();
+
+            var parameters = new Dictionary<string, string>
+            {
+                ["q"] = text,
+                ["from"] = "auto",
+                ["to"] = language,
+                ["appid"] = config.AppId,
+                ["salt"] = salt,
+                ["sign"] = sign
+            };
+
+            var content = new FormUrlEncodedContent(parameters);
+            client.DefaultRequestHeaders.Clear();
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.PostAsync(config.ApiUrl, content, token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[Translation Failed] {ex.Message}";
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                return $"[Translation Failed] {ex.Message}";
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseString = await response.Content.ReadAsStringAsync();
+                var responseObj = JsonSerializer.Deserialize<BaiduConfig.TranslationResult>(responseString);
+
+                if (responseObj.error_code is not null && responseObj.error_code != "0")
+                    return $"[Translation Failed] Baidu Error {responseObj.error_code}";
+
+                return responseObj.trans_result?.FirstOrDefault()?.dst ?? "[Translation Failed] No content";
+            }
+            else
+            {
+                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+            }
         }
     }
 
