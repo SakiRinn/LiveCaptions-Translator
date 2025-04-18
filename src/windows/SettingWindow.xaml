@@ -143,6 +143,19 @@
                             <TextBlock VerticalAlignment="Center" Text="MTranServer" />
                         </StackPanel>
                     </ui:Button>
+
+					<ui:Button
+                        x:Name="BaiduButton"
+                        Margin="10,5,10,0"
+                        Padding="10"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        Click="NavigationButton_Click"
+                        Tag="Baidu">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock VerticalAlignment="Center" Text="Baidu" />
+						</StackPanel>
+					</ui:Button>
                 </StackPanel>
             </Border>
             <ScrollViewer
@@ -557,6 +570,66 @@
                                 </Grid>
                             </ui:Card>
                         </StackPanel>
+
+						<StackPanel x:Name="BaiduSection" Margin="20">
+							<TextBlock
+                                Margin="10"
+                                FontSize="20"
+                                FontWeight="Medium"
+                                Text="Baidu" />
+							<ui:Card Padding="15">
+								<Grid x:Name="BaiduGrid">
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+
+									<StackPanel
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Margin="15,0,0,0"
+                                        Orientation="Vertical">
+										<ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
+										<ui:TextBox
+                                            Width="130"
+                                            Height="30"
+                                            Padding="10,4,10,7"
+                                            FontSize="13.3"
+                                            Text="{Binding Configs[Baidu].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+									</StackPanel>
+									<StackPanel
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="15,10,0,0"
+                                        Orientation="Vertical">
+										<ui:TextBlock Margin="2.5,0,0,5" Text="APP ID" />
+										<ui:TextBox
+                                            Width="130"
+                                            Height="30"
+                                            Padding="10,4,10,7"
+                                            FontSize="13.3"
+                                            Text="{Binding Configs[Baidu].AppId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+									</StackPanel>
+									<StackPanel
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="15,10,0,0"
+                                        Orientation="Vertical">
+										<ui:TextBlock Margin="2.5,0,0,5" Text="APP Secret" />
+										<ui:TextBox
+                                            Width="200"
+                                            Height="30"
+                                            Padding="10,4,10,7"
+                                            FontSize="13.3"
+                                            Text="{Binding Configs[Baidu].AppSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+									</StackPanel>
+								</Grid>
+							</ui:Card>
+						</StackPanel>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
