@@ -43,6 +43,7 @@
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
+                        Background="Transparent"
                         Click="NavigationButton_Click"
                         Tag="General">
                         <StackPanel Orientation="Horizontal">
@@ -57,6 +58,7 @@
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
+                        Background="Transparent"
                         Click="NavigationButton_Click"
                         Tag="Prompt">
                         <StackPanel Orientation="Horizontal">
@@ -71,6 +73,7 @@
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
+                        Background="Transparent"
                         Click="NavigationButton_Click"
                         Tag="Ollama">
                         <StackPanel Orientation="Horizontal">
@@ -84,6 +87,7 @@
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
+                        Background="Transparent"
                         Click="NavigationButton_Click"
                         Tag="OpenAI">
                         <StackPanel Orientation="Horizontal">
@@ -97,6 +101,7 @@
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
+                        Background="Transparent"
                         Click="NavigationButton_Click"
                         Tag="OpenRouter">
                         <StackPanel Orientation="Horizontal">
@@ -110,6 +115,7 @@
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
+                        Background="Transparent"
                         Click="NavigationButton_Click"
                         Tag="DeepL">
                         <StackPanel Orientation="Horizontal">
@@ -117,19 +123,20 @@
                         </StackPanel>
                     </ui:Button>
 
-					<ui:Button
+                    <ui:Button
                         x:Name="YoudaoButton"
                         Margin="10,5,10,0"
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
+                        Background="Transparent"
                         Click="NavigationButton_Click"
                         Tag="Youdao">
-						<StackPanel Orientation="Horizontal">
-							<TextBlock VerticalAlignment="Center" Text="Youdao" />
-						</StackPanel>
-					</ui:Button>
-					
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" Text="Youdao" />
+                        </StackPanel>
+                    </ui:Button>
+
 
                     <ui:Button
                         x:Name="MTranServerButton"
@@ -137,6 +144,7 @@
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
+                        Background="Transparent"
                         Click="NavigationButton_Click"
                         Tag="MTranServer">
                         <StackPanel Orientation="Horizontal">
@@ -144,20 +152,22 @@
                         </StackPanel>
                     </ui:Button>
 
-					<ui:Button
+                    <ui:Button
                         x:Name="BaiduButton"
                         Margin="10,5,10,0"
                         Padding="10"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
+                        Background="Transparent"
                         Click="NavigationButton_Click"
                         Tag="Baidu">
-						<StackPanel Orientation="Horizontal">
-							<TextBlock VerticalAlignment="Center" Text="Baidu" />
-						</StackPanel>
-					</ui:Button>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" Text="Baidu" />
+                        </StackPanel>
+                    </ui:Button>
                 </StackPanel>
             </Border>
+
             <ScrollViewer
                 x:Name="ContentScrollViewer"
                 Grid.Column="1"
@@ -185,6 +195,7 @@
                                     <ui:TextBox
                                         x:Name="PromptTextBox"
                                         AcceptsReturn="True"
+                                        ClearButtonEnabled="False"
                                         Text="{Binding Prompt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         TextWrapping="Wrap" />
                                 </StackPanel>
@@ -259,12 +270,14 @@
                                 </Grid>
                             </ui:Card>
                         </StackPanel>
+
                         <StackPanel x:Name="OpenAISection" Margin="20">
                             <TextBlock
                                 Margin="10"
                                 FontSize="20"
                                 FontWeight="Medium"
                                 Text="OpenAI" />
+
                             <ui:Card Padding="15">
                                 <Grid x:Name="OpenAIGrid">
                                     <Grid.RowDefinitions>
@@ -312,7 +325,31 @@
                                         Grid.Column="1"
                                         Margin="15,0,0,0"
                                         Orientation="Vertical">
-                                        <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
+                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                            <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
+                                            <ui:Flyout x:Name="OpenAIAPIKeyInfoFlyout">
+                                                <TextBlock Width="300" TextWrapping="Wrap">
+                                                    <Run Text="Use Full Url (typically ending with" />
+                                                    <Run FontWeight="Bold" Text="`v1/chat/completions`" />
+                                                    <Run Text=") instead of Base Url (typically ending with just" />
+                                                    <Run FontWeight="Bold" Text="`v1`" />
+                                                    <Run Text=")." />
+                                                </TextBlock>
+                                            </ui:Flyout>
+                                            <Button
+                                                x:Name="TranslateAPIInfo"
+                                                Width="15"
+                                                Height="15"
+                                                Margin="-5,-3,0,0"
+                                                Padding="0"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                MouseEnter="OpenAIAPIKeyInfo_MouseEnter"
+                                                MouseLeave="OpenAIAPIKeyInfo_MouseLeave">
+                                                <ui:SymbolIcon Symbol="Info16" />
+                                            </Button>
+                                        </StackPanel>
+
                                         <ui:TextBox
                                             Width="200"
                                             Height="30"
@@ -445,67 +482,67 @@
                                 </Grid>
                             </ui:Card>
                         </StackPanel>
-						
-						<StackPanel x:Name="YoudaoSection" Margin="20">
-							<TextBlock
+
+                        <StackPanel x:Name="YoudaoSection" Margin="20">
+                            <TextBlock
                                 Margin="10"
                                 FontSize="20"
                                 FontWeight="Medium"
                                 Text="Youdao" />
-							<ui:Card Padding="15">
-								<Grid x:Name="YoudaoGrid">
-									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-									</Grid.RowDefinitions>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
+                            <ui:Card Padding="15">
+                                <Grid x:Name="YoudaoGrid">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-									<StackPanel
+                                    <StackPanel
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         Margin="15,0,0,0"
                                         Orientation="Vertical">
-										<ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
-										<ui:TextBox
-                                            Width="130"
+                                        <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
+                                        <ui:TextBox
+                                            Width="200"
                                             Height="30"
                                             Padding="10,4,10,7"
                                             FontSize="13.3"
                                             Text="{Binding Configs[Youdao].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-									</StackPanel>
-									<StackPanel
+                                    </StackPanel>
+                                    <StackPanel
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="15,10,0,0"
                                         Orientation="Vertical">
-										<ui:TextBlock Margin="2.5,0,0,5" Text="APP Key" />
-										<ui:TextBox
-                                            Width="130"
+                                        <ui:TextBlock Margin="2.5,0,0,5" Text="APP Key" />
+                                        <ui:TextBox
+                                            Width="200"
                                             Height="30"
                                             Padding="10,4,10,7"
                                             FontSize="13.3"
                                             Text="{Binding Configs[Youdao].AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-									</StackPanel>
-									<StackPanel
+                                    </StackPanel>
+                                    <StackPanel
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         Margin="15,10,0,0"
                                         Orientation="Vertical">
-										<ui:TextBlock Margin="2.5,0,0,5" Text="APP Secret" />
-										<ui:TextBox
+                                        <ui:TextBlock Margin="2.5,0,0,5" Text="APP Secret" />
+                                        <ui:TextBox
                                             Width="200"
                                             Height="30"
                                             Padding="10,4,10,7"
                                             FontSize="13.3"
                                             Text="{Binding Configs[Youdao].AppSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-									</StackPanel>
-								</Grid>
-							</ui:Card>
-						</StackPanel>
-						
+                                    </StackPanel>
+                                </Grid>
+                            </ui:Card>
+                        </StackPanel>
+
 
                         <StackPanel x:Name="MTranServerSection" Margin="20">
                             <TextBlock
@@ -518,19 +555,20 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
                                     <StackPanel
                                         Grid.Row="0"
+                                        Grid.Column="0"
                                         Margin="15,10,0,0"
                                         Orientation="Vertical">
                                         <ui:TextBlock Margin="2.5,0,0,5" Text="Source Language" />
                                         <ComboBox
-                                            Width="200"
+                                            Width="130"
                                             Height="30"
                                             Padding="10,4,10,7"
                                             FontSize="13.3"
@@ -544,7 +582,8 @@
                                         </ComboBox>
                                     </StackPanel>
                                     <StackPanel
-                                        Grid.Row="1"
+                                        Grid.Row="0"
+                                        Grid.Column="1"
                                         Margin="15,10,0,0"
                                         Orientation="Vertical">
                                         <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
@@ -556,7 +595,8 @@
                                             Text="{Binding Configs[MTranServer].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </StackPanel>
                                     <StackPanel
-                                        Grid.Row="2"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
                                         Margin="15,10,0,0"
                                         Orientation="Vertical">
                                         <ui:TextBlock Margin="2.5,0,0,5" Text="API Key" />
@@ -571,65 +611,65 @@
                             </ui:Card>
                         </StackPanel>
 
-						<StackPanel x:Name="BaiduSection" Margin="20">
-							<TextBlock
+                        <StackPanel x:Name="BaiduSection" Margin="20">
+                            <TextBlock
                                 Margin="10"
                                 FontSize="20"
                                 FontWeight="Medium"
                                 Text="Baidu" />
-							<ui:Card Padding="15">
-								<Grid x:Name="BaiduGrid">
-									<Grid.RowDefinitions>
-										<RowDefinition Height="Auto" />
-										<RowDefinition Height="Auto" />
-									</Grid.RowDefinitions>
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
+                            <ui:Card Padding="15">
+                                <Grid x:Name="BaiduGrid">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-									<StackPanel
+                                    <StackPanel
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         Margin="15,0,0,0"
                                         Orientation="Vertical">
-										<ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
-										<ui:TextBox
-                                            Width="130"
+                                        <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
+                                        <ui:TextBox
+                                            Width="200"
                                             Height="30"
                                             Padding="10,4,10,7"
                                             FontSize="13.3"
                                             Text="{Binding Configs[Baidu].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-									</StackPanel>
-									<StackPanel
+                                    </StackPanel>
+                                    <StackPanel
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="15,10,0,0"
                                         Orientation="Vertical">
-										<ui:TextBlock Margin="2.5,0,0,5" Text="APP ID" />
-										<ui:TextBox
-                                            Width="130"
+                                        <ui:TextBlock Margin="2.5,0,0,5" Text="APP ID" />
+                                        <ui:TextBox
+                                            Width="200"
                                             Height="30"
                                             Padding="10,4,10,7"
                                             FontSize="13.3"
                                             Text="{Binding Configs[Baidu].AppId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-									</StackPanel>
-									<StackPanel
+                                    </StackPanel>
+                                    <StackPanel
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         Margin="15,10,0,0"
                                         Orientation="Vertical">
-										<ui:TextBlock Margin="2.5,0,0,5" Text="APP Secret" />
-										<ui:TextBox
+                                        <ui:TextBlock Margin="2.5,0,0,5" Text="APP Secret" />
+                                        <ui:TextBox
                                             Width="200"
                                             Height="30"
                                             Padding="10,4,10,7"
                                             FontSize="13.3"
                                             Text="{Binding Configs[Baidu].AppSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-									</StackPanel>
-								</Grid>
-							</ui:Card>
-						</StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </ui:Card>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

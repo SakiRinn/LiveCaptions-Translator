@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -15,22 +16,11 @@ namespace LiveCaptionsTranslator
             InitializeComponent();
             ApplicationThemeManager.ApplySystemTheme();
             DataContext = Translator.Setting;
-            GeneralButton.Background = new SolidColorBrush(Colors.Transparent);
-            PromptButton.Background = new SolidColorBrush(Colors.Transparent);
-            OllamaButton.Background = new SolidColorBrush(Colors.Transparent);
-            OpenAIButton.Background = new SolidColorBrush(Colors.Transparent);
-            OpenRouterButton.Background = new SolidColorBrush(Colors.Transparent);
-            DeepLButton.Background = new SolidColorBrush(Colors.Transparent);
-            YoudaoButton.Background = new SolidColorBrush(Colors.Transparent);
-            MTranServerButton.Background = new SolidColorBrush(Colors.Transparent);
-            BaiduButton.Background = new SolidColorBrush(Colors.Transparent);
 
             Loaded += (sender, args) =>
             {
                 SystemThemeWatcher.Watch(this, WindowBackdropType.Mica, true);
-                
                 InitializeSectionReferences();
-
                 SelectButton(GeneralButton);
             };
         }
@@ -64,11 +54,20 @@ namespace LiveCaptionsTranslator
 
         private void SelectButton(System.Windows.Controls.Button button)
         {
-
             if (currentSelected != null)
                 currentSelected.Background = new SolidColorBrush(Colors.Transparent);
             button.Background = (Brush)FindResource("ControlFillColorSecondaryBrush");
             currentSelected = button;
+        }
+
+        private void OpenAIAPIKeyInfo_MouseEnter(object sender, MouseEventArgs e)
+        {
+            OpenAIAPIKeyInfoFlyout.Show();
+        }
+
+        private void OpenAIAPIKeyInfo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            OpenAIAPIKeyInfoFlyout.Hide();
         }
     }
 }
