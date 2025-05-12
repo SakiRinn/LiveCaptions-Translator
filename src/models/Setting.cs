@@ -172,7 +172,7 @@ namespace LiveCaptionsTranslator.models
 
             if (File.Exists(jsonPath))
             {
-                using (FileStream fileStream = File.OpenRead(jsonPath))
+                using (FileStream fileStream = File.Open(jsonPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
                     var options = new JsonSerializerOptions
                     {
@@ -207,7 +207,7 @@ namespace LiveCaptionsTranslator.models
 
         public void Save(string jsonPath)
         {
-            using (FileStream fileStream = File.Create(jsonPath))
+            using (FileStream fileStream = File.Open(jsonPath, FileMode.Create, FileAccess.Write, FileShare.Read))
             {
                 var options = new JsonSerializerOptions
                 {
