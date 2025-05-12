@@ -14,8 +14,8 @@
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
     LocationChanged="MainWindow_LocationChanged"
-    SizeChanged="MainWindow_SizeChanged"
     ResizeMode="CanResizeWithGrip"
+    SizeChanged="MainWindow_SizeChanged"
     Topmost="True"
     WindowBackdropType="Mica"
     WindowStartupLocation="Manual"
@@ -45,8 +45,8 @@
                             Click="CaptionLogButton_Click"
                             Icon="{ui:SymbolIcon History16,
                                                  Filled=False}"
-                            Visibility="Collapsed"
-                            ToolTip="Log Cards of Captions" />
+                            ToolTip="Log Cards of Captions"
+                            Visibility="Collapsed" />
                         <ui:Button
                             x:Name="LogOnlyButton"
                             Margin="0,0,5,0"
@@ -60,7 +60,7 @@
                             Margin="0,0,5,0"
                             Appearance="Transparent"
                             Click="OverlayModeButton_Click"
-                            Icon="{ui:SymbolIcon WindowNew24,
+                            Icon="{ui:SymbolIcon ClosedCaptionOff24,
                                                  Filled=False}"
                             ToolTip="Overlay Window" />
                         <ui:Button

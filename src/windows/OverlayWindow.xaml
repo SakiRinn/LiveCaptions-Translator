@@ -169,9 +169,18 @@
                         Icon="{ui:SymbolIcon color16,
                                              Filled=False}"
                         ToolTip="Background Color" />
+
+                    <ui:Button
+                        x:Name="OnlyModeButton"
+                        Margin="5,0,0,0"
+                        Background="#FFAAAAAA"
+                        Click="OnlyModeButton_Click"
+                        Cursor="Hand"
+                        Icon="{ui:SymbolIcon PanelBottom20,
+                                             Filled=False}"
+                        ToolTip="Show only subtitles or translations" />
                     <ui:Button
                         x:Name="ClickThrough"
-                        Margin="5,0,0,0"
                         Background="#FFAAAAAA"
                         Click="ClickThrough_Click"
                         Cursor="Hand"

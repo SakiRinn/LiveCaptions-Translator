@@ -44,8 +44,8 @@ namespace LiveCaptionsTranslator
 
             if (OverlayWindow == null)
             {
-                // Caption + Translation
-                symbolIcon.Symbol = SymbolRegular.TextUnderlineDouble20;
+                symbolIcon.Symbol = SymbolRegular.ClosedCaption24;
+                symbolIcon.Filled = true;
 
                 OverlayWindow = new OverlayWindow();
                 OverlayWindow.SizeChanged +=
@@ -57,20 +57,21 @@ namespace LiveCaptionsTranslator
                 WindowHandler.RestoreState(OverlayWindow, windowState);
                 OverlayWindow.Show();
             }
-            else if (!OverlayWindow.IsTranslationOnly)
-            {
-                // Translation Only
-                symbolIcon.Symbol = SymbolRegular.TextAddSpaceBefore24;
-
-                OverlayWindow.IsTranslationOnly = true;
-                OverlayWindow.Focus();
-            }
             else
             {
-                // Closed
-                symbolIcon.Symbol = SymbolRegular.WindowNew20;
+                symbolIcon.Symbol = SymbolRegular.ClosedCaptionOff24;
+                symbolIcon.Filled = false;
 
-                OverlayWindow.IsTranslationOnly = false;
+                switch (OverlayWindow.OnlyMode)
+                {
+                    case 1:
+                        OverlayWindow.OnlyMode = 2;
+                        OverlayWindow.OnlyMode = 0;
+                        break;
+                    case 2:
+                        OverlayWindow.OnlyMode = 0;
+                        break;
+                }
                 OverlayWindow.Close();
                 OverlayWindow = null;
             }

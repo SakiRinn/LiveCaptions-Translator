@@ -7,6 +7,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using LiveCaptionsTranslator.utils;
+using Wpf.Ui.Controls;
 
 namespace LiveCaptionsTranslator
 {
@@ -22,15 +23,15 @@ namespace LiveCaptionsTranslator
             {7, Brushes.Red},
             {8, Brushes.Black},
         };
-        private bool isTranslationOnly = false;
-        
-        public bool IsTranslationOnly
+        private int onlyMode = 0;
+
+        public int OnlyMode
         {
-            get => isTranslationOnly;
+            get => onlyMode;
             set
             {
-                isTranslationOnly = value;
-                ResizeForTranslationOnly();
+                onlyMode = value;
+                ResizeForOnlyMode();
             }
         }
 
@@ -42,9 +43,9 @@ namespace LiveCaptionsTranslator
             Loaded += (s, e) => Translator.Caption.PropertyChanged += TranslatedChanged;
             Unloaded += (s, e) => Translator.Caption.PropertyChanged -= TranslatedChanged;
 
-            this.OriginalCaption.FontWeight = 
+            this.OriginalCaption.FontWeight =
                 (Translator.Setting.OverlayWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
-            this.TranslatedCaption.FontWeight = 
+            this.TranslatedCaption.FontWeight =
                 (Translator.Setting.OverlayWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
 
             this.TranslatedCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
@@ -166,8 +167,6 @@ namespace LiveCaptionsTranslator
         private void FontBold_Click(object sender, RoutedEventArgs e)
         {
             Translator.Setting.OverlayWindow.FontBold++;
-            if (Translator.Setting.OverlayWindow.FontBold > (isTranslationOnly ? 2 : 3))
-                Translator.Setting.OverlayWindow.FontBold = 1;
             this.OriginalCaption.FontWeight =
                 (Translator.Setting.OverlayWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
             this.TranslatedCaption.FontWeight =
@@ -177,8 +176,6 @@ namespace LiveCaptionsTranslator
         private void FontShadow_Click(object sender, RoutedEventArgs e)
         {
             Translator.Setting.OverlayWindow.FontShadow++;
-            if (Translator.Setting.OverlayWindow.FontShadow > (isTranslationOnly ? 2 : 3))
-                Translator.Setting.OverlayWindow.FontShadow = 1;
             this.OriginalCaptionShadow.Opacity =
                 (Translator.Setting.OverlayWindow.FontShadow == 3 ? 1.0 : 0.0);
             this.TranslatedCaptionShadow.Opacity =
@@ -209,7 +206,6 @@ namespace LiveCaptionsTranslator
                 Translator.Setting.OverlayWindow.Opacity -= 20;
             else
                 Translator.Setting.OverlayWindow.Opacity = 1;
-
             ApplyBackgroundOpacity();
         }
 
@@ -219,7 +215,34 @@ namespace LiveCaptionsTranslator
             if (Translator.Setting.OverlayWindow.BackgroundColor > ColorList.Count)
                 Translator.Setting.OverlayWindow.BackgroundColor = 1;
             BorderBackground.Background = ColorList[Translator.Setting.OverlayWindow.BackgroundColor];
+
             BorderBackground.Opacity = Translator.Setting.OverlayWindow.Opacity;
+            ApplyBackgroundOpacity();
+        }
+
+        private void OnlyModeButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
+
+            if (onlyMode == 2)
+            {
+                // (0) Subtitle + Translation
+                symbolIcon.Symbol = SymbolRegular.PanelBottom20;
+                OnlyMode = 0;
+            }
+            else if (onlyMode == 0)
+            {
+                // (1) Translation Only
+                symbolIcon.Symbol = SymbolRegular.PanelTopExpand20;
+                OnlyMode = 1;
+            }
+            else
+            {
+                // (2) Subtitle Only
+                symbolIcon.Symbol = SymbolRegular.PanelTopContract20;
+                OnlyMode = 2;
+            }
         }
 
         private void ClickThrough_Click(object sender, RoutedEventArgs e)
@@ -229,7 +252,7 @@ namespace LiveCaptionsTranslator
             WindowsAPI.SetWindowLong(hwnd, WindowsAPI.GWL_EXSTYLE, extendedStyle | WindowsAPI.WS_EX_TRANSPARENT);
             ControlPanel.Visibility = Visibility.Collapsed;
         }
-        
+
         public void ApplyFontSize()
         {
             if (Encoding.UTF8.GetByteCount(Translator.Caption.OverlayTranslatedCaption) >= TextUtil.VERYLONG_THRESHOLD)
@@ -250,22 +273,33 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        public void ResizeForTranslationOnly()
+        public void ResizeForOnlyMode()
         {
-            if (isTranslationOnly)
+            if (onlyMode == 1)
             {
+                // (1) Translation Only
                 OriginalCaptionCard.Visibility = Visibility.Collapsed;
-                if (this.MinHeight > 40 && this.Height > 40)
-                {
-                    this.MinHeight -= 40;
-                    this.Height -= 40;
-                    this.Top += 40;
-                }
+                this.MinHeight -= 40;
+                this.Height -= 40;
+                this.Top += 40;
             }
-            else if (OriginalCaptionCard.Visibility == Visibility.Collapsed)
+            if (onlyMode == 2)
             {
+                // restore
                 OriginalCaptionCard.Visibility = Visibility.Visible;
                 this.Top -= 40;
+                this.Height += 40;
+                this.MinHeight += 40;
+
+                // (2) Subtitle Only
+                TranslatedCaptionCard.Visibility = Visibility.Collapsed;
+                this.MinHeight -= 40;
+                this.Height -= 40;
+            }
+            else if (onlyMode == 0)
+            {
+                // restore
+                TranslatedCaptionCard.Visibility = Visibility.Visible;
                 this.Height += 40;
                 this.MinHeight += 40;
             }
