@@ -13,8 +13,9 @@ namespace LiveCaptionsTranslator.utils
                 return Rect.Empty;
             string windowName = window.GetType().Name;
             setting.WindowBounds[windowName] = Regex.Replace(
-                window.RestoreBounds.ToString(), @"(\d+\.\d{1})\d+", "$1");
-            setting.Save();
+                window.RestoreBounds.ToString(System.Globalization.CultureInfo.InvariantCulture), 
+                @"(\d+\.\d{1})\d+", "$1");
+            setting.Save(); // 共享访问模式
             return window.RestoreBounds;
         }
 
