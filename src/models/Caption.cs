@@ -69,7 +69,9 @@ namespace LiveCaptionsTranslator.models
                 var prefix = DisplayLogCards
                     .Take(historyCount)
                     .Reverse()
-                    .Select(entry => entry?.TranslatedText ?? "")
+                    .Select(entry => 
+                        entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]")
+                            ? "" : entry.TranslatedText)
                     .Aggregate((accu, cur) =>
                     {
                         if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)

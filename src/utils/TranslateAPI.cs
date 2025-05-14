@@ -74,12 +74,12 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[Translation Failed] {ex.Message}";
+                    return $"[ERROR] Translation Failed: {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
             {
-                return $"[Translation Failed] {ex.Message}";
+                return $"[ERROR] Translation Failed: {ex.Message}";
             }
 
             if (response.IsSuccessStatusCode)
@@ -89,7 +89,7 @@ namespace LiveCaptionsTranslator.utils
                 return responseObj.choices[0].message.content;
             }
             else
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
 
         public static async Task<string> Ollama(string text, CancellationToken token = default)
@@ -125,12 +125,12 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[Translation Failed] {ex.Message}";
+                    return $"[ERROR] Translation Failed: {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
             {
-                return $"[Translation Failed] {ex.Message}";
+                return $"[ERROR] Translation Failed: {ex.Message}";
             }
 
             if (response.IsSuccessStatusCode)
@@ -140,7 +140,7 @@ namespace LiveCaptionsTranslator.utils
                 return responseObj.message.content;
             }
             else
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
 
         private static async Task<string> Google(string text, CancellationToken token = default)
@@ -161,12 +161,12 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[Translation Failed] {ex.Message}";
+                    return $"[ERROR] Translation Failed: {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
             {
-                return $"[Translation Failed] {ex.Message}";
+                return $"[ERROR] Translation Failed: {ex.Message}";
             }
 
             if (response.IsSuccessStatusCode)
@@ -179,7 +179,7 @@ namespace LiveCaptionsTranslator.utils
                 return translatedText;
             }
             else
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
 
         private static async Task<string> Google2(string text, CancellationToken token = default)
@@ -206,12 +206,12 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[Translation Failed] {ex.Message}";
+                    return $"[ERROR] Translation Failed: {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
             {
-                return $"[Translation Failed] {ex.Message}";
+                return $"[ERROR] Translation Failed: {ex.Message}";
             }
 
             if (response.IsSuccessStatusCode)
@@ -227,10 +227,10 @@ namespace LiveCaptionsTranslator.utils
                     return translatedText;
                 }
                 else
-                    return "[Translation Failed] Unexpected API response format";
+                    return "[ERROR] Translation Failed: Unexpected API response format";
             }
             else
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
 
         public static async Task<string> OpenRouter(string text, CancellationToken token = default)
@@ -270,12 +270,12 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[Translation Failed] {ex.Message}";
+                    return $"[ERROR] Translation Failed: {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
             {
-                return $"[Translation Failed] {ex.Message}";
+                return $"[ERROR] Translation Failed: {ex.Message}";
             }
 
             if (response.IsSuccessStatusCode)
@@ -288,7 +288,7 @@ namespace LiveCaptionsTranslator.utils
                                    .GetString() ?? string.Empty;
             }
             else
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
 
         public static async Task<string> DeepL(string text, CancellationToken token = default)
@@ -319,12 +319,12 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[Translation Failed] {ex.Message}";
+                    return $"[ERROR] Translation Failed: {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
             {
-                return $"[Translation Failed] {ex.Message}";
+                return $"[ERROR] Translation Failed: {ex.Message}";
             }
 
             if (response.IsSuccessStatusCode)
@@ -337,10 +337,10 @@ namespace LiveCaptionsTranslator.utils
                 {
                     return translations[0].GetProperty("text").GetString();
                 }
-                return "[Translation Failed] No valid feedback";
+                return "[ERROR] Translation Failed: No valid feedback";
             }
             else
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
 
 
@@ -376,12 +376,12 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[Translation Failed] {ex.Message}";
+                    return $"[ERROR] Translation Failed: {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
             {
-                return $"[Translation Failed] {ex.Message}";
+                return $"[ERROR] Translation Failed: {ex.Message}";
             }
 
             if (response.IsSuccessStatusCode)
@@ -390,13 +390,13 @@ namespace LiveCaptionsTranslator.utils
                 var responseObj = JsonSerializer.Deserialize<YoudaoConfig.TranslationResult>(responseString);
 
                 if (responseObj.errorCode != "0")
-                    return $"[Translation Failed] Youdao Error {responseObj.errorCode}";
+                    return $"[ERROR] Translation Failed: Youdao Error - {responseObj.errorCode}";
 
-                return responseObj.translation?.FirstOrDefault() ?? "[Translation Failed] No content";
+                return responseObj.translation?.FirstOrDefault() ?? "[ERROR] Translation Failed: No content";
             }
             else
             {
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
             }
         }
 
@@ -430,12 +430,12 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[Translation Failed] {ex.Message}";
+                    return $"[ERROR] Translation Failed: {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
             {
-                return $"[Translation Failed] {ex.Message}";
+                return $"[ERROR] Translation Failed: {ex.Message}";
             }
 
             if (response.IsSuccessStatusCode)
@@ -445,7 +445,7 @@ namespace LiveCaptionsTranslator.utils
                 return responseObj.result;
             }
             else
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
 
         public static async Task<string> Baidu(string text, CancellationToken token = default)
@@ -480,12 +480,12 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[Translation Failed] {ex.Message}";
+                    return $"[ERROR] Translation Failed: {ex.Message}";
                 return string.Empty;
             }
             catch (Exception ex)
             {
-                return $"[Translation Failed] {ex.Message}";
+                return $"[ERROR] Translation Failed: {ex.Message}";
             }
 
             if (response.IsSuccessStatusCode)
@@ -494,13 +494,13 @@ namespace LiveCaptionsTranslator.utils
                 var responseObj = JsonSerializer.Deserialize<BaiduConfig.TranslationResult>(responseString);
 
                 if (responseObj.error_code is not null && responseObj.error_code != "0")
-                    return $"[Translation Failed] Baidu Error {responseObj.error_code}";
+                    return $"[ERROR] Translation Failed: Baidu Error - {responseObj.error_code}";
 
-                return responseObj.trans_result?.FirstOrDefault()?.dst ?? "[Translation Failed] No content";
+                return responseObj.trans_result?.FirstOrDefault()?.dst ?? "[ERROR] Translation Failed: No content";
             }
             else
             {
-                return $"[Translation Failed] HTTP Error - {response.StatusCode}";
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
             }
         }
     }
