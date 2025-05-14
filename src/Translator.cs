@@ -191,7 +191,13 @@ namespace LiveCaptionsTranslator
                         Caption.TranslatedCaption = translationTaskQueue.Output;
                         Caption.DisplayTranslatedCaption = 
                             TextUtil.ShortenDisplaySentence(Caption.TranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
-                        
+
+                        if (Caption.TranslatedCaption.Contains("[ERROR]") ||
+                            Caption.TranslatedCaption.Contains("[WARNING]"))
+                        {
+                            Caption.OverlayTranslatedCaption = Caption.TranslatedCaption;
+                            continue;
+                        }
                         var match = RegexPatterns.NoticePrefixAndTranslation().Match(Caption.TranslatedCaption);
                         string noticePrefix = match.Groups[1].Value;
                         string translatedText = match.Groups[2].Value;
@@ -223,8 +229,8 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Error] Translation failed: {ex.Message}");
-                return $"[Translation Failed] {ex.Message}";
+                Console.WriteLine($"[ERROR] Translation Failed: {ex.Message}");
+                return $"[ERROR] Translation Failed: {ex.Message}";
             }
             return translatedText;
         }
