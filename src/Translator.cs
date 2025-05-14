@@ -257,7 +257,7 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
+                Console.WriteLine($"[ERROR] Logging History Failed: {ex.Message}");
             }
         }
 
@@ -277,7 +277,7 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[Error] Logging history failed: {ex.Message}");
+                Console.WriteLine($"[ERROR] Logging History Failed: {ex.Message}");
             }
         }
         
@@ -286,6 +286,7 @@ namespace LiveCaptionsTranslator
             var lastLog = await SQLiteHistoryLogger.LoadLastTranslation(token);
             if (lastLog == null)
                 return;
+            
             if (Caption?.LogCards.Count >= Setting?.MainWindow.CaptionLogMax)
                 Caption.LogCards.Dequeue();
             Caption?.LogCards.Enqueue(lastLog);

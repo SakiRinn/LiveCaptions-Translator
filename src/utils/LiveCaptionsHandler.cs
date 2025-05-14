@@ -23,7 +23,7 @@ namespace LiveCaptionsTranslator.utils
             {
                 window = FindWindowByPId(process.Id);
                 if (attemptCount > 10000)
-                    throw new Exception("Failed to launch!");
+                    throw new Exception("Failed to launch LiveCaptions!");
             }
 
             return window;
