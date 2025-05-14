@@ -167,6 +167,8 @@ namespace LiveCaptionsTranslator
         private void FontBold_Click(object sender, RoutedEventArgs e)
         {
             Translator.Setting.OverlayWindow.FontBold++;
+            if (Translator.Setting.OverlayWindow.FontBold > 3)
+                Translator.Setting.OverlayWindow.FontBold = 1;
             this.OriginalCaption.FontWeight =
                 (Translator.Setting.OverlayWindow.FontBold == 3 ? FontWeights.Bold : FontWeights.Regular);
             this.TranslatedCaption.FontWeight =
@@ -176,6 +178,8 @@ namespace LiveCaptionsTranslator
         private void FontShadow_Click(object sender, RoutedEventArgs e)
         {
             Translator.Setting.OverlayWindow.FontShadow++;
+            if (Translator.Setting.OverlayWindow.FontShadow > 3)
+                Translator.Setting.OverlayWindow.FontShadow = 1;
             this.OriginalCaptionShadow.Opacity =
                 (Translator.Setting.OverlayWindow.FontShadow == 3 ? 1.0 : 0.0);
             this.TranslatedCaptionShadow.Opacity =
