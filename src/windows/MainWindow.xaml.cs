@@ -158,28 +158,26 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                ShowSnackbar("Update Check Failed", ex.Message, true);
+                ShowSnackbar("[ERROR] Update Check Failed.", ex.Message, true);
                 return;
-
             }
 
             var currentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
             var ignoredVersion = Translator.Setting.IgnoredUpdateVersion;
             if (!string.IsNullOrEmpty(ignoredVersion) && ignoredVersion == latestVersion)
-            {
                 return;
-            }
+            
             if (latestVersion != currentVersion)
             {
-
                 var dialog = new Wpf.Ui.Controls.MessageBox
                 {
                     Title = "New Version Available",
-                    Content = $"A new version has been detected: {latestVersion}\nCurrent version: {currentVersion}\nPlease visit GitHub to download the latest release.",
+                    Content = $"A new version has been detected: {latestVersion}\n" +
+                              $"Current version: {currentVersion}\n" +
+                              $"Please visit GitHub to download the latest release.",
                     PrimaryButtonText = "Update",
-                    SecondaryButtonText = "Ignore",
+                    CloseButtonText = "Ignore"
                 };
-
                 var result = await dialog.ShowDialogAsync();
 
                 if (result == Wpf.Ui.Controls.MessageBoxResult.Primary)
@@ -195,16 +193,12 @@ namespace LiveCaptionsTranslator
                     }
                     catch (Exception ex)
                     {
-                        ShowSnackbar("Open Browser Failed", ex.Message, true);
+                        ShowSnackbar("[ERROR] Open Browser Failed.", ex.Message, true);
                     }
                 }
-                else if (result == Wpf.Ui.Controls.MessageBoxResult.Secondary)
-                {
+                else
                     Translator.Setting.IgnoredUpdateVersion = latestVersion;
-                }
-
             }
-
         }
 
         private void ShowSnackbar(string title, string message, bool isError = false)
@@ -217,7 +211,6 @@ namespace LiveCaptionsTranslator
                 Timeout = TimeSpan.FromSeconds(2)
             };
             snackbar.Show();
-
         }
     }
 }

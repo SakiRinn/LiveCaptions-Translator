@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace LiveCaptionsTranslator.utils
 {
@@ -17,25 +18,14 @@ namespace LiveCaptionsTranslator.utils
                 using var doc = JsonDocument.Parse(response);
                 var latestVersionRaw = doc.RootElement.GetProperty("tag_name").GetString();
                 var latestVersion = string.IsNullOrEmpty(latestVersionRaw)
-                    ? ""
-                    : System.Text.RegularExpressions.Regex.Replace(latestVersionRaw, "[^0-9.]", "");
+                    ? String.Empty
+                    : Regex.Replace(latestVersionRaw, "[^0-9.]", "");
                 return latestVersion;
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine($"Network error: {ex.Message}");
-                return string.Empty;
-            }
-            catch (JsonException ex)
-            {
-                Console.WriteLine($"JSON parsing error: {ex.Message}");
-                return string.Empty;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Unexpected error: {ex.Message}");
+                Console.WriteLine($"[ERROR] {ex.Message}");
                 return string.Empty;
-
             }
         }
     }
