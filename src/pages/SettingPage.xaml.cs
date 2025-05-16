@@ -19,8 +19,8 @@ namespace LiveCaptionsTranslator
 
             Loaded += (s, e) =>
             {
-                (App.Current.MainWindow as MainWindow)?.AutoHeightAdjust(
-                    maxHeight: (int)App.Current.MainWindow.MinHeight);
+                (App.Current.MainWindow as MainWindow)?.AutoHeightAdjust(maxHeight: (int)App.Current.MainWindow.MinHeight);
+                CheckForFirstUse();
             };
 
             TranslateAPIBox.ItemsSource = Translator.Setting?.Configs.Keys;
@@ -142,6 +142,12 @@ namespace LiveCaptionsTranslator
         private void CaptionLogMaxInfo_MouseLeave(object sender, MouseEventArgs e)
         {
             CaptionLogMaxInfoFlyout.Hide();
+        }
+        
+        private void CheckForFirstUse()
+        {
+            if (Translator.FirstUseFlag)
+                ButtonText.Text = "Hide";
         }
 
         public void LoadAPISetting()

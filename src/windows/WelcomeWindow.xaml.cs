@@ -1,26 +1,31 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using System.Windows.Controls;
-using System.Windows.Navigation;
+using Wpf.Ui.Controls;
+using System.Windows;
 using Wpf.Ui.Appearance;
+using System.Diagnostics;
+using System.Windows.Navigation;
 
 namespace LiveCaptionsTranslator
 {
-    public partial class InfoPage : Page
+    public partial class WelcomeWindow : FluentWindow
     {
-        public const int MIN_HEIGHT = 185;
-
-        public InfoPage()
+        public WelcomeWindow()
         {
             InitializeComponent();
             ApplicationThemeManager.ApplySystemTheme();
-            var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
-            Version.Text = version;
 
             Loaded += (s, e) =>
             {
-                (App.Current.MainWindow as MainWindow)?.AutoHeightAdjust(minHeight: MIN_HEIGHT);
+                SystemThemeWatcher.Watch(
+                    this,
+                    WindowBackdropType.Mica,
+                    true
+                );
             };
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -30,3 +35,4 @@ namespace LiveCaptionsTranslator
         }
     }
 }
+
