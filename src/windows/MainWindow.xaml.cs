@@ -4,7 +4,6 @@ using Wpf.Ui.Controls;
 using LiveCaptionsTranslator.utils;
 using System.Diagnostics;
 using System.Reflection;
-using LiveCaptionsTranslator.src.pages;
 
 namespace LiveCaptionsTranslator
 {
