@@ -28,7 +28,8 @@
                             <Run Text="After Windows 11 version 24H2, you can only change the" />
                             <Run FontWeight="Bold" Text="source language" />
                             <Run Text="in LiveCaptions." />
-                            <Run Text="&#x0A;Note: Please click" />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note :" />
+                            <Run Text="Please click" />
                             <Run FontWeight="Bold" Text="&quot;Hide&quot;" />
                             <Run Text="to hide LiveCaptions instead of closing it directly." />
                         </TextBlock>
@@ -135,8 +136,10 @@
                         <TextBlock Width="300" TextWrapping="Wrap">
                             <Run Text="You can directly edit to customize the language, and it is recommended to follow the" />
                             <Run FontWeight="Bold" Text="BCP 47 language tag." />
-                            <Run Text="&#x0A;Note 1: Google might be failed to run if don't use BCP 47 language tag." />
-                            <Run Text="&#x0A;Note 2: DeepL needs another way to define target language, see the docs." />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note 1: " />
+                            <Run Text="Google might be failed to run if don't use BCP 47 language tag." />
+                            <Run FontWeight="Bold" Text="&#x0A;Note 2: " />
+                            <Run Text="DeepL needs another way to define target language, see the docs." />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -197,10 +200,14 @@
                     <TextBlock Margin="2.5,0,0,5" Text="Log Cards" />
                     <ui:Flyout x:Name="CaptionLogMaxInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
+                            <Run FontWeight="Bold" Text="Log Cards:" />
+                            <Run Text="The number of cards displayed after enabling Log Cards in the main page taskbar." />
+                            <Run FontWeight="Bold" Text="&#x0A;Overlay Sentences:" />
+                            <Run Text="The max number of sentences displayed in the translation box within the Overlay Window." />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
                             <Run Text="The number of Log Cards must be" />
                             <Run FontWeight="Bold" Text="greater than or equal" />
-                            <Run Text="to the number of Overlay Sentences." />
-                            <Run Text="&#x0A;If not met, the program will automatically adjust them." />
+                            <Run Text="to the number of Overlay Sentences. If not met, the program will automatically adjust them." />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
