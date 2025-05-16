@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Wpf.Ui.Appearance;
@@ -13,7 +14,9 @@ namespace LiveCaptionsTranslator
         {
             InitializeComponent();
             ApplicationThemeManager.ApplySystemTheme();
-            
+            var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+            Version.Text = version;
+
             Loaded += (s, e) =>
             {
                 (App.Current.MainWindow as MainWindow)?.AutoHeightAdjust(maxHeight: MIN_HEIGHT);
