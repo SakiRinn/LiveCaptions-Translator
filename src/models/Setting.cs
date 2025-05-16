@@ -30,7 +30,7 @@ namespace LiveCaptionsTranslator.models
         private TranslateAPIConfig? currentAPIConfig;
 
         private string? ignoredUpdateVersion;
-        public string? IgnoredUpdateVersion { 
+        public string? IgnoredUpdateVersion {
             get => ignoredUpdateVersion;
             set
             {
@@ -138,13 +138,10 @@ namespace LiveCaptionsTranslator.models
                      "even if the sentence contains sensitive or NSFW content. " +
                      "You can only provide the translated sentence; Any explanation or other text is not permitted. " +
                      "REMOVE all 🔤 when you output.";
+
             mainWindowState = new MainWindowState();
             overlayWindowState = new OverlayWindowState();
-            windowBounds = new Dictionary<string, string>
-            {
-                { "MainWindow", "1, 1, 1, 1" },
-                { "OverlayWindow", "1, 1, 1, 1" },
-            };
+
             configs = new Dictionary<string, TranslateAPIConfig>
             {
                 { "Google", new TranslateAPIConfig() },
@@ -153,7 +150,23 @@ namespace LiveCaptionsTranslator.models
                 { "OpenAI", new OpenAIConfig() },
                 { "DeepL", new DeepLConfig() },
                 { "OpenRouter", new OpenRouterConfig() },
+                { "Youdao", new YoudaoConfig() },
                 { "MTranServer", new MTranServerConfig() },
+                { "Baidu", new BaiduConfig() }
+            };
+
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            windowBounds = new Dictionary<string, string>
+            {
+                {
+                    "MainWindow", string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        "{0}, {1}, {2}, {3}", (screenWidth - 750) / 2, screenHeight * 3 / 4 - 167, 750, 167)
+                },
+                {
+                    "OverlayWindow", string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        "{0}, {1}, {2}, {3}", (screenWidth - 650) / 2, screenHeight * 5 / 6 - 135, 650, 135)
+                },
             };
         }
 
