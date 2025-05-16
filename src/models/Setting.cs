@@ -29,6 +29,16 @@ namespace LiveCaptionsTranslator.models
         private Dictionary<string, TranslateAPIConfig> configs;
         private TranslateAPIConfig? currentAPIConfig;
 
+        private string? ignoredUpdateVersion;
+        public string? IgnoredUpdateVersion { 
+            get => ignoredUpdateVersion;
+            set
+            {
+                ignoredUpdateVersion = value;
+                OnPropertyChanged("IgnoredUpdateVersion");
+            } 
+        }
+
         public string ApiName
         {
             get => apiName;
@@ -149,7 +159,7 @@ namespace LiveCaptionsTranslator.models
 
         public Setting(string apiName, string targetLanguage, string prompt,
                        MainWindowState mainWindowState, OverlayWindowState overlayWindowState,
-                       Dictionary<string, TranslateAPIConfig> configs, Dictionary<string, string> windowBounds)
+                       Dictionary<string, TranslateAPIConfig> configs, Dictionary<string, string> windowBounds, string ignoredUpdateVersion)
         {
             this.apiName = apiName;
             this.targetLanguage = targetLanguage;
@@ -158,6 +168,8 @@ namespace LiveCaptionsTranslator.models
             this.overlayWindowState = overlayWindowState;
             this.configs = configs;
             this.windowBounds = windowBounds;
+            this.ignoredUpdateVersion = ignoredUpdateVersion;
+
         }
 
         public static Setting Load()
