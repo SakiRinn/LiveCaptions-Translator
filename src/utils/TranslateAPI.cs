@@ -3,7 +3,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Security.Cryptography;
-
 using LiveCaptionsTranslator.models;
 
 namespace LiveCaptionsTranslator.utils
@@ -86,7 +85,8 @@ namespace LiveCaptionsTranslator.utils
             {
                 string responseString = await response.Content.ReadAsStringAsync();
                 var responseObj = JsonSerializer.Deserialize<OpenAIConfig.Response>(responseString);
-                return responseObj.choices[0].message.content;
+                var output = responseObj.choices[0].message.content;
+                return RegexPatterns.ModelThinking().Replace(output, "");
             }
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
@@ -137,7 +137,8 @@ namespace LiveCaptionsTranslator.utils
             {
                 string responseString = await response.Content.ReadAsStringAsync();
                 var responseObj = JsonSerializer.Deserialize<OllamaConfig.Response>(responseString);
-                return responseObj.message.content;
+                var output = responseObj.message.content;
+                return RegexPatterns.ModelThinking().Replace(output, "");
             }
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
