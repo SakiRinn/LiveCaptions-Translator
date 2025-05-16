@@ -6,8 +6,9 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
-using LiveCaptionsTranslator.utils;
 using Wpf.Ui.Controls;
+
+using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator
 {

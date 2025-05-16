@@ -21,7 +21,7 @@ namespace LiveCaptionsTranslator
             {
                 SystemThemeWatcher.Watch(this, WindowBackdropType.Mica, true);
                 InitializeSectionReferences();
-                SelectButton(GeneralButton);
+                SelectButton(PromptButton);
             };
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Windows.Automation;
 
@@ -21,7 +22,9 @@ namespace LiveCaptionsTranslator
         }
         public static Caption? Caption => caption;
         public static Setting? Setting => setting;
+        
         public static bool LogOnlyFlag { get; set; } = false;
+        public static bool FirstUseFlag { get; set; } = false;
         
         public static event Action? TranslationLogged;
 
@@ -30,6 +33,9 @@ namespace LiveCaptionsTranslator
             window = LiveCaptionsHandler.LaunchLiveCaptions();
             LiveCaptionsHandler.FixLiveCaptions(Window);
             LiveCaptionsHandler.HideLiveCaptions(Window);
+            
+            if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), models.Setting.FILENAME)))
+                FirstUseFlag = true;
             
             caption = Caption.GetInstance();
             setting = Setting.Load();

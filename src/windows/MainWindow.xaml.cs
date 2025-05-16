@@ -1,9 +1,12 @@
 ﻿using System.Windows;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
-using LiveCaptionsTranslator.utils;
 using System.Diagnostics;
 using System.Reflection;
+
+using LiveCaptionsTranslator.utils;
+
+using Button = Wpf.Ui.Controls.Button;
 
 namespace LiveCaptionsTranslator
 {
@@ -26,7 +29,8 @@ namespace LiveCaptionsTranslator
                     true
                 );
                 RootNavigation.Navigate(typeof(CaptionPage));
-                Task task = CheckForUpdatesAsync();
+                CheckForFirstUse();
+                CheckForUpdates();
             };
 
             var windowState = WindowHandler.LoadState(this, Translator.Setting);
@@ -76,6 +80,7 @@ namespace LiveCaptionsTranslator
                         OverlayWindow.OnlyMode = 0;
                         break;
                 }
+
                 OverlayWindow.Close();
                 OverlayWindow = null;
             }
@@ -126,6 +131,79 @@ namespace LiveCaptionsTranslator
             Translator.Setting.MainWindow.Topmost = enabled;
         }
 
+        private void CheckForFirstUse()
+        {
+            if (!Translator.FirstUseFlag)
+                return;
+
+            RootNavigation.Navigate(typeof(SettingPage));
+            LiveCaptionsHandler.RestoreLiveCaptions(Translator.Window);
+
+            Dispatcher.InvokeAsync(() =>
+            {
+                var welcomeWindow = new WelcomeWindow
+                {
+                    Owner = this
+                };
+                welcomeWindow.Show();
+            }, System.Windows.Threading.DispatcherPriority.Background);
+        }
+
+        private async Task CheckForUpdates()
+        {
+            if (Translator.FirstUseFlag)
+                return;
+
+            string latestVersion = string.Empty;
+            try
+            {
+                latestVersion = await UpdateUtil.GetLatestVersion();
+            }
+            catch (Exception ex)
+            {
+                ShowSnackbar("[ERROR] Update Check Failed.", ex.Message, true);
+                return;
+            }
+
+            var currentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+            var ignoredVersion = Translator.Setting.IgnoredUpdateVersion;
+            if (!string.IsNullOrEmpty(ignoredVersion) && ignoredVersion == latestVersion)
+                return;
+
+            if (latestVersion != currentVersion)
+            {
+                var dialog = new Wpf.Ui.Controls.MessageBox
+                {
+                    Title = "New Version Available",
+                    Content = $"A new version has been detected: {latestVersion}\n" +
+                              $"Current version: {currentVersion}\n" +
+                              $"Please visit GitHub to download the latest release.",
+                    PrimaryButtonText = "Update",
+                    CloseButtonText = "Ignore this version"
+                };
+                var result = await dialog.ShowDialogAsync();
+
+                if (result == Wpf.Ui.Controls.MessageBoxResult.Primary)
+                {
+                    var url = UpdateUtil.GitHubReleasesUrl;
+                    try
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = url,
+                            UseShellExecute = true
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowSnackbar("[ERROR] Open Browser Failed.", ex.Message, true);
+                    }
+                }
+                else
+                    Translator.Setting.IgnoredUpdateVersion = latestVersion;
+            }
+        }
+
         public void ShowLogCard(bool enabled)
         {
             if (CaptionLogButton.Icon is SymbolIcon icon)
@@ -145,63 +223,12 @@ namespace LiveCaptionsTranslator
                 Height = minHeight;
                 IsAutoHeight = true;
             }
+
             if (IsAutoHeight && maxHeight > 0 && Height > maxHeight)
                 Height = maxHeight;
         }
 
-        private async Task CheckForUpdatesAsync()
-        {
-            string latestVersion = string.Empty;
-            try
-            {
-                latestVersion = await UpdateUtil.GetLatestVersion();
-            }
-            catch (Exception ex)
-            {
-                ShowSnackbar("[ERROR] Update Check Failed.", ex.Message, true);
-                return;
-            }
-
-            var currentVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
-            var ignoredVersion = Translator.Setting.IgnoredUpdateVersion;
-            if (!string.IsNullOrEmpty(ignoredVersion) && ignoredVersion == latestVersion)
-                return;
-            
-            if (latestVersion != currentVersion)
-            {
-                var dialog = new Wpf.Ui.Controls.MessageBox
-                {
-                    Title = "New Version Available",
-                    Content = $"A new version has been detected: {latestVersion}\n" +
-                              $"Current version: {currentVersion}\n" +
-                              $"Please visit GitHub to download the latest release.",
-                    PrimaryButtonText = "Update",
-                    CloseButtonText = "Ignore"
-                };
-                var result = await dialog.ShowDialogAsync();
-
-                if (result == Wpf.Ui.Controls.MessageBoxResult.Primary)
-                {
-                    var url = Constants.GitHubReleasesUrl;
-                    try
-                    {
-                        Process.Start(new ProcessStartInfo
-                        {
-                            FileName = url,
-                            UseShellExecute = true
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        ShowSnackbar("[ERROR] Open Browser Failed.", ex.Message, true);
-                    }
-                }
-                else
-                    Translator.Setting.IgnoredUpdateVersion = latestVersion;
-            }
-        }
-
-        private void ShowSnackbar(string title, string message, bool isError = false)
+        public void ShowSnackbar(string title, string message, bool isError = false)
         {
             var snackbar = new Snackbar(SnackbarHost)
             {
