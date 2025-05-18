@@ -23,6 +23,12 @@
                 </Hyperlink>
             </TextBlock>
             <TextBlock Margin="0,0,0,3">
+                <Run FontWeight="SemiBold" Text="Wiki:" />
+                <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator/wiki" RequestNavigate="Hyperlink_RequestNavigate">
+                    <Run x:Name="Wiki" Text="https://github.com/SakiRinn/LiveCaptions-Translator/wiki" />
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock Margin="0,0,0,3">
                 <Run FontWeight="SemiBold" Text="Maintainer:" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn" RequestNavigate="Hyperlink_RequestNavigate">
                     <Run Text="@SakiRinn" />

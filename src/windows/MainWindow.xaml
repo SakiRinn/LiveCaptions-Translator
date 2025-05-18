@@ -116,6 +116,7 @@
                 </ui:NavigationView.MenuItems>
             </ui:NavigationView>
         </Grid>
+        <ui:SnackbarPresenter x:Name="SnackbarHost" Grid.Row="0" />
         <ContentPresenter
             x:Name="DialogHostContainer"
             MinHeight="167"

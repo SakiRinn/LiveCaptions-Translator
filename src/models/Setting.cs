@@ -248,6 +248,13 @@ namespace LiveCaptionsTranslator.models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
             Translator.Setting?.Save();
         }
+
+        public static bool IsConfigExist()
+        {
+            string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), FILENAME);
+            Console.WriteLine($"Config file path: {jsonPath}");
+            return File.Exists(jsonPath);
+        }
     }
 
     public class MainWindowState : INotifyPropertyChanged
