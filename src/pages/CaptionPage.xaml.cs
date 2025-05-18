@@ -99,6 +99,7 @@ namespace LiveCaptionsTranslator
                     maxHeight: CARD_HEIGHT * (Translator.Setting.MainWindow.CaptionLogMax + 1));
             else
                 (App.Current.MainWindow as MainWindow).AutoHeightAdjust(
+                    minHeight: (int)App.Current.MainWindow.MinHeight,
                     maxHeight: (int)App.Current.MainWindow.MinHeight);
         }
     }

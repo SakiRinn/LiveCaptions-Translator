@@ -8,7 +8,7 @@ namespace LiveCaptionsTranslator
 {
     public partial class InfoPage : Page
     {
-        public const int MIN_HEIGHT = 185;
+        public const int MIN_HEIGHT = 210;
 
         public InfoPage()
         {
@@ -19,7 +19,7 @@ namespace LiveCaptionsTranslator
 
             Loaded += (s, e) =>
             {
-                (App.Current.MainWindow as MainWindow)?.AutoHeightAdjust(minHeight: MIN_HEIGHT);
+                (App.Current.MainWindow as MainWindow)?.AutoHeightAdjust(minHeight: MIN_HEIGHT, maxHeight: MIN_HEIGHT);
             };
         }
 
