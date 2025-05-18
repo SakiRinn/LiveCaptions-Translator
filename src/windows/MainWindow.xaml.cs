@@ -14,8 +14,6 @@ namespace LiveCaptionsTranslator
     {
         public OverlayWindow? OverlayWindow { get; set; } = null;
         public bool IsAutoHeight { get; set; } = true;
-        public SnackbarPresenter SnackbarHost { get; private set; }
-
         public MainWindow()
         {
             InitializeComponent();
@@ -169,8 +167,7 @@ namespace LiveCaptionsTranslator
             var ignoredVersion = Translator.Setting.IgnoredUpdateVersion;
             if (!string.IsNullOrEmpty(ignoredVersion) && ignoredVersion == latestVersion)
                 return;
-
-            if (latestVersion != currentVersion)
+            if (!string.IsNullOrEmpty(latestVersion) && latestVersion != currentVersion)
             {
                 var dialog = new Wpf.Ui.Controls.MessageBox
                 {
@@ -235,7 +232,7 @@ namespace LiveCaptionsTranslator
                 Title = title,
                 Content = message,
                 Appearance = isError ? ControlAppearance.Danger : ControlAppearance.Light,
-                Timeout = TimeSpan.FromSeconds(2)
+                Timeout = TimeSpan.FromSeconds(5)
             };
             snackbar.Show();
         }
