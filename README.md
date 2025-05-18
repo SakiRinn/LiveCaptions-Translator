@@ -33,25 +33,32 @@ Windows' built-in LiveCaptions is easy to use, uses few resources, and has extre
 
 ## Features
 
-- **🔄 Seamless Integration** \
+- **🔄 Seamless Integration**
+
   Automatically invokes Windows LiveCaptions without opening separate windows. Provides a unified experience for real-time audio/speech translation.
+
   After your first use, Windows LiveCaptions will be hidden by default. You can show it again in the settings.
 
   <div align="center">
-  <img src="images/show_livecaptions.png" alt="LiveCaptions Show/Hide button" width="90%" />
-  <br>
-  <em style="font-size:80%">LiveCaptions Show/Hide button</em>
-  <br>
+    <img src="images/show_livecaptions.png" alt="LiveCaptions Show/Hide button" width="90%" />
+    <br>
+    <em style="font-size:80%">LiveCaptions Show/Hide button</em>
+    <br>
   </div>
 
-  By enabling the ***Include microphone audio option*** in the setting of Windows LiveCaptions, you can achieve real-time speech translation!
+  By enabling the ***Include microphone audio*** option in the setting of Windows LiveCaptions, you can achieve real-time speech translation!
   > ⚠️ **IMPORTANT:** You must change the source language in Windows LiveCaptions!
 
-- **🎨 Modern Interface** \
-  Easy-to-use and clean Fluent UI aligned with modern Windows aesthetics. It can automatically switches between light and dark themes 🌓 based on the system setting.
+- **🎨 Modern Interface**
 
-- **🌐 Multiple Translation Services** \
+  Easy-to-use and clean Fluent UI aligned with modern Windows aesthetics.
+
+  It can automatically switches between light and dark themes 🌓 based on the system setting.
+
+- **🌐 Multiple Translation Services**
+
   Supports various translation engines, including 2 out-of-the-box Google Translate.
+
   Implemented translation engines are shown in the table below:
 
   <div align="center">
@@ -71,43 +78,51 @@ Windows' built-in LiveCaptions is easy to use, uses few resources, and has extre
 
   It's strongly recommended using **LLM-based** translation engines, as LLMs excel at handling incomplete sentences and are adept at understanding context.
 
-- **🪟 Overlay Window** \
+- **🪟 Overlay Window**
+
   Open a borderless, transparent overlay window to display subtitles, providing the most immersive experience. This is very useful for scenarios like gaming, videos, and live streams!
+
   You can even make it completely embedded into the screen, becoming part of it. This means it won't affect any of your operations at all! This is perfect for gamers.
 
   <div align="center">
-  <img src="images/overlay_window.png" alt="Overlay Window" width="80%" />
-  <br>
-  <em style="font-size:80%">Overlay window</em>
-  <br>
+    <img src="images/overlay_window.png" alt="Overlay Window" width="80%" />
+    <br>
+    <em style="font-size:80%">Overlay window</em>
+    <br>
   </div>
 
-  You can open the Overlay Window on the taskbar. You can adjust its parameters such as the window background and subtitle color, font size, and transparency. Extremely high configurability allows it to completely match your preferences!
+  You can open the Overlay Window on the taskbar and adjust its parameters such as the window background and subtitle color, font size, and transparency. Extremely high configurability allows it to completely match your preferences!
+
   You can adjust the number of sentences displayed simultaneously in the *Overlay Sentences* section of the setting page.
 
-- **⚙️ Flexible Controls** \
+- **⚙️ Flexible Controls**
+
   Supports Always-on-top window and convenient translation pause/resume, and you can copy text with a single click for quick share or saving.
 
-- **📒 History Management** \
+- **📒 History Management**
+
   Records original and translated text, perfect for meetings, lectures, and important discussions.
+
   You can export all records as a CSV file.
 
   <div align="center">
-  <img src="images/history.png" alt="Translation history" width="90%" />
-  <br>
-  <em style="font-size:80%">Translation history</em>
-  <br>
+    <img src="images/history.png" alt="Translation history" width="90%" />
+    <br>
+    <em style="font-size:80%">Translation history</em>
+    <br>
   </div>
 
-- **🎞️ Log Cards** \
+- **🎞️ Log Cards**
+
   Recent transcription records can be displayed as Log Cards, which helps you better grasp the context.
+
   You can enable it on the taskbar of the main page and change the number of cards in the *Log Cards* section of the setting page.
 
   <div align="center">
-  <img src="images/log_cards.png" alt="Log cards" width="90%" />
-  <br>
-  <em style="font-size:80%">Log Cards</em>
-  <br>
+    <img src="images/log_cards.png" alt="Log cards" width="90%" />
+    <br>
+    <em style="font-size:80%">Log Cards</em>
+    <br>
   </div>
 
 
@@ -122,9 +137,9 @@ Windows' built-in LiveCaptions is easy to use, uses few resources, and has extre
 
 </div>
 
-This tool is based on Windows LiveCaptions, which is available since Windows 11 22H2.
+This tool is based on Windows LiveCaptions, which is available since **Windows 11 22H2**.
 
-We suggest you have .NET runtime 8.0 or higher installed. If you are not available to install one, you can download the ***with runtime*** version but its size is bigger.
+We suggest you have **.NET runtime 8.0** or higher installed. If you are not available to install one, you can download the ***with runtime*** version but its size is bigger.
 
 <div align="center">
   <p align="center">
@@ -150,16 +165,13 @@ Confirm LiveCaptions is available on your system using any of these methods:
 - Open **Start** > **All apps** > **Accessibility** > **Live captions**
 - Navigate to **Settings** > **Accessibility** > **Captions** and enable **Live captions**
 
-### Step 2: Setup and Configure LiveCaptions
+### Step 2: Configure LiveCaptions
 
-When you start for the first time, live captions will ask for your consent to process voice data on your device and prompt you to download language files to be used by on-device speech recognition.
+When you first start, Windows LiveCaptions will ask for your consent to process voice data on your device and prompt you to download language files to be used by on-device speech recognition.
 
-After launching Windows LiveCaptions, you can click the **⚙️Gear** icon to open the setting menu.
+After launching Windows LiveCaptions, click the **⚙️ gear** icon to open the setting menu, then select **Position** > **Overlaid on screen**.
 
-To enhance your experience with LiveCaptions Translator, we strongly recommend configuring the following settings:
-
-- Select Position > Overlaid on screen. (Importantly)
-- Click Caption language > Add a language to add some languages and download all items under Speech Recognition in ··· Language options.
+> ⚠️ VERY IMPORTANT! Otherwise, a display bug will occur on the screen after hiding Windows LiveCaptions.
 
 <div align="center">
   <img src="images/speech_recognition.png" alt="Items under speech recognition" width="80%" />
