@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="Welcome!"
+    Title="Getting Started"
     Width="700"
     Height="490"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -29,7 +29,9 @@
             ShowMaximize="False"
             ShowMinimize="False">
             <ui:TitleBar.Header>
-                <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center">Welcome!</ui:TextBlock>
+                <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center">
+                    Getting Started
+                </ui:TextBlock>
             </ui:TitleBar.Header>
         </ui:TitleBar>
 
