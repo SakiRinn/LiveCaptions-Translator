@@ -73,8 +73,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: {ex.Message}";
-                return string.Empty;
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
             }
             catch (Exception ex)
             {
@@ -125,8 +125,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: {ex.Message}";
-                return string.Empty;
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
             }
             catch (Exception ex)
             {
@@ -162,8 +162,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: {ex.Message}";
-                return string.Empty;
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
             }
             catch (Exception ex)
             {
@@ -207,8 +207,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: {ex.Message}";
-                return string.Empty;
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
             }
             catch (Exception ex)
             {
@@ -271,8 +271,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: {ex.Message}";
-                return string.Empty;
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
             }
             catch (Exception ex)
             {
@@ -320,8 +320,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: {ex.Message}";
-                return string.Empty;
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
             }
             catch (Exception ex)
             {
@@ -377,8 +377,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: {ex.Message}";
-                return string.Empty;
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
             }
             catch (Exception ex)
             {
@@ -431,8 +431,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: {ex.Message}";
-                return string.Empty;
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
             }
             catch (Exception ex)
             {
@@ -481,8 +481,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: {ex.Message}";
-                return string.Empty;
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
             }
             catch (Exception ex)
             {
