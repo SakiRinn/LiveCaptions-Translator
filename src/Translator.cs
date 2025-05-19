@@ -117,7 +117,7 @@ namespace LiveCaptionsTranslator
                 //     TextUtil.ShortenDisplaySentence(Caption.OverlayOriginalCaption, TextUtil.VERYLONG_THRESHOLD);
 
                 // `DisplayOriginalCaption`: The sentence to be displayed on Main Window.
-                if (Caption.DisplayOriginalCaption.CompareTo(latestCaption) != 0)
+                if (string.CompareOrdinal(Caption.DisplayOriginalCaption, latestCaption) != 0)
                 {
                     Caption.DisplayOriginalCaption = latestCaption;
                     // If the last sentence is too long, truncate it when displayed.
@@ -130,7 +130,7 @@ namespace LiveCaptionsTranslator
                 if (lastEOS != -1)
                     latestCaption = latestCaption.Substring(0, lastEOS + 1);
                 // `OriginalCaption`: The sentence to be really translated.
-                if (Caption.OriginalCaption.CompareTo(latestCaption) != 0)
+                if (string.CompareOrdinal(Caption.OriginalCaption, latestCaption) != 0)
                 {
                     Caption.OriginalCaption = latestCaption;
                     
@@ -192,7 +192,9 @@ namespace LiveCaptionsTranslator
                         Caption.DisplayTranslatedCaption = "[Paused]";
                         Caption.OverlayTranslatedCaption = "[Paused]";
                     }
-                    else if (!string.IsNullOrEmpty(translationTaskQueue.Output))
+                    else if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
+                                 translationTaskQueue.Output, string.Empty).Trim()) &&
+                             string.CompareOrdinal(Caption.TranslatedCaption, translationTaskQueue.Output) != 0)
                     {
                         Caption.TranslatedCaption = translationTaskQueue.Output;
                         Caption.DisplayTranslatedCaption = 
@@ -225,13 +227,17 @@ namespace LiveCaptionsTranslator
             string translatedText;
             try
             {
-                var sw = Setting.MainWindow.LatencyShow? Stopwatch.StartNew() : null;
+                var sw = Setting.MainWindow.LatencyShow ? Stopwatch.StartNew() : null;
                 translatedText = await TranslateAPI.TranslateFunction(text, token);
                 if (sw != null)
                 {
                     sw.Stop();
                     translatedText = $"[{sw.ElapsedMilliseconds} ms] " + translatedText;
                 }
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw;
             }
             catch (Exception ex)
             {
