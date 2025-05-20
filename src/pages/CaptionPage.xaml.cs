@@ -90,7 +90,7 @@ namespace LiveCaptionsTranslator
                 CaptionLogCard.Visibility = Visibility.Collapsed;
             }
         }
-        
+
         public void AutoHeight()
         {
             if (Translator.Setting.MainWindow.CaptionLogEnabled)

@@ -14,7 +14,7 @@ namespace LiveCaptionsTranslator
     public partial class HistoryPage : Page
     {
         public const int MIN_HEIGHT = 300;
-        
+
         private int currentPage = 1;
         private int searchPage = 1;
         private int maxPage = 1;
@@ -69,8 +69,8 @@ namespace LiveCaptionsTranslator
             {
                 Title = new TextBlock
                 {
-                    Text = "Do you want to delete all history?", 
-                    FontSize = 18, 
+                    Text = "Do you want to delete all history?",
+                    FontSize = 18,
                     FontWeight = FontWeights.Regular
                 },
                 Content = "This operation cannot be undone!",
@@ -171,7 +171,7 @@ namespace LiveCaptionsTranslator
                 }
             }
         }
-        
+
         private void Snackbar_Show(string title, string message, bool isError = false)
         {
             var snackbar = new Snackbar(SnackbarHost)
@@ -184,7 +184,7 @@ namespace LiveCaptionsTranslator
 
             snackbar.Show();
         }
-        
+
         public async Task LoadHistory()
         {
             var data = await SQLiteHistoryLogger.LoadHistoryAsync(currentPage, maxRowPerPage, SearchText);

@@ -54,7 +54,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("OverlayTranslatedCaption");
             }
         }
-        
+
         public Queue<TranslationHistoryEntry> LogCards { get; } = new(6);
         public IEnumerable<TranslationHistoryEntry> DisplayLogCards => LogCards.Reverse();
 
@@ -65,11 +65,11 @@ namespace LiveCaptionsTranslator.models
                 int historyCount = Math.Min(Translator.Setting.OverlayWindow.HistoryMax, LogCards.Count);
                 if (historyCount <= 0)
                     return string.Empty;
-                
+
                 var prefix = DisplayLogCards
                     .Take(historyCount)
                     .Reverse()
-                    .Select(entry => 
+                    .Select(entry =>
                         entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]")
                             ? "" : entry.TranslatedText)
                     .Aggregate((accu, cur) =>
@@ -80,7 +80,7 @@ namespace LiveCaptionsTranslator.models
                         return accu + cur;
                     });
                 prefix = RegexPatterns.NoticePrefix().Replace(prefix, "");
-                
+
                 if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
                     prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ".";
                 if (!string.IsNullOrEmpty(prefix) && Encoding.UTF8.GetByteCount(prefix[^1].ToString()) < 2)

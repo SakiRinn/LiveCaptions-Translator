@@ -59,7 +59,7 @@ namespace LiveCaptionsTranslator.models
         public string OriginalText { get; }
         public CancellationTokenSource CTS { get; }
 
-        public TranslationTask(Func<CancellationToken, Task<string>> worker, 
+        public TranslationTask(Func<CancellationToken, Task<string>> worker,
             string originalText, CancellationTokenSource cts)
         {
             Task = worker(cts.Token);

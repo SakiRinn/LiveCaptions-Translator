@@ -22,10 +22,10 @@ namespace LiveCaptionsTranslator
         }
         public static Caption? Caption => caption;
         public static Setting? Setting => setting;
-        
+
         public static bool LogOnlyFlag { get; set; } = false;
         public static bool FirstUseFlag { get; set; } = false;
-        
+
         public static event Action? TranslationLogged;
 
         static Translator()
@@ -33,10 +33,10 @@ namespace LiveCaptionsTranslator
             window = LiveCaptionsHandler.LaunchLiveCaptions();
             LiveCaptionsHandler.FixLiveCaptions(Window);
             LiveCaptionsHandler.HideLiveCaptions(Window);
-            
+
             if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), models.Setting.FILENAME)))
                 FirstUseFlag = true;
-            
+
             caption = Caption.GetInstance();
             setting = Setting.Load();
         }
@@ -61,7 +61,7 @@ namespace LiveCaptionsTranslator
                     var info = Window.Current;
                     var name = info.Name;
                     // Get the text recognized by LiveCaptions (10-20ms)
-                    fullText = LiveCaptionsHandler.GetCaptions(Window);     
+                    fullText = LiveCaptionsHandler.GetCaptions(Window);
                 }
                 catch (ElementNotAvailableException)
                 {
@@ -79,7 +79,7 @@ namespace LiveCaptionsTranslator
                 // Note: For certain languages (such as Japanese), LiveCaptions excessively uses `\n`.
                 // Replace redundant `\n` within sentences with comma or period.
                 fullText = TextUtil.ReplaceNewlines(fullText, TextUtil.MEDIUM_THRESHOLD);
-                
+
                 // Prevent adding the last sentence from previous running to log cards
                 // before the first sentence is completed.
                 if (fullText.IndexOfAny(TextUtil.PUNC_EOS) == -1 && Caption.LogCards.Count > 0)
@@ -95,7 +95,7 @@ namespace LiveCaptionsTranslator
                 else
                     lastEOSIndex = fullText.LastIndexOfAny(TextUtil.PUNC_EOS);
                 string latestCaption = fullText.Substring(lastEOSIndex + 1);
-                
+
                 // If the last sentence is too short, extend it by adding the previous sentence.
                 // Note: LiveCaptions may generate multiple characters including EOS at once.
                 if (lastEOSIndex > 0 && Encoding.UTF8.GetByteCount(latestCaption) < TextUtil.SHORT_THRESHOLD)
@@ -103,17 +103,17 @@ namespace LiveCaptionsTranslator
                     lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(TextUtil.PUNC_EOS);
                     latestCaption = fullText.Substring(lastEOSIndex + 1);
                 }
-                
+
                 // `OverlayOriginalCaption`: The sentence to be displayed on Overlay Window.
                 Caption.OverlayOriginalCaption = latestCaption;
                 for (int historyCount = Math.Min(Setting.OverlayWindow.HistoryMax, Caption.LogCards.Count);
-                     historyCount > 0 && lastEOSIndex > 0; 
+                     historyCount > 0 && lastEOSIndex > 0;
                      historyCount--)
                 {
                     lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(TextUtil.PUNC_EOS);
                     Caption.OverlayOriginalCaption = fullText.Substring(lastEOSIndex + 1);
                 }
-                // Caption.DisplayOriginalCaption = 
+                // Caption.DisplayOriginalCaption =
                 //     TextUtil.ShortenDisplaySentence(Caption.OverlayOriginalCaption, TextUtil.VERYLONG_THRESHOLD);
 
                 // `DisplayOriginalCaption`: The sentence to be displayed on Main Window.
@@ -121,7 +121,7 @@ namespace LiveCaptionsTranslator
                 {
                     Caption.DisplayOriginalCaption = latestCaption;
                     // If the last sentence is too long, truncate it when displayed.
-                    Caption.DisplayOriginalCaption = 
+                    Caption.DisplayOriginalCaption =
                         TextUtil.ShortenDisplaySentence(Caption.DisplayOriginalCaption, TextUtil.VERYLONG_THRESHOLD);
                 }
 
@@ -133,7 +133,7 @@ namespace LiveCaptionsTranslator
                 if (string.CompareOrdinal(Caption.OriginalCaption, latestCaption) != 0)
                 {
                     Caption.OriginalCaption = latestCaption;
-                    
+
                     idleCount = 0;
                     if (Array.IndexOf(TextUtil.PUNC_EOS, Caption.OriginalCaption[^1]) != -1)
                     {
@@ -197,7 +197,7 @@ namespace LiveCaptionsTranslator
                              string.CompareOrdinal(Caption.TranslatedCaption, translationTaskQueue.Output) != 0)
                     {
                         Caption.TranslatedCaption = translationTaskQueue.Output;
-                        Caption.DisplayTranslatedCaption = 
+                        Caption.DisplayTranslatedCaption =
                             TextUtil.ShortenDisplaySentence(Caption.TranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
 
                         if (Caption.TranslatedCaption.Contains("[ERROR]") ||
@@ -210,7 +210,7 @@ namespace LiveCaptionsTranslator
                         string noticePrefix = match.Groups[1].Value;
                         string translatedText = match.Groups[2].Value;
                         Caption.OverlayTranslatedCaption = noticePrefix + Caption.OverlayPreviousTranslation + translatedText;
-                        // Caption.OverlayTranslatedCaption = 
+                        // Caption.OverlayTranslatedCaption =
                         //     TextUtil.ShortenDisplaySentence(Caption.OverlayTranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
                     }
 
@@ -247,7 +247,7 @@ namespace LiveCaptionsTranslator
             return translatedText;
         }
 
-        public static async Task Log(string originalText, string translatedText, 
+        public static async Task Log(string originalText, string translatedText,
             bool isOverwrite = false, CancellationToken token = default)
         {
             string targetLanguage, apiName;
@@ -298,19 +298,19 @@ namespace LiveCaptionsTranslator
                 Console.WriteLine($"[ERROR] Logging History Failed: {ex.Message}");
             }
         }
-        
+
         public static async Task AddLogCard(CancellationToken token = default)
         {
             var lastLog = await SQLiteHistoryLogger.LoadLastTranslation(token);
             if (lastLog == null)
                 return;
-            
+
             if (Caption?.LogCards.Count >= Setting?.MainWindow.CaptionLogMax)
                 Caption.LogCards.Dequeue();
             Caption?.LogCards.Enqueue(lastLog);
             Caption?.OnPropertyChanged("DisplayLogCards");
         }
-        
+
         public static async Task<bool> IsOverwrite(string originalText, CancellationToken token = default)
         {
             // If this text is too similar to the last one, rewrite it when logging.
