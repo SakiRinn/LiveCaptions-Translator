@@ -13,7 +13,9 @@ namespace LiveCaptionsTranslator
         private static AutomationElement? window = null;
         private static Caption? caption = null;
         private static Setting? setting = null;
+
         private static readonly Queue<string> pendingTextQueue = new();
+        private static readonly TranslationTaskQueue translationTaskQueue = new();
 
         public static AutomationElement? Window
         {
@@ -154,16 +156,16 @@ namespace LiveCaptionsTranslator
                     syncCount = 0;
                     pendingTextQueue.Enqueue(Caption.OriginalCaption);
                 }
+
                 Thread.Sleep(25);
             }
         }
 
         public static async Task TranslateLoop()
         {
-            var translationTaskQueue = new TranslationTaskQueue();
-
             while (true)
             {
+                // Check LiveCaptions.exe still alive
                 if (Window == null)
                 {
                     Caption.DisplayTranslatedCaption = "[WARNING] LiveCaptions was unexpectedly closed, restarting...";
@@ -171,6 +173,7 @@ namespace LiveCaptionsTranslator
                     Caption.DisplayTranslatedCaption = "";
                 }
 
+                // Translate
                 if (pendingTextQueue.Count > 0)
                 {
                     var originalSnapshot = pendingTextQueue.Dequeue();
@@ -186,26 +189,39 @@ namespace LiveCaptionsTranslator
                             () => Translate(originalSnapshot, token), token), originalSnapshot);
                     }
 
-                    if (LogOnlyFlag)
-                    {
-                        Caption.TranslatedCaption = string.Empty;
-                        Caption.DisplayTranslatedCaption = "[Paused]";
-                        Caption.OverlayTranslatedCaption = "[Paused]";
-                    }
-                    else if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
-                                 translationTaskQueue.Output, string.Empty).Trim()) &&
-                             string.CompareOrdinal(Caption.TranslatedCaption, translationTaskQueue.Output) != 0)
-                    {
-                        Caption.TranslatedCaption = translationTaskQueue.Output;
-                        Caption.DisplayTranslatedCaption =
-                            TextUtil.ShortenDisplaySentence(Caption.TranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
+                    // If the original sentence is a complete sentence, pause for better visual experience.
+                    if (Array.IndexOf(TextUtil.PUNC_EOS, originalSnapshot[^1]) != -1)
+                        Thread.Sleep(600);
+                }
 
-                        if (Caption.TranslatedCaption.Contains("[ERROR]") ||
-                            Caption.TranslatedCaption.Contains("[WARNING]"))
-                        {
-                            Caption.OverlayTranslatedCaption = Caption.TranslatedCaption;
-                            continue;
-                        }
+                Thread.Sleep(40);
+            }
+        }
+
+        public static async Task DisplayLoop()
+        {
+            while (true)
+            {
+                if (LogOnlyFlag)
+                {
+                    Caption.TranslatedCaption = string.Empty;
+                    Caption.DisplayTranslatedCaption = "[Paused]";
+                    Caption.OverlayTranslatedCaption = "[Paused]";
+                }
+                else if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
+                             translationTaskQueue.Output, string.Empty).Trim()) &&
+                         string.CompareOrdinal(Caption.TranslatedCaption, translationTaskQueue.Output) != 0)
+                {
+                    // Main page
+                    Caption.TranslatedCaption = translationTaskQueue.Output;
+                    Caption.DisplayTranslatedCaption =
+                        TextUtil.ShortenDisplaySentence(Caption.TranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
+
+                    // Overlay window
+                    if (Caption.TranslatedCaption.Contains("[ERROR]") || Caption.TranslatedCaption.Contains("[WARNING]"))
+                        Caption.OverlayTranslatedCaption = Caption.TranslatedCaption;
+                    else
+                    {
                         var match = RegexPatterns.NoticePrefixAndTranslation().Match(Caption.TranslatedCaption);
                         string noticePrefix = match.Groups[1].Value;
                         string translatedText = match.Groups[2].Value;
@@ -213,11 +229,8 @@ namespace LiveCaptionsTranslator
                         // Caption.OverlayTranslatedCaption =
                         //     TextUtil.ShortenDisplaySentence(Caption.OverlayTranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
                     }
-
-                    // If the original sentence is a complete sentence, pause for better visual experience.
-                    if (Array.IndexOf(TextUtil.PUNC_EOS, originalSnapshot[^1]) != -1)
-                        Thread.Sleep(600);
                 }
+
                 Thread.Sleep(40);
             }
         }
