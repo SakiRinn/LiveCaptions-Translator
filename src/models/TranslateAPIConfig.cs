@@ -23,6 +23,7 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "ko-KR" },
             { "fr-FR", "fr-FR" },
             { "th-TH", "th-TH" },
+            { "pt-BR", "pt-BR" },
         };
 
         public event PropertyChangedEventHandler? PropertyChanged;
