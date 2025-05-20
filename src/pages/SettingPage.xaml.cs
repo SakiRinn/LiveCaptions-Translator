@@ -10,7 +10,7 @@ namespace LiveCaptionsTranslator
     public partial class SettingPage : Page
     {
         private static SettingWindow? SettingWindow;
-        
+
         public SettingPage()
         {
             InitializeComponent();
@@ -65,7 +65,7 @@ namespace LiveCaptionsTranslator
         {
             Translator.Setting.TargetLanguage = TargetLangBox.Text;
         }
-        
+
         private void APISettingButton_click(object sender, RoutedEventArgs e)
         {
             if (SettingWindow != null && SettingWindow.IsLoaded)
@@ -77,23 +77,23 @@ namespace LiveCaptionsTranslator
                 SettingWindow.Show();
             }
         }
-        
+
         private void CaptionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Translator.Setting.OverlayWindow.HistoryMax > Translator.Setting.MainWindow.CaptionLogMax)
                 Translator.Setting.OverlayWindow.HistoryMax = Translator.Setting.MainWindow.CaptionLogMax;
-            
+
             while (Translator.Caption.LogCards.Count > Translator.Setting.MainWindow.CaptionLogMax)
                 Translator.Caption.LogCards.Dequeue();
             Translator.Caption.OnPropertyChanged("DisplayLogCards");
         }
-        
+
         private void OverlayHistoryMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (Translator.Setting.OverlayWindow.HistoryMax > Translator.Setting.MainWindow.CaptionLogMax)
                 Translator.Setting.MainWindow.CaptionLogMax = Translator.Setting.OverlayWindow.HistoryMax;
         }
-        
+
         private void LiveCaptionsInfo_MouseEnter(object sender, MouseEventArgs e)
         {
             LiveCaptionsInfoFlyout.Show();
@@ -103,7 +103,7 @@ namespace LiveCaptionsTranslator
         {
             LiveCaptionsInfoFlyout.Hide();
         }
-        
+
         private void FrequencyInfo_MouseEnter(object sender, MouseEventArgs e)
         {
             FrequencyInfoFlyout.Show();
@@ -113,7 +113,7 @@ namespace LiveCaptionsTranslator
         {
             FrequencyInfoFlyout.Hide();
         }
-        
+
         private void TranslateAPIInfo_MouseEnter(object sender, MouseEventArgs e)
         {
             TranslateAPIInfoFlyout.Show();
@@ -143,7 +143,7 @@ namespace LiveCaptionsTranslator
         {
             CaptionLogMaxInfoFlyout.Hide();
         }
-        
+
         private void CheckForFirstUse()
         {
             if (Translator.FirstUseFlag)

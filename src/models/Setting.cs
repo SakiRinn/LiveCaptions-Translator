@@ -30,13 +30,14 @@ namespace LiveCaptionsTranslator.models
         private TranslateAPIConfig? currentAPIConfig;
 
         private string? ignoredUpdateVersion;
-        public string? IgnoredUpdateVersion {
+        public string? IgnoredUpdateVersion
+        {
             get => ignoredUpdateVersion;
             set
             {
                 ignoredUpdateVersion = value;
                 OnPropertyChanged("IgnoredUpdateVersion");
-            } 
+            }
         }
 
         public string ApiName
@@ -209,10 +210,10 @@ namespace LiveCaptionsTranslator.models
             }
             else
                 setting = new Setting();
-            
+
             foreach (string key in TranslateAPI.TRANSLATE_FUNCTIONS.Keys)
             {
-                if (setting.Configs.ContainsKey(key)) 
+                if (setting.Configs.ContainsKey(key))
                     continue;
                 var configType = Type.GetType($"LiveCaptionsTranslator.models.{key}Config");
                 if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))

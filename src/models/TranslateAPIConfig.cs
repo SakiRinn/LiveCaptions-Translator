@@ -42,7 +42,7 @@ namespace LiveCaptionsTranslator.models
             public string role { get; set; }
             public string content { get; set; }
         }
-        
+
         private string modelName = "";
         private double temperature = 1.0;
 
@@ -159,7 +159,7 @@ namespace LiveCaptionsTranslator.models
             }
         }
     }
-    
+
     public class DeepLConfig : TranslateAPIConfig
     {
         [JsonIgnore]
@@ -210,15 +210,15 @@ namespace LiveCaptionsTranslator.models
 
         [JsonIgnore]
         public override Dictionary<string, string> SupportedLanguages { get; } = new()
-    {
-        { "zh-CN", "zh-CHS" }, 
-        { "zh-TW", "zh-CHT" }, 
-        { "en-US", "en" },      
-        { "ja-JP", "ja" },      
-        { "ko-KR", "ko" },     
-        { "fr-FR", "fr" },      
-        { "th-TH", "th" },
-    };
+        {
+            { "zh-CN", "zh-CHS" },
+            { "zh-TW", "zh-CHT" },
+            { "en-US", "en" },
+            { "ja-JP", "ja" },
+            { "ko-KR", "ko" },
+            { "fr-FR", "fr" },
+            { "th-TH", "th" },
+        };
 
         private string appKey = "";
         private string appSecret = "";
@@ -292,7 +292,7 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public string SourceLanguage 
+        public string SourceLanguage
         {
             get => sourceLanguage;
             set
@@ -312,7 +312,7 @@ namespace LiveCaptionsTranslator.models
     {
         public class TransResult
         {
-            public string src {  get; set; }
+            public string src { get; set; }
             public string dst { get; set; }
         }
 
@@ -327,12 +327,12 @@ namespace LiveCaptionsTranslator.models
         [JsonIgnore]
         public override Dictionary<string, string> SupportedLanguages { get; } = new()
         {
-            { "zh-CN", "zh" }, 
-            { "zh-TW", "cht" }, 
-            { "en-US", "en" },      
-            { "ja-JP", "jp" },      
-            { "ko-KR", "kor" },     
-            { "fr-FR", "fra" },      
+            { "zh-CN", "zh" },
+            { "zh-TW", "cht" },
+            { "en-US", "en" },
+            { "ja-JP", "jp" },
+            { "ko-KR", "kor" },
+            { "fr-FR", "fra" },
             { "th-TH", "th" },
         };
 
