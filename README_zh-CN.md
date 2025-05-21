@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="src/LiveCaptions-Translator.ico" width="128" height="128" alt="LiveCaptions Translator图标"/>
+
 # LiveCaptions Translator
 
 ### *基于Windows实时字幕的实时音频/语音翻译工具*

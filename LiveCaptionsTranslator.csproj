@@ -17,7 +17,7 @@
 		<Description>A real-time speech translation tool based on Windows LiveCaptions.</Description>
 		<Copyright>Copyright (c) 2024 SakiRinn and other contributors</Copyright>
 		<Authors>SakiRinn</Authors>
-		<ApplicationIcon>src\LiveCaptions.ico</ApplicationIcon>
+		<ApplicationIcon>src\LiveCaptions-Translator.ico</ApplicationIcon>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<Platforms>AnyCPU;ARM64</Platforms>
 	</PropertyGroup>
@@ -27,7 +27,7 @@
 			<Generator>MSBuild:Compile</Generator>
 			<SubType>Designer</SubType>
 		</ApplicationDefinition>
-		<Content Include="src\LiveCaptions.ico" />
+		<Content Include="src\LiveCaptions-Translator.ico" />
 		
 		<PackageReference Include="Interop.UIAutomationClient" Version="10.19041.0" />
 		

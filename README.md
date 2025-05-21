@@ -1,5 +1,7 @@
 ﻿<div align="center">
 
+<img src="src/LiveCaptions-Translator.ico" width="128" height="128" alt="LiveCaptions-Translator Icon"/>
+
 # LiveCaptions Translator
 
 ### *Real-time audio/speech translation tool based on Windows LiveCaptions*
