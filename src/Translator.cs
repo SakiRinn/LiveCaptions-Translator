@@ -188,10 +188,6 @@ namespace LiveCaptionsTranslator
                         translationTaskQueue.Enqueue(token => Task.Run(
                             () => Translate(originalSnapshot, token), token), originalSnapshot);
                     }
-
-                    // If the original sentence is a complete sentence, pause for better visual experience.
-                    if (Array.IndexOf(TextUtil.PUNC_EOS, originalSnapshot[^1]) != -1)
-                        Thread.Sleep(600);
                 }
 
                 Thread.Sleep(40);
@@ -202,6 +198,8 @@ namespace LiveCaptionsTranslator
         {
             while (true)
             {
+                var (translatedText, isChoke) = translationTaskQueue.Output;
+
                 if (LogOnlyFlag)
                 {
                     Caption.TranslatedCaption = string.Empty;
@@ -209,11 +207,11 @@ namespace LiveCaptionsTranslator
                     Caption.OverlayTranslatedCaption = "[Paused]";
                 }
                 else if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
-                             translationTaskQueue.Output, string.Empty).Trim()) &&
-                         string.CompareOrdinal(Caption.TranslatedCaption, translationTaskQueue.Output) != 0)
+                             translatedText, string.Empty).Trim()) &&
+                         string.CompareOrdinal(Caption.TranslatedCaption, translatedText) != 0)
                 {
                     // Main page
-                    Caption.TranslatedCaption = translationTaskQueue.Output;
+                    Caption.TranslatedCaption = translatedText;
                     Caption.DisplayTranslatedCaption =
                         TextUtil.ShortenDisplaySentence(Caption.TranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
 
@@ -224,20 +222,25 @@ namespace LiveCaptionsTranslator
                     {
                         var match = RegexPatterns.NoticePrefixAndTranslation().Match(Caption.TranslatedCaption);
                         string noticePrefix = match.Groups[1].Value;
-                        string translatedText = match.Groups[2].Value;
-                        Caption.OverlayTranslatedCaption = noticePrefix + Caption.OverlayPreviousTranslation + translatedText;
+                        string translation = match.Groups[2].Value;
+                        Caption.OverlayTranslatedCaption = noticePrefix + Caption.OverlayPreviousTranslation + translation;
                         // Caption.OverlayTranslatedCaption =
                         //     TextUtil.ShortenDisplaySentence(Caption.OverlayTranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
                     }
                 }
 
+                // If the original sentence is a complete sentence, choke for better visual experience.
+                if (isChoke)
+                    Thread.Sleep(720);
                 Thread.Sleep(40);
             }
         }
 
-        public static async Task<string> Translate(string text, CancellationToken token = default)
+        public static async Task<(string, bool)> Translate(string text, CancellationToken token = default)
         {
             string translatedText;
+            bool isChoke = Array.IndexOf(TextUtil.PUNC_EOS, text[^1]) != -1;
+            
             try
             {
                 var sw = Setting.MainWindow.LatencyShow ? Stopwatch.StartNew() : null;
@@ -255,9 +258,10 @@ namespace LiveCaptionsTranslator
             catch (Exception ex)
             {
                 Console.WriteLine($"[ERROR] Translation Failed: {ex.Message}");
-                return $"[ERROR] Translation Failed: {ex.Message}";
+                return ($"[ERROR] Translation Failed: {ex.Message}", isChoke);
             }
-            return translatedText;
+
+            return (translatedText, isChoke);
         }
 
         public static async Task Log(string originalText, string translatedText,
