@@ -14,6 +14,7 @@ namespace LiveCaptionsTranslator
     {
         public OverlayWindow? OverlayWindow { get; set; } = null;
         public bool IsAutoHeight { get; set; } = true;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -21,12 +22,9 @@ namespace LiveCaptionsTranslator
 
             Loaded += (s, e) =>
             {
-                SystemThemeWatcher.Watch(
-                    this,
-                    WindowBackdropType.Mica,
-                    true
-                );
+                SystemThemeWatcher.Watch(this, WindowBackdropType.Mica, true);
                 RootNavigation.Navigate(typeof(CaptionPage));
+                IsAutoHeight = true;
                 CheckForFirstUse();
                 CheckForUpdates();
             };

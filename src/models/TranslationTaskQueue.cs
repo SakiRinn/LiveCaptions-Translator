@@ -5,22 +5,18 @@ namespace LiveCaptionsTranslator.models
     public class TranslationTaskQueue
     {
         private readonly object _lock = new object();
-
         private readonly List<TranslationTask> tasks;
-        private string translatedText;
 
-        public string Output
-        {
-            get => translatedText;
-        }
+        private (string translatedText, bool isChoke) output;
+        public (string translatedText, bool isChoke) Output => output;
 
         public TranslationTaskQueue()
         {
             tasks = new List<TranslationTask>();
-            translatedText = string.Empty;
+            output = (string.Empty, false);
         }
 
-        public void Enqueue(Func<CancellationToken, Task<string>> worker, string originalText)
+        public void Enqueue(Func<CancellationToken, Task<(string, bool)>> worker, string originalText)
         {
             var newTranslationTask = new TranslationTask(worker, originalText, new CancellationTokenSource());
             lock (_lock)
@@ -44,7 +40,10 @@ namespace LiveCaptionsTranslator.models
                 for (int i = index; i >= 0; i--)
                     tasks.RemoveAt(i);
             }
-            translatedText = translationTask.Task.Result;
+            
+            output = translationTask.Task.Result;
+            var translatedText = output.Item1;
+            
             // Log after translation.
             bool isOverwrite = await Translator.IsOverwrite(translationTask.OriginalText);
             if (!isOverwrite)
@@ -55,11 +54,11 @@ namespace LiveCaptionsTranslator.models
 
     public class TranslationTask
     {
-        public Task<string> Task { get; }
+        public Task<(string, bool)> Task { get; }
         public string OriginalText { get; }
         public CancellationTokenSource CTS { get; }
 
-        public TranslationTask(Func<CancellationToken, Task<string>> worker,
+        public TranslationTask(Func<CancellationToken, Task<(string, bool)>> worker,
             string originalText, CancellationTokenSource cts)
         {
             Task = worker(cts.Token);
