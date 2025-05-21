@@ -23,7 +23,6 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "ko-KR" },
             { "fr-FR", "fr-FR" },
             { "th-TH", "th-TH" },
-            { "pt-BR", "pt-BR" },
         };
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -172,6 +171,7 @@ namespace LiveCaptionsTranslator.models
             { "ja-JP", "JA" },
             { "ko-KR", "KO" },
             { "fr-FR", "FR" },
+            { "th-TH", "TH" },
         };
 
         private string apiKey = "";
@@ -214,6 +214,7 @@ namespace LiveCaptionsTranslator.models
             { "zh-CN", "zh-CHS" },
             { "zh-TW", "zh-CHT" },
             { "en-US", "en" },
+            { "en-GB", "en" },
             { "ja-JP", "ja" },
             { "ko-KR", "ko" },
             { "fr-FR", "fr" },
@@ -267,6 +268,7 @@ namespace LiveCaptionsTranslator.models
             { "ja-JP", "ja" },
             { "ko-KR", "ko" },
             { "fr-FR", "fr" },
+            { "th-TH", "th" },
         };
 
         private string apiKey = "";
@@ -330,6 +332,7 @@ namespace LiveCaptionsTranslator.models
             { "zh-CN", "zh" },
             { "zh-TW", "cht" },
             { "en-US", "en" },
+            { "en-GB", "en" },
             { "ja-JP", "jp" },
             { "ko-KR", "kor" },
             { "fr-FR", "fra" },
