@@ -283,10 +283,11 @@ namespace LiveCaptionsTranslator.utils
             {
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseContent);
-                return jsonResponse.GetProperty("choices")[0]
-                                   .GetProperty("message")
-                                   .GetProperty("content")
-                                   .GetString() ?? string.Empty;
+                var output = jsonResponse.GetProperty("choices")[0]
+                                         .GetProperty("message")
+                                         .GetProperty("content")
+                                         .GetString() ?? string.Empty;
+                return RegexPatterns.ModelThinking().Replace(output, "");
             }
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
