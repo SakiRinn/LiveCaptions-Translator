@@ -9,11 +9,11 @@ namespace LiveCaptionsTranslator.models
         /*
          * The key of this property is used as the content for `targetLangBox` in the `SettingPage`.
          * Its purpose is to standardize the language selection interface.
-         * Therefore, if your API doesn't follow the key format, please override this property.
+         * Therefore, if your API doesn't follow the key format, please override (use `new`) this property.
          * (See the definition of `DeepLConfig` for an example)
          */
         [JsonIgnore]
-        public virtual Dictionary<string, string> SupportedLanguages { get; } = new()
+        public static Dictionary<string, string> SupportedLanguages => new()
         {
             { "zh-CN", "zh-CN" },
             { "zh-TW", "zh-TW" },
@@ -162,7 +162,7 @@ namespace LiveCaptionsTranslator.models
     public class DeepLConfig : TranslateAPIConfig
     {
         [JsonIgnore]
-        public override Dictionary<string, string> SupportedLanguages { get; } = new()
+        public new static Dictionary<string, string> SupportedLanguages => new()
         {
             { "zh-CN", "ZH-HANS" },
             { "zh-TW", "ZH-HANT" },
@@ -209,7 +209,7 @@ namespace LiveCaptionsTranslator.models
         }
 
         [JsonIgnore]
-        public override Dictionary<string, string> SupportedLanguages { get; } = new()
+        public new static Dictionary<string, string> SupportedLanguages => new()
         {
             { "zh-CN", "zh-CHS" },
             { "zh-TW", "zh-CHT" },
@@ -259,7 +259,7 @@ namespace LiveCaptionsTranslator.models
     public class MTranServerConfig : TranslateAPIConfig
     {
         [JsonIgnore]
-        public override Dictionary<string, string> SupportedLanguages { get; } = new()
+        public new static Dictionary<string, string> SupportedLanguages => new()
         {
             { "zh-CN", "zh" },
             { "zh-TW", "zh" },
@@ -327,7 +327,7 @@ namespace LiveCaptionsTranslator.models
         }
 
         [JsonIgnore]
-        public override Dictionary<string, string> SupportedLanguages { get; } = new()
+        public new static Dictionary<string, string> SupportedLanguages => new()
         {
             { "zh-CN", "zh" },
             { "zh-TW", "cht" },

@@ -43,10 +43,10 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> OpenAI(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfig as OpenAIConfig;
-            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
-                ? langValue
-                : Translator.Setting.TargetLanguage;
+            var config = Translator.Setting.CurrentAPIConfigs[0] as OpenAIConfig;
+            string language = OpenAIConfig.SupportedLanguages.TryGetValue(
+                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
+            
             var requestData = new
             {
                 model = config?.ModelName,
@@ -94,11 +94,10 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> Ollama(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting?.CurrentAPIConfig as OllamaConfig;
-            var apiUrl = $"http://localhost:{config.Port}/api/chat";
-            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
-                ? langValue
-                : Translator.Setting.TargetLanguage;
+            var config = Translator.Setting?.CurrentAPIConfigs[0] as OllamaConfig;
+            string language = OllamaConfig.SupportedLanguages.TryGetValue(
+                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
+            string apiUrl = $"http://localhost:{config.Port}/api/chat";
 
             var requestData = new
             {
@@ -236,9 +235,10 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> OpenRouter(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfig as OpenRouterConfig;
-            var language = config?.SupportedLanguages[Translator.Setting.TargetLanguage];
-            var apiUrl = "https://openrouter.ai/api/v1/chat/completions";
+            var config = Translator.Setting.CurrentAPIConfigs[0] as OpenRouterConfig;
+            string language = OpenRouterConfig.SupportedLanguages.TryGetValue(
+                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
+            string apiUrl = "https://openrouter.ai/api/v1/chat/completions";
 
             var requestData = new
             {
@@ -295,10 +295,9 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> DeepL(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfig as DeepLConfig;
-            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
-                ? langValue
-                : Translator.Setting.TargetLanguage;
+            var config = Translator.Setting.CurrentAPIConfigs[0] as DeepLConfig;
+            string language = DeepLConfig.SupportedLanguages.TryGetValue(
+                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
             string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl);
 
             var requestData = new
@@ -348,9 +347,9 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> Youdao(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfig as YoudaoConfig;
-            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
-                ? langValue : Translator.Setting.TargetLanguage;
+            var config = Translator.Setting.CurrentAPIConfigs[0] as YoudaoConfig;
+            string language = YoudaoConfig.SupportedLanguages.TryGetValue(
+                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
 
             string salt = DateTime.Now.Millisecond.ToString();
             string sign = BitConverter.ToString(
@@ -404,10 +403,9 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> MTranServer(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfig as MTranServerConfig;
-            string targetLanguage = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
-                ? langValue
-                : Translator.Setting.TargetLanguage;
+            var config = Translator.Setting.CurrentAPIConfigs[0] as MTranServerConfig;
+            string targetLanguage = MTranServerConfig.SupportedLanguages.TryGetValue(
+                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
             string sourceLanguage = config.SourceLanguage;
             string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl);
 
@@ -452,9 +450,9 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> Baidu(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfig as BaiduConfig;
-            string language = config.SupportedLanguages.TryGetValue(Translator.Setting.TargetLanguage, out var langValue)
-                ? langValue : Translator.Setting.TargetLanguage;
+            var config = Translator.Setting.CurrentAPIConfigs[0] as BaiduConfig;
+            string language = BaiduConfig.SupportedLanguages.TryGetValue(
+                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
 
             string salt = DateTime.Now.Millisecond.ToString();
             string sign = BitConverter.ToString(
@@ -507,14 +505,14 @@ namespace LiveCaptionsTranslator.utils
         }
     }
 
-    public class ConfigDictConverter : JsonConverter<Dictionary<string, TranslateAPIConfig>>
+    public class ConfigDictConverter : JsonConverter<Dictionary<string, List<TranslateAPIConfig>>>
     {
-        public override Dictionary<string, TranslateAPIConfig> Read(
+        public override Dictionary<string, List<TranslateAPIConfig>> Read(
             ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var configs = new Dictionary<string, TranslateAPIConfig>();
             if (reader.TokenType != JsonTokenType.StartObject)
                 throw new JsonException("Expected a StartObject token.");
+            var configs = new Dictionary<string, List<TranslateAPIConfig>>();
 
             reader.Read();
             while (reader.TokenType == JsonTokenType.PropertyName)
@@ -522,14 +520,37 @@ namespace LiveCaptionsTranslator.utils
                 string key = reader.GetString();
                 reader.Read();
 
-                TranslateAPIConfig config;
                 var configType = Type.GetType($"LiveCaptionsTranslator.models.{key}Config");
-                if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
-                    config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, configType, options);
-                else
-                    config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, typeof(TranslateAPIConfig), options);
+                TranslateAPIConfig config;
 
-                configs[key] = config;
+                if (reader.TokenType == JsonTokenType.StartArray)
+                {
+                    var list = new List<TranslateAPIConfig>();
+                    reader.Read();
+
+                    while (reader.TokenType != JsonTokenType.EndArray)
+                    {
+                        if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
+                            config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, configType, options);
+                        else
+                            config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, typeof(TranslateAPIConfig), options);
+
+                        list.Add(config);
+                        reader.Read();
+                    }
+                    configs[key] = list;
+                }
+                else if (reader.TokenType == JsonTokenType.StartObject)
+                {
+                    if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
+                        config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, configType, options);
+                    else
+                        config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, typeof(TranslateAPIConfig), options);
+                    configs[key] = [config];
+                }
+                else
+                    throw new JsonException("Expected a StartObject token or a StartArray token.");
+                
                 reader.Read();
             }
 
@@ -539,18 +560,28 @@ namespace LiveCaptionsTranslator.utils
         }
 
         public override void Write(
-            Utf8JsonWriter writer, Dictionary<string, TranslateAPIConfig> value, JsonSerializerOptions options)
+            Utf8JsonWriter writer, Dictionary<string, List<TranslateAPIConfig>> value, JsonSerializerOptions options)
         {
             writer.WriteStartObject();
             foreach (var kvp in value)
             {
                 writer.WritePropertyName(kvp.Key);
-
                 var configType = Type.GetType($"LiveCaptionsTranslator.models.{kvp.Key}Config");
-                if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
-                    JsonSerializer.Serialize(writer, kvp.Value, configType, options);
+
+                if (kvp.Value is IEnumerable<TranslateAPIConfig> configList)
+                {
+                    writer.WriteStartArray();
+                    foreach (var config in configList)
+                    {
+                        if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
+                            JsonSerializer.Serialize(writer, config, configType, options);
+                        else
+                            JsonSerializer.Serialize(writer, config, typeof(TranslateAPIConfig), options);
+                    }
+                    writer.WriteEndArray();
+                }
                 else
-                    JsonSerializer.Serialize(writer, kvp.Value, typeof(TranslateAPIConfig), options);
+                    throw new JsonException($"Unsupported config type: {kvp.Value.GetType()}");
             }
             writer.WriteEndObject();
         }

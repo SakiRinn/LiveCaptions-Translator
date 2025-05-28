@@ -9,6 +9,7 @@ namespace LiveCaptionsTranslator
         App()
         {
             AppDomain.CurrentDomain.ProcessExit += OnProcessExit;
+            Translator.Setting?.Save();
 
             Task.Run(() => Translator.SyncLoop());
             Task.Run(() => Translator.TranslateLoop());
