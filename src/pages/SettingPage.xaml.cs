@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using LiveCaptionsTranslator.models;
 using Wpf.Ui.Appearance;
 
 using LiveCaptionsTranslator.utils;
@@ -152,7 +154,22 @@ namespace LiveCaptionsTranslator
 
         public void LoadAPISetting()
         {
-            var supportedLanguages = Translator.Setting.CurrentAPIConfig.SupportedLanguages;
+            var configType = Translator.Setting.CurrentAPIConfigs[0].GetType();
+            var languagesProp = configType.GetProperty(
+                "SupportedLanguages", BindingFlags.Public | BindingFlags.Static);
+
+            // Traverse base classes to find `SupportedLanguages`
+            while (configType != null && languagesProp == null)
+            {
+                configType = configType.BaseType;
+                languagesProp = configType.GetProperty(
+                    "SupportedLanguages", BindingFlags.Public | BindingFlags.Static);
+            }
+            if (languagesProp == null)
+                languagesProp = typeof(TranslateAPIConfig).GetProperty(
+                    "SupportedLanguages", BindingFlags.Public | BindingFlags.Static);
+            
+            var supportedLanguages = (Dictionary<string, string>)languagesProp.GetValue(null);
             TargetLangBox.ItemsSource = supportedLanguages.Keys;
 
             string targetLang = Translator.Setting.TargetLanguage;

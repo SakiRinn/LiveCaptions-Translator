@@ -26,8 +26,8 @@ namespace LiveCaptionsTranslator.models
 
         private Dictionary<string, string> windowBounds;
 
-        private Dictionary<string, TranslateAPIConfig> configs;
-        private TranslateAPIConfig? currentAPIConfig;
+        private Dictionary<string, List<TranslateAPIConfig>> configs;
+        private List<TranslateAPIConfig>? currentAPIConfigs;
 
         private string? ignoredUpdateVersion;
         public string? IgnoredUpdateVersion
@@ -112,7 +112,7 @@ namespace LiveCaptionsTranslator.models
         }
 
         [JsonInclude]
-        public Dictionary<string, TranslateAPIConfig> Configs
+        public Dictionary<string, List<TranslateAPIConfig>> Configs
         {
             get => configs;
             set
@@ -122,10 +122,10 @@ namespace LiveCaptionsTranslator.models
             }
         }
         [JsonIgnore]
-        public TranslateAPIConfig CurrentAPIConfig
+        public List<TranslateAPIConfig> CurrentAPIConfigs
         {
-            get => currentAPIConfig ?? (Configs.ContainsKey(ApiName) ? Configs[ApiName] : Configs["Ollama"]);
-            set => currentAPIConfig = value;
+            get => currentAPIConfigs ?? (Configs.ContainsKey(ApiName) ? Configs[ApiName] : Configs["Ollama"]);
+            set => currentAPIConfigs = value;
         }
 
         public Setting()
@@ -143,17 +143,17 @@ namespace LiveCaptionsTranslator.models
             mainWindowState = new MainWindowState();
             overlayWindowState = new OverlayWindowState();
 
-            configs = new Dictionary<string, TranslateAPIConfig>
+            configs = new Dictionary<string, List<TranslateAPIConfig>>
             {
-                { "Google", new TranslateAPIConfig() },
-                { "Google2", new TranslateAPIConfig() },
-                { "Ollama", new OllamaConfig() },
-                { "OpenAI", new OpenAIConfig() },
-                { "DeepL", new DeepLConfig() },
-                { "OpenRouter", new OpenRouterConfig() },
-                { "Youdao", new YoudaoConfig() },
-                { "MTranServer", new MTranServerConfig() },
-                { "Baidu", new BaiduConfig() }
+                { "Google", [new TranslateAPIConfig()] },
+                { "Google2", [new TranslateAPIConfig()] },
+                { "Ollama", [new OllamaConfig()] },
+                { "OpenAI", [new OpenAIConfig()] },
+                { "DeepL", [new DeepLConfig()] },
+                { "OpenRouter", [new OpenRouterConfig()] },
+                { "Youdao", [new YoudaoConfig()] },
+                { "MTranServer", [new MTranServerConfig()] },
+                { "Baidu", [new BaiduConfig()] }
             };
 
             double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -171,19 +171,18 @@ namespace LiveCaptionsTranslator.models
             };
         }
 
-        public Setting(string apiName, string targetLanguage, string prompt,
+        public Setting(string apiName, string targetLanguage, string prompt, string ignoredUpdateVersion,
                        MainWindowState mainWindowState, OverlayWindowState overlayWindowState,
-                       Dictionary<string, TranslateAPIConfig> configs, Dictionary<string, string> windowBounds, string ignoredUpdateVersion)
+                       Dictionary<string, List<TranslateAPIConfig>> configs, Dictionary<string, string> windowBounds)
         {
             this.apiName = apiName;
             this.targetLanguage = targetLanguage;
             this.prompt = prompt;
+            this.ignoredUpdateVersion = ignoredUpdateVersion;
             this.mainWindowState = mainWindowState;
             this.overlayWindowState = overlayWindowState;
             this.configs = configs;
             this.windowBounds = windowBounds;
-            this.ignoredUpdateVersion = ignoredUpdateVersion;
-
         }
 
         public static Setting Load()
@@ -211,18 +210,18 @@ namespace LiveCaptionsTranslator.models
             else
                 setting = new Setting();
 
+            // Ensure all required API configs are present
             foreach (string key in TranslateAPI.TRANSLATE_FUNCTIONS.Keys)
             {
                 if (setting.Configs.ContainsKey(key))
                     continue;
                 var configType = Type.GetType($"LiveCaptionsTranslator.models.{key}Config");
                 if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
-                    setting.Configs[key] = (TranslateAPIConfig)Activator.CreateInstance(configType);
+                    setting.Configs[key] = [(TranslateAPIConfig)Activator.CreateInstance(configType)];
                 else
-                    setting.Configs[key] = new TranslateAPIConfig();
+                    setting.Configs[key] = [new TranslateAPIConfig()];
             }
 
-            setting.Save();
             return setting;
         }
 
