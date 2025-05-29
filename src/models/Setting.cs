@@ -153,7 +153,8 @@ namespace LiveCaptionsTranslator.models
                 { "OpenRouter", [new OpenRouterConfig()] },
                 { "Youdao", [new YoudaoConfig()] },
                 { "MTranServer", [new MTranServerConfig()] },
-                { "Baidu", [new BaiduConfig()] }
+                { "Baidu", [new BaiduConfig()] },
+                { "LibreTranslate", [new LibreTranslateConfig()] }
             };
 
             double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
