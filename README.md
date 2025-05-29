@@ -75,6 +75,7 @@ Windows' built-in LiveCaptions is easy to use, uses few resources, and has extre
   | Youdao                              | Traditional | Online      |
   | Baidu Translate                     | Traditional | Online      |
   | MTranServer                         | Traditional | Self-hosted |
+  | LibreTranslate                      | Traditional | Self-hosted |
 
   </div>
 
