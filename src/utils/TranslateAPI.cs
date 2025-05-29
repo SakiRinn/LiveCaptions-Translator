@@ -25,6 +25,7 @@ namespace LiveCaptionsTranslator.utils
             { "Youdao", Youdao },
             { "MTranServer", MTranServer },
             { "Baidu", Baidu },
+            { "LibreTranslate", LibreTranslate },
         };
 
         public static Func<string, CancellationToken, Task<string>> TranslateFunction
@@ -46,7 +47,7 @@ namespace LiveCaptionsTranslator.utils
             var config = Translator.Setting.CurrentAPIConfigs[0] as OpenAIConfig;
             string language = OpenAIConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
-            
+
             var requestData = new
             {
                 model = config?.ModelName,
@@ -502,6 +503,54 @@ namespace LiveCaptionsTranslator.utils
             {
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
             }
+        }
+
+        public static async Task<string> LibreTranslate(string text, CancellationToken token = default)
+        {
+            var config = Translator.Setting.CurrentAPIConfigs[0] as LibreTranslateConfig;
+            string targetLanguage = LibreTranslateConfig.SupportedLanguages.TryGetValue(
+                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
+            string sourceLanguage = config.SourceLanguage;
+            string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl);
+
+            var requestData = new
+            {
+                q = text,
+                target = targetLanguage,
+                source = sourceLanguage,
+                format = "text",
+                api_key = config?.ApiKey
+            };
+
+            string jsonContent = JsonSerializer.Serialize(requestData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            client.DefaultRequestHeaders.Clear();
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.PostAsync(apiUrl, content, token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
+            }
+            catch (Exception ex)
+            {
+                return $"[ERROR] Translation Failed: {ex.Message}";
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseString = await response.Content.ReadAsStringAsync();
+                var responseObj = JsonSerializer.Deserialize<LibreTranslateConfig.Response>(responseString);
+                return responseObj.translatedText;
+            }
+            else
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
     }
 
