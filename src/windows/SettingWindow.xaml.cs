@@ -38,6 +38,7 @@ namespace LiveCaptionsTranslator
                 { "Youdao", YoudaoSection },
                 { "MTranServer", MTranServerSection },
                 { "Baidu", BaiduSection },
+                { "LibreTranslate", LibreTranslateSection },
             };
         }
 

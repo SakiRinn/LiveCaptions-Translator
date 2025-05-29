@@ -373,4 +373,47 @@ namespace LiveCaptionsTranslator.models
             }
         }
     }
+
+    public class LibreTranslateConfig : TranslateAPIConfig
+    {
+        [JsonIgnore]
+        public new static Dictionary<string, string> SupportedLanguages => new()
+        {
+            { "zh-CN", "zh" },
+            { "zh-TW", "zh" },
+            { "en-US", "en" },
+            { "en-GB", "en" },
+            { "ja-JP", "ja" },
+            { "ko-KR", "ko" },
+            { "fr-FR", "fr" },
+            { "th-TH", "th" },
+        };
+
+        private string apiKey = "";
+        private string apiUrl = "http://localhost:5000/translate";
+
+        public string ApiKey
+        {
+            get => apiKey;
+            set
+            {
+                apiKey = value;
+                OnPropertyChanged("ApiKey");
+            }
+        }
+        public string ApiUrl
+        {
+            get => apiUrl;
+            set
+            {
+                apiUrl = value;
+                OnPropertyChanged("ApiUrl");
+            }
+        }
+
+        public class Response
+        {
+            public string translatedText { get; set; }
+        }
+    }
 }
