@@ -45,11 +45,12 @@ body:
     validations:
       required: true
   - type: textarea
-    id: expected
+    id: config-file
     attributes:
       label: Config file
       description: What is the detail of your setting.json? Remember to delete your api key.
-      placeholder: {...}
+      placeholder: |
+        {...}
     validations:
       required: true
   - type: textarea
