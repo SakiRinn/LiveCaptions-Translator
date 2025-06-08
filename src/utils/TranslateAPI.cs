@@ -44,7 +44,7 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> OpenAI(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfigs[0] as OpenAIConfig;
+            var config = Translator.Setting["OpenAI"] as OpenAIConfig;
             string language = OpenAIConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
 
@@ -95,7 +95,7 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> Ollama(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting?.CurrentAPIConfigs[0] as OllamaConfig;
+            var config = Translator.Setting["Ollama"] as OllamaConfig;
             string language = OllamaConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
             string apiUrl = $"http://localhost:{config.Port}/api/chat";
@@ -236,7 +236,7 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> OpenRouter(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfigs[0] as OpenRouterConfig;
+            var config = Translator.Setting["OpenRouter"] as OpenRouterConfig;
             string language = OpenRouterConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
             string apiUrl = "https://openrouter.ai/api/v1/chat/completions";
@@ -296,7 +296,7 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> DeepL(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfigs[0] as DeepLConfig;
+            var config = Translator.Setting["DeepL"] as DeepLConfig;
             string language = DeepLConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
             string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl);
@@ -348,7 +348,7 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> Youdao(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfigs[0] as YoudaoConfig;
+            var config = Translator.Setting["Youdao"] as YoudaoConfig;
             string language = YoudaoConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
 
@@ -404,7 +404,7 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> MTranServer(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfigs[0] as MTranServerConfig;
+            var config = Translator.Setting["MTranServer"] as MTranServerConfig;
             string targetLanguage = MTranServerConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
             string sourceLanguage = config.SourceLanguage;
@@ -451,7 +451,7 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> Baidu(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfigs[0] as BaiduConfig;
+            var config = Translator.Setting["Baidu"] as BaiduConfig;
             string language = BaiduConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
 
@@ -507,7 +507,7 @@ namespace LiveCaptionsTranslator.utils
 
         public static async Task<string> LibreTranslate(string text, CancellationToken token = default)
         {
-            var config = Translator.Setting.CurrentAPIConfigs[0] as LibreTranslateConfig;
+            var config = Translator.Setting["LibreTranslate"] as LibreTranslateConfig;
             string targetLanguage = LibreTranslateConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
             string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl);
