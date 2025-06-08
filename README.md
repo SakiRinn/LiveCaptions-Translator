@@ -65,17 +65,17 @@ Windows' built-in LiveCaptions is easy to use, uses few resources, and has extre
 
   <div align="center">
 
-  | API                                 | Type        | Hosting     |
-  | ----------------------------------- | ----------- | ----------- |
-  | [Ollama](https://ollama.com)        | LLM-based   | Self-hosted |
-  | OpenAI Compatible API               | LLM-based   | Online      |
-  | [OpenRouter](https://openrouter.ai) | LLM-based   | Online      |
-  | Google Translate                    | Traditional | Online      |
-  | DeepL                               | Traditional | Online      |
-  | Youdao                              | Traditional | Online      |
-  | Baidu Translate                     | Traditional | Online      |
-  | MTranServer                         | Traditional | Self-hosted |
-  | LibreTranslate                      | Traditional | Self-hosted |
+  | API                                                 | Type        | Hosting     |
+  |-----------------------------------------------------|-------------|-------------|
+  | [Ollama](https://ollama.com)                        | LLM-based   | Self-hosted |
+  | OpenAI Compatible API                               | LLM-based   | Online      |
+  | [OpenRouter](https://openrouter.ai)                 | LLM-based   | Online      |
+  | Google Translate                                    | Traditional | Online      |
+  | DeepL                                               | Traditional | Online      |
+  | Youdao                                              | Traditional | Online      |
+  | Baidu Translate                                     | Traditional | Online      |
+  | [MTranServer](https://github.com/xxnuo/MTranServer) | Traditional | Self-hosted |
+  | [LibreTranslate](https://libretranslate.com/)       | Traditional | Self-hosted |
 
   </div>
 
@@ -134,7 +134,7 @@ Windows' built-in LiveCaptions is easy to use, uses few resources, and has extre
 <div align="center">
 
 | Requirement                                                                                                           | Details                                     |
-| --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+|-----------------------------------------------------------------------------------------------------------------------|---------------------------------------------|
 | <img src="https://img.shields.io/badge/Windows-11%20(22H2+)-0078D6?style=for-the-badge&logo=windows&logoColor=white"> | With LiveCaptions support.                  |
 | <img src="https://img.shields.io/badge/.NET-8.0+-512BD4?style=for-the-badge&logo=dotnet&logoColor=white">             | Recommended. Not test in previous versions. |
 
@@ -174,7 +174,7 @@ When you first start, Windows LiveCaptions will ask for your consent to process 
 
 After launching Windows LiveCaptions, click the **⚙️ gear** icon to open the setting menu, then select **Position** > **Overlaid on screen**.
 
-> ⚠️ VERY IMPORTANT! Otherwise, a display bug will occur on the screen after hiding Windows LiveCaptions.
+> ⚠️ **VERY IMPORTANT!** Otherwise, a display bug will occur on the screen after hiding Windows LiveCaptions.
 
 <div align="center">
   <img src="images/speech_recognition.png" alt="Items under speech recognition" width="80%" />

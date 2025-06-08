@@ -65,17 +65,17 @@ Windows内置的实时字幕简单易用，资源占用少，且识别准确率�
 
   <div align="center">
 
-  | API                                 | 类型        | 托管方式     |
-  | ----------------------------------- | ----------- | ----------- |
-  | [Ollama](https://ollama.com)        | 基于LLM     | 自托管      |
-  | OpenAI兼容API                       | 基于LLM     | 在线        |
-  | [OpenRouter](https://openrouter.ai) | 基于LLM     | 在线        |
-  | 谷歌翻译                            | 传统翻译    | 在线        |
-  | DeepL                               | 传统翻译    | 在线        |
-  | 有道翻译                            | 传统翻译    | 在线        |
-  | 百度翻译                            | 传统翻译    | 在线        |
-  | MTranServer                         | 传统翻译    | 自托管      |
-  | LibreTranslate                      | 传统翻译    | 自托管      |
+  | API                                                 | 类型    | 托管方式 |
+  |-----------------------------------------------------|-------|------|
+  | [Ollama](https://ollama.com)                        | 基于LLM | 自托管  |
+  | OpenAI兼容API                                         | 基于LLM | 在线   |
+  | [OpenRouter](https://openrouter.ai)                 | 基于LLM | 在线   |
+  | 谷歌翻译                                                | 传统翻译  | 在线   |
+  | DeepL                                               | 传统翻译  | 在线   |
+  | 有道翻译                                                | 传统翻译  | 在线   |
+  | 百度翻译                                                | 传统翻译  | 在线   |
+  | [MTranServer](https://github.com/xxnuo/MTranServer) | 传统翻译  | 自托管  |
+  | [LibreTranslate](https://libretranslate.com/)       | 传统翻译  | 自托管  |
 
   </div>
 
@@ -133,10 +133,10 @@ Windows内置的实时字幕简单易用，资源占用少，且识别准确率�
 
 <div align="center">
 
-| 要求                                                                                                               | 详情                            |
-| ----------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| <img src="https://img.shields.io/badge/Windows-11%20(22H2+)-0078D6?style=for-the-badge&logo=windows&logoColor=white"> | 支持实时字幕功能                |
-| <img src="https://img.shields.io/badge/.NET-8.0+-512BD4?style=for-the-badge&logo=dotnet&logoColor=white">           | 推荐。未在之前版本测试          |
+| 要求                                                                                                                    | 详情          |
+|-----------------------------------------------------------------------------------------------------------------------|-------------|
+| <img src="https://img.shields.io/badge/Windows-11%20(22H2+)-0078D6?style=for-the-badge&logo=windows&logoColor=white"> | 支持实时字幕功能    |
+| <img src="https://img.shields.io/badge/.NET-8.0+-512BD4?style=for-the-badge&logo=dotnet&logoColor=white">             | 推荐。未在之前版本测试 |
 
 </div>
 
@@ -174,7 +174,7 @@ Windows内置的实时字幕简单易用，资源占用少，且识别准确率�
 
 启动Windows实时字幕后，点击 **⚙️齿轮** 图标打开设置菜单，然后选择 **位置** > **覆盖在屏幕上** 。
 
-> ⚠️ 这非常重要！否则隐藏Windows实时字幕后屏幕会出现显示BUG.
+> ⚠️ **非常重要！** 否则隐藏Windows实时字幕后屏幕会出现显示BUG.
 
 <div align="center">
   <img src="images/speech_recognition.png" alt="语音识别下的项目" width="80%" />
