@@ -23,20 +23,22 @@ namespace LiveCaptionsTranslator.models
 
         private MainWindowState mainWindowState;
         private OverlayWindowState overlayWindowState;
-
         private Dictionary<string, string> windowBounds;
 
         private Dictionary<string, List<TranslateAPIConfig>> configs;
-        private List<TranslateAPIConfig>? currentAPIConfigs;
+        private Dictionary<string, int> configIndices;
 
         private string? ignoredUpdateVersion;
-        public string? IgnoredUpdateVersion
+
+        public int MaxIdleInterval => maxIdleInterval;
+
+        public int MaxSyncInterval
         {
-            get => ignoredUpdateVersion;
+            get => maxSyncInterval;
             set
             {
-                ignoredUpdateVersion = value;
-                OnPropertyChanged("IgnoredUpdateVersion");
+                maxSyncInterval = value;
+                OnPropertyChanged("MaxSyncInterval");
             }
         }
 
@@ -59,19 +61,6 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("TargetLanguage");
             }
         }
-        public int MaxIdleInterval
-        {
-            get => maxIdleInterval;
-        }
-        public int MaxSyncInterval
-        {
-            get => maxSyncInterval;
-            set
-            {
-                maxSyncInterval = value;
-                OnPropertyChanged("MaxSyncInterval");
-            }
-        }
         public string Prompt
         {
             get => prompt;
@@ -79,16 +68,6 @@ namespace LiveCaptionsTranslator.models
             {
                 prompt = value;
                 OnPropertyChanged("Prompt");
-            }
-        }
-
-        public Dictionary<string, string> WindowBounds
-        {
-            get => windowBounds;
-            set
-            {
-                windowBounds = value;
-                OnPropertyChanged("WindowBounds");
             }
         }
 
@@ -110,6 +89,25 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("OverlayWindow");
             }
         }
+        public Dictionary<string, string> WindowBounds
+        {
+            get => windowBounds;
+            set
+            {
+                windowBounds = value;
+                OnPropertyChanged("WindowBounds");
+            }
+        }
+
+        public string? IgnoredUpdateVersion
+        {
+            get => ignoredUpdateVersion;
+            set
+            {
+                ignoredUpdateVersion = value;
+                OnPropertyChanged("IgnoredUpdateVersion");
+            }
+        }
 
         [JsonInclude]
         public Dictionary<string, List<TranslateAPIConfig>> Configs
@@ -121,11 +119,21 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("Configs");
             }
         }
-        [JsonIgnore]
-        public List<TranslateAPIConfig> CurrentAPIConfigs
+        public Dictionary<string, int> ConfigIndices
         {
-            get => currentAPIConfigs ?? (Configs.ContainsKey(ApiName) ? Configs[ApiName] : Configs["Ollama"]);
-            set => currentAPIConfigs = value;
+            get => configIndices;
+            set
+            {
+                configIndices = value;
+                OnPropertyChanged("ConfigIndices");
+            }
+        }
+        public TranslateAPIConfig this[string key]
+        {
+            get => configs.ContainsKey(key) && configIndices.ContainsKey(key)
+                ? configs[key][configIndices[key]]
+                : new TranslateAPIConfig();
+            set => configs[key][configIndices[key]] = value;
         }
 
         public Setting()
@@ -143,6 +151,20 @@ namespace LiveCaptionsTranslator.models
             mainWindowState = new MainWindowState();
             overlayWindowState = new OverlayWindowState();
 
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            windowBounds = new Dictionary<string, string>
+            {
+                {
+                    "MainWindow", string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        "{0}, {1}, {2}, {3}", (screenWidth - 750) / 2, screenHeight * 3 / 4 - 167, 750, 167)
+                },
+                {
+                    "OverlayWindow", string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        "{0}, {1}, {2}, {3}", (screenWidth - 650) / 2, screenHeight * 5 / 6 - 135, 650, 135)
+                },
+            };
+
             configs = new Dictionary<string, List<TranslateAPIConfig>>
             {
                 { "Google", [new TranslateAPIConfig()] },
@@ -156,19 +178,18 @@ namespace LiveCaptionsTranslator.models
                 { "Baidu", [new BaiduConfig()] },
                 { "LibreTranslate", [new LibreTranslateConfig()] }
             };
-
-            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
-            windowBounds = new Dictionary<string, string>
+            configIndices = new Dictionary<string, int>
             {
-                {
-                    "MainWindow", string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                        "{0}, {1}, {2}, {3}", (screenWidth - 750) / 2, screenHeight * 3 / 4 - 167, 750, 167)
-                },
-                {
-                    "OverlayWindow", string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                        "{0}, {1}, {2}, {3}", (screenWidth - 650) / 2, screenHeight * 5 / 6 - 135, 650, 135)
-                },
+                { "Google", 0 },
+                { "Google2", 0 },
+                { "Ollama", 0 },
+                { "OpenAI", 0 },
+                { "DeepL", 0 },
+                { "OpenRouter", 0 },
+                { "Youdao", 0 },
+                { "MTranServer", 0 },
+                { "Baidu", 0 },
+                { "LibreTranslate", 0 }
             };
         }
 
@@ -255,142 +276,6 @@ namespace LiveCaptionsTranslator.models
             string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), FILENAME);
             Console.WriteLine($"Config file path: {jsonPath}");
             return File.Exists(jsonPath);
-        }
-    }
-
-    public class MainWindowState : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private bool topmost = true;
-        private bool captionLogEnabled = false;
-        private int captionLogMax = 2;
-        private bool latencyShow = false;
-
-        public bool Topmost
-        {
-            get => topmost;
-            set
-            {
-                topmost = value;
-                OnPropertyChanged("Topmost");
-            }
-        }
-        public bool CaptionLogEnabled
-        {
-            get => captionLogEnabled;
-            set
-            {
-                captionLogEnabled = value;
-                OnPropertyChanged("CaptionLogEnabled");
-            }
-        }
-        public int CaptionLogMax
-        {
-            get => captionLogMax;
-            set
-            {
-                captionLogMax = value;
-                OnPropertyChanged("CaptionLogMax");
-            }
-        }
-        public bool LatencyShow
-        {
-            get => latencyShow;
-            set
-            {
-                latencyShow = value;
-                OnPropertyChanged("LatencyShow");
-            }
-        }
-
-        public void OnPropertyChanged([CallerMemberName] string propName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-            Translator.Setting?.Save();
-        }
-    }
-
-    public class OverlayWindowState : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private int fontSize = 15;
-        private int fontColor = 1;
-        private int fontBold = 1;
-        private int fontShadow = 1;
-        private int backgroundColor = 8;
-        private byte opacity = 150;
-        private int historyMax = 1;
-
-        public int FontSize
-        {
-            get => fontSize;
-            set
-            {
-                fontSize = value;
-                OnPropertyChanged("FontSize");
-            }
-        }
-        public int FontColor
-        {
-            get => fontColor;
-            set
-            {
-                fontColor = value;
-                OnPropertyChanged("FontColor");
-            }
-        }
-        public int FontBold
-        {
-            get => fontBold;
-            set
-            {
-                fontBold = value;
-                OnPropertyChanged("FontBold");
-            }
-        }
-        public int FontShadow
-        {
-            get => fontShadow;
-            set
-            {
-                fontShadow = value;
-                OnPropertyChanged("FontShadow");
-            }
-        }
-        public int BackgroundColor
-        {
-            get => backgroundColor;
-            set
-            {
-                backgroundColor = value;
-                OnPropertyChanged("BackgroundColor");
-            }
-        }
-        public byte Opacity
-        {
-            get => opacity;
-            set
-            {
-                opacity = value;
-                OnPropertyChanged("Opacity");
-            }
-        }
-        public int HistoryMax
-        {
-            get => historyMax;
-            set
-            {
-                historyMax = value;
-                OnPropertyChanged("HistoryMax");
-            }
-        }
-
-        public void OnPropertyChanged([CallerMemberName] string propName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-            Translator.Setting?.Save();
         }
     }
 }

@@ -154,7 +154,7 @@ namespace LiveCaptionsTranslator
 
         public void LoadAPISetting()
         {
-            var configType = Translator.Setting.CurrentAPIConfigs[0].GetType();
+            var configType = Translator.Setting[Translator.Setting.ApiName].GetType();
             var languagesProp = configType.GetProperty(
                 "SupportedLanguages", BindingFlags.Public | BindingFlags.Static);
 

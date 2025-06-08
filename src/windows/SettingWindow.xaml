@@ -233,7 +233,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[Ollama].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [Ollama].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -251,7 +251,7 @@
                                                 Maximum="2"
                                                 Minimum="0"
                                                 SmallChange="0.1"
-                                                Value="{Binding Configs[Ollama].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Value="{Binding [Ollama].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="0"
@@ -268,7 +268,7 @@
                                                 Maximum="65535"
                                                 Minimum="1"
                                                 SpinButtonPlacementMode="Hidden"
-                                                Value="{Binding Configs[Ollama].Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Value="{Binding [Ollama].Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                     </Grid>
                                 </ui:Card>
@@ -303,7 +303,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[OpenAI].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [OpenAI].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -321,7 +321,7 @@
                                                 Maximum="2"
                                                 Minimum="0"
                                                 SmallChange="0.1"
-                                                Value="{Binding Configs[OpenAI].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Value="{Binding [OpenAI].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="0"
@@ -358,7 +358,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[OpenAI].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [OpenAI].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -371,7 +371,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[OpenAI].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [OpenAI].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                     </Grid>
                                 </ui:Card>
@@ -405,7 +405,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[OpenRouter].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [OpenRouter].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -423,7 +423,7 @@
                                                 Maximum="2"
                                                 Minimum="0"
                                                 SmallChange="0.1"
-                                                Value="{Binding Configs[OpenRouter].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Value="{Binding [OpenRouter].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="0"
@@ -436,7 +436,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[OpenRouter].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [OpenRouter].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                     </Grid>
                                 </ui:Card>
@@ -468,7 +468,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[DeepL].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [DeepL].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -514,7 +514,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[Youdao].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [Youdao].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -527,7 +527,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[Youdao].AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [Youdao].AppKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -540,7 +540,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[Youdao].AppSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [Youdao].AppSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                     </Grid>
                                 </ui:Card>
@@ -576,7 +576,7 @@
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
                                                 IsEditable="True"
-                                                Text="{Binding Configs[MTranServer].SourceLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                Text="{Binding [MTranServer].SourceLanguage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                 <ComboBoxItem Content="en" />
                                                 <ComboBoxItem Content="ja" />
                                                 <ComboBoxItem Content="fr" />
@@ -595,7 +595,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[MTranServer].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [MTranServer].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -608,7 +608,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[MTranServer].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [MTranServer].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                     </Grid>
                                 </ui:Card>
@@ -642,7 +642,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[Baidu].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [Baidu].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -655,7 +655,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[Baidu].AppId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [Baidu].AppId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -668,7 +668,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[Baidu].AppSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [Baidu].AppSecret, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                     </Grid>
                                 </ui:Card>
@@ -702,7 +702,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[LibreTranslate].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [LibreTranslate].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                         <StackPanel
                                             Grid.Row="1"
@@ -715,7 +715,7 @@
                                                 Height="30"
                                                 Padding="10,4,10,7"
                                                 FontSize="13.3"
-                                                Text="{Binding Configs[LibreTranslate].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                Text="{Binding [LibreTranslate].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                         </StackPanel>
                                     </Grid>
                                 </ui:Card>
