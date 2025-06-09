@@ -28,7 +28,7 @@
                             <Run Text="After Windows 11 version 24H2, you can only change the" />
                             <Run FontWeight="Bold" Text="source language" />
                             <Run Text="in LiveCaptions." />
-                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note :" />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
                             <Run Text="Please click" />
                             <Run FontWeight="Bold" Text="&quot;Hide&quot;" />
                             <Run Text="to hide LiveCaptions instead of closing it directly." />
@@ -136,9 +136,9 @@
                         <TextBlock Width="300" TextWrapping="Wrap">
                             <Run Text="You can directly edit to customize the language, and it is recommended to follow the" />
                             <Run FontWeight="Bold" Text="BCP 47 language tag." />
-                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note 1: " />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note 1:" />
                             <Run Text="Google might be failed to run if don't use BCP 47 language tag." />
-                            <Run FontWeight="Bold" Text="&#x0A;Note 2: " />
+                            <Run FontWeight="Bold" Text="&#x0A;Note 2:" />
                             <Run Text="DeepL needs another way to define target language, see the docs." />
                         </TextBlock>
                     </ui:Flyout>
@@ -186,7 +186,6 @@
                 <ui:ToggleSwitch
                     Width="100"
                     Height="30"
-                    Margin="0,0,0,0"
                     Padding="10,4,10,7"
                     IsChecked="{Binding MainWindow.LatencyShow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     OffContent="Off"
@@ -197,15 +196,19 @@
         <StackPanel Grid.Column="3" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="Log Cards" />
+                    <TextBlock Margin="2.5,0,0,5" Text="Contexts" />
                     <ui:Flyout x:Name="CaptionLogMaxInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run FontWeight="Bold" Text="Log Cards:" />
-                            <Run Text="The number of cards displayed after enabling Log Cards in the main page taskbar." />
+                            <Run FontWeight="Bold" Text="Contexts:" />
+                            <Run Text="Determines the number of displayed cards when" />
+                            <Run FontWeight="Bold" Text="Log Cards" />
+                            <Run Text="is enabled, as well as the number of context sentences when" />
+                            <Run FontWeight="Bold" Text="Context Aware" />
+                            <Run Text="is enabled." />
                             <Run FontWeight="Bold" Text="&#x0A;Overlay Sentences:" />
                             <Run Text="The max number of sentences displayed in the translation box within the Overlay Window." />
                             <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
-                            <Run Text="The number of Log Cards must be" />
+                            <Run Text="The number of Contexts must be" />
                             <Run FontWeight="Bold" Text="greater than or equal" />
                             <Run Text="to the number of Overlay Sentences. If not met, the program will automatically adjust them." />
                         </TextBlock>
@@ -263,6 +266,37 @@
             </StackPanel>
         </StackPanel>
 
-
+        <StackPanel Grid.Column="4" Orientation="Vertical">
+            <StackPanel Margin="15,0,0,0" Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Context Aware" />
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <ui:ToggleSwitch
+                        Width="90"
+                        Height="30"
+                        Padding="10,4,10,7"
+                        IsChecked="{Binding ContextAware, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        OffContent="Off"
+                        OnContent="On" />
+                    <Button
+                        x:Name="ContextAwareInfo"
+                        Width="15"
+                        Height="15"
+                        Margin="-5,-3,0,0"
+                        Padding="0"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        MouseEnter="ContextAwareInfo_MouseEnter"
+                        MouseLeave="ContextAwareInfo_MouseLeave">
+                        <ui:SymbolIcon Symbol="Info16" />
+                    </Button>
+                    <ui:Flyout x:Name="ContextAwareInfoFlyout">
+                        <TextBlock Width="300" TextWrapping="Wrap">
+                            <Run Text="Translate in context." />
+                            <Run Text="&#x0A;It can improve translation accuracy, but will consume more tokens." />
+                        </TextBlock>
+                    </ui:Flyout>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
