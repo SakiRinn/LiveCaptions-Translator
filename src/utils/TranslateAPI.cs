@@ -57,9 +57,14 @@ namespace LiveCaptionsTranslator.utils
             {
                 foreach (var entry in Translator.Caption.DisplayContexts)
                 {
+                    string translatedText = entry.TranslatedText;
+                    if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
+                        continue;
+                    translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
+                        
                     messages.InsertRange(1, [
                         new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
-                        new BaseLLMConfig.Message { role = "assistant", content = $"{entry.TranslatedText}" }
+                        new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
                     ]);
                 }
             }
@@ -121,9 +126,14 @@ namespace LiveCaptionsTranslator.utils
             {
                 foreach (var entry in Translator.Caption.DisplayContexts)
                 {
+                    string translatedText = entry.TranslatedText;
+                    if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
+                        continue;
+                    translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
+                        
                     messages.InsertRange(1, [
                         new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
-                        new BaseLLMConfig.Message { role = "assistant", content = $"{entry.TranslatedText}" }
+                        new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
                     ]);
                 }
             }
@@ -184,9 +194,14 @@ namespace LiveCaptionsTranslator.utils
             {
                 foreach (var entry in Translator.Caption.DisplayContexts)
                 {
+                    string translatedText = entry.TranslatedText;
+                    if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
+                        continue;
+                    translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
+                        
                     messages.InsertRange(1, [
                         new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
-                        new BaseLLMConfig.Message { role = "assistant", content = $"{entry.TranslatedText}" }
+                        new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
                     ]);
                 }
             }
