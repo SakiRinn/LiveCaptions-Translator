@@ -55,39 +55,13 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public Queue<TranslationHistoryEntry> LogCards { get; } = new(6);
-        public IEnumerable<TranslationHistoryEntry> DisplayLogCards => LogCards.Reverse();
+        public Queue<TranslationHistoryEntry> Contexts { get; } = new(6);
+        public IEnumerable<TranslationHistoryEntry> DisplayContexts => Contexts.Reverse();
 
-        public string OverlayPreviousTranslation
-        {
-            get
-            {
-                int historyCount = Math.Min(Translator.Setting.OverlayWindow.HistoryMax, LogCards.Count);
-                if (historyCount <= 0)
-                    return string.Empty;
-
-                var prefix = DisplayLogCards
-                    .Take(historyCount)
-                    .Reverse()
-                    .Select(entry =>
-                        entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]")
-                            ? "" : entry.TranslatedText)
-                    .Aggregate((accu, cur) =>
-                    {
-                        if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
-                            accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
-                        cur = RegexPatterns.NoticePrefix().Replace(cur, "");
-                        return accu + cur;
-                    });
-                prefix = RegexPatterns.NoticePrefix().Replace(prefix, "");
-
-                if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
-                    prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ".";
-                if (!string.IsNullOrEmpty(prefix) && Encoding.UTF8.GetByteCount(prefix[^1].ToString()) < 2)
-                    prefix += " ";
-                return prefix;
-            }
-        }
+        public string ContextPreviousCaption => GetPreviousCaption(
+            Math.Min(Translator.Setting.MainWindow.CaptionLogMax, Contexts.Count));
+        public string OverlayPreviousTranslation => GetPreviousTranslation(
+            Math.Min(Translator.Setting.OverlayWindow.HistoryMax, Contexts.Count));
 
         private Caption()
         {
@@ -99,6 +73,56 @@ namespace LiveCaptionsTranslator.models
                 return instance;
             instance = new Caption();
             return instance;
+        }
+
+        public string GetPreviousCaption(int count)
+        {
+            if (count <= 0)
+                return string.Empty;
+
+            var prefix = DisplayContexts
+                .Take(count)
+                .Reverse()
+                .Select(entry => entry.SourceText)
+                .Aggregate((accu, cur) =>
+                {
+                    if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
+                        accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                    return accu + cur;
+                });
+
+            if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
+                prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ".";
+            if (!string.IsNullOrEmpty(prefix) && Encoding.UTF8.GetByteCount(prefix[^1].ToString()) < 2)
+                prefix += " ";
+            return prefix;
+        }
+
+        public string GetPreviousTranslation(int count)
+        {
+            if (count <= 0)
+                return string.Empty;
+
+            var prefix = DisplayContexts
+                .Take(count)
+                .Reverse()
+                .Select(entry =>
+                    entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]")
+                        ? "" : entry.TranslatedText)
+                .Aggregate((accu, cur) =>
+                {
+                    if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
+                        accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                    cur = RegexPatterns.NoticePrefix().Replace(cur, "");
+                    return accu + cur;
+                });
+            prefix = RegexPatterns.NoticePrefix().Replace(prefix, "");
+
+            if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
+                prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ".";
+            if (!string.IsNullOrEmpty(prefix) && Encoding.UTF8.GetByteCount(prefix[^1].ToString()) < 2)
+                prefix += " ";
+            return prefix;
         }
 
         public void OnPropertyChanged([CallerMemberName] string propName = "")

@@ -85,9 +85,9 @@ namespace LiveCaptionsTranslator
             if (Translator.Setting.OverlayWindow.HistoryMax > Translator.Setting.MainWindow.CaptionLogMax)
                 Translator.Setting.OverlayWindow.HistoryMax = Translator.Setting.MainWindow.CaptionLogMax;
 
-            while (Translator.Caption.LogCards.Count > Translator.Setting.MainWindow.CaptionLogMax)
-                Translator.Caption.LogCards.Dequeue();
-            Translator.Caption.OnPropertyChanged("DisplayLogCards");
+            while (Translator.Caption.Contexts.Count > Translator.Setting.MainWindow.CaptionLogMax)
+                Translator.Caption.Contexts.Dequeue();
+            Translator.Caption.OnPropertyChanged("DisplayContexts");
         }
 
         private void OverlayHistoryMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -144,6 +144,16 @@ namespace LiveCaptionsTranslator
         private void CaptionLogMaxInfo_MouseLeave(object sender, MouseEventArgs e)
         {
             CaptionLogMaxInfoFlyout.Hide();
+        }
+
+        private void ContextAwareInfo_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ContextAwareInfoFlyout.Show();
+        }
+
+        private void ContextAwareInfo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ContextAwareInfoFlyout.Hide();
         }
 
         private void CheckForFirstUse()

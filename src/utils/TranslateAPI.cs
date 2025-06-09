@@ -27,15 +27,15 @@ namespace LiveCaptionsTranslator.utils
             { "Baidu", Baidu },
             { "LibreTranslate", LibreTranslate },
         };
+        public static readonly List<string> LLM_BASED_APIS = new()
+        {
+            "Ollama", "OpenAI", "OpenRouter"
+        };
 
-        public static Func<string, CancellationToken, Task<string>> TranslateFunction
-        {
-            get => TRANSLATE_FUNCTIONS[Translator.Setting.ApiName];
-        }
-        public static string Prompt
-        {
-            get => Translator.Setting.Prompt;
-        }
+        public static Func<string, CancellationToken, Task<string>> TranslateFunction => 
+            TRANSLATE_FUNCTIONS[Translator.Setting.ApiName];
+        public static bool IsLLMBased => LLM_BASED_APIS.Contains(Translator.Setting.ApiName);
+        public static string Prompt => Translator.Setting.Prompt;
 
         private static readonly HttpClient client = new HttpClient()
         {
@@ -48,14 +48,26 @@ namespace LiveCaptionsTranslator.utils
             string language = OpenAIConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
 
+            var messages = new List<BaseLLMConfig.Message>
+            {
+                new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
+                new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
+            };
+            if (Translator.Setting.ContextAware)
+            {
+                foreach (var entry in Translator.Caption.DisplayContexts)
+                {
+                    messages.InsertRange(1, [
+                        new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
+                        new BaseLLMConfig.Message { role = "assistant", content = $"{entry.TranslatedText}" }
+                    ]);
+                }
+            }
+            
             var requestData = new
             {
                 model = config?.ModelName,
-                messages = new BaseLLMConfig.Message[]
-                {
-                    new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language)},
-                    new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
-                },
+                messages = messages,
                 temperature = config?.Temperature,
                 max_tokens = 64,
                 stream = false
@@ -92,22 +104,34 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
-
+        
         public static async Task<string> Ollama(string text, CancellationToken token = default)
         {
             var config = Translator.Setting["Ollama"] as OllamaConfig;
             string language = OllamaConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
             string apiUrl = $"http://localhost:{config.Port}/api/chat";
+            
+            var messages = new List<BaseLLMConfig.Message>
+            {
+                new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
+                new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
+            };
+            if (Translator.Setting.ContextAware)
+            {
+                foreach (var entry in Translator.Caption.DisplayContexts)
+                {
+                    messages.InsertRange(1, [
+                        new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
+                        new BaseLLMConfig.Message { role = "assistant", content = $"{entry.TranslatedText}" }
+                    ]);
+                }
+            }
 
             var requestData = new
             {
                 model = config?.ModelName,
-                messages = new BaseLLMConfig.Message[]
-                {
-                    new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language)},
-                    new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
-                },
+                messages = messages,
                 temperature = config?.Temperature,
                 max_tokens = 64,
                 stream = false
@@ -143,8 +167,80 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
+        
+        public static async Task<string> OpenRouter(string text, CancellationToken token = default)
+        {
+            var config = Translator.Setting["OpenRouter"] as OpenRouterConfig;
+            string language = OpenRouterConfig.SupportedLanguages.TryGetValue(
+                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
+            string apiUrl = "https://openrouter.ai/api/v1/chat/completions";
+            
+            var messages = new List<BaseLLMConfig.Message>
+            {
+                new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
+                new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
+            };
+            if (Translator.Setting.ContextAware)
+            {
+                foreach (var entry in Translator.Caption.DisplayContexts)
+                {
+                    messages.InsertRange(1, [
+                        new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
+                        new BaseLLMConfig.Message { role = "assistant", content = $"{entry.TranslatedText}" }
+                    ]);
+                }
+            }
 
-        private static async Task<string> Google(string text, CancellationToken token = default)
+            var requestData = new
+            {
+                model = config?.ModelName,
+                messages = messages
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
+            {
+                Content = new StringContent(
+                    JsonSerializer.Serialize(requestData),
+                    Encoding.UTF8,
+                    "application/json"
+                )
+            };
+
+            request.Headers.Add("Authorization", $"Bearer {config?.ApiKey}");
+            request.Headers.Add("HTTP-Referer", "https://github.com/SakiRinn/LiveCaptionsTranslator");
+            request.Headers.Add("X-Title", "LiveCaptionsTranslator");
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.SendAsync(request, token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                throw;
+            }
+            catch (Exception ex)
+            {
+                return $"[ERROR] Translation Failed: {ex.Message}";
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseContent);
+                var output = jsonResponse.GetProperty("choices")[0]
+                                         .GetProperty("message")
+                                         .GetProperty("content")
+                                         .GetString() ?? string.Empty;
+                return RegexPatterns.ModelThinking().Replace(output, "");
+            }
+            else
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
+        }
+        
+        public static async Task<string> Google(string text, CancellationToken token = default)
         {
             var language = Translator.Setting?.TargetLanguage;
 
@@ -183,7 +279,7 @@ namespace LiveCaptionsTranslator.utils
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
 
-        private static async Task<string> Google2(string text, CancellationToken token = default)
+        public static async Task<string> Google2(string text, CancellationToken token = default)
         {
             string apiKey = "AIzaSyA6EEtrDCfBkHV8uU2lgGY-N383ZgAOo7Y";
             var language = Translator.Setting?.TargetLanguage;
@@ -229,66 +325,6 @@ namespace LiveCaptionsTranslator.utils
                 }
                 else
                     return "[ERROR] Translation Failed: Unexpected API response format";
-            }
-            else
-                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
-        }
-
-        public static async Task<string> OpenRouter(string text, CancellationToken token = default)
-        {
-            var config = Translator.Setting["OpenRouter"] as OpenRouterConfig;
-            string language = OpenRouterConfig.SupportedLanguages.TryGetValue(
-                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
-            string apiUrl = "https://openrouter.ai/api/v1/chat/completions";
-
-            var requestData = new
-            {
-                model = config?.ModelName,
-                messages = new[]
-                {
-                    new { role = "system", content = string.Format(Prompt, language)},
-                    new { role = "user", content = $"🔤 {text} 🔤" }
-                }
-            };
-
-            var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
-            {
-                Content = new StringContent(
-                    JsonSerializer.Serialize(requestData),
-                    Encoding.UTF8,
-                    "application/json"
-                )
-            };
-
-            request.Headers.Add("Authorization", $"Bearer {config?.ApiKey}");
-            request.Headers.Add("HTTP-Referer", "https://github.com/SakiRinn/LiveCaptionsTranslator");
-            request.Headers.Add("X-Title", "LiveCaptionsTranslator");
-
-            HttpResponseMessage response;
-            try
-            {
-                response = await client.SendAsync(request, token);
-            }
-            catch (OperationCanceledException ex)
-            {
-                if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
-                throw;
-            }
-            catch (Exception ex)
-            {
-                return $"[ERROR] Translation Failed: {ex.Message}";
-            }
-
-            if (response.IsSuccessStatusCode)
-            {
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var jsonResponse = JsonSerializer.Deserialize<JsonElement>(responseContent);
-                var output = jsonResponse.GetProperty("choices")[0]
-                                         .GetProperty("message")
-                                         .GetProperty("content")
-                                         .GetString() ?? string.Empty;
-                return RegexPatterns.ModelThinking().Replace(output, "");
             }
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";

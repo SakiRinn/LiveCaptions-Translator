@@ -16,10 +16,13 @@ namespace LiveCaptionsTranslator.models
 
         private int maxIdleInterval = 50;
         private int maxSyncInterval = 3;
+        private bool contextAware = false;
 
         private string apiName;
         private string targetLanguage;
         private string prompt;
+        private string? ignoredUpdateVersion;
+        
 
         private MainWindowState mainWindowState;
         private OverlayWindowState overlayWindowState;
@@ -27,11 +30,8 @@ namespace LiveCaptionsTranslator.models
 
         private Dictionary<string, List<TranslateAPIConfig>> configs;
         private Dictionary<string, int> configIndices;
-
-        private string? ignoredUpdateVersion;
-
+        
         public int MaxIdleInterval => maxIdleInterval;
-
         public int MaxSyncInterval
         {
             get => maxSyncInterval;
@@ -39,6 +39,15 @@ namespace LiveCaptionsTranslator.models
             {
                 maxSyncInterval = value;
                 OnPropertyChanged("MaxSyncInterval");
+            }
+        }
+        public bool ContextAware
+        {
+            get => contextAware;
+            set
+            {
+                contextAware = value;
+                OnPropertyChanged("ContextAware");
             }
         }
 
@@ -49,7 +58,6 @@ namespace LiveCaptionsTranslator.models
             {
                 apiName = value;
                 OnPropertyChanged("ApiName");
-                OnPropertyChanged("CurrentAPIConfig");
             }
         }
         public string TargetLanguage
@@ -68,6 +76,15 @@ namespace LiveCaptionsTranslator.models
             {
                 prompt = value;
                 OnPropertyChanged("Prompt");
+            }
+        }
+        public string? IgnoredUpdateVersion
+        {
+            get => ignoredUpdateVersion;
+            set
+            {
+                ignoredUpdateVersion = value;
+                OnPropertyChanged("IgnoredUpdateVersion");
             }
         }
 
@@ -96,16 +113,6 @@ namespace LiveCaptionsTranslator.models
             {
                 windowBounds = value;
                 OnPropertyChanged("WindowBounds");
-            }
-        }
-
-        public string? IgnoredUpdateVersion
-        {
-            get => ignoredUpdateVersion;
-            set
-            {
-                ignoredUpdateVersion = value;
-                OnPropertyChanged("IgnoredUpdateVersion");
             }
         }
 
@@ -158,7 +165,7 @@ namespace LiveCaptionsTranslator.models
             {
                 {
                     "MainWindow", string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                        "{0}, {1}, {2}, {3}", (screenWidth - 750) / 2, screenHeight * 3 / 4 - 167, 750, 167)
+                        "{0}, {1}, {2}, {3}", (screenWidth - 775) / 2, screenHeight * 3 / 4 - 167, 775, 167)
                 },
                 {
                     "OverlayWindow", string.Format(System.Globalization.CultureInfo.InvariantCulture,
@@ -172,11 +179,11 @@ namespace LiveCaptionsTranslator.models
                 { "Google2", [new TranslateAPIConfig()] },
                 { "Ollama", [new OllamaConfig()] },
                 { "OpenAI", [new OpenAIConfig()] },
-                { "DeepL", [new DeepLConfig()] },
                 { "OpenRouter", [new OpenRouterConfig()] },
+                { "DeepL", [new DeepLConfig()] },
                 { "Youdao", [new YoudaoConfig()] },
-                { "MTranServer", [new MTranServerConfig()] },
                 { "Baidu", [new BaiduConfig()] },
+                { "MTranServer", [new MTranServerConfig()] },
                 { "LibreTranslate", [new LibreTranslateConfig()] }
             };
             configIndices = new Dictionary<string, int>
@@ -185,11 +192,11 @@ namespace LiveCaptionsTranslator.models
                 { "Google2", 0 },
                 { "Ollama", 0 },
                 { "OpenAI", 0 },
-                { "DeepL", 0 },
                 { "OpenRouter", 0 },
+                { "DeepL", 0 },
                 { "Youdao", 0 },
-                { "MTranServer", 0 },
                 { "Baidu", 0 },
+                { "MTranServer", 0 },
                 { "LibreTranslate", 0 }
             };
         }

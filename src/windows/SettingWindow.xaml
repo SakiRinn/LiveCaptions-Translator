@@ -192,8 +192,10 @@
                                 <ui:Card Padding="15">
                                     <StackPanel Margin="15,0,15,0" Orientation="Vertical">
                                         <ui:TextBlock Margin="2.5,0,0,5" TextWrapping="Wrap">
-                                            <Run FontWeight="Bold" Text="Note:" />
-                                            <Run Text="The {0} in the prompt indicates the target language, so please make sure that your prompt has {0}." />
+                                            <Run FontWeight="Bold" Text="Note 1:" />
+                                            <Run Text="The {0} in the prompt indicates the target language, so make sure your prompt includes {0}." />
+                                            <Run FontWeight="Bold" Text="&#x0A;Note 2:" />
+                                            <Run Text="The source text is enclosed with 🔤." />
                                         </ui:TextBlock>
                                         <ui:TextBox
                                             x:Name="PromptTextBox"

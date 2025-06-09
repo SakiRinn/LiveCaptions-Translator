@@ -84,10 +84,10 @@ namespace LiveCaptionsTranslator
 
                 // Prevent adding the last sentence from previous running to log cards
                 // before the first sentence is completed.
-                if (fullText.IndexOfAny(TextUtil.PUNC_EOS) == -1 && Caption.LogCards.Count > 0)
+                if (fullText.IndexOfAny(TextUtil.PUNC_EOS) == -1 && Caption.Contexts.Count > 0)
                 {
-                    Caption.LogCards.Clear();
-                    Caption.OnPropertyChanged("DisplayLogCards");
+                    Caption.Contexts.Clear();
+                    Caption.OnPropertyChanged("DisplayContexts");
                 }
 
                 // Get the last sentence.
@@ -108,7 +108,7 @@ namespace LiveCaptionsTranslator
 
                 // `OverlayOriginalCaption`: The sentence to be displayed on Overlay Window.
                 Caption.OverlayOriginalCaption = latestCaption;
-                for (int historyCount = Math.Min(Setting.OverlayWindow.HistoryMax, Caption.LogCards.Count);
+                for (int historyCount = Math.Min(Setting.OverlayWindow.HistoryMax, Caption.Contexts.Count);
                      historyCount > 0 && lastEOSIndex > 0;
                      historyCount--)
                 {
@@ -244,7 +244,16 @@ namespace LiveCaptionsTranslator
             try
             {
                 var sw = Setting.MainWindow.LatencyShow ? Stopwatch.StartNew() : null;
-                translatedText = await TranslateAPI.TranslateFunction(text, token);
+                if (Setting.ContextAware && !TranslateAPI.IsLLMBased)
+                {
+                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.ContextPreviousCaption} <[{text}]>", token);
+                    translatedText = RegexPatterns.TargetSentence().Match(translatedText).Groups[1].Value;
+                }
+                else
+                {
+                    translatedText = await TranslateAPI.TranslateFunction(text, token);
+                    translatedText = translatedText.Replace("🔤", "");
+                }
                 if (sw != null)
                 {
                     sw.Stop();
@@ -322,10 +331,10 @@ namespace LiveCaptionsTranslator
             if (lastLog == null)
                 return;
 
-            if (Caption?.LogCards.Count >= Setting?.MainWindow.CaptionLogMax)
-                Caption.LogCards.Dequeue();
-            Caption?.LogCards.Enqueue(lastLog);
-            Caption?.OnPropertyChanged("DisplayLogCards");
+            if (Caption?.Contexts.Count >= Setting?.MainWindow.CaptionLogMax)
+                Caption.Contexts.Dequeue();
+            Caption?.Contexts.Enqueue(lastLog);
+            Caption?.OnPropertyChanged("DisplayContexts");
         }
 
         public static async Task<bool> IsOverwrite(string originalText, CancellationToken token = default)
