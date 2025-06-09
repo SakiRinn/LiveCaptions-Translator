@@ -128,6 +128,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("ConfigIndices");
             }
         }
+        
         public TranslateAPIConfig this[string key]
         {
             get => configs.ContainsKey(key) && configIndices.ContainsKey(key)
