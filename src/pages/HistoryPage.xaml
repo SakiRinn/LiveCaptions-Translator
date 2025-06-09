@@ -42,7 +42,7 @@
                     Margin="10,0,10,0"
                     VerticalAlignment="Center"
                     FontSize="15"
-                    Text="1" />
+                    Text="1/1" />
 
                 <ui:Button
                     x:Name="PageUp"
