@@ -49,6 +49,11 @@ namespace LiveCaptionsTranslator
             this.TranslatedCaption.FontWeight =
                 (Translator.Setting.OverlayWindow.FontBold >= 2 ? FontWeights.Bold : FontWeights.Regular);
 
+            this.OriginalCaptionShadow.Opacity =
+                (Translator.Setting.OverlayWindow.FontShadow == 3 ? 1.0 : 0.0);
+            this.TranslatedCaptionShadow.Opacity =
+                (Translator.Setting.OverlayWindow.FontShadow >= 2 ? 1.0 : 0.0);
+
             this.TranslatedCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
             this.OriginalCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
             this.BorderBackground.Background = ColorList[Translator.Setting.OverlayWindow.BackgroundColor];
