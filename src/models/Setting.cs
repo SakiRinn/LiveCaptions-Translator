@@ -136,13 +136,10 @@ namespace LiveCaptionsTranslator.models
             }
         }
         
-        public TranslateAPIConfig this[string key]
-        {
-            get => configs.ContainsKey(key) && configIndices.ContainsKey(key)
+        public TranslateAPIConfig this[string key] =>
+            configs.ContainsKey(key) && configIndices.ContainsKey(key)
                 ? configs[key][configIndices[key]]
                 : new TranslateAPIConfig();
-            set => configs[key][configIndices[key]] = value;
-        }
 
         public Setting()
         {
@@ -273,7 +270,7 @@ namespace LiveCaptionsTranslator.models
             }
         }
 
-        public void OnPropertyChanged([CallerMemberName] string propName = "")
+        public void OnPropertyChanged([CallerMemberName] string? propName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
             Translator.Setting?.Save();
