@@ -31,6 +31,10 @@ namespace LiveCaptionsTranslator.utils
         {
             "Ollama", "OpenAI", "OpenRouter"
         };
+        public static readonly List<string> OUT_OF_THE_BOX_APIS = new()
+        {
+            "Google", "Google2"
+        };
 
         public static Func<string, CancellationToken, Task<string>> TranslateFunction => 
             TRANSLATE_FUNCTIONS[Translator.Setting.ApiName];

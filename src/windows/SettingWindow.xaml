@@ -8,10 +8,11 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="API Setting"
     Width="800"
-    Height="450"
+    Height="500"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     ExtendsContentIntoTitleBar="True"
+    Topmost="True"
     WindowBackdropType="Mica"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
@@ -37,135 +38,137 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" BorderThickness="0,0,1,0">
-                <StackPanel Width="200">
-                    <ui:Button
-                        x:Name="PromptButton"
-                        Margin="10,10,5,0"
-                        Padding="10"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        Click="NavigationButton_Click"
-                        Tag="Prompt">
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Margin="0,0,10,0" Symbol="DocumentCatchUp16" />
-                            <TextBlock VerticalAlignment="Center" Text="Prompt" />
-                        </StackPanel>
-                    </ui:Button>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Width="200">
+                        <ui:Button
+                            x:Name="PromptButton"
+                            Margin="10,10,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="Prompt">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:SymbolIcon Margin="0,0,10,0" Symbol="DocumentCatchUp16" />
+                                <ui:TextBlock VerticalAlignment="Center" Text="Prompt" />
+                            </StackPanel>
+                        </ui:Button>
 
-                    <ui:Button
-                        x:Name="OllamaButton"
-                        Margin="10,5,5,0"
-                        Padding="10"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        Click="NavigationButton_Click"
-                        Tag="Ollama">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="Ollama" />
-                        </StackPanel>
-                    </ui:Button>
+                        <ui:Button
+                            x:Name="OllamaButton"
+                            Margin="10,5,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="Ollama">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock VerticalAlignment="Center" Text="Ollama" />
+                            </StackPanel>
+                        </ui:Button>
 
-                    <ui:Button
-                        x:Name="OpenAIButton"
-                        Margin="10,5,5,0"
-                        Padding="10"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        Click="NavigationButton_Click"
-                        Tag="OpenAI">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="OpenAI" />
-                        </StackPanel>
-                    </ui:Button>
+                        <ui:Button
+                            x:Name="OpenAIButton"
+                            Margin="10,5,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="OpenAI">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock VerticalAlignment="Center" Text="OpenAI" />
+                            </StackPanel>
+                        </ui:Button>
 
-                    <ui:Button
-                        x:Name="OpenRouterButton"
-                        Margin="10,5,5,0"
-                        Padding="10"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        Click="NavigationButton_Click"
-                        Tag="OpenRouter">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="OpenRouter" />
-                        </StackPanel>
-                    </ui:Button>
+                        <ui:Button
+                            x:Name="OpenRouterButton"
+                            Margin="10,5,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="OpenRouter">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock VerticalAlignment="Center" Text="OpenRouter" />
+                            </StackPanel>
+                        </ui:Button>
 
-                    <ui:Button
-                        x:Name="DeepLButton"
-                        Margin="10,5,5,0"
-                        Padding="10"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        Click="NavigationButton_Click"
-                        Tag="DeepL">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="DeepL" />
-                        </StackPanel>
-                    </ui:Button>
+                        <ui:Button
+                            x:Name="DeepLButton"
+                            Margin="10,5,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="DeepL">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock VerticalAlignment="Center" Text="DeepL" />
+                            </StackPanel>
+                        </ui:Button>
 
-                    <ui:Button
-                        x:Name="YoudaoButton"
-                        Margin="10,5,5,0"
-                        Padding="10"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        Click="NavigationButton_Click"
-                        Tag="Youdao">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="Youdao" />
-                        </StackPanel>
-                    </ui:Button>
+                        <ui:Button
+                            x:Name="YoudaoButton"
+                            Margin="10,5,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="Youdao">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock VerticalAlignment="Center" Text="Youdao" />
+                            </StackPanel>
+                        </ui:Button>
 
 
-                    <ui:Button
-                        x:Name="MTranServerButton"
-                        Margin="10,5,5,0"
-                        Padding="10"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        Click="NavigationButton_Click"
-                        Tag="MTranServer">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="MTranServer" />
-                        </StackPanel>
-                    </ui:Button>
+                        <ui:Button
+                            x:Name="MTranServerButton"
+                            Margin="10,5,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="MTranServer">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock VerticalAlignment="Center" Text="MTranServer" />
+                            </StackPanel>
+                        </ui:Button>
 
-                    <ui:Button
-                        x:Name="BaiduButton"
-                        Margin="10,5,5,0"
-                        Padding="10"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        Click="NavigationButton_Click"
-                        Tag="Baidu">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="Baidu" />
-                        </StackPanel>
-                    </ui:Button>
+                        <ui:Button
+                            x:Name="BaiduButton"
+                            Margin="10,5,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="Baidu">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock VerticalAlignment="Center" Text="Baidu" />
+                            </StackPanel>
+                        </ui:Button>
 
-                    <ui:Button
-                        x:Name="LibreTranslateButton"
-                        Margin="10,5,5,0"
-                        Padding="10"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Background="Transparent"
-                        Click="NavigationButton_Click"
-                        Tag="LibreTranslate">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock VerticalAlignment="Center" Text="LibreTranslate" />
-                        </StackPanel>
-                    </ui:Button>
-                </StackPanel>
+                        <ui:Button
+                            x:Name="LibreTranslateButton"
+                            Margin="10,5,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="LibreTranslate">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock VerticalAlignment="Center" Text="LibreTranslate" />
+                            </StackPanel>
+                        </ui:Button>
+                    </StackPanel>
+                </ScrollViewer>
             </Border>
 
             <Border
@@ -184,7 +187,7 @@
 
                         <StackPanel x:Name="AllSettings" Margin="5">
                             <StackPanel x:Name="PromptSection" Margin="20">
-                                <TextBlock
+                                <ui:TextBlock
                                     Margin="10"
                                     FontSize="20"
                                     FontWeight="Medium"
@@ -208,7 +211,7 @@
                             </StackPanel>
 
                             <StackPanel x:Name="OllamaSection" Margin="20">
-                                <TextBlock
+                                <ui:TextBlock
                                     Margin="10"
                                     FontSize="20"
                                     FontWeight="Medium"
@@ -216,18 +219,49 @@
                                 <ui:Card Padding="15">
                                     <StackPanel>
                                         <Grid Margin="15,0,15,10">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="Current Config: " Margin="0,0,10,0"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="0,0,10,0" Icon="{ui:SymbolIcon chevronLeft12}"/>
-                                                <TextBlock x:Name="OllamaIndex" VerticalAlignment="Center" Text="1/1" />
-                                                <ui:Button Padding="8,4,8,4" Margin="10,0,0,0" Icon="{ui:SymbolIcon chevronRight12}"/>
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Config: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}"
+                                                    Tag="Ollama" />
+                                                <ui:TextBlock
+                                                    x:Name="OllamaIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="NextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}"
+                                                    Tag="Ollama" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                <ui:Button Content="New" Margin="0,0,10,0"/>
-                                                <ui:Button Content="Delete"/>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="NewButton_Click"
+                                                    Content="New"
+                                                    Tag="Ollama" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="DeleteButton_Click"
+                                                    Content="Delete"
+                                                    Tag="Ollama" />
+                                                <ui:Flyout x:Name="OllamaDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="120"
+                                                        Text="You must keep at least one config."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
                                             </StackPanel>
                                         </Grid>
-                                        <Separator Margin="0,0,0,10"/>
+                                        <Separator Margin="0,0,0,10" />
                                         <Grid x:Name="OllamaGrid">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -292,7 +326,7 @@
                             </StackPanel>
 
                             <StackPanel x:Name="OpenAISection" Margin="20">
-                                <TextBlock
+                                <ui:TextBlock
                                     Margin="10"
                                     FontSize="20"
                                     FontWeight="Medium"
@@ -301,18 +335,49 @@
                                 <ui:Card Padding="15">
                                     <StackPanel>
                                         <Grid Margin="15,0,15,10">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="Current Config: " Margin="0,0,10,0"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="0,0,10,0" Icon="{ui:SymbolIcon chevronLeft12}"/>
-                                                <TextBlock x:Name="OpenAIIndex" VerticalAlignment="Center" Text="1/1"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="10,0,0,0" Icon="{ui:SymbolIcon chevronRight12}"/>
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Config: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}"
+                                                    Tag="OpenAI" />
+                                                <ui:TextBlock
+                                                    x:Name="OpenAIIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="NextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}"
+                                                    Tag="OpenAI" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                <ui:Button Content="New" Margin="0,0,10,0"/>
-                                                <ui:Button Content="Delete"/>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="NewButton_Click"
+                                                    Content="New"
+                                                    Tag="OpenAI" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="DeleteButton_Click"
+                                                    Content="Delete"
+                                                    Tag="OpenAI" />
+                                                <ui:Flyout x:Name="OpenAIDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="120"
+                                                        Text="You must keep at least one config."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
                                             </StackPanel>
                                         </Grid>
-                                        <Separator Margin="0,0,0,10"/>
+                                        <Separator Margin="0,0,0,10" />
                                         <Grid x:Name="OpenAIGrid">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -362,13 +427,13 @@
                                                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                                                     <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
                                                     <ui:Flyout x:Name="OpenAIAPIKeyInfoFlyout">
-                                                        <TextBlock Width="300" TextWrapping="Wrap">
+                                                        <ui:TextBlock Width="300" TextWrapping="Wrap">
                                                             <Run Text="Use Full Url (typically ending with" />
                                                             <Run FontWeight="Bold" Text="`v1/chat/completions`" />
                                                             <Run Text=") instead of Base Url (typically ending with just" />
                                                             <Run FontWeight="Bold" Text="`v1`" />
                                                             <Run Text=")." />
-                                                        </TextBlock>
+                                                        </ui:TextBlock>
                                                     </ui:Flyout>
                                                     <Button
                                                         x:Name="TranslateAPIInfo"
@@ -410,7 +475,7 @@
                             </StackPanel>
 
                             <StackPanel x:Name="OpenRouterSection" Margin="20">
-                                <TextBlock
+                                <ui:TextBlock
                                     Margin="10"
                                     FontSize="20"
                                     FontWeight="Medium"
@@ -418,18 +483,49 @@
                                 <ui:Card Padding="15">
                                     <StackPanel>
                                         <Grid Margin="15,0,15,10">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="Current Config: " Margin="0,0,10,0"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="0,0,10,0" Icon="{ui:SymbolIcon chevronLeft12}"/>
-                                                <TextBlock x:Name="OpenRouterIndex" VerticalAlignment="Center" Text="1/1"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="10,0,0,0" Icon="{ui:SymbolIcon chevronRight12}"/>
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Config: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}"
+                                                    Tag="OpenRouter" />
+                                                <ui:TextBlock
+                                                    x:Name="OpenRouterIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="NextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}"
+                                                    Tag="OpenRouter" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                <ui:Button Content="New" Margin="0,0,10,0"/>
-                                                <ui:Button Content="Delete"/>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="NewButton_Click"
+                                                    Content="New"
+                                                    Tag="OpenRouter" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="DeleteButton_Click"
+                                                    Content="Delete"
+                                                    Tag="OpenRouter" />
+                                                <ui:Flyout x:Name="OpenRouterDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="120"
+                                                        Text="You must keep at least one config."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
                                             </StackPanel>
                                         </Grid>
-                                        <Separator Margin="0,0,0,10"/>
+                                        <Separator Margin="0,0,0,10" />
                                         <Grid x:Name="OpenRouterGrid">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -490,7 +586,7 @@
                             </StackPanel>
 
                             <StackPanel x:Name="DeepLSection" Margin="20">
-                                <TextBlock
+                                <ui:TextBlock
                                     Margin="10"
                                     FontSize="20"
                                     FontWeight="Medium"
@@ -498,18 +594,49 @@
                                 <ui:Card Padding="15">
                                     <StackPanel>
                                         <Grid Margin="15,0,15,10">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="Current Config: " Margin="0,0,10,0"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="0,0,10,0" Icon="{ui:SymbolIcon chevronLeft12}"/>
-                                                <TextBlock x:Name="DeepLIndex" VerticalAlignment="Center" Text="1/1"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="10,0,0,0" Icon="{ui:SymbolIcon chevronRight12}"/>
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Config: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}"
+                                                    Tag="DeepL" />
+                                                <ui:TextBlock
+                                                    x:Name="DeepLIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="NextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}"
+                                                    Tag="DeepL" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                <ui:Button Content="New" Margin="0,0,10,0"/>
-                                                <ui:Button Content="Delete"/>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="NewButton_Click"
+                                                    Content="New"
+                                                    Tag="DeepL" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="DeleteButton_Click"
+                                                    Content="Delete"
+                                                    Tag="DeepL" />
+                                                <ui:Flyout x:Name="DeepLDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="120"
+                                                        Text="You must keep at least one config."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
                                             </StackPanel>
                                         </Grid>
-                                        <Separator Margin="0,0,0,10"/>
+                                        <Separator Margin="0,0,0,10" />
                                         <Grid x:Name="DeepLGrid">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -549,7 +676,7 @@
                             </StackPanel>
 
                             <StackPanel x:Name="YoudaoSection" Margin="20">
-                                <TextBlock
+                                <ui:TextBlock
                                     Margin="10"
                                     FontSize="20"
                                     FontWeight="Medium"
@@ -557,18 +684,49 @@
                                 <ui:Card Padding="15">
                                     <StackPanel>
                                         <Grid Margin="15,0,15,10">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="Current Config: " Margin="0,0,10,0"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="0,0,10,0" Icon="{ui:SymbolIcon chevronLeft12}"/>
-                                                <TextBlock x:Name="YoudaoIndex" VerticalAlignment="Center" Text="1/1"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="10,0,0,0" Icon="{ui:SymbolIcon chevronRight12}"/>
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Config: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}"
+                                                    Tag="Youdao" />
+                                                <ui:TextBlock
+                                                    x:Name="YoudaoIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="NextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}"
+                                                    Tag="Youdao" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                <ui:Button Content="New" Margin="0,0,10,0"/>
-                                                <ui:Button Content="Delete"/>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="NewButton_Click"
+                                                    Content="New"
+                                                    Tag="Youdao" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="DeleteButton_Click"
+                                                    Content="Delete"
+                                                    Tag="Youdao" />
+                                                <ui:Flyout x:Name="YoudaoDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="120"
+                                                        Text="You must keep at least one config."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
                                             </StackPanel>
                                         </Grid>
-                                        <Separator Margin="0,0,0,10"/>
+                                        <Separator Margin="0,0,0,10" />
                                         <Grid x:Name="YoudaoGrid">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -625,7 +783,7 @@
 
 
                             <StackPanel x:Name="MTranServerSection" Margin="20">
-                                <TextBlock
+                                <ui:TextBlock
                                     Margin="10"
                                     FontSize="20"
                                     FontWeight="Medium"
@@ -633,18 +791,49 @@
                                 <ui:Card Padding="15">
                                     <StackPanel>
                                         <Grid Margin="15,0,15,10">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="Current Config: " Margin="0,0,10,0"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="0,0,10,0" Icon="{ui:SymbolIcon chevronLeft12}"/>
-                                                <TextBlock x:Name="MTranServerIndex" VerticalAlignment="Center" Text="1/1"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="10,0,0,0" Icon="{ui:SymbolIcon chevronRight12}"/>
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Config: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}"
+                                                    Tag="MTranServer" />
+                                                <ui:TextBlock
+                                                    x:Name="MTranServerIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="NextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}"
+                                                    Tag="MTranServer" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                <ui:Button Content="New" Margin="0,0,10,0"/>
-                                                <ui:Button Content="Delete"/>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="NewButton_Click"
+                                                    Content="New"
+                                                    Tag="MTranServer" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="DeleteButton_Click"
+                                                    Content="Delete"
+                                                    Tag="MTranServer" />
+                                                <ui:Flyout x:Name="MTranServerDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="120"
+                                                        Text="You must keep at least one config."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
                                             </StackPanel>
                                         </Grid>
-                                        <Separator Margin="0,0,0,10"/>
+                                        <Separator Margin="0,0,0,10" />
                                         <Grid x:Name="MTranServerGrid">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -707,7 +896,7 @@
                             </StackPanel>
 
                             <StackPanel x:Name="BaiduSection" Margin="20">
-                                <TextBlock
+                                <ui:TextBlock
                                     Margin="10"
                                     FontSize="20"
                                     FontWeight="Medium"
@@ -715,18 +904,49 @@
                                 <ui:Card Padding="15">
                                     <StackPanel>
                                         <Grid Margin="15,0,15,10">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="Current Config: " Margin="0,0,10,0"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="0,0,10,0" Icon="{ui:SymbolIcon chevronLeft12}"/>
-                                                <TextBlock x:Name="BaiduIndex" VerticalAlignment="Center" Text="1/1"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="10,0,0,0" Icon="{ui:SymbolIcon chevronRight12}"/>
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Config: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}"
+                                                    Tag="Baidu" />
+                                                <ui:TextBlock
+                                                    x:Name="BaiduIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="NextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}"
+                                                    Tag="Baidu" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                <ui:Button Content="New" Margin="0,0,10,0"/>
-                                                <ui:Button Content="Delete"/>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="NewButton_Click"
+                                                    Content="New"
+                                                    Tag="Baidu" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="DeleteButton_Click"
+                                                    Content="Delete"
+                                                    Tag="Baidu" />
+                                                <ui:Flyout x:Name="BaiduDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="120"
+                                                        Text="You must keep at least one config."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
                                             </StackPanel>
                                         </Grid>
-                                        <Separator Margin="0,0,0,10"/>
+                                        <Separator Margin="0,0,0,10" />
                                         <Grid x:Name="BaiduGrid">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
@@ -780,9 +1000,9 @@
                                     </StackPanel>
                                 </ui:Card>
                             </StackPanel>
-                            
+
                             <StackPanel x:Name="LibreTranslateSection" Margin="20">
-                                <TextBlock
+                                <ui:TextBlock
                                     Margin="10"
                                     FontSize="20"
                                     FontWeight="Medium"
@@ -790,18 +1010,49 @@
                                 <ui:Card Padding="15">
                                     <StackPanel>
                                         <Grid Margin="15,0,15,10">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="Current Config: " Margin="0,0,10,0"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="0,0,10,0" Icon="{ui:SymbolIcon chevronLeft12}"/>
-                                                <TextBlock x:Name="LibreTranslateIndex" VerticalAlignment="Center" Text="1/1"/>
-                                                <ui:Button Padding="8,4,8,4" Margin="10,0,0,0" Icon="{ui:SymbolIcon chevronRight12}"/>
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Config: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}"
+                                                    Tag="LibreTranslate" />
+                                                <ui:TextBlock
+                                                    x:Name="LibreTranslateIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="NextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}"
+                                                    Tag="LibreTranslate" />
                                             </StackPanel>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                                <ui:Button Content="New" Margin="0,0,10,0"/>
-                                                <ui:Button Content="Delete"/>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="NewButton_Click"
+                                                    Content="New"
+                                                    Tag="LibreTranslate" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="DeleteButton_Click"
+                                                    Content="Delete"
+                                                    Tag="LibreTranslate" />
+                                                <ui:Flyout x:Name="LibreTranslateDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="120"
+                                                        Text="You must keep at least one config."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
                                             </StackPanel>
                                         </Grid>
-                                        <Separator Margin="0,0,0,10"/>
+                                        <Separator Margin="0,0,0,10" />
                                         <Grid x:Name="LibreTranslateGrid">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto" />
