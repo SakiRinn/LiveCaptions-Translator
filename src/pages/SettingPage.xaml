@@ -133,13 +133,13 @@
                         VerticalAlignment="Center"
                         Text="Target Language" />
                     <ui:Flyout x:Name="TargetLangInfoFlyout">
-                        <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run Text="You can directly edit to customize the language, and it is recommended to follow the" />
+                        <TextBlock Width="350" TextWrapping="Wrap">
+                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="&quot;There isn’t the target language I expected!&quot;" />
+                            <Run Text="&#x0A;You can directly edit the content of this combobox to customize the language, and it is recommended to follow the" />
                             <Run FontWeight="Bold" Text="BCP 47 language tag." />
-                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note 1:" />
-                            <Run Text="Google might be failed to run if don't use BCP 47 language tag." />
-                            <Run FontWeight="Bold" Text="&#x0A;Note 2:" />
-                            <Run Text="DeepL needs another way to define target language, see the docs." />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
+                            <Run Text="Some of APIs (such as DeepL) needs another way to define target language, see their official docs for more details." />
+                            <Run Text="&#x0A;No need to consider this for included target languages, since we've built in tag mappings. But if your expected language isn't in the list, keep this in mind." />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
