@@ -668,7 +668,7 @@
                                                     Height="30"
                                                     Padding="10,4,10,7"
                                                     FontSize="13.3"
-                                                    Text="{Binding Configs[DeepL].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    Text="{Binding [DeepL].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                             </StackPanel>
                                         </Grid>
                                     </StackPanel>
