@@ -148,7 +148,8 @@ namespace LiveCaptionsTranslator.utils
                 messages = messages,
                 temperature = config?.Temperature,
                 max_tokens = 64,
-                stream = false
+                stream = false,
+                think = false
             };
 
             string jsonContent = JsonSerializer.Serialize(requestData);
