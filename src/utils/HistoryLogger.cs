@@ -227,9 +227,9 @@ namespace LiveCaptionsTranslator.utils
             }
 
             var csv = new StringBuilder();
-            csv.AppendLine("Timestamp,SourceText,TranslatedText,TargetLanguage,ApiUsed");
+            csv.AppendLine("Timestamp	SourceText	TranslatedText	TargetLanguage	ApiUsed");
             foreach (var entry in history)
-                csv.AppendLine($"{entry.Timestamp},{entry.SourceText},{entry.TranslatedText},{entry.TargetLanguage},{entry.ApiUsed}");
+                csv.AppendLine($"{entry.Timestamp}	{entry.SourceText}	{entry.TranslatedText}	{entry.TargetLanguage}	{entry.ApiUsed}");
 
             await File.WriteAllTextAsync(filePath, csv.ToString());
         }
