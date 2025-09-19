@@ -1,6 +1,9 @@
 ﻿using System.IO;
 using System.Text;
+using System.Globalization;
 using Microsoft.Data.Sqlite;
+using CsvHelper;
+using CsvHelper.Configuration;
 
 using LiveCaptionsTranslator.models;
 
@@ -226,12 +229,9 @@ namespace LiveCaptionsTranslator.utils
                 }
             }
 
-            var csv = new StringBuilder();
-            csv.AppendLine("Timestamp,SourceText,TranslatedText,TargetLanguage,ApiUsed");
-            foreach (var entry in history)
-                csv.AppendLine($"{entry.Timestamp},{entry.SourceText},{entry.TranslatedText},{entry.TargetLanguage},{entry.ApiUsed}");
-
-            await File.WriteAllTextAsync(filePath, csv.ToString());
+            using var writer = new StreamWriter(filePath, false, new UTF8Encoding(true));
+            using var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
+            await csvWriter.WriteRecordsAsync(history, token);
         }
 
         // DEPRECATED
