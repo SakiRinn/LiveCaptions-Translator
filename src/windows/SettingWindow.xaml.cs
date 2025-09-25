@@ -39,7 +39,7 @@ namespace LiveCaptionsTranslator
             };
             
             foreach (var apiName in TranslateAPI.TRANSLATE_FUNCTIONS.Keys.Where(apiName =>
-                         !TranslateAPI.OUT_OF_THE_BOX_APIS.Contains(apiName)))
+                         !TranslateAPI.NO_CONFIG_APIS.Contains(apiName)))
             {
                 sectionReferences[apiName] = FindName($"{apiName}Section") as StackPanel;
                 SwitchConfig(apiName, Translator.Setting.ConfigIndices[apiName]);
