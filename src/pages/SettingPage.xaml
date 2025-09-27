@@ -26,7 +26,7 @@
                     <ui:Flyout x:Name="LiveCaptionsInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
                             <Run Text="After Windows 11 version 24H2, you can only change the" />
-                            <Run FontWeight="Bold" Text="source language" />
+                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="Source Language" />
                             <Run Text="in LiveCaptions." />
                             <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
                             <Run Text="Please click" />
