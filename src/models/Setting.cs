@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Windows;
 
 using LiveCaptionsTranslator.utils;
 
@@ -156,8 +157,8 @@ namespace LiveCaptionsTranslator.models
             mainWindowState = new MainWindowState();
             overlayWindowState = new OverlayWindowState();
 
-            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
             windowBounds = new Dictionary<string, string>
             {
                 {
