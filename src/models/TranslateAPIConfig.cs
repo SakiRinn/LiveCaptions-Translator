@@ -81,15 +81,15 @@ namespace LiveCaptionsTranslator.models
             public long eval_duration { get; set; }
         }
 
-        private int port = 11434;
+        private string apiUrl = "http://localhost:11434";
 
-        public int Port
+        public string ApiUrl
         {
-            get => port;
+            get => apiUrl;
             set
             {
-                port = value;
-                OnPropertyChanged("Port");
+                apiUrl = value;
+                OnPropertyChanged("ApiUrl");
             }
         }
     }

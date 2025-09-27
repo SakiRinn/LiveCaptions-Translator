@@ -114,14 +114,24 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        private void OpenAIAPIKeyInfo_MouseEnter(object sender, MouseEventArgs e)
+        private void OpenAIAPIUrlInfo_MouseEnter(object sender, MouseEventArgs e)
         {
-            OpenAIAPIKeyInfoFlyout.Show();
+            OpenAIAPIUrlInfoFlyout.Show();
         }
 
-        private void OpenAIAPIKeyInfo_MouseLeave(object sender, MouseEventArgs e)
+        private void OpenAIAPIUrlInfo_MouseLeave(object sender, MouseEventArgs e)
         {
-            OpenAIAPIKeyInfoFlyout.Hide();
+            OpenAIAPIUrlInfoFlyout.Hide();
+        }
+        
+        private void OllamaAPIUrlInfo_MouseEnter(object sender, MouseEventArgs e)
+        {
+            OllamaAPIUrlInfoFlyout.Show();
+        }
+
+        private void OllamaAPIUrlInfo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            OllamaAPIUrlInfoFlyout.Hide();
         }
         
         private void SwitchConfig(string apiName, int index)

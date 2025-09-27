@@ -37,7 +37,7 @@ namespace LiveCaptionsTranslator.utils
             "Google", "Google2"
         };
 
-        public static Func<string, CancellationToken, Task<string>> TranslateFunction => 
+        public static Func<string, CancellationToken, Task<string>> TranslateFunction =>
             TRANSLATE_FUNCTIONS[Translator.Setting.ApiName];
         public static bool IsLLMBased => LLM_BASED_APIS.Contains(Translator.Setting.ApiName);
         public static string Prompt => Translator.Setting.Prompt;
@@ -67,14 +67,14 @@ namespace LiveCaptionsTranslator.utils
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
                         continue;
                     translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
-                        
+
                     messages.InsertRange(1, [
                         new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
                         new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
                     ]);
                 }
             }
-            
+
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config.ApiKey}");
 
@@ -83,17 +83,17 @@ namespace LiveCaptionsTranslator.utils
             {
                 while (true)
                 {
-                    var requestData = LLMRequestDataFactory.Create(openai_fallback_index, 
+                    var requestData = LLMRequestDataFactory.Create(openai_fallback_index,
                         config.ModelName, messages, config.Temperature);
                     string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                    
+
                     response = await client.PostAsync(TextUtil.NormalizeUrl(config.ApiUrl), content, token);
-                    if (response.StatusCode != HttpStatusCode.BadRequest && 
+                    if (response.StatusCode != HttpStatusCode.BadRequest &&
                         response.StatusCode != HttpStatusCode.UnprocessableEntity)
                         break;
                     Thread.Sleep(15);
-                    
+
                     openai_fallback_index++;
                     if (openai_fallback_index >= LLMRequestDataFactory.FallbackCount)
                     {
@@ -124,14 +124,14 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
-        
+
         public static async Task<string> Ollama(string text, CancellationToken token = default)
         {
             var config = Translator.Setting["Ollama"] as OllamaConfig;
             string language = OllamaConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
-            string apiUrl = $"http://localhost:{config.Port}/api/chat";
-            
+            string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl + "/api/chat");
+
             var messages = new List<BaseLLMConfig.Message>
             {
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
@@ -145,7 +145,7 @@ namespace LiveCaptionsTranslator.utils
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
                         continue;
                     translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
-                        
+
                     messages.InsertRange(1, [
                         new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
                         new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
@@ -154,11 +154,11 @@ namespace LiveCaptionsTranslator.utils
             }
 
             var requestData = LLMRequestDataFactory.Create("Ollama", config.ModelName, messages, config.Temperature);
-            
+
             string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
             client.DefaultRequestHeaders.Clear();
-            
+
             HttpResponseMessage response;
             try
             {
@@ -186,14 +186,14 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
-        
+
         public static async Task<string> OpenRouter(string text, CancellationToken token = default)
         {
             var config = Translator.Setting["OpenRouter"] as OpenRouterConfig;
             string language = OpenRouterConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
             string apiUrl = "https://openrouter.ai/api/v1/chat/completions";
-            
+
             var messages = new List<BaseLLMConfig.Message>
             {
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
@@ -207,7 +207,7 @@ namespace LiveCaptionsTranslator.utils
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
                         continue;
                     translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
-                        
+
                     messages.InsertRange(1, [
                         new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
                         new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
@@ -216,7 +216,7 @@ namespace LiveCaptionsTranslator.utils
             }
 
             var requestData = LLMRequestDataFactory.Create("OpenRouter", config.ModelName, messages, config.Temperature);
-            
+
             string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
             client.DefaultRequestHeaders.Clear();
@@ -252,7 +252,7 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
-        
+
         public static async Task<string> Google(string text, CancellationToken token = default)
         {
             var language = Translator.Setting?.TargetLanguage;
@@ -644,17 +644,9 @@ namespace LiveCaptionsTranslator.utils
                     }
                     configs[key] = list;
                 }
-                else if (reader.TokenType == JsonTokenType.StartObject)
-                {
-                    if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
-                        config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, configType, options);
-                    else
-                        config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, typeof(TranslateAPIConfig), options);
-                    configs[key] = [config];
-                }
                 else
                     throw new JsonException("Expected a StartObject token or a StartArray token.");
-                
+
                 reader.Read();
             }
 
