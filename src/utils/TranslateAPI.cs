@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -31,20 +32,21 @@ namespace LiveCaptionsTranslator.utils
         {
             "Ollama", "OpenAI", "OpenRouter"
         };
-        public static readonly List<string> OUT_OF_THE_BOX_APIS = new()
+        public static readonly List<string> NO_CONFIG_APIS = new()
         {
             "Google", "Google2"
         };
 
-        public static Func<string, CancellationToken, Task<string>> TranslateFunction => 
+        public static Func<string, CancellationToken, Task<string>> TranslateFunction =>
             TRANSLATE_FUNCTIONS[Translator.Setting.ApiName];
         public static bool IsLLMBased => LLM_BASED_APIS.Contains(Translator.Setting.ApiName);
         public static string Prompt => Translator.Setting.Prompt;
 
         private static readonly HttpClient client = new HttpClient()
         {
-            Timeout = TimeSpan.FromSeconds(5)
+            Timeout = TimeSpan.FromSeconds(8)
         };
+        private static int openai_fallback_index = 0;
 
         public static async Task<string> OpenAI(string text, CancellationToken token = default)
         {
@@ -65,37 +67,46 @@ namespace LiveCaptionsTranslator.utils
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
                         continue;
                     translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
-                        
+
                     messages.InsertRange(1, [
                         new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
                         new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
                     ]);
                 }
             }
-            
-            var requestData = new
-            {
-                model = config?.ModelName,
-                messages = messages,
-                temperature = config?.Temperature,
-                max_tokens = 64,
-                stream = false
-            };
 
-            string jsonContent = JsonSerializer.Serialize(requestData);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
             client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config.ApiKey}");
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(TextUtil.NormalizeUrl(config?.ApiUrl), content, token);
+                while (true)
+                {
+                    var requestData = LLMRequestDataFactory.Create(openai_fallback_index,
+                        config.ModelName, messages, config.Temperature);
+                    string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
+                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                    response = await client.PostAsync(TextUtil.NormalizeUrl(config.ApiUrl), content, token);
+                    if (response.StatusCode != HttpStatusCode.BadRequest &&
+                        response.StatusCode != HttpStatusCode.UnprocessableEntity)
+                        break;
+                    Thread.Sleep(15);
+
+                    openai_fallback_index++;
+                    if (openai_fallback_index >= LLMRequestDataFactory.FallbackCount)
+                    {
+                        openai_fallback_index = 0;
+                        break;
+                    }
+                }
             }
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
                 throw;
             }
             catch (Exception ex)
@@ -113,14 +124,14 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
-        
+
         public static async Task<string> Ollama(string text, CancellationToken token = default)
         {
             var config = Translator.Setting["Ollama"] as OllamaConfig;
             string language = OllamaConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
-            string apiUrl = $"http://localhost:{config.Port}/api/chat";
-            
+            string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl + "/api/chat");
+
             var messages = new List<BaseLLMConfig.Message>
             {
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
@@ -134,7 +145,7 @@ namespace LiveCaptionsTranslator.utils
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
                         continue;
                     translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
-                        
+
                     messages.InsertRange(1, [
                         new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
                         new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
@@ -142,17 +153,9 @@ namespace LiveCaptionsTranslator.utils
                 }
             }
 
-            var requestData = new
-            {
-                model = config?.ModelName,
-                messages = messages,
-                temperature = config?.Temperature,
-                max_tokens = 64,
-                stream = false,
-                think = false
-            };
+            var requestData = LLMRequestDataFactory.Create("Ollama", config.ModelName, messages, config.Temperature);
 
-            string jsonContent = JsonSerializer.Serialize(requestData);
+            string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
             client.DefaultRequestHeaders.Clear();
 
@@ -164,7 +167,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
                 throw;
             }
             catch (Exception ex)
@@ -182,14 +186,14 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
-        
+
         public static async Task<string> OpenRouter(string text, CancellationToken token = default)
         {
             var config = Translator.Setting["OpenRouter"] as OpenRouterConfig;
             string language = OpenRouterConfig.SupportedLanguages.TryGetValue(
                 Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
             string apiUrl = "https://openrouter.ai/api/v1/chat/completions";
-            
+
             var messages = new List<BaseLLMConfig.Message>
             {
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
@@ -203,7 +207,7 @@ namespace LiveCaptionsTranslator.utils
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
                         continue;
                     translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
-                        
+
                     messages.InsertRange(1, [
                         new BaseLLMConfig.Message { role = "user", content = $"🔤 {entry.SourceText} 🔤" },
                         new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
@@ -211,34 +215,23 @@ namespace LiveCaptionsTranslator.utils
                 }
             }
 
-            var requestData = new
-            {
-                model = config?.ModelName,
-                messages = messages
-            };
+            var requestData = LLMRequestDataFactory.Create("OpenRouter", config.ModelName, messages, config.Temperature);
 
-            var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
-            {
-                Content = new StringContent(
-                    JsonSerializer.Serialize(requestData),
-                    Encoding.UTF8,
-                    "application/json"
-                )
-            };
-
-            request.Headers.Add("Authorization", $"Bearer {config?.ApiKey}");
-            request.Headers.Add("HTTP-Referer", "https://github.com/SakiRinn/LiveCaptionsTranslator");
-            request.Headers.Add("X-Title", "LiveCaptionsTranslator");
+            string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
 
             HttpResponseMessage response;
             try
             {
-                response = await client.SendAsync(request, token);
+                response = await client.PostAsync(apiUrl, content, token);
             }
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
                 throw;
             }
             catch (Exception ex)
@@ -259,7 +252,7 @@ namespace LiveCaptionsTranslator.utils
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
-        
+
         public static async Task<string> Google(string text, CancellationToken token = default)
         {
             var language = Translator.Setting?.TargetLanguage;
@@ -278,7 +271,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
                 throw;
             }
             catch (Exception ex)
@@ -323,7 +317,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
                 throw;
             }
             catch (Exception ex)
@@ -377,7 +372,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
                 throw;
             }
             catch (Exception ex)
@@ -434,7 +430,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
                 throw;
             }
             catch (Exception ex)
@@ -487,7 +484,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
                 throw;
             }
             catch (Exception ex)
@@ -537,7 +535,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
                 throw;
             }
             catch (Exception ex)
@@ -590,7 +589,8 @@ namespace LiveCaptionsTranslator.utils
             catch (OperationCanceledException ex)
             {
                 if (ex.Message.StartsWith("The request"))
-                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 5 seconds), please use a faster API.";
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
                 throw;
             }
             catch (Exception ex)
@@ -644,17 +644,9 @@ namespace LiveCaptionsTranslator.utils
                     }
                     configs[key] = list;
                 }
-                else if (reader.TokenType == JsonTokenType.StartObject)
-                {
-                    if (configType != null && typeof(TranslateAPIConfig).IsAssignableFrom(configType))
-                        config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, configType, options);
-                    else
-                        config = (TranslateAPIConfig)JsonSerializer.Deserialize(ref reader, typeof(TranslateAPIConfig), options);
-                    configs[key] = [config];
-                }
                 else
                     throw new JsonException("Expected a StartObject token or a StartArray token.");
-                
+
                 reader.Read();
             }
 

@@ -308,17 +308,34 @@
                                                 Grid.Column="1"
                                                 Margin="15,0,0,0"
                                                 Orientation="Vertical">
-                                                <ui:TextBlock Margin="2.5,0,0,5" Text="Port" />
-                                                <ui:NumberBox
-                                                    Width="100"
+                                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
+                                                    <ui:Flyout x:Name="OllamaAPIUrlInfoFlyout">
+                                                        <ui:TextBlock Width="170" TextWrapping="Wrap">
+                                                            <Run Text="No need to explicitly add" />
+                                                            <Run FontWeight="Bold" Text="`api/chat`" />
+                                                            <Run Text="suffix." />
+                                                        </ui:TextBlock>
+                                                    </ui:Flyout>
+                                                    <Button
+                                                        Width="15"
+                                                        Height="15"
+                                                        Margin="-5,-3,0,0"
+                                                        Padding="0"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        MouseEnter="OllamaAPIUrlInfo_MouseEnter"
+                                                        MouseLeave="OllamaAPIUrlInfo_MouseLeave">
+                                                        <ui:SymbolIcon Symbol="Info16" />
+                                                    </Button>
+                                                </StackPanel>
+
+                                                <ui:TextBox
+                                                    Width="200"
                                                     Height="30"
                                                     Padding="10,4,10,7"
-                                                    ClearButtonEnabled="False"
                                                     FontSize="13.3"
-                                                    Maximum="65535"
-                                                    Minimum="1"
-                                                    SpinButtonPlacementMode="Hidden"
-                                                    Value="{Binding [Ollama].Port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    Text="{Binding [Ollama].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                             </StackPanel>
                                         </Grid>
                                     </StackPanel>
@@ -426,7 +443,7 @@
                                                 Orientation="Vertical">
                                                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                                                     <ui:TextBlock Margin="2.5,0,0,5" Text="API Url" />
-                                                    <ui:Flyout x:Name="OpenAIAPIKeyInfoFlyout">
+                                                    <ui:Flyout x:Name="OpenAIAPIUrlInfoFlyout">
                                                         <ui:TextBlock Width="300" TextWrapping="Wrap">
                                                             <Run Text="Use Full Url (typically ending with" />
                                                             <Run FontWeight="Bold" Text="`v1/chat/completions`" />
@@ -436,15 +453,14 @@
                                                         </ui:TextBlock>
                                                     </ui:Flyout>
                                                     <Button
-                                                        x:Name="TranslateAPIInfo"
                                                         Width="15"
                                                         Height="15"
                                                         Margin="-5,-3,0,0"
                                                         Padding="0"
                                                         Background="Transparent"
                                                         BorderThickness="0"
-                                                        MouseEnter="OpenAIAPIKeyInfo_MouseEnter"
-                                                        MouseLeave="OpenAIAPIKeyInfo_MouseLeave">
+                                                        MouseEnter="OpenAIAPIUrlInfo_MouseEnter"
+                                                        MouseLeave="OpenAIAPIUrlInfo_MouseLeave">
                                                         <ui:SymbolIcon Symbol="Info16" />
                                                     </Button>
                                                 </StackPanel>

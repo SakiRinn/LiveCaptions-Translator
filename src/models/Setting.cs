@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Windows;
 
 using LiveCaptionsTranslator.utils;
 
@@ -22,7 +23,7 @@ namespace LiveCaptionsTranslator.models
         private string targetLanguage;
         private string prompt;
         private string? ignoredUpdateVersion;
-        
+
 
         private MainWindowState mainWindowState;
         private OverlayWindowState overlayWindowState;
@@ -30,7 +31,7 @@ namespace LiveCaptionsTranslator.models
 
         private Dictionary<string, List<TranslateAPIConfig>> configs;
         private Dictionary<string, int> configIndices;
-        
+
         public int MaxIdleInterval => maxIdleInterval;
         public int MaxSyncInterval
         {
@@ -135,7 +136,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("ConfigIndices");
             }
         }
-        
+
         public TranslateAPIConfig this[string key] =>
             configs.ContainsKey(key) && configIndices.ContainsKey(key)
                 ? configs[key][configIndices[key]]
@@ -156,8 +157,8 @@ namespace LiveCaptionsTranslator.models
             mainWindowState = new MainWindowState();
             overlayWindowState = new OverlayWindowState();
 
-            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
             windowBounds = new Dictionary<string, string>
             {
                 {
@@ -215,13 +216,23 @@ namespace LiveCaptionsTranslator.models
         public static Setting Load()
         {
             string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), FILENAME);
-            return Load(jsonPath);
+            try
+            {
+                return Load(jsonPath);
+            }
+            catch (JsonException)
+            {
+                string backupPath = jsonPath + ".bak";
+                File.Move(jsonPath, backupPath);
+                return Load(jsonPath);
+            }
         }
 
         public static Setting Load(string jsonPath)
         {
             Setting setting;
 
+            // Load from JSON file if it exists
             if (File.Exists(jsonPath))
             {
                 using (FileStream fileStream = File.Open(jsonPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))

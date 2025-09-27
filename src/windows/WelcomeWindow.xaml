@@ -63,6 +63,10 @@
                 <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator/wiki" RequestNavigate="Hyperlink_RequestNavigate">
                     https://github.com/SakiRinn/LiveCaptions-Translator/wiki
                 </Hyperlink>
+                <Run FontWeight="Bold" Text="&#x0A;&#x0A;Tip:" />
+                <Run Text="To change the" />
+                <Run FontWeight="DemiBold" TextDecorations="Underline" Text="Source Language" />
+                <Run Text=", please [Show] LiveCaptions on the setting page and do it in Windows LiveCaptions." />
             </ui:TextBlock>
 
             <ui:Button

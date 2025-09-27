@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Text.RegularExpressions;
+
 using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator.models

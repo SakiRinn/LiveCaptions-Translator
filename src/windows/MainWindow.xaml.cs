@@ -29,8 +29,18 @@ namespace LiveCaptionsTranslator
                 CheckForUpdates();
             };
 
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            
             var windowState = WindowHandler.LoadState(this, Translator.Setting);
-            WindowHandler.RestoreState(this, windowState);
+            if (windowState.Left <= 0 || windowState.Left >= screenWidth || 
+                windowState.Top <= 0 || windowState.Top >= screenHeight)
+            {
+                WindowHandler.RestoreState(this, new Rect(
+                    (screenWidth - 775) / 2, screenHeight * 3 / 4 - 167, 775, 167));
+            }
+            else
+                WindowHandler.RestoreState(this, windowState);
 
             ToggleTopmost(Translator.Setting.MainWindow.Topmost);
             ShowLogCard(Translator.Setting.MainWindow.CaptionLogEnabled);
@@ -57,8 +67,19 @@ namespace LiveCaptionsTranslator
                 OverlayWindow.LocationChanged +=
                     (s, e) => WindowHandler.SaveState(OverlayWindow, Translator.Setting);
 
+                double screenWidth = SystemParameters.PrimaryScreenWidth;
+                double screenHeight = SystemParameters.PrimaryScreenHeight;
+                
                 var windowState = WindowHandler.LoadState(OverlayWindow, Translator.Setting);
-                WindowHandler.RestoreState(OverlayWindow, windowState);
+                if (windowState.Left <= 0 || windowState.Left >= screenWidth || 
+                    windowState.Top <= 0 || windowState.Top >= screenHeight)
+                {
+                    WindowHandler.RestoreState(OverlayWindow, new Rect(
+                        (screenWidth - 650) / 2, screenHeight * 5 / 6 - 135, 650, 135));
+                }
+                else
+                    WindowHandler.RestoreState(OverlayWindow, windowState);
+                
                 OverlayWindow.Show();
             }
             else
