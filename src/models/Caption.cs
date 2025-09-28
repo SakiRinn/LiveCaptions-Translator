@@ -107,7 +107,7 @@ namespace LiveCaptionsTranslator.models
                 .Take(count)
                 .Reverse()
                 .Select(entry =>
-                    entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]")
+                    entry == null || entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]")
                         ? "" : entry.TranslatedText)
                 .Aggregate((accu, cur) =>
                 {
