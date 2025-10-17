@@ -14,8 +14,9 @@ namespace LiveCaptionsTranslator
         private static Caption? caption = null;
         private static Setting? setting = null;
 
-        private static readonly Queue<string> pendingTextQueue = new();
+        public static readonly Queue<string> pendingTextQueue = new();
         private static readonly TranslationTaskQueue translationTaskQueue = new();
+        public static AutoResetEvent RecordingStatusChanged { get; } = new AutoResetEvent(true);
 
         public static AutomationElement? Window
         {
@@ -50,6 +51,8 @@ namespace LiveCaptionsTranslator
 
             while (true)
             {
+                RecordingStatusChanged.WaitOne();
+
                 if (Window == null)
                 {
                     Thread.Sleep(2000);

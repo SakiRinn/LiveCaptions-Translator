@@ -71,6 +71,14 @@
                             Icon="{ui:SymbolIcon Pin16,
                                                  Filled=True}"
                             ToolTip="Always on Top" />
+                        <ui:Button
+                            x:Name="RecordButton"
+                            Margin="0,0,5,0"
+                            Appearance="Transparent"
+                            Click="RecordButton_Click"
+                            Icon="{ui:SymbolIcon Microphone24,
+                                                 Filled=False}"
+                            ToolTip="Record Audio" />
                     </StackPanel>
                 </ui:TitleBar.TrailingContent>
             </ui:TitleBar>

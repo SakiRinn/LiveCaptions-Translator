@@ -3,6 +3,10 @@ using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 using System.Diagnostics;
 using System.Reflection;
+using System.IO;
+using NAudio.Wave;
+using Whisper.net;
+using Whisper.net.Ggml;
 
 using LiveCaptionsTranslator.utils;
 
@@ -14,6 +18,12 @@ namespace LiveCaptionsTranslator
     {
         public OverlayWindow? OverlayWindow { get; set; } = null;
         public bool IsAutoHeight { get; set; } = true;
+
+        public static bool IsRecording { get; private set; } = false;
+        private WaveInEvent waveIn;
+        private WaveFileWriter waveWriter;
+        private WhisperProcessor whisperProcessor;
+        private readonly string outputFilePath = Path.Combine(Path.GetTempPath(), "recorded_audio.wav");
 
         public MainWindow()
         {
@@ -44,6 +54,129 @@ namespace LiveCaptionsTranslator
 
             ToggleTopmost(Translator.Setting.MainWindow.Topmost);
             ShowLogCard(Translator.Setting.MainWindow.CaptionLogEnabled);
+
+            // Initialize Whisper
+            InitializeWhisper();
+        }
+
+        private async Task InitializeWhisper()
+        {
+            var modelName = "ggml-base.bin";
+            var modelPath = Path.Combine(Directory.GetCurrentDirectory(), modelName);
+
+            if (!File.Exists(modelPath))
+            {
+                await DownloadWhisperModelAsync(modelName, modelPath);
+            }
+
+            if (File.Exists(modelPath))
+            {
+                try
+                {
+                    var whisperFactory = WhisperFactory.FromPath(modelPath);
+                    whisperProcessor = whisperFactory.CreateBuilder()
+                        .WithLanguage("auto")
+                        .WithSegmentEventHandler(OnNewSegment)
+                        .Build();
+                }
+                catch (Exception ex)
+                {
+                    ShowSnackbar("Failed to initialize Whisper", ex.Message, true);
+                }
+            }
+        }
+
+        private async Task DownloadWhisperModelAsync(string modelName, string modelPath)
+        {
+            ShowSnackbar("Downloading Whisper Model", $"Model '{modelName}' not found. Downloading...", false);
+            try
+            {
+                using var modelStream = await WhisperGgmlDownloader.GetGgmlModelAsync(GgmlType.Base);
+                using var fileStream = File.Create(modelPath);
+                await modelStream.CopyToAsync(fileStream);
+                ShowSnackbar("Download Complete", $"Model '{modelName}' downloaded successfully.", false);
+            }
+            catch (Exception ex)
+            {
+                ShowSnackbar("Model Download Failed", ex.Message, true);
+            }
+        }
+
+
+        private void RecordButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var symbolIcon = button?.Icon as SymbolIcon;
+
+            if (IsRecording)
+            {
+                StopRecording();
+                symbolIcon.Symbol = SymbolRegular.Microphone24;
+                symbolIcon.Filled = false;
+                IsRecording = false;
+                Translator.RecordingStatusChanged.Set();
+            }
+            else
+            {
+                Translator.RecordingStatusChanged.Reset();
+                StartRecording();
+                symbolIcon.Symbol = SymbolRegular.Microphone24;
+                symbolIcon.Filled = true;
+                IsRecording = true;
+            }
+        }
+
+        private void StartRecording()
+        {
+            waveIn = new WaveInEvent
+            {
+                WaveFormat = new WaveFormat(16000, 1) // 16kHz, Mono
+            };
+
+            waveIn.DataAvailable += OnDataAvailable;
+            waveIn.RecordingStopped += OnRecordingStopped;
+
+            waveIn.StartRecording();
+        }
+
+        private void OnDataAvailable(object sender, WaveInEventArgs e)
+        {
+            if (whisperProcessor == null) return;
+
+            // Convert byte buffer to float array
+            var samples = new float[e.BytesRecorded / 2];
+            for (int i = 0; i < samples.Length; i++)
+            {
+                samples[i] = BitConverter.ToInt16(e.Buffer, i * 2) / 32768.0f;
+            }
+
+            // Process the audio chunk
+            whisperProcessor.Process(samples);
+        }
+
+        private void OnRecordingStopped(object sender, StoppedEventArgs e)
+        {
+            waveIn.Dispose();
+            waveIn = null;
+            // Any cleanup after recording stops
+        }
+
+        private void OnNewSegment(SegmentData segment)
+        {
+            Dispatcher.InvokeAsync(() =>
+            {
+                string text = segment.Text.Trim();
+                if (!string.IsNullOrEmpty(text))
+                {
+                    Translator.Caption.DisplayOriginalCaption = text;
+                    Translator.pendingTextQueue.Enqueue(text);
+                }
+            });
+        }
+
+        private void StopRecording()
+        {
+            waveIn?.StopRecording();
         }
 
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
