@@ -76,10 +76,14 @@ body:
           required: true
         - label: I have read all the [issues](https://github.com/SakiRinn/LiveCaptions-Translator/issues)/[wiki](https://github.com/SakiRinn/LiveCaptions-Translator/wiki) and made sure there is no duplicate
           required: true
+        - label: I have used '/v1/chat/completions' as endpoint config for OpenAI
+          required: true
         - label: I have tried the latest version and the issue still exists
           required: true
         - label: I have checked if the issue is related to my environment configuration, network, etc.
           required: true
+        - label: I have attached my config to help debug
+          required: true  
         - label: Besides my preferred language, I have added English in the title and description
           required: true
         - label: I will be polite and respectful in my communication
