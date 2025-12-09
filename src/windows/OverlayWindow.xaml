@@ -43,7 +43,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.Resources>
-                    <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
+                    <Style x:Key="CaptionBlockStyle" TargetType="local:OutlinedTextBlock">
                         <Setter Property="TextWrapping" Value="Wrap" />
                         <Setter Property="VerticalAlignment" Value="Stretch" />
                     </Style>
@@ -57,21 +57,22 @@
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderThickness="0">
-                    <TextBlock
+                    <local:OutlinedTextBlock
                         x:Name="OriginalCaption"
                         FontSize="15"
-                        Foreground="#FFFFFFFF"
+                        Fill="#FFFFFFFF"
+                        StrokeThickness="0"
                         Style="{StaticResource CaptionBlockStyle}"
                         Text="{Binding OverlayOriginalCaption, UpdateSourceTrigger=PropertyChanged}">
-                        <TextBlock.Effect>
+                        <local:OutlinedTextBlock.Effect>
                             <DropShadowEffect
                                 x:Name="OriginalCaptionShadow"
                                 BlurRadius="5"
                                 Direction="0"
                                 ShadowDepth="0"
                                 Color="Black" />
-                        </TextBlock.Effect>
-                    </TextBlock>
+                        </local:OutlinedTextBlock.Effect>
+                    </local:OutlinedTextBlock>
                 </ui:Card>
                 <ui:Card
                     x:Name="TranslatedCaptionCard"
@@ -81,21 +82,22 @@
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderThickness="0">
-                    <TextBlock
+                    <local:OutlinedTextBlock
                         x:Name="TranslatedCaption"
                         FontSize="18"
-                        Foreground="#FFFFFFFF"
+                        Fill="#FFFFFFFF"
+                        StrokeThickness="0"
                         Style="{StaticResource CaptionBlockStyle}"
                         Text="{Binding OverlayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}">
-                        <TextBlock.Effect>
+                        <local:OutlinedTextBlock.Effect>
                             <DropShadowEffect
                                 x:Name="TranslatedCaptionShadow"
                                 BlurRadius="5"
                                 Direction="0"
                                 ShadowDepth="0"
                                 Color="Black" />
-                        </TextBlock.Effect>
-                    </TextBlock>
+                        </local:OutlinedTextBlock.Effect>
+                    </local:OutlinedTextBlock>
                 </ui:Card>
 
                 <StackPanel
@@ -144,6 +146,14 @@
                         Icon="{ui:SymbolIcon squareShadow12,
                                              Filled=False}"
                         ToolTip="Font Shadow" />
+                    <ui:Button
+                        x:Name="FontStroke"
+                        Background="#FFAAAAAA"
+                        Click="FontStroke_Click"
+                        Cursor="Hand"
+                        Icon="{ui:SymbolIcon textEffects20,
+                                             Filled=False}"
+                        ToolTip="Font Stroke" />
                     <ui:Button
                         x:Name="OpacityIncrease"
                         Margin="5,0,0,0"

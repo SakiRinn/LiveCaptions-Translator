@@ -54,8 +54,13 @@ namespace LiveCaptionsTranslator
             this.TranslatedCaptionShadow.Opacity =
                 (Translator.Setting.OverlayWindow.FontShadow >= 2 ? 1.0 : 0.0);
 
-            this.TranslatedCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
-            this.OriginalCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
+            this.OriginalCaption.StrokeThickness =
+                (Translator.Setting.OverlayWindow.FontStroke == 3 ? 3 : 0);
+            this.TranslatedCaption.StrokeThickness =
+                (Translator.Setting.OverlayWindow.FontStroke >= 2 ? 3 : 0);
+
+            this.TranslatedCaption.Fill = ColorList[Translator.Setting.OverlayWindow.FontColor];
+            this.OriginalCaption.Fill = ColorList[Translator.Setting.OverlayWindow.FontColor];
             this.BorderBackground.Background = ColorList[Translator.Setting.OverlayWindow.BackgroundColor];
             this.BorderBackground.Opacity = Translator.Setting.OverlayWindow.Opacity;
 
@@ -192,13 +197,24 @@ namespace LiveCaptionsTranslator
                 (Translator.Setting.OverlayWindow.FontShadow >= 2 ? 1.0 : 0.0);
         }
 
+        private void FontStroke_Click(object sender, RoutedEventArgs e)
+        {
+            Translator.Setting.OverlayWindow.FontStroke++;
+            if (Translator.Setting.OverlayWindow.FontStroke > 3)
+                Translator.Setting.OverlayWindow.FontStroke = 1;
+            this.OriginalCaption.StrokeThickness =
+                (Translator.Setting.OverlayWindow.FontStroke == 3 ? 3 : 0);
+            this.TranslatedCaption.StrokeThickness =
+                (Translator.Setting.OverlayWindow.FontStroke >= 2 ? 3 : 0);
+        }
+
         private void FontColorCycle_Click(object sender, RoutedEventArgs e)
         {
             Translator.Setting.OverlayWindow.FontColor++;
             if (Translator.Setting.OverlayWindow.FontColor > ColorList.Count)
                 Translator.Setting.OverlayWindow.FontColor = 1;
-            TranslatedCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
-            OriginalCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
+            TranslatedCaption.Fill = ColorList[Translator.Setting.OverlayWindow.FontColor];
+            OriginalCaption.Fill = ColorList[Translator.Setting.OverlayWindow.FontColor];
         }
 
         private void OpacityIncrease_Click(object sender, RoutedEventArgs e)
