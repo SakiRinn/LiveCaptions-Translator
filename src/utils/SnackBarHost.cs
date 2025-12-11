@@ -4,6 +4,7 @@ namespace LiveCaptionsTranslator.utils
 {
     public static class SnackBarHost
     {
+        public static Snackbar? snackbar;
         public static void Show(string title, string message, string type = "info")
         {
             ControlAppearance appearance;
@@ -30,17 +31,15 @@ namespace LiveCaptionsTranslator.utils
                 icon = new SymbolIcon(SymbolRegular.Info24);
             }
 
-            var snackBarHost = (App.Current.MainWindow as MainWindow)?.SnackbarHost;
-            var snackbar = new Snackbar(snackBarHost)
-            {
-                Title = title,
-                Content = message,
-                Appearance = appearance,
-                Timeout = TimeSpan.FromSeconds(3),
-                Icon = icon,
-            };
+            snackbar ??= new Snackbar((App.Current.MainWindow as MainWindow)?.SnackbarHost);
 
-            snackbar.Show();
+            snackbar.SetCurrentValue(Snackbar.TitleProperty, title);
+            snackbar.SetCurrentValue(System.Windows.Controls.ContentControl.ContentProperty, message);
+            snackbar.SetCurrentValue(Snackbar.AppearanceProperty, appearance);
+            snackbar.SetCurrentValue(Snackbar.IconProperty, icon);
+            snackbar.SetCurrentValue(Snackbar.TimeoutProperty, TimeSpan.FromSeconds(3));
+
+            snackbar.Show(true);
         }
     }
 }
