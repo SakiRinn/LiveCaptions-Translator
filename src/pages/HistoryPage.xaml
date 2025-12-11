@@ -184,6 +184,5 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ui:SnackbarPresenter x:Name="SnackbarHost" Grid.Row="0" />
     </Grid>
 </Page>

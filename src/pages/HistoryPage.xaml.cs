@@ -1,12 +1,10 @@
-﻿using System.Windows.Controls;
-using System.Windows;
-using Microsoft.Win32;
-using Wpf.Ui.Controls;
-using Wpf.Ui.Appearance;
-
+﻿using LiveCaptionsTranslator.models;
 using LiveCaptionsTranslator.utils;
-using LiveCaptionsTranslator.models;
-
+using Microsoft.Win32;
+using System.Windows;
+using System.Windows.Controls;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 using TextBlock = System.Windows.Controls.TextBlock;
 
 namespace LiveCaptionsTranslator
@@ -127,11 +125,11 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCSV(saveFileDialog.FileName);
-                    Snackbar_Show("Saved Success", $"File saved to: {saveFileDialog.FileName}");
+                    SnackBarHost.Show("Saved Success", $"File saved to: {saveFileDialog.FileName}", "info");
                 }
                 catch (Exception ex)
                 {
-                    Snackbar_Show("Save Failed", $"File saved faild:{ex.Message}");
+                    SnackBarHost.Show("Save Failed", $"File saved faild:{ex.Message}", "error");
                 }
             }
         }
@@ -170,19 +168,6 @@ namespace LiveCaptionsTranslator
                     await LoadHistory();
                 }
             }
-        }
-
-        private void Snackbar_Show(string title, string message, bool isError = false)
-        {
-            var snackbar = new Snackbar(SnackbarHost)
-            {
-                Title = title,
-                Content = message,
-                Appearance = isError ? ControlAppearance.Danger : ControlAppearance.Light,
-                Timeout = TimeSpan.FromSeconds(2)
-            };
-
-            snackbar.Show();
         }
 
         public async Task LoadHistory()
