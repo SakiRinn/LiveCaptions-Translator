@@ -54,6 +54,11 @@ namespace LiveCaptionsTranslator
             this.TranslatedCaptionShadow.Opacity =
                 (Translator.Setting.OverlayWindow.FontShadow >= 2 ? 1.0 : 0.0);
 
+            this.OriginalCaption.StrokeThickness =
+                (Translator.Setting.OverlayWindow.FontStroke == 3 ? 3 : 0);
+            this.TranslatedCaption.StrokeThickness =
+                (Translator.Setting.OverlayWindow.FontStroke >= 2 ? 3 : 0);
+
             this.TranslatedCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
             this.OriginalCaption.Foreground = ColorList[Translator.Setting.OverlayWindow.FontColor];
             this.BorderBackground.Background = ColorList[Translator.Setting.OverlayWindow.BackgroundColor];
@@ -190,6 +195,17 @@ namespace LiveCaptionsTranslator
                 (Translator.Setting.OverlayWindow.FontShadow == 3 ? 1.0 : 0.0);
             this.TranslatedCaptionShadow.Opacity =
                 (Translator.Setting.OverlayWindow.FontShadow >= 2 ? 1.0 : 0.0);
+        }
+
+        private void FontStroke_Click(object sender, RoutedEventArgs e)
+        {
+            Translator.Setting.OverlayWindow.FontStroke++;
+            if (Translator.Setting.OverlayWindow.FontStroke > 3)
+                Translator.Setting.OverlayWindow.FontStroke = 1;
+            this.OriginalCaption.StrokeThickness =
+                (Translator.Setting.OverlayWindow.FontStroke == 3 ? 3 : 0);
+            this.TranslatedCaption.StrokeThickness =
+                (Translator.Setting.OverlayWindow.FontStroke >= 2 ? 3 : 0);
         }
 
         private void FontColorCycle_Click(object sender, RoutedEventArgs e)

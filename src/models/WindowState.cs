@@ -64,6 +64,7 @@ namespace LiveCaptionsTranslator.models
         private int fontColor = 1;
         private int fontBold = 1;
         private int fontShadow = 1;
+        private int fontStroke = 1;
         private int backgroundColor = 8;
         private byte opacity = 150;
         private int historyMax = 1;
@@ -102,6 +103,15 @@ namespace LiveCaptionsTranslator.models
             {
                 fontShadow = value;
                 OnPropertyChanged("FontShadow");
+            }
+        }
+        public int FontStroke
+        {
+            get => fontStroke;
+            set
+            {
+                fontStroke = value;
+                OnPropertyChanged("FontStroke");
             }
         }
         public int BackgroundColor
