@@ -125,6 +125,16 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCSV(saveFileDialog.FileName);
+
+                    string args = string.Format("/e, /select, \"{0}\"", saveFileDialog.FileName);
+                    ProcessStartInfo info = new()
+                    {
+                        FileName = "explorer",
+                        Arguments = args
+                    };
+                    Process.Start(info);
+
+
                     SnackBarHost.Show("Saved Success", $"File saved to: {saveFileDialog.FileName}", "info");
                 }
                 catch (Exception ex)
