@@ -45,9 +45,9 @@ namespace LiveCaptionsTranslator
                     Clipboard.SetText(textBlock.Text);
                     SnackbarHost.Show("Copied", textBlock.Text, "info", 1, 100, false);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    SnackbarHost.Show("Copy Failed", $"{ex.Message}", "error");
+                    SnackbarHost.Show(title: "Copy Failed", type: "error");
                 }
                 await Task.Delay(500);
             }
