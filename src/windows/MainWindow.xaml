@@ -114,9 +114,17 @@
                         NavigationCacheMode="Required"
                         TargetPageType="{x:Type local:InfoPage}" />
                 </ui:NavigationView.MenuItems>
+
+                <ui:NavigationView.ContentOverlay>
+                    <Grid>
+                        <ui:SnackbarPresenter
+                            x:Name="snackbarHost"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom" />
+                    </Grid>
+                </ui:NavigationView.ContentOverlay>
             </ui:NavigationView>
         </Grid>
-        <ui:SnackbarPresenter x:Name="SnackbarHost" Grid.Row="0" />
         <ContentPresenter
             x:Name="DialogHostContainer"
             MinHeight="167"

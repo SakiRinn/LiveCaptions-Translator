@@ -1,11 +1,10 @@
-﻿using System.Windows;
-using Wpf.Ui.Appearance;
-using Wpf.Ui.Controls;
+﻿using LiveCaptionsTranslator.src.utils;
+using LiveCaptionsTranslator.utils;
 using System.Diagnostics;
 using System.Reflection;
-
-using LiveCaptionsTranslator.utils;
-
+using System.Windows;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 using Button = Wpf.Ui.Controls.Button;
 
 namespace LiveCaptionsTranslator
@@ -178,7 +177,8 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                ShowSnackbar("[ERROR] Update Check Failed.", ex.Message, true);
+                SnackbarHost.Show("[ERROR] Update Check Failed.", ex.Message, "error");
+
                 return;
             }
 
@@ -212,7 +212,7 @@ namespace LiveCaptionsTranslator
                     }
                     catch (Exception ex)
                     {
-                        ShowSnackbar("[ERROR] Open Browser Failed.", ex.Message, true);
+                        SnackbarHost.Show("[ERROR] Open Browser Failed.", ex.Message, "error");
                     }
                 }
                 else
@@ -242,18 +242,6 @@ namespace LiveCaptionsTranslator
 
             if (IsAutoHeight && maxHeight > 0 && Height > maxHeight)
                 Height = maxHeight;
-        }
-
-        public void ShowSnackbar(string title, string message, bool isError = false)
-        {
-            var snackbar = new Snackbar(SnackbarHost)
-            {
-                Title = title,
-                Content = message,
-                Appearance = isError ? ControlAppearance.Danger : ControlAppearance.Light,
-                Timeout = TimeSpan.FromSeconds(5)
-            };
-            snackbar.Show();
         }
     }
 }

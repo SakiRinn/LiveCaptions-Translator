@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+﻿using LiveCaptionsTranslator.src.utils;
+using LiveCaptionsTranslator.utils;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-
-using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator
 {
@@ -43,14 +43,13 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     Clipboard.SetText(textBlock.Text);
-                    textBlock.ToolTip = "Copied!";
+                    SnackbarHost.Show("Copied", textBlock.Text, "info", 1, 100, false);
                 }
                 catch
                 {
-                    textBlock.ToolTip = "Error to Copy";
+                    SnackbarHost.Show(title: "Copy Failed", type: "error");
                 }
                 await Task.Delay(500);
-                textBlock.ToolTip = "Click to Copy";
             }
         }
 
