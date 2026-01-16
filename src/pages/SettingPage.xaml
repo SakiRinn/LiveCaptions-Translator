@@ -134,7 +134,7 @@
                         Text="Target Language" />
                     <ui:Flyout x:Name="TargetLangInfoFlyout">
                         <TextBlock Width="350" TextWrapping="Wrap">
-                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="&quot;There isn’t the target language I expected!&quot;" />
+                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="&quot;There isn’t the target language I expect!&quot;" />
                             <Run Text="&#x0A;You can directly edit the content of this combobox to customize the language, and it is recommended to follow the" />
                             <Run FontWeight="Bold" Text="BCP 47 language tag." />
                             <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />

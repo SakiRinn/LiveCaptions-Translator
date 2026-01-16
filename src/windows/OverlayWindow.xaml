@@ -19,6 +19,7 @@
     ShowInTaskbar="False"
     Topmost="True"
     WindowStyle="None"
+    SizeToContent="Height"
     mc:Ignorable="d">
 
     <Window.Resources>
@@ -43,7 +44,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.Resources>
-                    <Style x:Key="CaptionBlockStyle" TargetType="local:OutlinedTextBlock">
+                    <Style x:Key="CaptionBlockStyle" TargetType="TextBlock">
                         <Setter Property="TextWrapping" Value="Wrap" />
                         <Setter Property="VerticalAlignment" Value="Stretch" />
                     </Style>
@@ -57,22 +58,19 @@
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderThickness="0">
-                    <local:OutlinedTextBlock
-                        x:Name="TranslatedCaption"
-                        FontSize="18"
-                        Foreground="#FFFFFFFF"
-                        StrokeThickness="0"
-                        Style="{StaticResource CaptionBlockStyle}"
-                        Text="{Binding OverlayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}">
-                        <local:OutlinedTextBlock.Effect>
-                            <DropShadowEffect
-                                x:Name="TranslatedCaptionShadow"
-                                BlurRadius="5"
-                                Direction="0"
-                                ShadowDepth="0"
-                                Color="Black" />
-                        </local:OutlinedTextBlock.Effect>
-                    </local:OutlinedTextBlock>
+                    <local:StrokeDecorator
+                        x:Name="TranslatedCaptionDecorator"
+                        Stroke="Black"
+                        StrokeThickness="0">
+                        <TextBlock
+                            x:Name="TranslatedCaption"
+                            FontSize="18"
+                            Foreground="#FFFFFFFF"
+                            Style="{StaticResource CaptionBlockStyle}">
+                            <Run Text="{Binding OverlayNoticePrefix, UpdateSourceTrigger=PropertyChanged}" FontFamily="Consolas" />
+                            <Run Text="{Binding OverlayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}" />
+                        </TextBlock>
+                    </local:StrokeDecorator>
                 </ui:Card>
                 <ui:Card
                     x:Name="OriginalCaptionCard"
@@ -82,22 +80,18 @@
                     VerticalAlignment="Top"
                     Background="Transparent"
                     BorderThickness="0">
-                    <local:OutlinedTextBlock
-                        x:Name="OriginalCaption"
-                        FontSize="15"
-                        Foreground="#FFFFFFFF"
-                        StrokeThickness="0"
-                        Style="{StaticResource CaptionBlockStyle}"
-                        Text="{Binding OverlayOriginalCaption, UpdateSourceTrigger=PropertyChanged}">
-                        <local:OutlinedTextBlock.Effect>
-                            <DropShadowEffect
-                                x:Name="OriginalCaptionShadow"
-                                BlurRadius="5"
-                                Direction="0"
-                                ShadowDepth="0"
-                                Color="Black" />
-                        </local:OutlinedTextBlock.Effect>
-                    </local:OutlinedTextBlock>
+                    <local:StrokeDecorator
+                        x:Name="OriginalCaptionDecorator"
+                        Stroke="Black"
+                        StrokeThickness="0">
+                        <TextBlock
+                            x:Name="OriginalCaption"
+                            FontSize="15"
+                            Foreground="#FFFFFFFF"
+                            Style="{StaticResource CaptionBlockStyle}"
+                            Text="{Binding OverlayOriginalCaption, UpdateSourceTrigger=PropertyChanged}">
+                        </TextBlock>
+                    </local:StrokeDecorator>
                 </ui:Card>
 
                 <StackPanel
@@ -108,29 +102,37 @@
                     VerticalAlignment="Bottom"
                     Orientation="Horizontal">
                     <ui:Button
-                        x:Name="FontIncrease"
+                        x:Name="FontSizeIncrease"
                         Background="#FFAAAAAA"
                         Click="FontIncrease_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon fontIncrease20,
                                              Filled=False}"
-                        ToolTip="Font Increase" />
+                        ToolTip="Font Size Increase" />
                     <ui:Button
-                        x:Name="FontDecrease"
+                        x:Name="FontSizeDecrease"
                         Background="#FFAAAAAA"
                         Click="FontDecrease_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon fontDecrease20,
                                              Filled=False}"
-                        ToolTip="Font Decrease" />
+                        ToolTip="Font Size Decrease" />
                     <ui:Button
-                        x:Name="FontColorCycle"
+                        x:Name="FontStrokeIncrease"
                         Background="#FFAAAAAA"
-                        Click="FontColorCycle_Click"
+                        Click="FontStrokeIncrease_Click"
                         Cursor="Hand"
-                        Icon="{ui:SymbolIcon color16,
+                        Icon="{ui:SymbolIcon InkStroke20,
+                                             Filled=True}"
+                        ToolTip="Font Stroke Increase" />
+                    <ui:Button
+                        x:Name="FontStrokeDecrease"
+                        Background="#FFAAAAAA"
+                        Click="FontStrokeDecrease_Click"
+                        Cursor="Hand"
+                        Icon="{ui:SymbolIcon InkStrokeArrowDown20,
                                              Filled=False}"
-                        ToolTip="Font Color" />
+                        ToolTip="Font Stroke Decrease" />
                     <ui:Button
                         x:Name="FontBold"
                         Background="#FFAAAAAA"
@@ -140,37 +142,31 @@
                                              Filled=False}"
                         ToolTip="Font Bold" />
                     <ui:Button
-                        x:Name="FontShadow"
+                        x:Name="FontColorCycle"
                         Background="#FFAAAAAA"
-                        Click="FontShadow_Click"
-                        Icon="{ui:SymbolIcon squareShadow12,
-                                             Filled=False}"
-                        ToolTip="Font Shadow" />
-                    <ui:Button
-                        x:Name="FontStroke"
-                        Background="#FFAAAAAA"
-                        Click="FontStroke_Click"
+                        Click="FontColorCycle_Click"
                         Cursor="Hand"
-                        Icon="{ui:SymbolIcon textEffects20,
+                        Icon="{ui:SymbolIcon color16,
                                              Filled=False}"
-                        ToolTip="Font Stroke" />
+                        ToolTip="Font Color" />
+
                     <ui:Button
                         x:Name="OpacityIncrease"
                         Margin="5,0,0,0"
                         Background="#FFAAAAAA"
-                        Click="OpacityIncrease_Click"
+                        Click="BackgroundOpacityIncrease_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon arrowAutofitUp20,
                                              Filled=False}"
-                        ToolTip="Opacity Increase" />
+                        ToolTip="Background Opacity Increase" />
                     <ui:Button
                         x:Name="OpacityDecrease"
                         Background="#FFAAAAAA"
-                        Click="OpacityDecrease_Click"
+                        Click="BackgroundOpacityDecrease_Click"
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon arrowAutofitDown20,
                                              Filled=False}"
-                        ToolTip="Opacity Decrease" />
+                        ToolTip="Background Opacity Decrease" />
                     <ui:Button
                         x:Name="BackgroundColorCycle"
                         Background="#FFAAAAAA"

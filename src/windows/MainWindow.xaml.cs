@@ -5,6 +5,7 @@ using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 using LiveCaptionsTranslator.utils;
+using LiveCaptionsTranslator.Utils;
 using Button = Wpf.Ui.Controls.Button;
 
 namespace LiveCaptionsTranslator
@@ -88,12 +89,12 @@ namespace LiveCaptionsTranslator
 
                 switch (OverlayWindow.OnlyMode)
                 {
-                    case 1:
-                        OverlayWindow.OnlyMode = 2;
-                        OverlayWindow.OnlyMode = 0;
+                    case CaptionVisible.TranslationOnly:
+                        OverlayWindow.OnlyMode = CaptionVisible.SubtitleOnly;
+                        OverlayWindow.OnlyMode = CaptionVisible.Both;
                         break;
-                    case 2:
-                        OverlayWindow.OnlyMode = 0;
+                    case CaptionVisible.SubtitleOnly:
+                        OverlayWindow.OnlyMode = CaptionVisible.Both;
                         break;
                 }
 

@@ -222,10 +222,8 @@ namespace LiveCaptionsTranslator
                     else
                     {
                         var match = RegexPatterns.NoticePrefixAndTranslation().Match(Caption.TranslatedCaption);
-                        Caption.OverlayNoticePrefix = match.Groups[1].Value;
-                        Caption.OverlayTranslatedCaption = Caption.OverlayNoticePrefix + Caption.OverlayPreviousTranslation + match.Groups[2].Value;
-                        // Caption.OverlayTranslatedCaption =
-                        //     TextUtil.ShortenDisplaySentence(Caption.OverlayTranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
+                        Caption.OverlayNoticePrefix = match.Groups[1].Value.TrimEnd();
+                        Caption.OverlayTranslatedCaption = Caption.OverlayPreviousTranslation + match.Groups[2].Value;
                     }
                 }
 

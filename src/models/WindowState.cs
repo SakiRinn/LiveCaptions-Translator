@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using LiveCaptionsTranslator.Utils;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -61,12 +62,11 @@ namespace LiveCaptionsTranslator.models
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private int fontSize = 15;
-        private int fontColor = 1;
-        private int fontBold = 1;
-        private int fontShadow = 1;
-        private int fontStroke = 1;
-        private int backgroundColor = 8;
-        private byte opacity = 150;
+        private Color fontColor = Color.White;
+        private FontBold fontBold = FontBold.None;
+        private double fontStroke = 0.0;
+        private Color backgroundColor = Color.Black;
+        private int opacity = 150;
         private int historyMax = 1;
 
         public int FontSize
@@ -78,7 +78,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("FontSize");
             }
         }
-        public int FontColor
+        public Color FontColor
         {
             get => fontColor;
             set
@@ -87,7 +87,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("FontColor");
             }
         }
-        public int FontBold
+        public FontBold FontBold
         {
             get => fontBold;
             set
@@ -96,16 +96,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("FontBold");
             }
         }
-        public int FontShadow
-        {
-            get => fontShadow;
-            set
-            {
-                fontShadow = value;
-                OnPropertyChanged("FontShadow");
-            }
-        }
-        public int FontStroke
+        public double FontStroke
         {
             get => fontStroke;
             set
@@ -114,7 +105,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("FontStroke");
             }
         }
-        public int BackgroundColor
+        public Color BackgroundColor
         {
             get => backgroundColor;
             set
@@ -123,7 +114,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("BackgroundColor");
             }
         }
-        public byte Opacity
+        public int Opacity
         {
             get => opacity;
             set
