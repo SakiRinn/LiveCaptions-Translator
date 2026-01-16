@@ -222,9 +222,8 @@ namespace LiveCaptionsTranslator
                     else
                     {
                         var match = RegexPatterns.NoticePrefixAndTranslation().Match(Caption.TranslatedCaption);
-                        string noticePrefix = match.Groups[1].Value;
-                        string translation = match.Groups[2].Value;
-                        Caption.OverlayTranslatedCaption = noticePrefix + Caption.OverlayPreviousTranslation + translation;
+                        Caption.OverlayNoticePrefix = match.Groups[1].Value;
+                        Caption.OverlayTranslatedCaption = Caption.OverlayNoticePrefix + Caption.OverlayPreviousTranslation + match.Groups[2].Value;
                         // Caption.OverlayTranslatedCaption =
                         //     TextUtil.ShortenDisplaySentence(Caption.OverlayTranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
                     }
@@ -258,7 +257,7 @@ namespace LiveCaptionsTranslator
                 if (sw != null)
                 {
                     sw.Stop();
-                    translatedText = $"[{sw.ElapsedMilliseconds} ms] " + translatedText;
+                    translatedText = $"[{sw.ElapsedMilliseconds,4} ms] " + translatedText;
                 }
             }
             catch (OperationCanceledException ex)

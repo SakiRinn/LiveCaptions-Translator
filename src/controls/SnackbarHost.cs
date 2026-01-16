@@ -4,8 +4,7 @@ namespace LiveCaptionsTranslator
 {
     class SnackbarHost
     {
-        public static Snackbar? snackbarMain;
-        public static Snackbar? snackbarCapture;
+        public static Snackbar? mainSnackbar;
         public static MainWindow? mainWindow = (MainWindow)App.Current.MainWindow;
 
         public static void Show(string title = "", string message = "", string type = "info", 
@@ -35,8 +34,8 @@ namespace LiveCaptionsTranslator
                     break;
             }
 
-            snackbarMain ??= new Snackbar(mainWindow?.snackbarHost);
-            snackbar = snackbarMain;
+            mainSnackbar ??= new Snackbar(mainWindow?.snackbarHost);
+            snackbar = mainSnackbar;
 
             snackbar.SetCurrentValue(Snackbar.TitleProperty, title);
             snackbar.SetCurrentValue(System.Windows.Controls.ContentControl.ContentProperty, message);

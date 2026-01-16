@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
-using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -9,7 +9,7 @@ using System.Windows.Threading;
 using Wpf.Ui.Controls;
 
 using LiveCaptionsTranslator.apis;
-using LiveCaptionsTranslator.utils;
+using Button = Wpf.Ui.Controls.Button;
 
 namespace LiveCaptionsTranslator
 {
@@ -25,7 +25,9 @@ namespace LiveCaptionsTranslator
             {7, Brushes.Red},
             {8, Brushes.Black},
         };
+        
         private int onlyMode = 0;
+        private int switchMode = 0;
 
         public int OnlyMode
         {
@@ -35,6 +37,12 @@ namespace LiveCaptionsTranslator
                 onlyMode = value;
                 ResizeForOnlyMode();
             }
+        }
+        
+        public int SwitchMode
+        {
+            get => switchMode;
+            set => switchMode = value;
         }
 
         public OverlayWindow()
@@ -271,6 +279,22 @@ namespace LiveCaptionsTranslator
                 OnlyMode = 2;
             }
         }
+        
+        private void SwitchModeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SwitchMode == 0)
+            {
+                Grid.SetRow(TranslatedCaptionCard, 1);
+                Grid.SetRow(OriginalCaptionCard, 0);
+                SwitchMode = 1;
+            }
+            else
+            {
+                Grid.SetRow(TranslatedCaptionCard, 0);
+                Grid.SetRow(OriginalCaptionCard, 1);
+                SwitchMode = 0;
+            }
+        }
 
         private void ClickThrough_Click(object sender, RoutedEventArgs e)
         {
@@ -282,22 +306,11 @@ namespace LiveCaptionsTranslator
 
         public void ApplyFontSize()
         {
-            if (Encoding.UTF8.GetByteCount(Translator.Caption.OverlayTranslatedCaption) >= TextUtil.VERYLONG_THRESHOLD)
+            Dispatcher.BeginInvoke(new Action(() =>
             {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    this.OriginalCaption.FontSize = Translator.Setting.OverlayWindow.FontSize;
-                    this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 1.1);
-                }), DispatcherPriority.Background);
-            }
-            else
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    this.OriginalCaption.FontSize = Translator.Setting.OverlayWindow.FontSize;
-                    this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 1.25);
-                }), DispatcherPriority.Background);
-            }
+                this.OriginalCaption.FontSize = Translator.Setting.OverlayWindow.FontSize;
+                this.TranslatedCaption.FontSize = (int)(this.OriginalCaption.FontSize * 1.25);
+            }), DispatcherPriority.Background);
         }
 
         public void ResizeForOnlyMode()

@@ -201,7 +201,8 @@ namespace LiveCaptionsTranslator.models
 
         public Setting(string apiName, string targetLanguage, string prompt, string ignoredUpdateVersion,
                        MainWindowState mainWindowState, OverlayWindowState overlayWindowState,
-                       Dictionary<string, List<TranslateAPIConfig>> configs, Dictionary<string, string> windowBounds)
+                       Dictionary<string, List<TranslateAPIConfig>> configs, Dictionary<string, int> configIndices,
+                       Dictionary<string, string> windowBounds)
         {
             this.apiName = apiName;
             this.targetLanguage = targetLanguage;
@@ -210,6 +211,7 @@ namespace LiveCaptionsTranslator.models
             this.mainWindowState = mainWindowState;
             this.overlayWindowState = overlayWindowState;
             this.configs = configs;
+            this.configIndices = configIndices;
             this.windowBounds = windowBounds;
         }
 

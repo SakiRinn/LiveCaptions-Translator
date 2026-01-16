@@ -11,13 +11,15 @@ namespace LiveCaptionsTranslator.models
         private static Caption? instance = null;
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private string displayOriginalCaption = "";
-        private string displayTranslatedCaption = "";
-        private string overlayOriginalCaption = "";
-        private string overlayTranslatedCaption = "";
+        private string displayOriginalCaption = string.Empty;
+        private string displayTranslatedCaption = string.Empty;
+        private string overlayOriginalCaption = " ";
+        private string overlayTranslatedCaption = " ";
+        private string overlayNoticePrefix = " ";
 
-        public string OriginalCaption { get; set; } = "";
-        public string TranslatedCaption { get; set; } = "";
+        public string OriginalCaption { get; set; } = string.Empty;
+        public string TranslatedCaption { get; set; } = string.Empty;
+        
         public string DisplayOriginalCaption
         {
             get => displayOriginalCaption;
@@ -36,6 +38,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("DisplayTranslatedCaption");
             }
         }
+        
         public string OverlayOriginalCaption
         {
             get => overlayOriginalCaption;
@@ -52,6 +55,15 @@ namespace LiveCaptionsTranslator.models
             {
                 overlayTranslatedCaption = value;
                 OnPropertyChanged("OverlayTranslatedCaption");
+            }
+        }
+        public string OverlayNoticePrefix
+        {
+            get => overlayNoticePrefix;
+            set
+            {
+                overlayNoticePrefix = value;
+                OnPropertyChanged("OverlayNoticePrefix");
             }
         }
 
