@@ -2,7 +2,7 @@ using System.Collections.Specialized;
 
 using LiveCaptionsTranslator.models;
 
-namespace LiveCaptionsTranslator.utils
+namespace LiveCaptionsTranslator.apis
 {
     public static class LLMRequestDataFactory
     {

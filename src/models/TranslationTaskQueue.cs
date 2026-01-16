@@ -1,6 +1,4 @@
-﻿using LiveCaptionsTranslator.utils;
-
-namespace LiveCaptionsTranslator.models
+﻿namespace LiveCaptionsTranslator.models
 {
     public class TranslationTaskQueue
     {

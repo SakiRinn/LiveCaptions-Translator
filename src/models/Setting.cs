@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
 
-using LiveCaptionsTranslator.utils;
+using LiveCaptionsTranslator.apis;
 
 namespace LiveCaptionsTranslator.models
 {

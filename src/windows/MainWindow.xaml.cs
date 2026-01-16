@@ -1,10 +1,10 @@
-﻿using LiveCaptionsTranslator.src.utils;
-using LiveCaptionsTranslator.utils;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+
+using LiveCaptionsTranslator.utils;
 using Button = Wpf.Ui.Controls.Button;
 
 namespace LiveCaptionsTranslator

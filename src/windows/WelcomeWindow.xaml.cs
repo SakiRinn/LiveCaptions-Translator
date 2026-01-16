@@ -1,8 +1,8 @@
-using Wpf.Ui.Controls;
 using System.Windows;
-using Wpf.Ui.Appearance;
 using System.Diagnostics;
 using System.Windows.Navigation;
+using Wpf.Ui.Controls;
+using Wpf.Ui.Appearance;
 
 namespace LiveCaptionsTranslator
 {

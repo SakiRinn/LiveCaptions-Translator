@@ -4,9 +4,11 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Security.Cryptography;
-using LiveCaptionsTranslator.models;
 
-namespace LiveCaptionsTranslator.utils
+using LiveCaptionsTranslator.models;
+using LiveCaptionsTranslator.utils;
+
+namespace LiveCaptionsTranslator.apis
 {
     public static class TranslateAPI
     {

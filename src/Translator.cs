@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Automation;
 
+using LiveCaptionsTranslator.apis;
 using LiveCaptionsTranslator.models;
 using LiveCaptionsTranslator.utils;
 

@@ -1,10 +1,10 @@
-﻿using LiveCaptionsTranslator.src.utils;
-using LiveCaptionsTranslator.utils;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
+
+using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator
 {

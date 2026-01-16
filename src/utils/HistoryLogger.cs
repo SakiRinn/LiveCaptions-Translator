@@ -3,7 +3,6 @@ using System.Text;
 using System.Globalization;
 using Microsoft.Data.Sqlite;
 using CsvHelper;
-using CsvHelper.Configuration;
 
 using LiveCaptionsTranslator.models;
 
