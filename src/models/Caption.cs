@@ -8,6 +8,8 @@ namespace LiveCaptionsTranslator.models
 {
     public class Caption : INotifyPropertyChanged
     {
+        public const int TAKE_MARGIN = 4;
+        
         private static Caption? instance = null;
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -19,6 +21,9 @@ namespace LiveCaptionsTranslator.models
 
         public string OriginalCaption { get; set; } = string.Empty;
         public string TranslatedCaption { get; set; } = string.Empty;
+
+        public Queue<TranslationHistoryEntry> Contexts { get; } = new(6);
+        public IEnumerable<TranslationHistoryEntry> DisplayContexts => Contexts.Reverse();
         
         public string DisplayOriginalCaption
         {
@@ -38,7 +43,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("DisplayTranslatedCaption");
             }
         }
-        
+
         public string OverlayOriginalCaption
         {
             get => overlayOriginalCaption;
@@ -46,15 +51,6 @@ namespace LiveCaptionsTranslator.models
             {
                 overlayOriginalCaption = value;
                 OnPropertyChanged("OverlayOriginalCaption");
-            }
-        }
-        public string OverlayTranslatedCaption
-        {
-            get => overlayTranslatedCaption;
-            set
-            {
-                overlayTranslatedCaption = value;
-                OnPropertyChanged("OverlayTranslatedCaption");
             }
         }
         public string OverlayNoticePrefix
@@ -66,9 +62,16 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("OverlayNoticePrefix");
             }
         }
-
-        public Queue<TranslationHistoryEntry> Contexts { get; } = new(6);
-        public IEnumerable<TranslationHistoryEntry> DisplayContexts => Contexts.Reverse();
+        public string OverlayTranslatedCaption
+        {
+            get => overlayTranslatedCaption;
+            set
+            {
+                overlayTranslatedCaption = value;
+                OnPropertyChanged("OverlayTranslatedCaption");
+            }
+        }
+        
 
         public string ContextPreviousCaption => GetPreviousCaption(
             Math.Min(Translator.Setting.MainWindow.CaptionLogMax, Contexts.Count));
@@ -89,12 +92,12 @@ namespace LiveCaptionsTranslator.models
 
         public string GetPreviousCaption(int count)
         {
-            if (count <= 0)
+            var entries = FilterDedupEntries(DisplayContexts.Take(count + TAKE_MARGIN).Reverse());
+            if (entries.Count == 0)
                 return string.Empty;
+            entries = entries[..Math.Min(count, entries.Count)];
 
-            var prefix = DisplayContexts
-                .Take(count)
-                .Reverse()
+            var prev = entries
                 .Select(entry => entry.SourceText)
                 .Aggregate((accu, cur) =>
                 {
@@ -103,24 +106,23 @@ namespace LiveCaptionsTranslator.models
                     return accu + cur;
                 });
 
-            if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
-                prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ".";
-            if (!string.IsNullOrEmpty(prefix) && Encoding.UTF8.GetByteCount(prefix[^1].ToString()) < 2)
-                prefix += " ";
-            return prefix;
+            if (!string.IsNullOrEmpty(prev) && Array.IndexOf(TextUtil.PUNC_EOS, prev[^1]) == -1)
+                prev += TextUtil.isCJChar(prev[^1]) ? "。" : ".";
+            if (!string.IsNullOrEmpty(prev) && Encoding.UTF8.GetByteCount(prev[^1].ToString()) < 2)
+                prev += " ";
+            return prev;
         }
 
         public string GetPreviousTranslation(int count)
         {
-            if (count <= 0)
+            var entries = FilterDedupEntries(DisplayContexts.Take(count + TAKE_MARGIN).Reverse());
+            if (entries.Count == 0)
                 return string.Empty;
+            entries = entries[..Math.Min(count, entries.Count)];
 
-            var prefix = DisplayContexts
-                .Take(count)
-                .Reverse()
-                .Select(entry =>
-                    entry == null || entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]")
-                        ? "" : entry.TranslatedText)
+            var prev = entries
+                .Select(entry => entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]") ?
+                    "" : entry.TranslatedText)
                 .Aggregate((accu, cur) =>
                 {
                     if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
@@ -128,18 +130,49 @@ namespace LiveCaptionsTranslator.models
                     cur = RegexPatterns.NoticePrefix().Replace(cur, "");
                     return accu + cur;
                 });
-            prefix = RegexPatterns.NoticePrefix().Replace(prefix, "");
-
-            if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
-                prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ".";
-            if (!string.IsNullOrEmpty(prefix) && Encoding.UTF8.GetByteCount(prefix[^1].ToString()) < 2)
-                prefix += " ";
-            return prefix;
+            
+            prev = RegexPatterns.NoticePrefix().Replace(prev, "");
+            if (!string.IsNullOrEmpty(prev) && Array.IndexOf(TextUtil.PUNC_EOS, prev[^1]) == -1)
+                prev += TextUtil.isCJChar(prev[^1]) ? "。" : ".";
+            if (!string.IsNullOrEmpty(prev) && Encoding.UTF8.GetByteCount(prev[^1].ToString()) < 2)
+                prev += " ";
+            return prev;
         }
 
         public void OnPropertyChanged([CallerMemberName] string propName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+        }
+
+        private List<TranslationHistoryEntry> FilterDedupEntries(IEnumerable<TranslationHistoryEntry> entries)
+        {
+            var entryList = entries.ToList();
+            var filtered = new List<TranslationHistoryEntry>();
+
+            int i = 0;
+            while (i < entryList.Count)
+            {
+                var longest = entryList[i];
+                int j = i + 1;
+
+                while (j < entryList.Count)
+                {
+                    if (entryList[j].SourceText.StartsWith(longest.SourceText))
+                    {
+                        longest = entryList[j];
+                        j++;
+                    }
+                    else if (longest.SourceText.StartsWith(entryList[j].SourceText))
+                        j++;
+                    else
+                        break;
+                }
+
+                filtered.Add(longest);
+                i = j;
+            }
+
+            return filtered;
         }
     }
 }

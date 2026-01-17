@@ -116,8 +116,6 @@ namespace LiveCaptionsTranslator
                     lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(TextUtil.PUNC_EOS);
                     Caption.OverlayOriginalCaption = fullText.Substring(lastEOSIndex + 1);
                 }
-                // Caption.DisplayOriginalCaption =
-                //     TextUtil.ShortenDisplaySentence(Caption.OverlayOriginalCaption, TextUtil.VERYLONG_THRESHOLD);
 
                 // `DisplayOriginalCaption`: The sentence to be displayed on Main Window.
                 if (string.CompareOrdinal(Caption.DisplayOriginalCaption, latestCaption) != 0)
@@ -242,9 +240,10 @@ namespace LiveCaptionsTranslator
             try
             {
                 var sw = Setting.MainWindow.LatencyShow ? Stopwatch.StartNew() : null;
+                
                 if (Setting.ContextAware && !TranslateAPI.IsLLMBased)
                 {
-                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.ContextPreviousCaption} <[{text}]>", token);
+                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.ContextPreviousCaption} 🔤{text}🔤", token);
                     translatedText = RegexPatterns.TargetSentence().Match(translatedText).Groups[1].Value;
                 }
                 else
@@ -252,6 +251,7 @@ namespace LiveCaptionsTranslator
                     translatedText = await TranslateAPI.TranslateFunction(text, token);
                     translatedText = translatedText.Replace("🔤", "");
                 }
+                
                 if (sw != null)
                 {
                     sw.Stop();

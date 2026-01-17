@@ -38,7 +38,7 @@ namespace LiveCaptionsTranslator.utils
         [GeneratedRegex(@"[^0-9.]")]
         public static partial Regex VersionNumber();
         
-        [GeneratedRegex(@"<\[(.*)\]>")]
+        [GeneratedRegex(@"🔤(.*)🔤")]
         public static partial Regex TargetSentence();
     }
 }
