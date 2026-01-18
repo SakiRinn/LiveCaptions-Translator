@@ -8,16 +8,27 @@ namespace LiveCaptionsTranslator.models
 {
     public class Caption : INotifyPropertyChanged
     {
+        public const int MAX_CONTEXTS = 10;
+
         private static Caption? instance = null;
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private string displayOriginalCaption = "";
-        private string displayTranslatedCaption = "";
-        private string overlayOriginalCaption = "";
-        private string overlayTranslatedCaption = "";
+        private string displayOriginalCaption = string.Empty;
+        private string displayTranslatedCaption = string.Empty;
+        private string overlayOriginalCaption = " ";
+        private string overlayCurrentTranslation = " ";
+        private string overlayNoticePrefix = " ";
 
-        public string OriginalCaption { get; set; } = "";
-        public string TranslatedCaption { get; set; } = "";
+        public string OriginalCaption { get; set; } = string.Empty;
+        public string TranslatedCaption { get; set; } = string.Empty;
+
+        public Queue<TranslationHistoryEntry> Contexts { get; } = new(MAX_CONTEXTS);
+        public string ContextPreviousCaption => GetPreviousCaption(
+            Math.Min(Translator.Setting.NumContexts, Contexts.Count));
+
+        public IEnumerable<TranslationHistoryEntry> DisplayLogCards => Contexts.Reverse().Take(
+            Math.Min(Translator.Setting.DisplaySentences, Contexts.Count));
+
         public string DisplayOriginalCaption
         {
             get => displayOriginalCaption;
@@ -36,6 +47,7 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("DisplayTranslatedCaption");
             }
         }
+
         public string OverlayOriginalCaption
         {
             get => overlayOriginalCaption;
@@ -45,23 +57,26 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("OverlayOriginalCaption");
             }
         }
-        public string OverlayTranslatedCaption
+        public string OverlayNoticePrefix
         {
-            get => overlayTranslatedCaption;
+            get => overlayNoticePrefix;
             set
             {
-                overlayTranslatedCaption = value;
-                OnPropertyChanged("OverlayTranslatedCaption");
+                overlayNoticePrefix = value;
+                OnPropertyChanged("OverlayNoticePrefix");
             }
         }
-
-        public Queue<TranslationHistoryEntry> Contexts { get; } = new(6);
-        public IEnumerable<TranslationHistoryEntry> DisplayContexts => Contexts.Reverse();
-
-        public string ContextPreviousCaption => GetPreviousCaption(
-            Math.Min(Translator.Setting.MainWindow.CaptionLogMax, Contexts.Count));
+        public string OverlayCurrentTranslation
+        {
+            get => overlayCurrentTranslation;
+            set
+            {
+                overlayCurrentTranslation = value;
+                OnPropertyChanged("OverlayCurrentTranslation");
+            }
+        }
         public string OverlayPreviousTranslation => GetPreviousTranslation(
-            Math.Min(Translator.Setting.OverlayWindow.HistoryMax, Contexts.Count));
+            Math.Min(Translator.Setting.DisplaySentences, Contexts.Count));
 
         private Caption()
         {
@@ -80,22 +95,27 @@ namespace LiveCaptionsTranslator.models
             if (count <= 0)
                 return string.Empty;
 
-            var prefix = DisplayContexts
-                .Take(count)
-                .Reverse()
+            var prev = Contexts
+                .Reverse().Take(count).Reverse()
                 .Select(entry => entry.SourceText)
                 .Aggregate((accu, cur) =>
                 {
-                    if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
-                        accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                    if (!string.IsNullOrEmpty(accu))
+                    {
+                        if (Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
+                            accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                        else
+                            accu += TextUtil.isCJChar(accu[^1]) ? "" : " ";
+                    }
+                    cur = RegexPatterns.NoticePrefix().Replace(cur, "");
                     return accu + cur;
                 });
 
-            if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
-                prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ".";
-            if (!string.IsNullOrEmpty(prefix) && Encoding.UTF8.GetByteCount(prefix[^1].ToString()) < 2)
-                prefix += " ";
-            return prefix;
+            if (!string.IsNullOrEmpty(prev) && Array.IndexOf(TextUtil.PUNC_EOS, prev[^1]) == -1)
+                prev += TextUtil.isCJChar(prev[^1]) ? "。" : ".";
+            if (!string.IsNullOrEmpty(prev) && Encoding.UTF8.GetByteCount(prev[^1].ToString()) < 2)
+                prev += " ";
+            return prev;
         }
 
         public string GetPreviousTranslation(int count)
@@ -103,26 +123,29 @@ namespace LiveCaptionsTranslator.models
             if (count <= 0)
                 return string.Empty;
 
-            var prefix = DisplayContexts
-                .Take(count)
-                .Reverse()
-                .Select(entry =>
-                    entry == null || entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]")
-                        ? "" : entry.TranslatedText)
+            var prev = Contexts
+                .Reverse().Take(count).Reverse()
+                .Select(entry => entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]") ?
+                    "" : entry.TranslatedText)
                 .Aggregate((accu, cur) =>
                 {
-                    if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
-                        accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                    if (!string.IsNullOrEmpty(accu))
+                    {
+                        if (Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
+                            accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                        else
+                            accu += TextUtil.isCJChar(accu[^1]) ? "" : " ";
+                    }
                     cur = RegexPatterns.NoticePrefix().Replace(cur, "");
                     return accu + cur;
                 });
-            prefix = RegexPatterns.NoticePrefix().Replace(prefix, "");
 
-            if (!string.IsNullOrEmpty(prefix) && Array.IndexOf(TextUtil.PUNC_EOS, prefix[^1]) == -1)
-                prefix += TextUtil.isCJChar(prefix[^1]) ? "。" : ".";
-            if (!string.IsNullOrEmpty(prefix) && Encoding.UTF8.GetByteCount(prefix[^1].ToString()) < 2)
-                prefix += " ";
-            return prefix;
+            prev = RegexPatterns.NoticePrefix().Replace(prev, "");
+            if (!string.IsNullOrEmpty(prev) && Array.IndexOf(TextUtil.PUNC_EOS, prev[^1]) == -1)
+                prev += TextUtil.isCJChar(prev[^1]) ? "。" : ".";
+            if (!string.IsNullOrEmpty(prev) && Encoding.UTF8.GetByteCount(prev[^1].ToString()) < 2)
+                prev += " ";
+            return prev;
         }
 
         public void OnPropertyChanged([CallerMemberName] string propName = "")

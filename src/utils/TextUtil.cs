@@ -12,6 +12,8 @@ namespace LiveCaptionsTranslator.utils
         public const int LONG_THRESHOLD = 160;
         public const int VERYLONG_THRESHOLD = 220;
 
+        public const double SIM_THRESHOLD = 0.7;
+
         public static string ShortenDisplaySentence(string text, int maxByteLength)
         {
             while (Encoding.UTF8.GetByteCount(text) >= maxByteLength)
@@ -44,9 +46,15 @@ namespace LiveCaptionsTranslator.utils
 
         public static bool isCJChar(char ch)
         {
-            return (ch >= '\u4E00' && ch <= '\u9FFF') ||
-                   (ch >= '\u3400' && ch <= '\u4DBF') ||
-                   (ch >= '\u3040' && ch <= '\u30FF');
+            return
+                (ch >= '\u4E00' && ch <= '\u9FFF') ||   // CJ Unified Ideographs
+                (ch >= '\u3400' && ch <= '\u4DBF') ||   // CJ Unified Ideographs Extension A
+                (ch >= '\u3000' && ch <= '\u303F') ||   // CJ Symbols and Punctuation
+                (ch >= '\u3040' && ch <= '\u309F') ||   // Hiragana
+                (ch >= '\u30A0' && ch <= '\u30FF') ||   // Katakana
+                (ch >= '\u31F0' && ch <= '\u31FF') ||   // Katakana Phonetic Extensions
+                (ch >= '\u3200' && ch <= '\u32FF') ||   // Enclosed CJ Letters and Months
+                (ch >= '\u3300' && ch <= '\u33FF');     // CJ Unit Symbols
         }
 
         public static double Similarity(string text1, string text2)

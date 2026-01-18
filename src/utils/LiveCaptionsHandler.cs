@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Windows.Automation;
 
+using LiveCaptionsTranslator.apis;
+
 namespace LiveCaptionsTranslator.utils
 {
     public static class LiveCaptionsHandler

@@ -1,12 +1,12 @@
-﻿using LiveCaptionsTranslator.models;
-using LiveCaptionsTranslator.src.utils;
-using LiveCaptionsTranslator.utils;
-using Microsoft.Win32;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.Win32;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+
+using LiveCaptionsTranslator.models;
+using LiveCaptionsTranslator.utils;
 using TextBlock = System.Windows.Controls.TextBlock;
 
 namespace LiveCaptionsTranslator
@@ -127,16 +127,7 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCSV(saveFileDialog.FileName);
-
-                    string args = string.Format("/e, /select, \"{0}\"", saveFileDialog.FileName);
-                    ProcessStartInfo info = new()
-                    {
-                        FileName = "explorer",
-                        Arguments = args
-                    };
-                    Process.Start(info);
-
-                    SnackbarHost.Show("Saved Success", $"File saved to: {saveFileDialog.FileName}", "info");
+                    SnackbarHost.Show("Saved Success", $"File saved to: {saveFileDialog.FileName}");
                 }
                 catch (Exception ex)
                 {

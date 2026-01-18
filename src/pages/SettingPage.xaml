@@ -134,7 +134,7 @@
                         Text="Target Language" />
                     <ui:Flyout x:Name="TargetLangInfoFlyout">
                         <TextBlock Width="350" TextWrapping="Wrap">
-                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="&quot;There isn’t the target language I expected!&quot;" />
+                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="&quot;There isn’t the target language I expect!&quot;" />
                             <Run Text="&#x0A;You can directly edit the content of this combobox to customize the language, and it is recommended to follow the" />
                             <Run FontWeight="Bold" Text="BCP 47 language tag." />
                             <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
@@ -200,13 +200,13 @@
                     <ui:Flyout x:Name="CaptionLogMaxInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
                             <Run FontWeight="Bold" Text="Contexts:" />
-                            <Run Text="Determines the number of displayed cards when" />
-                            <Run FontWeight="Bold" Text="Log Cards" />
-                            <Run Text="is enabled, as well as the number of context sentences when" />
+                            <Run Text="Determines the number of context sentences when" />
                             <Run FontWeight="Bold" Text="Context Aware" />
                             <Run Text="is enabled." />
                             <Run FontWeight="Bold" Text="&#x0A;Overlay Sentences:" />
-                            <Run Text="The max number of sentences displayed in the translation box within the Overlay Window." />
+                            <Run Text="Determines the number of displayed cards when" />
+                            <Run FontWeight="Bold" Text="Log Cards" />
+                            <Run Text="is enabled, as well as the max number of sentences displayed in the Overlay Window." />
                             <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
                             <Run Text="The number of Contexts must be" />
                             <Run FontWeight="Bold" Text="greater than or equal" />
@@ -226,43 +226,38 @@
                         <ui:SymbolIcon Symbol="Info16" />
                     </Button>
                 </StackPanel>
-                <ComboBox
-                    x:Name="CaptionLogMax"
+                <ui:NumberBox
                     Width="135"
                     Height="30"
                     Padding="10,4,10,7"
                     FontSize="13.3"
-                    SelectedValue="{Binding MainWindow.CaptionLogMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Content"
-                    SelectionChanged="CaptionLogMax_SelectionChanged">
-                    <ComboBoxItem Content="1" />
-                    <ComboBoxItem Content="2" />
-                    <ComboBoxItem Content="3" />
-                    <ComboBoxItem Content="4" />
-                    <ComboBoxItem Content="5" />
-                    <ComboBoxItem Content="6" />
-                </ComboBox>
+                    ClearButtonEnabled="False"
+                    AcceptsExpression="False"
+                    SpinButtonPlacementMode="Inline"
+                    Maximum="10"
+                    Minimum="1"
+                    LargeChange="1"
+                    SmallChange="1"
+                    Value="{Binding NumContexts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ValueChanged="Contexts_ValueChanged" />
             </StackPanel>
 
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="Overlay Sentences" />
-                <ComboBox
-                    x:Name="OverlayHistoryMax"
+                <TextBlock Margin="2.5,0,0,5" Text="Display Sentences" />
+                <ui:NumberBox
                     Width="135"
                     Height="30"
                     Padding="10,4,10,7"
                     FontSize="13.3"
-                    SelectedValue="{Binding OverlayWindow.HistoryMax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValuePath="Content"
-                    SelectionChanged="OverlayHistoryMax_SelectionChanged">
-                    <ComboBoxItem Content="0" />
-                    <ComboBoxItem Content="1" />
-                    <ComboBoxItem Content="2" />
-                    <ComboBoxItem Content="3" />
-                    <ComboBoxItem Content="4" />
-                    <ComboBoxItem Content="5" />
-                    <ComboBoxItem Content="6" />
-                </ComboBox>
+                    ClearButtonEnabled="False"
+                    AcceptsExpression="False"
+                    SpinButtonPlacementMode="Inline"
+                    Maximum="6"
+                    Minimum="0"
+                    LargeChange="1"
+                    SmallChange="1"
+                    Value="{Binding DisplaySentences, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    ValueChanged="DisplaySentences_ValueChanged" />
             </StackPanel>
         </StackPanel>
 

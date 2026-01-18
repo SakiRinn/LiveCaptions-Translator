@@ -2,10 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using LiveCaptionsTranslator.models;
 using Wpf.Ui.Appearance;
 
+using LiveCaptionsTranslator.models;
 using LiveCaptionsTranslator.utils;
+using Wpf.Ui.Controls;
 
 namespace LiveCaptionsTranslator
 {
@@ -80,20 +81,18 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        private void CaptionLogMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Contexts_ValueChanged(object sender, NumberBoxValueChangedEventArgs args)
         {
-            if (Translator.Setting.OverlayWindow.HistoryMax > Translator.Setting.MainWindow.CaptionLogMax)
-                Translator.Setting.OverlayWindow.HistoryMax = Translator.Setting.MainWindow.CaptionLogMax;
-
-            while (Translator.Caption.Contexts.Count > Translator.Setting.MainWindow.CaptionLogMax)
-                Translator.Caption.Contexts.Dequeue();
-            Translator.Caption.OnPropertyChanged("DisplayContexts");
+            if (Translator.Setting.DisplaySentences > Translator.Setting.NumContexts)
+                Translator.Setting.DisplaySentences = Translator.Setting.NumContexts;
         }
 
-        private void OverlayHistoryMax_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DisplaySentences_ValueChanged(object sender, NumberBoxValueChangedEventArgs args)
         {
-            if (Translator.Setting.OverlayWindow.HistoryMax > Translator.Setting.MainWindow.CaptionLogMax)
-                Translator.Setting.MainWindow.CaptionLogMax = Translator.Setting.OverlayWindow.HistoryMax;
+            if (Translator.Setting.DisplaySentences > Translator.Setting.NumContexts)
+                Translator.Setting.NumContexts = Translator.Setting.DisplaySentences;
+            Translator.Caption.OnPropertyChanged("DisplayLogCards");
+            Translator.Caption.OnPropertyChanged("OverlayPreviousTranslation");
         }
 
         private void LiveCaptionsInfo_MouseEnter(object sender, MouseEventArgs e)
@@ -178,7 +177,7 @@ namespace LiveCaptionsTranslator
             if (languagesProp == null)
                 languagesProp = typeof(TranslateAPIConfig).GetProperty(
                     "SupportedLanguages", BindingFlags.Public | BindingFlags.Static);
-            
+
             var supportedLanguages = (Dictionary<string, string>)languagesProp.GetValue(null);
             TargetLangBox.ItemsSource = supportedLanguages.Keys;
 

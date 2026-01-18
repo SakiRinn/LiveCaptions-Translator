@@ -4,9 +4,11 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Security.Cryptography;
-using LiveCaptionsTranslator.models;
 
-namespace LiveCaptionsTranslator.utils
+using LiveCaptionsTranslator.models;
+using LiveCaptionsTranslator.utils;
+
+namespace LiveCaptionsTranslator.apis
 {
     public static class TranslateAPI
     {
@@ -61,7 +63,7 @@ namespace LiveCaptionsTranslator.utils
             };
             if (Translator.Setting.ContextAware)
             {
-                foreach (var entry in Translator.Caption.DisplayContexts)
+                foreach (var entry in Translator.Caption.DisplayLogCards)
                 {
                     string translatedText = entry.TranslatedText;
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
@@ -139,7 +141,7 @@ namespace LiveCaptionsTranslator.utils
             };
             if (Translator.Setting.ContextAware)
             {
-                foreach (var entry in Translator.Caption.DisplayContexts)
+                foreach (var entry in Translator.Caption.DisplayLogCards)
                 {
                     string translatedText = entry.TranslatedText;
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
@@ -201,7 +203,7 @@ namespace LiveCaptionsTranslator.utils
             };
             if (Translator.Setting.ContextAware)
             {
-                foreach (var entry in Translator.Caption.DisplayContexts)
+                foreach (var entry in Translator.Caption.DisplayLogCards)
                 {
                     string translatedText = entry.TranslatedText;
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))

@@ -2,10 +2,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using LiveCaptionsTranslator.models;
-using LiveCaptionsTranslator.utils;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+
+using LiveCaptionsTranslator.apis;
+using LiveCaptionsTranslator.models;
 using Button = Wpf.Ui.Controls.Button;
 using TextBlock = Wpf.Ui.Controls.TextBlock;
 

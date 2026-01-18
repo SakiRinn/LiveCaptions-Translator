@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Automation;
 
+using LiveCaptionsTranslator.apis;
 using LiveCaptionsTranslator.models;
 using LiveCaptionsTranslator.utils;
 
@@ -85,10 +86,7 @@ namespace LiveCaptionsTranslator
                 // Prevent adding the last sentence from previous running to log cards
                 // before the first sentence is completed.
                 if (fullText.IndexOfAny(TextUtil.PUNC_EOS) == -1 && Caption.Contexts.Count > 0)
-                {
-                    Caption.Contexts.Clear();
-                    Caption.OnPropertyChanged("DisplayContexts");
-                }
+                    ClearContexts();
 
                 // Get the last sentence.
                 int lastEOSIndex;
@@ -108,15 +106,13 @@ namespace LiveCaptionsTranslator
 
                 // `OverlayOriginalCaption`: The sentence to be displayed on Overlay Window.
                 Caption.OverlayOriginalCaption = latestCaption;
-                for (int historyCount = Math.Min(Setting.OverlayWindow.HistoryMax, Caption.Contexts.Count);
+                for (int historyCount = Math.Min(Setting.DisplaySentences, Caption.Contexts.Count);
                      historyCount > 0 && lastEOSIndex > 0;
                      historyCount--)
                 {
                     lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(TextUtil.PUNC_EOS);
                     Caption.OverlayOriginalCaption = fullText.Substring(lastEOSIndex + 1);
                 }
-                // Caption.DisplayOriginalCaption =
-                //     TextUtil.ShortenDisplaySentence(Caption.OverlayOriginalCaption, TextUtil.VERYLONG_THRESHOLD);
 
                 // `DisplayOriginalCaption`: The sentence to be displayed on Main Window.
                 if (string.CompareOrdinal(Caption.DisplayOriginalCaption, latestCaption) != 0)
@@ -204,7 +200,8 @@ namespace LiveCaptionsTranslator
                 {
                     Caption.TranslatedCaption = string.Empty;
                     Caption.DisplayTranslatedCaption = "[Paused]";
-                    Caption.OverlayTranslatedCaption = "[Paused]";
+                    Caption.OverlayNoticePrefix = "[Paused]";
+                    Caption.OverlayCurrentTranslation = string.Empty;
                 }
                 else if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
                              translatedText, string.Empty).Trim()) &&
@@ -217,15 +214,12 @@ namespace LiveCaptionsTranslator
 
                     // Overlay window
                     if (Caption.TranslatedCaption.Contains("[ERROR]") || Caption.TranslatedCaption.Contains("[WARNING]"))
-                        Caption.OverlayTranslatedCaption = Caption.TranslatedCaption;
+                        Caption.OverlayCurrentTranslation = Caption.TranslatedCaption;
                     else
                     {
                         var match = RegexPatterns.NoticePrefixAndTranslation().Match(Caption.TranslatedCaption);
-                        string noticePrefix = match.Groups[1].Value;
-                        string translation = match.Groups[2].Value;
-                        Caption.OverlayTranslatedCaption = noticePrefix + Caption.OverlayPreviousTranslation + translation;
-                        // Caption.OverlayTranslatedCaption =
-                        //     TextUtil.ShortenDisplaySentence(Caption.OverlayTranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
+                        Caption.OverlayNoticePrefix = match.Groups[1].Value.Trim();
+                        Caption.OverlayCurrentTranslation = match.Groups[2].Value.Trim();
                     }
                 }
 
@@ -240,13 +234,14 @@ namespace LiveCaptionsTranslator
         {
             string translatedText;
             bool isChoke = Array.IndexOf(TextUtil.PUNC_EOS, text[^1]) != -1;
-            
+
             try
             {
                 var sw = Setting.MainWindow.LatencyShow ? Stopwatch.StartNew() : null;
+
                 if (Setting.ContextAware && !TranslateAPI.IsLLMBased)
                 {
-                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.ContextPreviousCaption} <[{text}]>", token);
+                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.ContextPreviousCaption} 🔤{text}🔤", token);
                     translatedText = RegexPatterns.TargetSentence().Match(translatedText).Groups[1].Value;
                 }
                 else
@@ -254,10 +249,11 @@ namespace LiveCaptionsTranslator
                     translatedText = await TranslateAPI.TranslateFunction(text, token);
                     translatedText = translatedText.Replace("🔤", "");
                 }
+
                 if (sw != null)
                 {
                     sw.Stop();
-                    translatedText = $"[{sw.ElapsedMilliseconds} ms] " + translatedText;
+                    translatedText = $"[{sw.ElapsedMilliseconds,4} ms] " + translatedText;
                 }
             }
             catch (OperationCanceledException ex)
@@ -266,7 +262,6 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ERROR] Translation Failed: {ex.Message}");
                 return ($"[ERROR] Translation Failed: {ex.Message}", isChoke);
             }
 
@@ -297,11 +292,10 @@ namespace LiveCaptionsTranslator
             }
             catch (OperationCanceledException)
             {
-                return;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ERROR] Logging History Failed: {ex.Message}");
+                SnackbarHost.Show("Error!", $"Logging history failed: {ex.Message}", "error", 2);
             }
         }
 
@@ -317,34 +311,48 @@ namespace LiveCaptionsTranslator
             }
             catch (OperationCanceledException)
             {
-                return;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ERROR] Logging History Failed: {ex.Message}");
+                SnackbarHost.Show("Error!", $"Logging history failed: {ex.Message}", "error", 2);
             }
         }
 
-        public static async Task AddLogCard(CancellationToken token = default)
+        public static async Task AddContexts(CancellationToken token = default)
         {
             var lastLog = await SQLiteHistoryLogger.LoadLastTranslation(token);
             if (lastLog == null)
                 return;
 
-            if (Caption?.Contexts.Count >= Setting?.MainWindow.CaptionLogMax)
+            if (Caption?.Contexts.Count >= Caption.MAX_CONTEXTS)
                 Caption.Contexts.Dequeue();
             Caption?.Contexts.Enqueue(lastLog);
-            Caption?.OnPropertyChanged("DisplayContexts");
+
+            Caption?.OnPropertyChanged("DisplayLogCards");
+            Caption?.OnPropertyChanged("OverlayPreviousTranslation");
         }
 
+        public static void ClearContexts()
+        {
+            Caption?.Contexts.Clear();
+
+            Caption?.OnPropertyChanged("DisplayLogCards");
+            Caption?.OnPropertyChanged("OverlayPreviousTranslation");
+        }
+
+        // If this text is too similar to the last one, overwrite it when logging.
         public static async Task<bool> IsOverwrite(string originalText, CancellationToken token = default)
         {
-            // If this text is too similar to the last one, rewrite it when logging.
             string lastOriginalText = await SQLiteHistoryLogger.LoadLastSourceText(token);
             if (lastOriginalText == null)
                 return false;
+            
+            int minLen = Math.Min(originalText.Length, lastOriginalText.Length);
+            originalText = originalText.Substring(0, minLen);
+            lastOriginalText = lastOriginalText.Substring(0, minLen);
+            
             double similarity = TextUtil.Similarity(originalText, lastOriginalText);
-            return similarity > 0.66;
+            return similarity > TextUtil.SIM_THRESHOLD;
         }
     }
 }

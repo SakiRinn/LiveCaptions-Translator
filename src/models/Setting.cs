@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
 
-using LiveCaptionsTranslator.utils;
+using LiveCaptionsTranslator.apis;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -17,14 +17,15 @@ namespace LiveCaptionsTranslator.models
 
         private int maxIdleInterval = 50;
         private int maxSyncInterval = 3;
+        private int numContexts = 2;
+        private int displaySentences = 1;
         private bool contextAware = false;
 
         private string apiName;
         private string targetLanguage;
         private string prompt;
         private string? ignoredUpdateVersion;
-
-
+        
         private MainWindowState mainWindowState;
         private OverlayWindowState overlayWindowState;
         private Dictionary<string, string> windowBounds;
@@ -40,6 +41,24 @@ namespace LiveCaptionsTranslator.models
             {
                 maxSyncInterval = value;
                 OnPropertyChanged("MaxSyncInterval");
+            }
+        }
+        public int NumContexts
+        {
+            get => numContexts;
+            set
+            {
+                numContexts = value;
+                OnPropertyChanged("NumContexts");
+            }
+        }
+        public int DisplaySentences
+        {
+            get => displaySentences;
+            set
+            {
+                displaySentences = value;
+                OnPropertyChanged("DisplaySentences");
             }
         }
         public bool ContextAware
@@ -199,20 +218,6 @@ namespace LiveCaptionsTranslator.models
             };
         }
 
-        public Setting(string apiName, string targetLanguage, string prompt, string ignoredUpdateVersion,
-                       MainWindowState mainWindowState, OverlayWindowState overlayWindowState,
-                       Dictionary<string, List<TranslateAPIConfig>> configs, Dictionary<string, string> windowBounds)
-        {
-            this.apiName = apiName;
-            this.targetLanguage = targetLanguage;
-            this.prompt = prompt;
-            this.ignoredUpdateVersion = ignoredUpdateVersion;
-            this.mainWindowState = mainWindowState;
-            this.overlayWindowState = overlayWindowState;
-            this.configs = configs;
-            this.windowBounds = windowBounds;
-        }
-
         public static Setting Load()
         {
             string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), FILENAME);
@@ -290,7 +295,6 @@ namespace LiveCaptionsTranslator.models
         public static bool IsConfigExist()
         {
             string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), FILENAME);
-            Console.WriteLine($"Config file path: {jsonPath}");
             return File.Exists(jsonPath);
         }
     }

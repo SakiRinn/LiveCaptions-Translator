@@ -1,10 +1,11 @@
-﻿using LiveCaptionsTranslator.src.utils;
-using LiveCaptionsTranslator.utils;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
+
+using LiveCaptionsTranslator.utils;
+using LiveCaptionsTranslator.Utils;
 using Button = Wpf.Ui.Controls.Button;
 
 namespace LiveCaptionsTranslator
@@ -88,12 +89,12 @@ namespace LiveCaptionsTranslator
 
                 switch (OverlayWindow.OnlyMode)
                 {
-                    case 1:
-                        OverlayWindow.OnlyMode = 2;
-                        OverlayWindow.OnlyMode = 0;
+                    case CaptionVisible.TranslationOnly:
+                        OverlayWindow.OnlyMode = CaptionVisible.SubtitleOnly;
+                        OverlayWindow.OnlyMode = CaptionVisible.Both;
                         break;
-                    case 2:
-                        OverlayWindow.OnlyMode = 0;
+                    case CaptionVisible.SubtitleOnly:
+                        OverlayWindow.OnlyMode = CaptionVisible.Both;
                         break;
                 }
 
@@ -117,6 +118,8 @@ namespace LiveCaptionsTranslator
                 Translator.LogOnlyFlag = true;
                 symbolIcon.Filled = true;
             }
+
+            Translator.Caption.Contexts.Clear();
         }
 
         private void CaptionLogButton_Click(object sender, RoutedEventArgs e)

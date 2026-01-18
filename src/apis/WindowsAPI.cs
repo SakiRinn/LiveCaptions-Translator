@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace LiveCaptionsTranslator.utils
+namespace LiveCaptionsTranslator.apis
 {
     public static class WindowsAPI
     {
