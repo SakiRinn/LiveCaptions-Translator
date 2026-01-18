@@ -23,6 +23,11 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "ko-KR" },
             { "fr-FR", "fr-FR" },
             { "th-TH", "th-TH" },
+            { "ru-RU", "ru-RU" },
+            { "es-ES", "es-ES" },
+            { "pt-BR", "pt-BR" },
+            { "tr-TR", "tr-TR" },
+            { "ar-SA", "ar-SA" },
         };
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -172,6 +177,11 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "KO" },
             { "fr-FR", "FR" },
             { "th-TH", "TH" },
+            { "ru-RU", "RU" },
+            { "es-ES", "ES" },
+            { "pt-BR", "PT-BR" },
+            { "tr-TR", "TR" },
+            { "ar-SA", "AR" },
         };
 
         private string apiKey = "";
@@ -219,6 +229,11 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "ko" },
             { "fr-FR", "fr" },
             { "th-TH", "th" },
+            { "ru-RU", "ru" },
+            { "es-ES", "es" },
+            { "pt-BR", "pt" },
+            { "tr-TR", "tr" },
+            { "ar-SA", "ar" },
         };
 
         private string appKey = "";
@@ -269,6 +284,11 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "ko" },
             { "fr-FR", "fr" },
             { "th-TH", "th" },
+            { "ru-RU", "ru" },
+            { "es-ES", "es" },
+            { "pt-BR", "pt" },
+            { "tr-TR", "tr" },
+            { "ar-SA", "ar" },
         };
 
         private string apiKey = "";
@@ -337,6 +357,11 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "kor" },
             { "fr-FR", "fra" },
             { "th-TH", "th" },
+            { "ru-RU", "ru" },
+            { "es-ES", "spa" },
+            { "pt-BR", "pt" },
+            { "tr-TR", "tr" },
+            { "ar-SA", "ara" },
         };
 
         private string appId = "";
@@ -387,6 +412,11 @@ namespace LiveCaptionsTranslator.models
             { "ko-KR", "ko" },
             { "fr-FR", "fr" },
             { "th-TH", "th" },
+            { "ru-RU", "ru" },
+            { "es-ES", "es" },
+            { "pt-BR", "pt" },
+            { "tr-TR", "tr" },
+            { "ar-SA", "ar" },
         };
 
         private string apiKey = "";
