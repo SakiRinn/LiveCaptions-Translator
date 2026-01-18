@@ -357,12 +357,14 @@ namespace LiveCaptionsTranslator
                 (byte)Translator.Setting.OverlayWindow.Opacity, color.R, color.G, color.B));
         }
 
-        private void UpdateTranslationColor(SolidColorBrush brush, double brightRatio = 0.4)
+        private void UpdateTranslationColor(SolidColorBrush brush)
         {
             var color = brush.Color;
-            byte r = (byte)Math.Min(color.R + (255 - color.R) * brightRatio, 255);
-            byte g = (byte)Math.Min(color.G + (255 - color.G) * brightRatio, 255);
-            byte b = (byte)Math.Min(color.B + (255 - color.B) * brightRatio, 255);
+            
+            double target = 0.299 * color.R + 0.587 * color.G + 0.114 * color.B > 127 ? 0 : 255;
+            byte r = (byte)Math.Clamp(color.R + (target - color.R) * 0.3, 0, 255);
+            byte g = (byte)Math.Clamp(color.G + (target - color.G) * 0.4, 0, 255);
+            byte b = (byte)Math.Clamp(color.B + (target - color.B) * 0.3, 0, 255);
 
             NoticePrefixRun.Foreground = brush;
             PreviousTranslationRun.Foreground = brush;

@@ -43,11 +43,11 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     Clipboard.SetText(textBlock.Text);
-                    SnackbarHost.Show("Copied", textBlock.Text, "info", 1, 100, false);
+                    SnackbarHost.Show("Copied.", textBlock.Text, SnackbarType.Info, 100);
                 }
                 catch
                 {
-                    SnackbarHost.Show(title: "Copy Failed", type: "error");
+                    SnackbarHost.Show("Copy Failed.", string.Empty, SnackbarType.Error, 100);
                 }
                 await Task.Delay(500);
             }

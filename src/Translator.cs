@@ -295,7 +295,8 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show("Error!", $"Logging history failed: {ex.Message}", "error", 2);
+                SnackbarHost.Show("[ERROR] Logging history failed.", ex.Message, SnackbarType.Error, 
+                    timeout: 2, closeButton: true);
             }
         }
 
@@ -314,7 +315,8 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show("Error!", $"Logging history failed: {ex.Message}", "error", 2);
+                SnackbarHost.Show("[ERROR] Logging history failed.", ex.Message, SnackbarType.Error, 
+                    timeout: 2, closeButton: true);
             }
         }
 

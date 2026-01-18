@@ -119,7 +119,7 @@ namespace LiveCaptionsTranslator
                 symbolIcon.Filled = true;
             }
 
-            Translator.Caption.Contexts.Clear();
+            Translator.ClearContexts();
         }
 
         private void CaptionLogButton_Click(object sender, RoutedEventArgs e)
@@ -180,7 +180,8 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show("[ERROR] Update Check Failed.", ex.Message, "error");
+                SnackbarHost.Show("[ERROR] Update Check Failed.", ex.Message, SnackbarType.Error, 
+                    timeout: 2, closeButton: true);
 
                 return;
             }
@@ -215,7 +216,8 @@ namespace LiveCaptionsTranslator
                     }
                     catch (Exception ex)
                     {
-                        SnackbarHost.Show("[ERROR] Open Browser Failed.", ex.Message, "error");
+                        SnackbarHost.Show("[ERROR] Open Browser Failed.", ex.Message, SnackbarType.Error, 
+                            timeout: 2, closeButton: true);
                     }
                 }
                 else
