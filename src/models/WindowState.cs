@@ -10,7 +10,6 @@ namespace LiveCaptionsTranslator.models
 
         private bool topmost = true;
         private bool captionLogEnabled = false;
-        private int captionLogMax = 2;
         private bool latencyShow = false;
 
         public bool Topmost
@@ -29,15 +28,6 @@ namespace LiveCaptionsTranslator.models
             {
                 captionLogEnabled = value;
                 OnPropertyChanged("CaptionLogEnabled");
-            }
-        }
-        public int CaptionLogMax
-        {
-            get => captionLogMax;
-            set
-            {
-                captionLogMax = value;
-                OnPropertyChanged("CaptionLogMax");
             }
         }
         public bool LatencyShow
@@ -65,9 +55,9 @@ namespace LiveCaptionsTranslator.models
         private Color fontColor = Color.White;
         private FontBold fontBold = FontBold.None;
         private double fontStroke = 0.0;
+        
         private Color backgroundColor = Color.Black;
         private int opacity = 150;
-        private int historyMax = 1;
 
         public int FontSize
         {
@@ -121,15 +111,6 @@ namespace LiveCaptionsTranslator.models
             {
                 opacity = value;
                 OnPropertyChanged("Opacity");
-            }
-        }
-        public int HistoryMax
-        {
-            get => historyMax;
-            set
-            {
-                historyMax = value;
-                OnPropertyChanged("HistoryMax");
             }
         }
 

@@ -8,8 +8,8 @@ namespace LiveCaptionsTranslator.models
 {
     public class Caption : INotifyPropertyChanged
     {
-        public const int TAKE_MARGIN = 4;
-        
+        public const int MAX_CONTEXTS = 10;
+
         private static Caption? instance = null;
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -22,12 +22,13 @@ namespace LiveCaptionsTranslator.models
         public string OriginalCaption { get; set; } = string.Empty;
         public string TranslatedCaption { get; set; } = string.Empty;
 
-        public Queue<TranslationHistoryEntry> Contexts { get; } = new(6);
-        public IEnumerable<TranslationHistoryEntry> DisplayContexts => Contexts.Reverse();
-        
+        public Queue<TranslationHistoryEntry> Contexts { get; } = new(MAX_CONTEXTS);
         public string ContextPreviousCaption => GetPreviousCaption(
-            Math.Min(Translator.Setting.MainWindow.CaptionLogMax, Contexts.Count));
-        
+            Math.Min(Translator.Setting.NumContexts, Contexts.Count));
+
+        public IEnumerable<TranslationHistoryEntry> DisplayLogCards => Contexts.Reverse().Take(
+            Math.Min(Translator.Setting.DisplaySentences, Contexts.Count));
+
         public string DisplayOriginalCaption
         {
             get => displayOriginalCaption;
@@ -75,7 +76,7 @@ namespace LiveCaptionsTranslator.models
             }
         }
         public string OverlayPreviousTranslation => GetPreviousTranslation(
-            Math.Min(Translator.Setting.OverlayWindow.HistoryMax, Contexts.Count));
+            Math.Min(Translator.Setting.DisplaySentences, Contexts.Count));
 
         private Caption()
         {
@@ -93,10 +94,9 @@ namespace LiveCaptionsTranslator.models
         {
             if (count <= 0)
                 return string.Empty;
-            var entries = FilterDedupEntries(DisplayContexts.Take(count + TAKE_MARGIN).Reverse());
-            entries = entries[..Math.Min(count, entries.Count)];
 
-            var prev = entries
+            var prev = Contexts
+                .Reverse().Take(count).Reverse()
                 .Select(entry => entry.SourceText)
                 .Aggregate((accu, cur) =>
                 {
@@ -122,10 +122,9 @@ namespace LiveCaptionsTranslator.models
         {
             if (count <= 0)
                 return string.Empty;
-            var entries = FilterDedupEntries(DisplayContexts.Take(count + TAKE_MARGIN).Reverse());
-            entries = entries[..Math.Min(count, entries.Count)];
 
-            var prev = entries
+            var prev = Contexts
+                .Reverse().Take(count).Reverse()
                 .Select(entry => entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]") ?
                     "" : entry.TranslatedText)
                 .Aggregate((accu, cur) =>
@@ -140,7 +139,7 @@ namespace LiveCaptionsTranslator.models
                     cur = RegexPatterns.NoticePrefix().Replace(cur, "");
                     return accu + cur;
                 });
-            
+
             prev = RegexPatterns.NoticePrefix().Replace(prev, "");
             if (!string.IsNullOrEmpty(prev) && Array.IndexOf(TextUtil.PUNC_EOS, prev[^1]) == -1)
                 prev += TextUtil.isCJChar(prev[^1]) ? "。" : ".";
@@ -152,37 +151,6 @@ namespace LiveCaptionsTranslator.models
         public void OnPropertyChanged([CallerMemberName] string propName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-        }
-
-        private List<TranslationHistoryEntry> FilterDedupEntries(IEnumerable<TranslationHistoryEntry> entries)
-        {
-            var entryList = entries.ToList();
-            var filtered = new List<TranslationHistoryEntry>();
-
-            int i = 0;
-            while (i < entryList.Count)
-            {
-                var longest = entryList[i];
-                int j = i + 1;
-
-                while (j < entryList.Count)
-                {
-                    if (entryList[j].SourceText.StartsWith(longest.SourceText))
-                    {
-                        longest = entryList[j];
-                        j++;
-                    }
-                    else if (longest.SourceText.StartsWith(entryList[j].SourceText))
-                        j++;
-                    else
-                        break;
-                }
-
-                filtered.Add(longest);
-                i = j;
-            }
-
-            return filtered;
         }
     }
 }

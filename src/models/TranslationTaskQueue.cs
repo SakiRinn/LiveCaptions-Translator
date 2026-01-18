@@ -45,7 +45,7 @@
             // Log after translation.
             bool isOverwrite = await Translator.IsOverwrite(translationTask.OriginalText);
             if (!isOverwrite)
-                await Translator.AddLogCard();
+                await Translator.AddContexts();
             await Translator.Log(translationTask.OriginalText, translatedText, isOverwrite);
         }
     }

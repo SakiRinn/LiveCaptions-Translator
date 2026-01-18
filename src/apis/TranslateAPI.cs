@@ -63,7 +63,7 @@ namespace LiveCaptionsTranslator.apis
             };
             if (Translator.Setting.ContextAware)
             {
-                foreach (var entry in Translator.Caption.DisplayContexts)
+                foreach (var entry in Translator.Caption.DisplayLogCards)
                 {
                     string translatedText = entry.TranslatedText;
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
@@ -141,7 +141,7 @@ namespace LiveCaptionsTranslator.apis
             };
             if (Translator.Setting.ContextAware)
             {
-                foreach (var entry in Translator.Caption.DisplayContexts)
+                foreach (var entry in Translator.Caption.DisplayLogCards)
                 {
                     string translatedText = entry.TranslatedText;
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
@@ -203,7 +203,7 @@ namespace LiveCaptionsTranslator.apis
             };
             if (Translator.Setting.ContextAware)
             {
-                foreach (var entry in Translator.Caption.DisplayContexts)
+                foreach (var entry in Translator.Caption.DisplayLogCards)
                 {
                     string translatedText = entry.TranslatedText;
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))

@@ -56,7 +56,7 @@
         </ui:Card>
 
         <ui:Card
-            x:Name="CaptionLogCard"
+            x:Name="LogCards"
             Grid.Row="2"
             Margin="0,0,0,5"
             Padding="8"
@@ -64,9 +64,9 @@
             Background="Transparent"
             BorderBrush="#00000000">
             <ItemsControl
-                x:Name="CaptionLogItems"
+                x:Name="LogCardItems"
                 MinHeight="50"
-                ItemsSource="{Binding DisplayContexts, UpdateSourceTrigger=PropertyChanged}"
+                ItemsSource="{Binding DisplayLogCards, UpdateSourceTrigger=PropertyChanged}"
                 VirtualizingPanel.IsVirtualizing="True">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

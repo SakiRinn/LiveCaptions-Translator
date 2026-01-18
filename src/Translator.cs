@@ -86,7 +86,7 @@ namespace LiveCaptionsTranslator
                 // Prevent adding the last sentence from previous running to log cards
                 // before the first sentence is completed.
                 if (fullText.IndexOfAny(TextUtil.PUNC_EOS) == -1 && Caption.Contexts.Count > 0)
-                    ClearLogCards();
+                    ClearContexts();
 
                 // Get the last sentence.
                 int lastEOSIndex;
@@ -106,7 +106,7 @@ namespace LiveCaptionsTranslator
 
                 // `OverlayOriginalCaption`: The sentence to be displayed on Overlay Window.
                 Caption.OverlayOriginalCaption = latestCaption;
-                for (int historyCount = Math.Min(Setting.OverlayWindow.HistoryMax, Caption.Contexts.Count);
+                for (int historyCount = Math.Min(Setting.DisplaySentences, Caption.Contexts.Count);
                      historyCount > 0 && lastEOSIndex > 0;
                      historyCount--)
                 {
@@ -318,38 +318,41 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        public static async Task AddLogCard(CancellationToken token = default)
+        public static async Task AddContexts(CancellationToken token = default)
         {
             var lastLog = await SQLiteHistoryLogger.LoadLastTranslation(token);
             if (lastLog == null)
                 return;
 
-            if (Caption?.Contexts.Count >= Setting?.MainWindow.CaptionLogMax)
+            if (Caption?.Contexts.Count >= Caption.MAX_CONTEXTS)
                 Caption.Contexts.Dequeue();
             Caption?.Contexts.Enqueue(lastLog);
-            
-            Caption?.OnPropertyChanged("DisplayContexts");
-            Caption?.OnPropertyChanged("ContextPreviousCaption");
-            Caption?.OnPropertyChanged("OverlayPreviousTranslation");
-        }
-        
-        public static void ClearLogCards()
-        {
-            Caption?.Contexts.Clear();
-            
-            Caption?.OnPropertyChanged("DisplayContexts");
-            Caption?.OnPropertyChanged("ContextPreviousCaption");
+
+            Caption?.OnPropertyChanged("DisplayLogCards");
             Caption?.OnPropertyChanged("OverlayPreviousTranslation");
         }
 
+        public static void ClearContexts()
+        {
+            Caption?.Contexts.Clear();
+
+            Caption?.OnPropertyChanged("DisplayLogCards");
+            Caption?.OnPropertyChanged("OverlayPreviousTranslation");
+        }
+
+        // If this text is too similar to the last one, overwrite it when logging.
         public static async Task<bool> IsOverwrite(string originalText, CancellationToken token = default)
         {
-            // If this text is too similar to the last one, rewrite it when logging.
             string lastOriginalText = await SQLiteHistoryLogger.LoadLastSourceText(token);
             if (lastOriginalText == null)
                 return false;
+            
+            int minLen = Math.Min(originalText.Length, lastOriginalText.Length);
+            originalText = originalText.Substring(0, minLen);
+            lastOriginalText = lastOriginalText.Substring(0, minLen);
+            
             double similarity = TextUtil.Similarity(originalText, lastOriginalText);
-            return similarity > 0.66;
+            return similarity > TextUtil.SIM_THRESHOLD;
         }
     }
 }

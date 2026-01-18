@@ -81,12 +81,12 @@ namespace LiveCaptionsTranslator
             if (isCollapsed)
             {
                 TranslatedCaption_Row.Height = (GridLength)converter.ConvertFromString("Auto");
-                CaptionLogCard.Visibility = Visibility.Visible;
+                LogCards.Visibility = Visibility.Visible;
             }
             else
             {
                 TranslatedCaption_Row.Height = (GridLength)converter.ConvertFromString("*");
-                CaptionLogCard.Visibility = Visibility.Collapsed;
+                LogCards.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -94,8 +94,8 @@ namespace LiveCaptionsTranslator
         {
             if (Translator.Setting.MainWindow.CaptionLogEnabled)
                 (App.Current.MainWindow as MainWindow).AutoHeightAdjust(
-                    minHeight: CARD_HEIGHT * (Translator.Setting.MainWindow.CaptionLogMax + 1),
-                    maxHeight: CARD_HEIGHT * (Translator.Setting.MainWindow.CaptionLogMax + 1));
+                    minHeight: CARD_HEIGHT * (Translator.Setting.DisplaySentences + 1),
+                    maxHeight: CARD_HEIGHT * (Translator.Setting.DisplaySentences + 1));
             else
                 (App.Current.MainWindow as MainWindow).AutoHeightAdjust(
                     minHeight: (int)App.Current.MainWindow.MinHeight,
