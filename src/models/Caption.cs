@@ -23,7 +23,10 @@ namespace LiveCaptionsTranslator.models
         public string TranslatedCaption { get; set; } = string.Empty;
 
         public Queue<TranslationHistoryEntry> Contexts { get; } = new(MAX_CONTEXTS);
-        public string ContextPreviousCaption => GetPreviousCaption(
+        
+        public IEnumerable<TranslationHistoryEntry> AwareContexts => Contexts.Reverse().Take(
+            Math.Min(Translator.Setting.NumContexts, Contexts.Count)).Reverse();
+        public string AwareContextsCaption => GetPreviousCaption(
             Math.Min(Translator.Setting.NumContexts, Contexts.Count));
 
         public IEnumerable<TranslationHistoryEntry> DisplayLogCards => Contexts.Reverse().Take(

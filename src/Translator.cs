@@ -241,7 +241,7 @@ namespace LiveCaptionsTranslator
 
                 if (Setting.ContextAware && !TranslateAPI.IsLLMBased)
                 {
-                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.ContextPreviousCaption} 🔤{text}🔤", token);
+                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.AwareContextsCaption} 🔤 {text} 🔤", token);
                     translatedText = RegexPatterns.TargetSentence().Match(translatedText).Groups[1].Value;
                 }
                 else

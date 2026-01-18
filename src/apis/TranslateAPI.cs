@@ -61,9 +61,10 @@ namespace LiveCaptionsTranslator.apis
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
                 new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
             };
+            
             if (Translator.Setting.ContextAware)
             {
-                foreach (var entry in Translator.Caption.DisplayLogCards)
+                foreach (var entry in Translator.Caption.AwareContexts)
                 {
                     string translatedText = entry.TranslatedText;
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
@@ -139,9 +140,10 @@ namespace LiveCaptionsTranslator.apis
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
                 new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
             };
+            
             if (Translator.Setting.ContextAware)
             {
-                foreach (var entry in Translator.Caption.DisplayLogCards)
+                foreach (var entry in Translator.Caption.AwareContexts)
                 {
                     string translatedText = entry.TranslatedText;
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
@@ -201,9 +203,10 @@ namespace LiveCaptionsTranslator.apis
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
                 new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
             };
+            
             if (Translator.Setting.ContextAware)
             {
-                foreach (var entry in Translator.Caption.DisplayLogCards)
+                foreach (var entry in Translator.Caption.AwareContexts)
                 {
                     string translatedText = entry.TranslatedText;
                     if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
