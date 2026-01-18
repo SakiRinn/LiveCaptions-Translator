@@ -12,7 +12,7 @@ namespace LiveCaptionsTranslator.utils
         public const int LONG_THRESHOLD = 160;
         public const int VERYLONG_THRESHOLD = 220;
 
-        public const double SIM_THRESHOLD = 0.7;
+        public const double SIM_THRESHOLD = 0.6;
 
         public static string ShortenDisplaySentence(string text, int maxByteLength)
         {
