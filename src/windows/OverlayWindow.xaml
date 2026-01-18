@@ -65,10 +65,10 @@
                         <TextBlock
                             x:Name="TranslatedCaption"
                             FontSize="18"
-                            Foreground="#FFFFFFFF"
                             Style="{StaticResource CaptionBlockStyle}">
-                            <Run Text="{Binding OverlayNoticePrefix, UpdateSourceTrigger=PropertyChanged}" FontFamily="Consolas" />
-                            <Run Text="{Binding OverlayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}" />
+                            <Run x:Name="NoticePrefixRun" Text="{Binding OverlayNoticePrefix, UpdateSourceTrigger=PropertyChanged}" FontFamily="Consolas" />
+                            <Run x:Name="PreviousTranslationRun" Text="{Binding OverlayPreviousTranslation, Mode=OneWay}" />
+                            <Run x:Name="CurrentTranslationRun" Text="{Binding OverlayCurrentTranslation, UpdateSourceTrigger=PropertyChanged}" />
                         </TextBlock>
                     </local:StrokeDecorator>
                 </ui:Card>
@@ -87,7 +87,6 @@
                         <TextBlock
                             x:Name="OriginalCaption"
                             FontSize="15"
-                            Foreground="#FFFFFFFF"
                             Style="{StaticResource CaptionBlockStyle}"
                             Text="{Binding OverlayOriginalCaption, UpdateSourceTrigger=PropertyChanged}">
                         </TextBlock>

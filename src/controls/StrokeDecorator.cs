@@ -13,6 +13,7 @@ namespace LiveCaptionsTranslator
             typeof(Brush),
             typeof(StrokeDecorator),
             new FrameworkPropertyMetadata(Brushes.Black, FrameworkPropertyMetadataOptions.AffectsRender));
+
         public static readonly DependencyProperty StrokeThicknessProperty = DependencyProperty.Register(
             nameof(StrokeThickness),
             typeof(double),
@@ -24,6 +25,7 @@ namespace LiveCaptionsTranslator
             get => (Brush)GetValue(StrokeProperty);
             set => SetValue(StrokeProperty, value);
         }
+
         public double StrokeThickness
         {
             get => (double)GetValue(StrokeThicknessProperty);
@@ -34,34 +36,16 @@ namespace LiveCaptionsTranslator
         {
             base.OnVisualChildrenChanged(visualAdded, visualRemoved);
 
-            // Cancel old TextBlock listening
             if (visualRemoved is TextBlock oldTextBlock)
             {
-                var textProperty = TextBlock.TextProperty;
-                var binding = System.Windows.Data.BindingOperations.GetBindingExpression(oldTextBlock, textProperty);
-                if (binding != null)
-                    oldTextBlock.TargetUpdated -= OnTextBlockPropertyChanged;
+                UnregisterTextBlockListeners(oldTextBlock);
+                UnregisterRunListeners(oldTextBlock);
             }
 
-            // New TextBlock listening
             if (visualAdded is TextBlock newTextBlock)
             {
-                // Text
-                var descriptor = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(
-                    TextBlock.TextProperty, typeof(TextBlock));
-                descriptor?.AddValueChanged(newTextBlock, OnTextBlockPropertyChanged);
-                // Font Size
-                descriptor = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(
-                    TextBlock.FontSizeProperty, typeof(TextBlock));
-                descriptor?.AddValueChanged(newTextBlock, OnTextBlockPropertyChanged);
-                // Font Weight (Font Bold)
-                descriptor = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(
-                    TextBlock.FontWeightProperty, typeof(TextBlock));
-                descriptor?.AddValueChanged(newTextBlock, OnTextBlockPropertyChanged);
-                // Foreground (Font Color)
-                descriptor = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(
-                    TextBlock.ForegroundProperty, typeof(TextBlock));
-                descriptor?.AddValueChanged(newTextBlock, OnTextBlockPropertyChanged);
+                RegisterTextBlockListeners(newTextBlock);
+                RegisterRunListeners(newTextBlock);
             }
         }
 
@@ -110,18 +94,19 @@ namespace LiveCaptionsTranslator
                     formattedText.SetFontSize(GetValue(run, Run.FontSizeProperty, textBlock.FontSize), pos, len);
                     formattedText.SetFontWeight(GetValue(run, Run.FontWeightProperty, textBlock.FontWeight), pos, len);
                     formattedText.SetFontStyle(GetValue(run, Run.FontStyleProperty, textBlock.FontStyle), pos, len);
-                    formattedText.SetFontStretch(GetValue(run, Run.FontStretchProperty, textBlock.FontStretch), pos, len);
+                    formattedText.SetFontStretch(GetValue(run, Run.FontStretchProperty, textBlock.FontStretch), pos,
+                        len);
                     formattedText.SetForegroundBrush(run.Foreground ?? textBlock.Foreground, pos, len);
                     pos += len;
                 }
 
                 var geometry = formattedText.BuildGeometry(new Point(0, 0));
                 drawingContext.DrawGeometry(null, pen, geometry);
-                drawingContext.DrawGeometry(textBlock.Foreground, null, geometry);
+                drawingContext.DrawText(formattedText, new Point(0, 0));
             }
             else
             {
-                // No Inlines, process Text
+                // No Inlines, process the TextBlock
                 var formattedText = new FormattedText(
                     textBlock.Text ?? string.Empty,
                     CultureInfo.CurrentUICulture,
@@ -141,7 +126,7 @@ namespace LiveCaptionsTranslator
 
                 var geometry = formattedText.BuildGeometry(new Point(0, 0));
                 drawingContext.DrawGeometry(null, pen, geometry);
-                drawingContext.DrawGeometry(textBlock.Foreground, null, geometry);
+                drawingContext.DrawText(formattedText, new Point(0, 0));
             }
         }
 
@@ -152,6 +137,7 @@ namespace LiveCaptionsTranslator
                 Child.Measure(constraint);
                 return Child.DesiredSize;
             }
+
             return base.MeasureOverride(constraint);
         }
 
@@ -162,7 +148,82 @@ namespace LiveCaptionsTranslator
                 Child.Opacity = 0;
                 Child.Arrange(new Rect(arrangeSize));
             }
+
             return arrangeSize;
+        }
+
+        private void RegisterTextBlockListeners(TextBlock textBlock)
+        {
+            RegisterPropertyListener(textBlock, TextBlock.TextProperty);
+            RegisterPropertyListener(textBlock, TextBlock.FontSizeProperty);
+            RegisterPropertyListener(textBlock, TextBlock.FontWeightProperty);
+            RegisterPropertyListener(textBlock, TextBlock.FontStyleProperty);
+            RegisterPropertyListener(textBlock, TextBlock.FontFamilyProperty);
+            RegisterPropertyListener(textBlock, TextBlock.FontStretchProperty);
+            RegisterPropertyListener(textBlock, TextBlock.ForegroundProperty);
+            RegisterPropertyListener(textBlock, TextBlock.TextAlignmentProperty);
+            RegisterPropertyListener(textBlock, TextBlock.TextTrimmingProperty);
+            RegisterPropertyListener(textBlock, TextBlock.TextWrappingProperty);
+        }
+
+        private void UnregisterTextBlockListeners(TextBlock textBlock)
+        {
+            UnregisterPropertyListener(textBlock, TextBlock.TextProperty);
+            UnregisterPropertyListener(textBlock, TextBlock.FontSizeProperty);
+            UnregisterPropertyListener(textBlock, TextBlock.FontWeightProperty);
+            UnregisterPropertyListener(textBlock, TextBlock.FontStyleProperty);
+            UnregisterPropertyListener(textBlock, TextBlock.FontFamilyProperty);
+            UnregisterPropertyListener(textBlock, TextBlock.FontStretchProperty);
+            UnregisterPropertyListener(textBlock, TextBlock.ForegroundProperty);
+            UnregisterPropertyListener(textBlock, TextBlock.TextAlignmentProperty);
+            UnregisterPropertyListener(textBlock, TextBlock.TextTrimmingProperty);
+            UnregisterPropertyListener(textBlock, TextBlock.TextWrappingProperty);
+        }
+
+        private void RegisterRunListeners(TextBlock textBlock)
+        {
+            if (textBlock.Inlines == null)
+                return;
+            foreach (var run in textBlock.Inlines.OfType<Run>())
+            {
+                RegisterPropertyListener(run, Run.ForegroundProperty);
+                RegisterPropertyListener(run, Run.FontSizeProperty);
+                RegisterPropertyListener(run, Run.FontWeightProperty);
+                RegisterPropertyListener(run, Run.FontStyleProperty);
+                RegisterPropertyListener(run, Run.FontFamilyProperty);
+                RegisterPropertyListener(run, Run.FontStretchProperty);
+                RegisterPropertyListener(run, Run.TextDecorationsProperty);
+            }
+        }
+
+        private void UnregisterRunListeners(TextBlock textBlock)
+        {
+            if (textBlock.Inlines == null)
+                return;
+            foreach (var run in textBlock.Inlines.OfType<Run>())
+            {
+                UnregisterPropertyListener(run, Run.ForegroundProperty);
+                UnregisterPropertyListener(run, Run.FontSizeProperty);
+                UnregisterPropertyListener(run, Run.FontWeightProperty);
+                UnregisterPropertyListener(run, Run.FontStyleProperty);
+                UnregisterPropertyListener(run, Run.FontFamilyProperty);
+                UnregisterPropertyListener(run, Run.FontStretchProperty);
+                UnregisterPropertyListener(run, Run.TextDecorationsProperty);
+            }
+        }
+
+        private void RegisterPropertyListener(DependencyObject obj, DependencyProperty property)
+        {
+            var descriptor = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(
+                property, obj.GetType());
+            descriptor?.AddValueChanged(obj, OnTextBlockPropertyChanged);
+        }
+
+        private void UnregisterPropertyListener(DependencyObject obj, DependencyProperty property)
+        {
+            var descriptor = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(
+                property, obj.GetType());
+            descriptor?.RemoveValueChanged(obj, OnTextBlockPropertyChanged);
         }
 
         private void OnTextBlockPropertyChanged(object sender, EventArgs e)
@@ -172,9 +233,8 @@ namespace LiveCaptionsTranslator
 
         private static T GetValue<T>(DependencyObject obj, DependencyProperty property, T fallback)
         {
-            return obj.ReadLocalValue(property) != DependencyProperty.UnsetValue
-                ? (T)obj.GetValue(property)
-                : fallback;
+            return obj.ReadLocalValue(property) != DependencyProperty.UnsetValue ? 
+                (T)obj.GetValue(property) : fallback;
         }
     }
 }

@@ -43,9 +43,9 @@ namespace LiveCaptionsTranslator.Utils
         public const int MIN_OPACITY = 1;
         public const int DELTA_OPACITY = 25;
 
-        public const double MAX_STROKE = 5.0;
+        public const double MAX_STROKE = 7.5;
         public const double MIN_STROKE = 0.0;
-        public const double DELTA_STROKE = 1.0;
+        public const double DELTA_STROKE = 1.5;
         
         public const int DELTA_OVERLAY_HEIGHT = 40;
     }

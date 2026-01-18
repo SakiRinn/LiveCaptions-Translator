@@ -16,7 +16,7 @@ namespace LiveCaptionsTranslator.models
         private string displayOriginalCaption = string.Empty;
         private string displayTranslatedCaption = string.Empty;
         private string overlayOriginalCaption = " ";
-        private string overlayTranslatedCaption = " ";
+        private string overlayCurrentTranslation = " ";
         private string overlayNoticePrefix = " ";
 
         public string OriginalCaption { get; set; } = string.Empty;
@@ -24,6 +24,9 @@ namespace LiveCaptionsTranslator.models
 
         public Queue<TranslationHistoryEntry> Contexts { get; } = new(6);
         public IEnumerable<TranslationHistoryEntry> DisplayContexts => Contexts.Reverse();
+        
+        public string ContextPreviousCaption => GetPreviousCaption(
+            Math.Min(Translator.Setting.MainWindow.CaptionLogMax, Contexts.Count));
         
         public string DisplayOriginalCaption
         {
@@ -62,19 +65,15 @@ namespace LiveCaptionsTranslator.models
                 OnPropertyChanged("OverlayNoticePrefix");
             }
         }
-        public string OverlayTranslatedCaption
+        public string OverlayCurrentTranslation
         {
-            get => overlayTranslatedCaption;
+            get => overlayCurrentTranslation;
             set
             {
-                overlayTranslatedCaption = value;
-                OnPropertyChanged("OverlayTranslatedCaption");
+                overlayCurrentTranslation = value;
+                OnPropertyChanged("OverlayCurrentTranslation");
             }
         }
-        
-
-        public string ContextPreviousCaption => GetPreviousCaption(
-            Math.Min(Translator.Setting.MainWindow.CaptionLogMax, Contexts.Count));
         public string OverlayPreviousTranslation => GetPreviousTranslation(
             Math.Min(Translator.Setting.OverlayWindow.HistoryMax, Contexts.Count));
 
@@ -92,17 +91,23 @@ namespace LiveCaptionsTranslator.models
 
         public string GetPreviousCaption(int count)
         {
-            var entries = FilterDedupEntries(DisplayContexts.Take(count + TAKE_MARGIN).Reverse());
-            if (entries.Count == 0)
+            if (count <= 0)
                 return string.Empty;
+            var entries = FilterDedupEntries(DisplayContexts.Take(count + TAKE_MARGIN).Reverse());
             entries = entries[..Math.Min(count, entries.Count)];
 
             var prev = entries
                 .Select(entry => entry.SourceText)
                 .Aggregate((accu, cur) =>
                 {
-                    if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
-                        accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                    if (!string.IsNullOrEmpty(accu))
+                    {
+                        if (Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
+                            accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                        else
+                            accu += TextUtil.isCJChar(accu[^1]) ? "" : " ";
+                    }
+                    cur = RegexPatterns.NoticePrefix().Replace(cur, "");
                     return accu + cur;
                 });
 
@@ -115,9 +120,9 @@ namespace LiveCaptionsTranslator.models
 
         public string GetPreviousTranslation(int count)
         {
-            var entries = FilterDedupEntries(DisplayContexts.Take(count + TAKE_MARGIN).Reverse());
-            if (entries.Count == 0)
+            if (count <= 0)
                 return string.Empty;
+            var entries = FilterDedupEntries(DisplayContexts.Take(count + TAKE_MARGIN).Reverse());
             entries = entries[..Math.Min(count, entries.Count)];
 
             var prev = entries
@@ -125,8 +130,13 @@ namespace LiveCaptionsTranslator.models
                     "" : entry.TranslatedText)
                 .Aggregate((accu, cur) =>
                 {
-                    if (!string.IsNullOrEmpty(accu) && Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
-                        accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                    if (!string.IsNullOrEmpty(accu))
+                    {
+                        if (Array.IndexOf(TextUtil.PUNC_EOS, accu[^1]) == -1)
+                            accu += TextUtil.isCJChar(accu[^1]) ? "。" : ". ";
+                        else
+                            accu += TextUtil.isCJChar(accu[^1]) ? "" : " ";
+                    }
                     cur = RegexPatterns.NoticePrefix().Replace(cur, "");
                     return accu + cur;
                 });

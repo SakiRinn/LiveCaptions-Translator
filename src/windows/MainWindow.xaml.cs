@@ -118,6 +118,8 @@ namespace LiveCaptionsTranslator
                 Translator.LogOnlyFlag = true;
                 symbolIcon.Filled = true;
             }
+
+            Translator.Caption.Contexts.Clear();
         }
 
         private void CaptionLogButton_Click(object sender, RoutedEventArgs e)

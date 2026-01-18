@@ -86,10 +86,7 @@ namespace LiveCaptionsTranslator
                 // Prevent adding the last sentence from previous running to log cards
                 // before the first sentence is completed.
                 if (fullText.IndexOfAny(TextUtil.PUNC_EOS) == -1 && Caption.Contexts.Count > 0)
-                {
-                    Caption.Contexts.Clear();
-                    Caption.OnPropertyChanged("DisplayContexts");
-                }
+                    ClearLogCards();
 
                 // Get the last sentence.
                 int lastEOSIndex;
@@ -203,7 +200,8 @@ namespace LiveCaptionsTranslator
                 {
                     Caption.TranslatedCaption = string.Empty;
                     Caption.DisplayTranslatedCaption = "[Paused]";
-                    Caption.OverlayTranslatedCaption = "[Paused]";
+                    Caption.OverlayNoticePrefix = "[Paused]";
+                    Caption.OverlayCurrentTranslation = string.Empty;
                 }
                 else if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
                              translatedText, string.Empty).Trim()) &&
@@ -216,12 +214,12 @@ namespace LiveCaptionsTranslator
 
                     // Overlay window
                     if (Caption.TranslatedCaption.Contains("[ERROR]") || Caption.TranslatedCaption.Contains("[WARNING]"))
-                        Caption.OverlayTranslatedCaption = Caption.TranslatedCaption;
+                        Caption.OverlayCurrentTranslation = Caption.TranslatedCaption;
                     else
                     {
                         var match = RegexPatterns.NoticePrefixAndTranslation().Match(Caption.TranslatedCaption);
-                        Caption.OverlayNoticePrefix = match.Groups[1].Value.TrimEnd();
-                        Caption.OverlayTranslatedCaption = Caption.OverlayPreviousTranslation + match.Groups[2].Value;
+                        Caption.OverlayNoticePrefix = match.Groups[1].Value.Trim();
+                        Caption.OverlayCurrentTranslation = match.Groups[2].Value.Trim();
                     }
                 }
 
@@ -236,11 +234,11 @@ namespace LiveCaptionsTranslator
         {
             string translatedText;
             bool isChoke = Array.IndexOf(TextUtil.PUNC_EOS, text[^1]) != -1;
-            
+
             try
             {
                 var sw = Setting.MainWindow.LatencyShow ? Stopwatch.StartNew() : null;
-                
+
                 if (Setting.ContextAware && !TranslateAPI.IsLLMBased)
                 {
                     translatedText = await TranslateAPI.TranslateFunction($"{Caption.ContextPreviousCaption} 🔤{text}🔤", token);
@@ -251,7 +249,7 @@ namespace LiveCaptionsTranslator
                     translatedText = await TranslateAPI.TranslateFunction(text, token);
                     translatedText = translatedText.Replace("🔤", "");
                 }
-                
+
                 if (sw != null)
                 {
                     sw.Stop();
@@ -264,7 +262,6 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ERROR] Translation Failed: {ex.Message}");
                 return ($"[ERROR] Translation Failed: {ex.Message}", isChoke);
             }
 
@@ -295,11 +292,10 @@ namespace LiveCaptionsTranslator
             }
             catch (OperationCanceledException)
             {
-                return;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ERROR] Logging History Failed: {ex.Message}");
+                SnackbarHost.Show("Error!", $"Logging history failed: {ex.Message}", "error", 2);
             }
         }
 
@@ -315,11 +311,10 @@ namespace LiveCaptionsTranslator
             }
             catch (OperationCanceledException)
             {
-                return;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[ERROR] Logging History Failed: {ex.Message}");
+                SnackbarHost.Show("Error!", $"Logging history failed: {ex.Message}", "error", 2);
             }
         }
 
@@ -332,7 +327,19 @@ namespace LiveCaptionsTranslator
             if (Caption?.Contexts.Count >= Setting?.MainWindow.CaptionLogMax)
                 Caption.Contexts.Dequeue();
             Caption?.Contexts.Enqueue(lastLog);
+            
             Caption?.OnPropertyChanged("DisplayContexts");
+            Caption?.OnPropertyChanged("ContextPreviousCaption");
+            Caption?.OnPropertyChanged("OverlayPreviousTranslation");
+        }
+        
+        public static void ClearLogCards()
+        {
+            Caption?.Contexts.Clear();
+            
+            Caption?.OnPropertyChanged("DisplayContexts");
+            Caption?.OnPropertyChanged("ContextPreviousCaption");
+            Caption?.OnPropertyChanged("OverlayPreviousTranslation");
         }
 
         public static async Task<bool> IsOverwrite(string originalText, CancellationToken token = default)
