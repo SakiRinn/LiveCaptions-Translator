@@ -208,9 +208,9 @@
                             <Run FontWeight="Bold" Text="Log Cards" />
                             <Run Text="is enabled, as well as the max number of sentences displayed in the Overlay Window." />
                             <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
-                            <Run Text="The number of Contexts must be" />
+                            <Run Text="Contexts must be" />
                             <Run FontWeight="Bold" Text="greater than or equal" />
-                            <Run Text="to the number of Overlay Sentences. If not met, the program will automatically adjust them." />
+                            <Run Text="Display Sentences. If not met, the program will automatically adjust them." />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
