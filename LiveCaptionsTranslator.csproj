@@ -39,6 +39,30 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Page Update="src\localization\en-us.xaml" />
+		<Page Update="src\localization\zh-cn.xaml" />
+		<Page Update="src\localization\ar.xaml" />
+		<Page Update="src\localization\bn.xaml" />
+		<Page Update="src\localization\zh-tw.xaml" />
+		<Page Update="src\localization\cs-cz.xaml" />
+		<Page Update="src\localization\de-de.xaml" />
+		<Page Update="src\localization\es-mx.xaml" />
+		<Page Update="src\localization\fr-fr.xaml" />
+		<Page Update="src\localization\it-it.xaml" />
+		<Page Update="src\localization\ja-jp.xaml" />
+		<Page Update="src\localization\ko-kr.xaml" />
+		<Page Update="src\localization\lt-lt.xaml" />
+		<Page Update="src\localization\nl-nl.xaml" />
+		<Page Update="src\localization\pl-pl.xaml" />
+		<Page Update="src\localization\pt-br.xaml" />
+		<Page Update="src\localization\pt-pt.xaml" />
+		<Page Update="src\localization\ru-ru.xaml" />
+		<Page Update="src\localization\sv-se.xaml" />
+		<Page Update="src\localization\tr-tr.xaml" />
+		<Page Update="src\localization\vi-vn.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Update="Properties\AssemblyInfo.tt">
 	    <Generator>TextTemplatingFileGenerator</Generator>
 	    <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
