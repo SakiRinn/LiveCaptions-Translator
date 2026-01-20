@@ -6,9 +6,10 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="Getting Started"
+    Title="{DynamicResource W0}"
     Width="700"
-    Height="490"
+    MaxWidth="800"
+    Height="540"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     ExtendsContentIntoTitleBar="True"
@@ -29,8 +30,8 @@
             ShowMaximize="False"
             ShowMinimize="False">
             <ui:TitleBar.Header>
-                <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center">
-                    Getting Started
+                <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap">
+                    <Run Text="{DynamicResource W0}" />
                 </ui:TextBlock>
             </ui:TitleBar.Header>
         </ui:TitleBar>
@@ -41,40 +42,111 @@
                 HorizontalAlignment="Left"
                 FontSize="24"
                 FontWeight="Bold"
-                Text="Welcome to LiveCaptions Translator!"
-                TextAlignment="Left" />
+                Text="{DynamicResource W1}"
+                TextAlignment="Left"
+                TextWrapping="Wrap" />
+
             <ui:TextBlock
-                Margin="20,10,20,10"
+                Margin="20,0,20,0"
                 TextAlignment="Left"
                 TextWrapping="Wrap">
-                <Run Text="LiveCaptions Translator is based on Windows LiveCaptions." />
-                <Run Text="Before your first running, you need to configure it according to the following steps:&#x0A;" />
-                <Run Text="&#x0A;1. Open Windows LiveCaptions and follow the guide to download the necessary files for on-device speech recognition and language packs." />
-                <Run Text="&#x0A;2. Click the" />
-                <Run FontWeight="Bold" Text="⚙️ gear" />
-                <Run Text="icon in Windows LiveCaptions to open the settings menu, and select" />
-                <Run FontWeight="Bold" Text="&quot;Position &gt; Overlaid on screen&quot;" />
-                <Run Text=".&#x0A;3. Click the" />
-                <Run FontWeight="Bold" Text="&quot;Hide&quot;" />
-                <Run Text="button located in the setting page of LiveCaptions Translator to hide Windows LiveCaptions.&#x0A;" />
-                <Run Text="&#x0A;The program has automatically navigated to the setting page and opened Windows LiveCaptions." />
-                <Run Text="After completing the configuration, you can switch back to the main page and enjoy real-time audio translation.&#x0A;" />
-                <Run Text="&#x0A;For more details, visit our wiki: " />
+                <Run Text="{DynamicResource W2}" />
+                <Run Text="&#x0A;" />
+                <Run Text="{DynamicResource W3}" />
+                <Run Text="&#x0A;" />
+
+                <!-- Step 1 -->
+                <Run Text="{DynamicResource W4}" />
+                <Run Text="&#x0A;" />
+
+                <!-- Step 2 -->
+                <Run Text="{DynamicResource W5}" />
+                <Run Text="&#xA0;" />
+                <Run FontWeight="Bold" Text="{DynamicResource W6}" />
+                <Run Text="&#xA0;" />
+                <Run Text="{DynamicResource W7}" />
+                <Run Text="&#xA0;" />
+                <Run FontWeight="Bold" Text="{DynamicResource W8}" />
+                <Run Text=".&#x0A;" />
+
+                <!-- Step 3 -->
+                <Run Text="{DynamicResource W9}" />
+                <Run Text="&#xA0;" />
+                <Run FontWeight="Bold" Text="{DynamicResource W10}" />
+                <Run Text="&#xA0;" />
+                <Run Text="{DynamicResource W11}" />
+                <Run Text="&#x0A;" />
+
+                <Run Text="&#x0A;" />
+                <Run Text="{DynamicResource W12}" />
+                <Run Text="&#x0A;" />
+                <Run Text="{DynamicResource W13}" />
+                <Run Text="&#x0A;" />
+
+                <Run Text="&#x0A;" />
+                <Run Text="{DynamicResource W14}" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator/wiki" RequestNavigate="Hyperlink_RequestNavigate">
-                    https://github.com/SakiRinn/LiveCaptions-Translator/wiki
+                    <Run Text="{DynamicResource W15}" />
                 </Hyperlink>
-                <Run FontWeight="Bold" Text="&#x0A;&#x0A;Tip:" />
-                <Run Text="To change the" />
-                <Run FontWeight="DemiBold" TextDecorations="Underline" Text="Source Language" />
-                <Run Text=", please [Show] LiveCaptions on the setting page and do it in Windows LiveCaptions." />
+
+                <Run Text="&#x0A;" />
+                <Run Text="&#x0A;" />
+                <Run FontWeight="Bold" Text="{DynamicResource W16}" />
+                <Run Text="&#x0A;" />
+                <Run Text="{DynamicResource W17}" />
+                <Run FontWeight="DemiBold" TextDecorations="Underline" Text="{DynamicResource W18}" />
+                <Run Text="{DynamicResource W19}" />
             </ui:TextBlock>
 
-            <ui:Button
-                Margin="0,10,0,0"
-                Padding="30,10,30,10"
-                HorizontalAlignment="Center"
-                Click="CloseButton_Click"
-                Content="I have fully understood and configured." />
+            <!-- Bottom row: language selector (left) + close button (center) -->
+            <Grid Margin="20,10,20,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:SymbolIcon Symbol="Globe20" Margin="0,0,8,0" />
+                    <ComboBox
+                        x:Name="WelcomeLanguageBox"
+                        Width="150"
+                        Height="30"
+                        Padding="10,4,10,7"
+                        FontSize="13.3"
+                        SelectionChanged="WelcomeLanguageBox_SelectionChanged">
+                        <ComboBoxItem Content="English" />
+                        <ComboBoxItem Content="&#x7B80;&#x4F53;&#x4E2D;&#x6587;" />
+                        <ComboBoxItem Content="&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;" />
+                        <ComboBoxItem Content="&#x9AC;&#x9BE;&#x982;&#x9B2;&#x9BE;" />
+
+                        <ComboBoxItem Content="&#x10C;e&#x161;tina" />
+                        <ComboBoxItem Content="Deutsch" />
+                        <ComboBoxItem Content="Espa&#xF1;ol (M&#xE9;xico)" />
+                        <ComboBoxItem Content="Fran&#xE7;ais" />
+                        <ComboBoxItem Content="Italiano" />
+                        <ComboBoxItem Content="&#x65E5;&#x672C;&#x8A9E;" />
+                        <ComboBoxItem Content="&#xD55C;&#xAD6D;&#xC5B4;" />
+                        <ComboBoxItem Content="Lietuvi&#x173;" />
+                        <ComboBoxItem Content="Nederlands" />
+                        <ComboBoxItem Content="Polski" />
+                        <ComboBoxItem Content="Portugu&#xEA;s (Brasil)" />
+                        <ComboBoxItem Content="Portugu&#xEA;s (Portugal)" />
+                        <ComboBoxItem Content="&#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;" />
+                        <ComboBoxItem Content="Svenska" />
+                        <ComboBoxItem Content="T&#xFC;rk&#xE7;e" />
+                        <ComboBoxItem Content="Ti&#x1EBF;ng Vi&#x1EC7;t" />
+                        <ComboBoxItem Content="&#x7E41;&#x9AD4;&#x4E2D;&#x6587; (&#x53F0;&#x7063;)" />
+                    </ComboBox>
+                </StackPanel>
+
+                <ui:Button
+                    Grid.Column="1"
+                    Padding="30,10,30,10"
+                    HorizontalAlignment="Center"
+                    Click="CloseButton_Click"
+                    Content="{DynamicResource W20}" />
+            </Grid>
         </StackPanel>
     </Grid>
 </ui:FluentWindow>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- SettingPage strings (compact numeric keys) -->
+    <sys:String x:Key="S0">Napisy na żywo</sys:String>
+    <sys:String x:Key="S1">Po wersji Windows 11 24H2 można zmienić tylko</sys:String>
+    <sys:String x:Key="S2">Język źródłowy</sys:String>
+    <sys:String x:Key="S3">w Napisy na żywo.</sys:String>
+    <sys:String x:Key="S4">Uwaga:</sys:String>
+    <sys:String x:Key="S5">Proszę kliknąć</sys:String>
+    <sys:String x:Key="S6">"Ukryj"</sys:String>
+    <sys:String x:Key="S7">aby ukryć Napisy na żywo, zamiast zamykać je bezpośrednio.</sys:String>
+
+    <sys:String x:Key="S8">Pokaż</sys:String>
+
+    <!-- LiveCaptions toggle button text -->
+    <sys:String x:Key="S45">Ukryj</sys:String>
+    <sys:String x:Key="S46">Pokaż</sys:String>
+
+    <sys:String x:Key="S9">Interwał API</sys:String>
+    <sys:String x:Key="S10">Określa częstotliwość wywołań API tłumaczenia. Im mniejsza wartość, tym częstsze wywołania.</sys:String>
+    <sys:String x:Key="S11">API tłumaczenia wywoływane jest raz po zmianie napisu</sys:String>
+    <sys:String x:Key="S12">[Interwał API]</sys:String>
+    <sys:String x:Key="S13">razy.</sys:String>
+
+    <sys:String x:Key="S14">API tłumaczenia</sys:String>
+    <sys:String x:Key="S15">Poza Google i Google2, wszystkie inne API wymagają konfiguracji przed użyciem.</sys:String>
+
+    <sys:String x:Key="S16">Język docelowy</sys:String>
+    <sys:String x:Key="S17">Nie ma oczekiwanego języka docelowego!</sys:String>
+    <sys:String x:Key="S18">Możesz bezpośrednio edytować zawartość tego pola kombi, aby dostosować język; zaleca się stosowanie</sys:String>
+    <sys:String x:Key="S19">tagu językowego BCP 47.</sys:String>
+    <sys:String x:Key="S20">Niektóre API (np. DeepL) wymagają innego sposobu określenia języka docelowego; zobacz ich dokumentację.</sys:String>
+    <sys:String x:Key="S21">Nie trzeba o tym myśleć dla wbudowanych języków docelowych, ponieważ mamy mapowanie tagów. Jeśli oczekiwany język nie znajduje się na liście, miej to na uwadze.</sys:String>
+
+    <sys:String x:Key="S22">Ustawienia API</sys:String>
+    <sys:String x:Key="S23">Otwórz</sys:String>
+
+    <sys:String x:Key="S24">Pokaż opóźnienie</sys:String>
+    <sys:String x:Key="S25">Wyłączone</sys:String>
+    <sys:String x:Key="S26">Włączone</sys:String>
+
+    <sys:String x:Key="S27">Konteksty</sys:String>
+    <sys:String x:Key="S28">Konteksty:</sys:String>
+    <sys:String x:Key="S29">Określa liczbę zdań kontekstowych, gdy</sys:String>
+    <sys:String x:Key="S30">Świadomość kontekstu</sys:String>
+    <sys:String x:Key="S31">jest włączona.</sys:String>
+    <sys:String x:Key="S32">Zdania w nakładce:</sys:String>
+    <sys:String x:Key="S33">Określa liczbę wyświetlanych kart, gdy</sys:String>
+    <sys:String x:Key="S34">Karty logów</sys:String>
+    <sys:String x:Key="S35">są włączone, a także maksymalną liczbę zdań wyświetlanych w oknie nakładki.</sys:String>
+    <sys:String x:Key="S36">Konteksty muszą być</sys:String>
+    <sys:String x:Key="S37">większe lub równe</sys:String>
+    <sys:String x:Key="S38">Wyświetlane zdania</sys:String>
+    <sys:String x:Key="S39">. Jeśli nie, program dostosuje je automatycznie.</sys:String>
+
+    <sys:String x:Key="S40">Wyświetlane zdania</sys:String>
+
+    <sys:String x:Key="S41">Tłumaczenie w kontekście.</sys:String>
+    <sys:String x:Key="S42">Może to poprawić dokładność tłumaczenia, ale zużywa więcej tokenów.</sys:String>
+
+    <sys:String x:Key="S43">Język UI</sys:String>
+    <sys:String x:Key="S44">Wybierz język używany przez interfejs aplikacji.</sys:String>
+
+    <!-- HistoryPage strings -->
+    <sys:String x:Key="H0">Poprzednia</sys:String>
+    <sys:String x:Key="H1">Następna strona</sys:String>
+    <sys:String x:Key="H2">Szukaj</sys:String>
+    <sys:String x:Key="H3">Eksportuj</sys:String>
+    <sys:String x:Key="H4">Usuń wszystko</sys:String>
+    <sys:String x:Key="H5">Odśwież</sys:String>
+    <sys:String x:Key="H6">Czas</sys:String>
+    <sys:String x:Key="H7">Napisy</sys:String>
+    <sys:String x:Key="H8">Przetłumaczone</sys:String>
+    <sys:String x:Key="H9">API</sys:String>
+    <sys:String x:Key="H10">20/strona</sys:String>
+    <sys:String x:Key="H11">30/strona</sys:String>
+    <sys:String x:Key="H12">50/strona</sys:String>
+    <sys:String x:Key="H13">100/strona</sys:String>
+    <sys:String x:Key="H20">Czy na pewno chcesz usunąć całą historię?</sys:String>
+    <sys:String x:Key="H21">Ta operacja nie może zostać cofnięta!</sys:String>
+    <sys:String x:Key="H22">Tak</sys:String>
+    <sys:String x:Key="H23">Nie</sys:String>
+    <sys:String x:Key="H24">CSV (*.csv)|*.csv|Wszystkie pliki (*.*)|*.*</sys:String>
+    <sys:String x:Key="H25">Zapisano pomyślnie</sys:String>
+    <sys:String x:Key="H26">Plik zapisano do: {0}</sys:String>
+    <sys:String x:Key="H27">Zapis nie powiódł się</sys:String>
+    <sys:String x:Key="H28">Nie udało się zapisać pliku: {0}</sys:String>
+
+    <!-- OverlayWindow strings -->
+    <sys:String x:Key="O0">Okno nakładki</sys:String>
+    <sys:String x:Key="O1">Zwiększ rozmiar czcionki</sys:String>
+    <sys:String x:Key="O2">Zmniejsz rozmiar czcionki</sys:String>
+    <sys:String x:Key="O3">Zwiększ kontur czcionki</sys:String>
+    <sys:String x:Key="O4">Zmniejsz kontur czcionki</sys:String>
+    <sys:String x:Key="O5">Pogrubienie</sys:String>
+    <sys:String x:Key="O6">Kolor czcionki</sys:String>
+    <sys:String x:Key="O7">Zwiększ przezroczystość tła</sys:String>
+    <sys:String x:Key="O8">Zmniejsz przezroczystość tła</sys:String>
+    <sys:String x:Key="O9">Kolor tła</sys:String>
+    <sys:String x:Key="O10">Pokaż tylko napisy lub tłumaczenia</sys:String>
+    <sys:String x:Key="O11">Zmień pozycję napisu/tłumaczenia</sys:String>
+    <sys:String x:Key="O12">Klikalność w tle</sys:String>
+
+    <!-- InfoPage strings -->
+    <sys:String x:Key="I0">Witamy każdą formę wkładu! Możesz zgłaszać sugestie lub błędy przez GitHub issues lub przesyłać kod przez Pull Requests.</sys:String>
+    <sys:String x:Key="I1">Jeśli program jest dla Ciebie pomocny, rozważ wystawienie nam gwiazdki!</sys:String>
+    <sys:String x:Key="I2">Repozytorium:</sys:String>
+    <sys:String x:Key="I3">Wiki:</sys:String>
+    <sys:String x:Key="I4">Opiekun:</sys:String>
+    <sys:String x:Key="I5">(Autor) i</sys:String>
+    <sys:String x:Key="I6">Wersja:</sys:String>
+
+    <!-- WelcomeWindow strings -->
+    <sys:String x:Key="W0">Rozpoczęcie</sys:String>
+    <sys:String x:Key="W1">Witamy w LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="W2">LiveCaptions Translator opiera się na Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="W3">&#x0A;Przed pierwszym uruchomieniem należy skonfigurować program według poniższych kroków:&#x0A;</sys:String>
+    <sys:String x:Key="W4">&#x0A;1. Otwórz Windows LiveCaptions i postępuj zgodnie z instrukcją, aby pobrać potrzebne pliki rozpoznawania mowy i pakiety językowe.</sys:String>
+    <sys:String x:Key="W5">&#x0A;2. Kliknij</sys:String>
+    <sys:String x:Key="W6">⚙️ ikonę</sys:String>
+    <sys:String x:Key="W7">w Windows LiveCaptions, aby otworzyć ustawienia, i wybierz</sys:String>
+    <sys:String x:Key="W8">"Pozycja &gt; Na ekranie"</sys:String>
+    <sys:String x:Key="W9">3. Kliknij</sys:String>
+    <sys:String x:Key="W10">"Ukryj"</sys:String>
+    <sys:String x:Key="W11">przycisk na stronie ustawień LiveCaptions Translator, aby ukryć Windows LiveCaptions.&#x0A;</sys:String>
+    <sys:String x:Key="W12">&#x0A;Program automatycznie przeszedł do strony ustawień i otworzył Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="W13">Po zakończeniu konfiguracji możesz wrócić do strony głównej i cieszyć się tłumaczeniem w czasie rzeczywistym.&#x0A;</sys:String>
+    <sys:String x:Key="W14">&#x0A;Więcej informacji znajdziesz w naszej wiki: </sys:String>
+    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="W16">&#x0A;&#x0A;Wskazówka:&#x0A;</sys:String>
+    <sys:String x:Key="W17">Aby zmienić </sys:String>
+    <sys:String x:Key="W18">Język źródłowy</sys:String>
+    <sys:String x:Key="W19">, kliknij [Pokaż] na stronie ustawień i zrób to w Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="W20">W pełni zrozumiałem i skonfigurowałem.</sys:String>
+
+    <!-- MainWindow strings -->
+    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="M10">Napisy</sys:String>
+    <sys:String x:Key="M11">Ustawienia</sys:String>
+    <sys:String x:Key="M12">Historia</sys:String>
+    <sys:String x:Key="M13">Info</sys:String>
+    <sys:String x:Key="M20">Karty logów napisów</sys:String>
+    <sys:String x:Key="M21">Pauza tłumaczenia (tylko log)</sys:String>
+    <sys:String x:Key="M22">Okno nakładki</sys:String>
+    <sys:String x:Key="M23">Zawsze na wierzchu</sys:String>
+
+    <sys:String x:Key="MC0">[BŁĄD] Sprawdzenie aktualizacji nie powiodło się.</sys:String>
+    <sys:String x:Key="MC1">błąd</sys:String>
+    <sys:String x:Key="MC2">Dostępna nowa wersja</sys:String>
+    <sys:String x:Key="MC3">Wykryto nową wersję: {0}
+Obecna wersja: {1}
+Odwiedź GitHub, aby pobrać najnowsze wydanie.</sys:String>
+    <sys:String x:Key="MC4">Aktualizuj</sys:String>
+    <sys:String x:Key="MC5">Ignoruj tę wersję</sys:String>
+    <sys:String x:Key="MC6">[BŁĄD] Nie udało się otworzyć przeglądarki.</sys:String>
+
+    <!-- Translator (runtime status) strings -->
+    <sys:String x:Key="T0">[OSTRZEŻENIE] LiveCaptions został niespodziewanie zamknięty, ponowne uruchamianie...</sys:String>
+    <sys:String x:Key="T1">[Pauza]</sys:String>
+    <sys:String x:Key="T2">Błąd!</sys:String>
+    <sys:String x:Key="T3">Rejestrowanie historii nie powiodło się: {0}</sys:String>
+
+    <!-- CaptionPage strings -->
+    <sys:String x:Key="C0">Kliknij, aby skopiować</sys:String>
+    <sys:String x:Key="C1">Skopiowano</sys:String>
+    <sys:String x:Key="C2">Kopiowanie nie powiodło się</sys:String>
+
+</ResourceDictionary>

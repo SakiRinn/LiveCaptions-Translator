@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
@@ -21,6 +22,8 @@ namespace LiveCaptionsTranslator
         private int maxRowPerPage = 30;
 
         public string SearchText { get; set; } = string.Empty;
+
+        private string R(string key, string fallback) => TryFindResource(key) as string ?? fallback;
 
         public HistoryPage()
         {
@@ -69,13 +72,13 @@ namespace LiveCaptionsTranslator
             {
                 Title = new TextBlock
                 {
-                    Text = "Do you want to delete all history?",
+                    Text = R("H20", "Do you want to delete all history?"),
                     FontSize = 18,
                     FontWeight = FontWeights.Regular
                 },
-                Content = "This operation cannot be undone!",
-                PrimaryButtonText = "Yes",
-                CloseButtonText = "No",
+                Content = R("H21", "This operation cannot be undone!"),
+                PrimaryButtonText = R("H22", "Yes"),
+                CloseButtonText = R("H23", "No"),
                 DefaultButton = ContentDialogButton.Close,
                 DialogHost = dialogHostContainer,
                 Padding = new Thickness(8, 4, 8, 8),
@@ -116,9 +119,9 @@ namespace LiveCaptionsTranslator
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                Filter = "CSV (*.csv)|*.csv|All file (*.*)|*.*",
+                Filter = R("H24", "CSV (*.csv)|*.csv|All file (*.*)|*.*"),
                 DefaultExt = ".csv",
-                FileName = $"exported_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.csv",
+                FileName = $"exported_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.csv",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
 
@@ -127,11 +130,11 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCSV(saveFileDialog.FileName);
-                    SnackbarHost.Show("Saved Success.", $"File saved to: {saveFileDialog.FileName}", SnackbarType.Success);
+                    SnackbarHost.Show(R("H25", "Saved Success"), string.Format(CultureInfo.CurrentCulture, R("H26", "File saved to: {0}"), saveFileDialog.FileName));
                 }
                 catch (Exception ex)
                 {
-                    SnackbarHost.Show("Save Failed.", $"File saved faild:{ex.Message}", SnackbarType.Error);
+                    SnackbarHost.Show(R("H27", "Save Failed"), string.Format(CultureInfo.CurrentCulture, R("H28", "File saved failed: {0}"), ex.Message), "error");
                 }
             }
         }
@@ -140,13 +143,12 @@ namespace LiveCaptionsTranslator
         {
             string searchText = (sender as AutoSuggestBox)?.Text ?? "";
 
-            // Clear search by Ctrl+A and Delete and Enter
             if (string.IsNullOrEmpty(searchText))
             {
                 SearchText = string.Empty;
                 currentPage = searchPage;
             }
-            else // Submit search
+            else 
             {
                 if (string.IsNullOrEmpty(SearchText))
                 {
@@ -160,7 +162,6 @@ namespace LiveCaptionsTranslator
 
         private async void HistorySearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            // Press X to clear search box
             if (args.Reason == AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
                 if (!string.IsNullOrEmpty(SearchText))

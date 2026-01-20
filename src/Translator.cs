@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Windows;
 using System.Windows.Automation;
 
 using LiveCaptionsTranslator.apis;
@@ -157,6 +158,12 @@ namespace LiveCaptionsTranslator
             }
         }
 
+        private static string L(string key, string fallback)
+        {
+            var v = Application.Current?.TryFindResource(key) as string;
+            return string.IsNullOrEmpty(v) ? fallback : v;
+        }
+
         public static async Task TranslateLoop()
         {
             while (true)
@@ -164,7 +171,7 @@ namespace LiveCaptionsTranslator
                 // Check LiveCaptions.exe still alive
                 if (Window == null)
                 {
-                    Caption.DisplayTranslatedCaption = "[WARNING] LiveCaptions was unexpectedly closed, restarting...";
+                    Caption.DisplayTranslatedCaption = L("T0", "[WARNING] LiveCaptions was unexpectedly closed, restarting...");
                     Window = LiveCaptionsHandler.LaunchLiveCaptions();
                     Caption.DisplayTranslatedCaption = "";
                 }
@@ -199,8 +206,8 @@ namespace LiveCaptionsTranslator
                 if (LogOnlyFlag)
                 {
                     Caption.TranslatedCaption = string.Empty;
-                    Caption.DisplayTranslatedCaption = "[Paused]";
-                    Caption.OverlayNoticePrefix = "[Paused]";
+                    Caption.DisplayTranslatedCaption = L("T1", "[Paused]");
+                    Caption.OverlayNoticePrefix = L("T1", "[Paused]");
                     Caption.OverlayCurrentTranslation = string.Empty;
                 }
                 else if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
@@ -241,7 +248,7 @@ namespace LiveCaptionsTranslator
 
                 if (Setting.ContextAware && !TranslateAPI.IsLLMBased)
                 {
-                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.AwareContextsCaption} 🔤 {text} 🔤", token);
+                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.ContextPreviousCaption} 🔤{text}🔤", token);
                     translatedText = RegexPatterns.TargetSentence().Match(translatedText).Groups[1].Value;
                 }
                 else
@@ -295,8 +302,11 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show("[ERROR] Logging history failed.", ex.Message, SnackbarType.Error, 
-                    timeout: 2, closeButton: true);
+                SnackbarHost.Show(
+                    L("T2", "Error!"),
+                    string.Format(L("T3", "Logging history failed: {0}"), ex.Message),
+                    "error",
+                    2);
             }
         }
 
@@ -315,8 +325,11 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show("[ERROR] Logging history failed.", ex.Message, SnackbarType.Error, 
-                    timeout: 2, closeButton: true);
+                SnackbarHost.Show(
+                    L("T2", "Error!"),
+                    string.Format(L("T3", "Logging history failed: {0}"), ex.Message),
+                    "error",
+                    2);
             }
         }
 
@@ -348,11 +361,11 @@ namespace LiveCaptionsTranslator
             string lastOriginalText = await SQLiteHistoryLogger.LoadLastSourceText(token);
             if (lastOriginalText == null)
                 return false;
-            
+
             int minLen = Math.Min(originalText.Length, lastOriginalText.Length);
             originalText = originalText.Substring(0, minLen);
             lastOriginalText = lastOriginalText.Substring(0, minLen);
-            
+
             double similarity = TextUtil.Similarity(originalText, lastOriginalText);
             return similarity > TextUtil.SIM_THRESHOLD;
         }

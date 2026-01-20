@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- SettingPage strings (compact numeric keys) -->
+    <sys:String x:Key="S0">LiveCaptions</sys:String>
+    <sys:String x:Key="S1">Na Windows 11 versie 24H2 kunt u alleen de</sys:String>
+    <sys:String x:Key="S2">Bron Taal</sys:String>
+    <sys:String x:Key="S3">in LiveCaptions wijzigen.</sys:String>
+    <sys:String x:Key="S4">Opmerking:</sys:String>
+    <sys:String x:Key="S5">Klik alstublieft</sys:String>
+    <sys:String x:Key="S6">"Verbergen"</sys:String>
+    <sys:String x:Key="S7">om LiveCaptions te verbergen in plaats van het direct te sluiten.</sys:String>
+
+    <sys:String x:Key="S8">Tonen</sys:String>
+
+    <!-- LiveCaptions toggle button text -->
+    <sys:String x:Key="S45">Verbergen</sys:String>
+    <sys:String x:Key="S46">Tonen</sys:String>
+
+    <sys:String x:Key="S9">API-interval</sys:String>
+    <sys:String x:Key="S10">Bepaalt hoe vaak de vertaal-API wordt aangeroepen. Hoe kleiner, hoe vaker de oproepen.</sys:String>
+    <sys:String x:Key="S11">De vertaal-API wordt één keer aangeroepen nadat het onderschrift is gewijzigd</sys:String>
+    <sys:String x:Key="S12">[API-interval]</sys:String>
+    <sys:String x:Key="S13">keer.</sys:String>
+
+    <sys:String x:Key="S14">Vertaal-API</sys:String>
+    <sys:String x:Key="S15">Behalve Google en Google2, moeten alle andere API's worden geconfigureerd voordat ze gebruikt kunnen worden.</sys:String>
+
+    <sys:String x:Key="S16">Doeltaal</sys:String>
+    <sys:String x:Key="S17">De gewenste doeltaal is niet beschikbaar!</sys:String>
+    <sys:String x:Key="S18">U kunt de inhoud van dit keuzemenu direct bewerken om de taal aan te passen; het wordt aanbevolen de</sys:String>
+    <sys:String x:Key="S19">BCP 47-taalcode te volgen.</sys:String>
+    <sys:String x:Key="S20">Sommige API's (zoals DeepL) hebben een andere manier nodig om de doeltaal te definiëren; zie hun officiële documentatie voor details.</sys:String>
+    <sys:String x:Key="S21">Voor de ingebouwde doeltalen hoeft u hier geen rekening mee te houden. Als uw gewenste taal echter niet in de lijst staat, houd hier dan rekening mee.</sys:String>
+
+    <sys:String x:Key="S22">API-instellingen</sys:String>
+    <sys:String x:Key="S23">Openen</sys:String>
+
+    <sys:String x:Key="S24">Vertraging tonen</sys:String>
+    <sys:String x:Key="S25">Uit</sys:String>
+    <sys:String x:Key="S26">Aan</sys:String>
+
+    <sys:String x:Key="S27">Contexten</sys:String>
+    <sys:String x:Key="S28">Contexten:</sys:String>
+    <sys:String x:Key="S29">Bepaalt het aantal contextzinnen wanneer</sys:String>
+    <sys:String x:Key="S30">Contextbewust</sys:String>
+    <sys:String x:Key="S31">is ingeschakeld.</sys:String>
+    <sys:String x:Key="S32">Overlay-zinnen:</sys:String>
+    <sys:String x:Key="S33">Bepaalt het aantal weergegeven kaarten wanneer</sys:String>
+    <sys:String x:Key="S34">Logkaarten</sys:String>
+    <sys:String x:Key="S35">is ingeschakeld, evenals het maximum aantal zinnen dat in het overlay-venster wordt weergegeven.</sys:String>
+    <sys:String x:Key="S36">Contexten moeten</sys:String>
+    <sys:String x:Key="S37">groter dan of gelijk aan</sys:String>
+    <sys:String x:Key="S38">Weergavezinnen</sys:String>
+    <sys:String x:Key="S39">zijn. Zo niet, dan past het programma dit automatisch aan.</sys:String>
+    <sys:String x:Key="S40">Weergavezinnen</sys:String>
+
+    <sys:String x:Key="S41">Vertalen in context.</sys:String>
+    <sys:String x:Key="S42">Dit kan de vertaalsnelheid verbeteren, maar verbruikt meer tokens.</sys:String>
+
+    <sys:String x:Key="S43">UI-taal</sys:String>
+    <sys:String x:Key="S44">Selecteer de taal die door de gebruikersinterface van de applicatie wordt gebruikt.</sys:String>
+
+    <!-- HistoryPage strings -->
+    <sys:String x:Key="H0">Vorige</sys:String>
+    <sys:String x:Key="H1">Volgende pagina</sys:String>
+    <sys:String x:Key="H2">Zoeken</sys:String>
+    <sys:String x:Key="H3">Exporteren</sys:String>
+    <sys:String x:Key="H4">Alles verwijderen</sys:String>
+    <sys:String x:Key="H5">Vernieuwen</sys:String>
+    <sys:String x:Key="H6">Tijd</sys:String>
+    <sys:String x:Key="H7">Onderschrift</sys:String>
+    <sys:String x:Key="H8">Vertaald</sys:String>
+    <sys:String x:Key="H9">API</sys:String>
+    <sys:String x:Key="H10">20/pagina</sys:String>
+    <sys:String x:Key="H11">30/pagina</sys:String>
+    <sys:String x:Key="H12">50/pagina</sys:String>
+    <sys:String x:Key="H13">100/pagina</sys:String>
+    <sys:String x:Key="H20">Weet u zeker dat u alle geschiedenis wilt verwijderen?</sys:String>
+    <sys:String x:Key="H21">Deze actie kan niet ongedaan worden gemaakt!</sys:String>
+    <sys:String x:Key="H22">Ja</sys:String>
+    <sys:String x:Key="H23">Nee</sys:String>
+    <sys:String x:Key="H24">CSV (*.csv)|*.csv|Alle bestanden (*.*)|*.*</sys:String>
+    <sys:String x:Key="H25">Succesvol opgeslagen</sys:String>
+    <sys:String x:Key="H26">Bestand opgeslagen op: {0}</sys:String>
+    <sys:String x:Key="H27">Opslaan mislukt</sys:String>
+    <sys:String x:Key="H28">Bestand opslaan mislukt: {0}</sys:String>
+
+    <!-- OverlayWindow strings -->
+    <sys:String x:Key="O0">Overlay-venster</sys:String>
+    <sys:String x:Key="O1">Lettergrootte vergroten</sys:String>
+    <sys:String x:Key="O2">Lettergrootte verkleinen</sys:String>
+    <sys:String x:Key="O3">Letteromtrek vergroten</sys:String>
+    <sys:String x:Key="O4">Letteromtrek verkleinen</sys:String>
+    <sys:String x:Key="O5">Vet</sys:String>
+    <sys:String x:Key="O6">Letterkleur</sys:String>
+    <sys:String x:Key="O7">Achtergronddekking verhogen</sys:String>
+    <sys:String x:Key="O8">Achtergronddekking verlagen</sys:String>
+    <sys:String x:Key="O9">Achtergrondkleur</sys:String>
+    <sys:String x:Key="O10">Alleen ondertitels of vertalingen tonen</sys:String>
+    <sys:String x:Key="O11">Onder-/vertaling positie wisselen</sys:String>
+    <sys:String x:Key="O12">Doorklikken toestaan</sys:String>
+
+    <!-- InfoPage strings -->
+    <sys:String x:Key="I0">We verwelkomen elke vorm van bijdrage! U kunt suggesties doen of bugs melden via GitHub issues, of rechtstreeks code bijdragen door Pull Requests in te dienen.</sys:String>
+    <sys:String x:Key="I1">Als dit programma nuttig voor u is, overweeg dan ons een ster te geven!</sys:String>
+    <sys:String x:Key="I2">Repository:</sys:String>
+    <sys:String x:Key="I3">Wiki:</sys:String>
+    <sys:String x:Key="I4">Onderhouder:</sys:String>
+    <sys:String x:Key="I5">(Auteur) en</sys:String>
+    <sys:String x:Key="I6">Versie:</sys:String>
+
+    <!-- WelcomeWindow strings -->
+    <sys:String x:Key="W0">Aan de slag</sys:String>
+    <sys:String x:Key="W1">Welkom bij LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="W2">LiveCaptions Translator is gebaseerd op Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="W3">&#x0A;Voordat u het voor het eerst uitvoert, moet u het als volgt configureren:&#x0A;</sys:String>
+    <sys:String x:Key="W4">&#x0A;1. Open Windows LiveCaptions en volg de gids om de benodigde bestanden voor on-device spraakherkenning en taalpakketten te downloaden.</sys:String>
+    <sys:String x:Key="W5">&#x0A;2. Klik op</sys:String>
+    <sys:String x:Key="W6">⚙️ pictogram</sys:String>
+    <sys:String x:Key="W7">in Windows LiveCaptions instellingen en selecteer</sys:String>
+    <sys:String x:Key="W8">"Positie &gt; Over het scherm"</sys:String>
+    <sys:String x:Key="W9">3. Klik op</sys:String>
+    <sys:String x:Key="W10">"Verbergen"</sys:String>
+    <sys:String x:Key="W11">knop op de instellingenpagina van LiveCaptions Translator om Windows LiveCaptions te verbergen.&#x0A;</sys:String>
+    <sys:String x:Key="W12">&#x0A;Het programma heeft automatisch naar de instellingenpagina genavigeerd en Windows LiveCaptions geopend.</sys:String>
+    <sys:String x:Key="W13">Na het voltooien van de configuratie kunt u terugkeren naar de hoofdpagina en genieten van realtime audiotranslatie.&#x0A;</sys:String>
+    <sys:String x:Key="W14">&#x0A;Voor meer details, bezoek onze wiki: </sys:String>
+    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="W16">&#x0A;&#x0A;Tip:&#x0A;</sys:String>
+    <sys:String x:Key="W17">Om de </sys:String>
+    <sys:String x:Key="W18">Bron Taal</sys:String>
+    <sys:String x:Key="W19">te wijzigen, klik op [Tonen] op de instellingenpagina en doe dit in Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="W20">Ik heb het volledig begrepen en geconfigureerd.</sys:String>
+
+    <!-- MainWindow strings -->
+    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="M10">Onderschrift</sys:String>
+    <sys:String x:Key="M11">Instellingen</sys:String>
+    <sys:String x:Key="M12">Geschiedenis</sys:String>
+    <sys:String x:Key="M13">Info</sys:String>
+    <sys:String x:Key="M20">Logkaarten van onderschriften</sys:String>
+    <sys:String x:Key="M21">Vertaling pauzeren (alleen log)</sys:String>
+    <sys:String x:Key="M22">Overlay-venster</sys:String>
+    <sys:String x:Key="M23">Altijd bovenaan</sys:String>
+
+    <sys:String x:Key="MC0">[FOUT] Updatecontrole mislukt.</sys:String>
+    <sys:String x:Key="MC1">fout</sys:String>
+    <sys:String x:Key="MC2">Nieuwe versie beschikbaar</sys:String>
+    <sys:String x:Key="MC3">Een nieuwe versie is gedetecteerd: {0}
+Huidige versie: {1}
+Bezoek GitHub om de nieuwste release te downloaden.</sys:String>
+    <sys:String x:Key="MC4">Bijwerken</sys:String>
+    <sys:String x:Key="MC5">Deze versie negeren</sys:String>
+    <sys:String x:Key="MC6">[FOUT] Browser openen mislukt.</sys:String>
+
+    <!-- Translator (runtime status) strings -->
+    <sys:String x:Key="T0">[WAARSCHUWING] LiveCaptions is onverwacht afgesloten, wordt opnieuw gestart...</sys:String>
+    <sys:String x:Key="T1">[Gepauzeerd]</sys:String>
+    <sys:String x:Key="T2">Fout!</sys:String>
+    <sys:String x:Key="T3">Geschiedenislog mislukt: {0}</sys:String>
+
+    <!-- CaptionPage strings -->
+    <sys:String x:Key="C0">Klik om te kopiëren</sys:String>
+    <sys:String x:Key="C1">Gekopieerd</sys:String>
+    <sys:String x:Key="C2">Kopiëren mislukt</sys:String>
+
+</ResourceDictionary>

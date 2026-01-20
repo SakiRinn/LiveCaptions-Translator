@@ -43,11 +43,19 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     Clipboard.SetText(textBlock.Text);
-                    SnackbarHost.Show("Copied.", textBlock.Text, SnackbarType.Info, 100);
+                    SnackbarHost.Show(
+                        TryFindResource("C1") as string ?? "Copied",
+                        textBlock.Text,
+                        "info",
+                        1,
+                        100,
+                        false);
                 }
                 catch
                 {
-                    SnackbarHost.Show("Copy Failed.", string.Empty, SnackbarType.Error, 100);
+                    SnackbarHost.Show(
+                        title: TryFindResource("C2") as string ?? "Copy Failed",
+                        type: "error");
                 }
                 await Task.Delay(500);
             }

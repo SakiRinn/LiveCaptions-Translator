@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- SettingPage strings (compact numeric keys) -->
+    <sys:String x:Key="S0">即時字幕</sys:String>
+    <sys:String x:Key="S1">在 Windows 11 24H2 版本之後，您只能更改</sys:String>
+    <sys:String x:Key="S2">來源語言</sys:String>
+    <sys:String x:Key="S3">在即時字幕中。</sys:String>
+    <sys:String x:Key="S4">注意：</sys:String>
+    <sys:String x:Key="S5">請點擊</sys:String>
+    <sys:String x:Key="S6">"隱藏"</sys:String>
+    <sys:String x:Key="S7">來隱藏即時字幕，而非直接關閉。</sys:String>
+
+    <sys:String x:Key="S8">顯示</sys:String>
+
+    <!-- LiveCaptions toggle button text -->
+    <sys:String x:Key="S45">隱藏</sys:String>
+    <sys:String x:Key="S46">顯示</sys:String>
+
+    <sys:String x:Key="S9">API 間隔</sys:String>
+    <sys:String x:Key="S10">決定翻譯 API 呼叫的頻率。數值越小，呼叫越頻繁。</sys:String>
+    <sys:String x:Key="S11">字幕變更後，API 將呼叫一次</sys:String>
+    <sys:String x:Key="S12">[API 間隔]</sys:String>
+    <sys:String x:Key="S13">次。</sys:String>
+
+    <sys:String x:Key="S14">翻譯 API</sys:String>
+    <sys:String x:Key="S15">除了 Google 和 Google2，其他 API 需先配置才能使用。</sys:String>
+
+    <sys:String x:Key="S16">目標語言</sys:String>
+    <sys:String x:Key="S17">沒有找到我想要的目標語言！</sys:String>
+    <sys:String x:Key="S18">您可以直接編輯此下拉框內容自訂語言，建議遵循</sys:String>
+    <sys:String x:Key="S19">BCP 47 語言標籤。</sys:String>
+    <sys:String x:Key="S20">部分 API（例如 DeepL）需使用不同方式定義目標語言，詳情請參考官方文件。</sys:String>
+    <sys:String x:Key="S21">已包含的目標語言無需考慮，我們已內建標籤對應。但若預期語言不在列表中，請留意此點。</sys:String>
+
+    <sys:String x:Key="S22">API 設定</sys:String>
+    <sys:String x:Key="S23">開啟</sys:String>
+
+    <sys:String x:Key="S24">顯示延遲</sys:String>
+    <sys:String x:Key="S25">關閉</sys:String>
+    <sys:String x:Key="S26">開啟</sys:String>
+
+    <sys:String x:Key="S27">語境</sys:String>
+    <sys:String x:Key="S28">語境：</sys:String>
+    <sys:String x:Key="S29">啟用</sys:String>
+    <sys:String x:Key="S30">語境感知</sys:String>
+    <sys:String x:Key="S31">時，決定上下文句子數量。</sys:String>
+    <sys:String x:Key="S32">覆蓋句：</sys:String>
+    <sys:String x:Key="S33">啟用</sys:String>
+    <sys:String x:Key="S34">日誌卡片</sys:String>
+    <sys:String x:Key="S35">時，決定顯示卡片數量及覆蓋視窗的最大句數。</sys:String>
+    <sys:String x:Key="S36">語境必須</sys:String>
+    <sys:String x:Key="S37">大於或等於</sys:String>
+    <sys:String x:Key="S38">顯示句數</sys:String>
+    <sys:String x:Key="S39">。若不符合，程式將自動調整。</sys:String>
+
+    <sys:String x:Key="S40">顯示句數</sys:String>
+
+    <sys:String x:Key="S41">在語境中翻譯。</sys:String>
+    <sys:String x:Key="S42">可提高翻譯準確度，但會消耗更多代幣。</sys:String>
+
+    <sys:String x:Key="S43">介面語言</sys:String>
+    <sys:String x:Key="S44">選擇應用程式介面使用的語言。</sys:String>
+
+    <!-- HistoryPage strings -->
+    <sys:String x:Key="H0">上一頁</sys:String>
+    <sys:String x:Key="H1">下一頁</sys:String>
+    <sys:String x:Key="H2">搜尋</sys:String>
+    <sys:String x:Key="H3">匯出</sys:String>
+    <sys:String x:Key="H4">全部刪除</sys:String>
+    <sys:String x:Key="H5">重新整理</sys:String>
+    <sys:String x:Key="H6">時間</sys:String>
+    <sys:String x:Key="H7">字幕</sys:String>
+    <sys:String x:Key="H8">翻譯結果</sys:String>
+    <sys:String x:Key="H9">API</sys:String>
+    <sys:String x:Key="H10">20/頁</sys:String>
+    <sys:String x:Key="H11">30/頁</sys:String>
+    <sys:String x:Key="H12">50/頁</sys:String>
+    <sys:String x:Key="H13">100/頁</sys:String>
+    <sys:String x:Key="H20">您確定要刪除所有歷史記錄嗎？</sys:String>
+    <sys:String x:Key="H21">此操作無法復原！</sys:String>
+    <sys:String x:Key="H22">是</sys:String>
+    <sys:String x:Key="H23">否</sys:String>
+    <sys:String x:Key="H24">CSV (*.csv)|*.csv|所有檔案 (*.*)|*.*</sys:String>
+    <sys:String x:Key="H25">儲存成功</sys:String>
+    <sys:String x:Key="H26">檔案已儲存至：{0}</sys:String>
+    <sys:String x:Key="H27">儲存失敗</sys:String>
+    <sys:String x:Key="H28">檔案儲存失敗：{0}</sys:String>
+
+    <!-- OverlayWindow strings -->
+    <sys:String x:Key="O0">覆蓋視窗</sys:String>
+    <sys:String x:Key="O1">增加字型大小</sys:String>
+    <sys:String x:Key="O2">減小字型大小</sys:String>
+    <sys:String x:Key="O3">增加字型描邊</sys:String>
+    <sys:String x:Key="O4">減小字型描邊</sys:String>
+    <sys:String x:Key="O5">加粗</sys:String>
+    <sys:String x:Key="O6">字型顏色</sys:String>
+    <sys:String x:Key="O7">增加背景透明度</sys:String>
+    <sys:String x:Key="O8">減少背景透明度</sys:String>
+    <sys:String x:Key="O9">背景顏色</sys:String>
+    <sys:String x:Key="O10">僅顯示字幕或翻譯</sys:String>
+    <sys:String x:Key="O11">切換字幕/翻譯位置</sys:String>
+    <sys:String x:Key="O12">點擊穿透</sys:String>
+
+    <!-- InfoPage strings -->
+    <sys:String x:Key="I0">我們歡迎任何形式的貢獻！您可以透過 GitHub issues 提建議或回報錯誤，或直接透過 Pull Requests 提交程式碼。</sys:String>
+    <sys:String x:Key="I1">如果本程式對您有幫助，請考慮給我們一顆星！</sys:String>
+    <sys:String x:Key="I2">倉庫：</sys:String>
+    <sys:String x:Key="I3">Wiki：</sys:String>
+    <sys:String x:Key="I4">維護者：</sys:String>
+    <sys:String x:Key="I5">(作者) 與</sys:String>
+    <sys:String x:Key="I6">版本：</sys:String>
+
+    <!-- WelcomeWindow strings -->
+    <sys:String x:Key="W0">開始使用</sys:String>
+    <sys:String x:Key="W1">歡迎使用 LiveCaptions Translator！</sys:String>
+    <sys:String x:Key="W2">LiveCaptions Translator 基於 Windows LiveCaptions。</sys:String>
+    <sys:String x:Key="W3">&#x0A;在首次運行前，請依照以下步驟配置：&#x0A;</sys:String>
+    <sys:String x:Key="W4">&#x0A;1. 開啟 Windows LiveCaptions 並依導引下載語音辨識與語言套件所需檔案。</sys:String>
+    <sys:String x:Key="W5">&#x0A;2. 點擊</sys:String>
+    <sys:String x:Key="W6">⚙️ 圖示</sys:String>
+    <sys:String x:Key="W7">在 Windows LiveCaptions 中打開設定選單，並選擇</sys:String>
+    <sys:String x:Key="W8">"位置 &gt; 疊加在螢幕上"</sys:String>
+    <sys:String x:Key="W9">3. 點擊</sys:String>
+    <sys:String x:Key="W10">"隱藏"</sys:String>
+    <sys:String x:Key="W11">按鈕以隱藏 Windows LiveCaptions。&#x0A;</sys:String>
+    <sys:String x:Key="W12">&#x0A;程式已自動導向至設定頁並開啟 Windows LiveCaptions。</sys:String>
+    <sys:String x:Key="W13">完成設定後，可返回主頁並享受即時音訊翻譯。&#x0A;</sys:String>
+    <sys:String x:Key="W14">&#x0A;更多詳情請參考我們的 Wiki： </sys:String>
+    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="W16">&#x0A;&#x0A;小提示：&#x0A;</sys:String>
+    <sys:String x:Key="W17">若要更改 </sys:String>
+    <sys:String x:Key="W18">來源語言</sys:String>
+    <sys:String x:Key="W19">，請在設定頁 [顯示] LiveCaptions，並於 Windows LiveCaptions 中操作。</sys:String>
+    <sys:String x:Key="W20">我已完全理解並完成配置。</sys:String>
+
+    <!-- MainWindow strings -->
+    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="M10">字幕</sys:String>
+    <sys:String x:Key="M11">設定</sys:String>
+    <sys:String x:Key="M12">歷史</sys:String>
+    <sys:String x:Key="M13">資訊</sys:String>
+    <sys:String x:Key="M20">字幕日誌卡片</sys:String>
+    <sys:String x:Key="M21">暫停翻譯（僅日誌）</sys:String>
+    <sys:String x:Key="M22">覆蓋視窗</sys:String>
+    <sys:String x:Key="M23">永遠置頂</sys:String>
+
+    <sys:String x:Key="MC0">[錯誤] 檢查更新失敗。</sys:String>
+    <sys:String x:Key="MC1">錯誤</sys:String>
+    <sys:String x:Key="MC2">有新版本可用</sys:String>
+    <sys:String x:Key="MC3">檢測到新版本：{0}
+當前版本：{1}
+請前往 GitHub 下載最新版本。</sys:String>
+    <sys:String x:Key="MC4">更新</sys:String>
+    <sys:String x:Key="MC5">忽略此版本</sys:String>
+    <sys:String x:Key="MC6">[錯誤] 打開瀏覽器失敗。</sys:String>
+
+    <!-- Translator (runtime status) strings -->
+    <sys:String x:Key="T0">[警告] LiveCaptions 意外關閉，正在重新啟動...</sys:String>
+    <sys:String x:Key="T1">[暫停]</sys:String>
+    <sys:String x:Key="T2">錯誤！</sys:String>
+    <sys:String x:Key="T3">記錄歷史失敗：{0}</sys:String>
+
+    <!-- CaptionPage strings -->
+    <sys:String x:Key="C0">點擊複製</sys:String>
+    <sys:String x:Key="C1">已複製</sys:String>
+    <sys:String x:Key="C2">複製失敗</sys:String>
+
+</ResourceDictionary>

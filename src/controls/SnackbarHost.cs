@@ -7,8 +7,8 @@ namespace LiveCaptionsTranslator
         public static Snackbar? mainSnackbar;
         public static MainWindow? mainWindow = (MainWindow)App.Current.MainWindow;
 
-        public static void Show(string title = "", string message = "", SnackbarType type = SnackbarType.Info, 
-                                int width = 500, int timeout = 1,  bool closeButton = false)
+        public static void Show(string title = "", string message = "", string type = "info", 
+                                int timeout = 5, int width = 500, bool closeButton = true)
         {
             ControlAppearance appearance;
             SymbolIcon icon;
@@ -16,17 +16,17 @@ namespace LiveCaptionsTranslator
 
             switch (type)
             {
-                case SnackbarType.Warning:
+                case "warning":
                     appearance = ControlAppearance.Caution;
                     icon = new SymbolIcon(SymbolRegular.Alert24);
                     break;
-                case SnackbarType.Error:
-                    appearance = ControlAppearance.Danger;
-                    icon = new SymbolIcon(SymbolRegular.DismissCircle24);
-                    break;
-                case SnackbarType.Success:
+                case "success":
                     appearance = ControlAppearance.Success;
                     icon = new SymbolIcon(SymbolRegular.CheckmarkCircle24);
+                    break;
+                case "error":
+                    appearance = ControlAppearance.Danger;
+                    icon = new SymbolIcon(SymbolRegular.DismissCircle24);
                     break;
                 default:
                     appearance = ControlAppearance.Secondary;
@@ -48,13 +48,5 @@ namespace LiveCaptionsTranslator
 
             snackbar.Show(true);
         }
-    }
-    
-    public enum SnackbarType
-    {
-        Warning,
-        Error,
-        Success,
-        Info
     }
 }

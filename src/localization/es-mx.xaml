@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- SettingPage strings (compact numeric keys) -->
+    <sys:String x:Key="S0">Subtítulos en Vivo</sys:String>
+    <sys:String x:Key="S1">Después de la versión 24H2 de Windows 11, solo puedes cambiar el</sys:String>
+    <sys:String x:Key="S2">Idioma de Origen</sys:String>
+    <sys:String x:Key="S3">en Subtítulos en Vivo.</sys:String>
+    <sys:String x:Key="S4">Nota:</sys:String>
+    <sys:String x:Key="S5">Por favor haz clic</sys:String>
+    <sys:String x:Key="S6">"Ocultar"</sys:String>
+    <sys:String x:Key="S7">para ocultar Subtítulos en Vivo en lugar de cerrarlo directamente.</sys:String>
+
+    <sys:String x:Key="S8">Mostrar</sys:String>
+
+    <!-- LiveCaptions toggle button text -->
+    <sys:String x:Key="S45">Ocultar</sys:String>
+    <sys:String x:Key="S46">Mostrar</sys:String>
+
+    <sys:String x:Key="S9">Intervalo de API</sys:String>
+    <sys:String x:Key="S10">Determina la frecuencia de las llamadas a la API de traducción. Cuanto menor, más frecuentes serán las llamadas.</sys:String>
+    <sys:String x:Key="S11">La API de traducción se llama una vez después de que el subtítulo cambie</sys:String>
+    <sys:String x:Key="S12">[Intervalo de API]</sys:String>
+    <sys:String x:Key="S13">veces.</sys:String>
+
+    <sys:String x:Key="S14">API de Traducción</sys:String>
+    <sys:String x:Key="S15">Excepto Google y Google2, todas las demás APIs requieren configuración antes de poder usarse.</sys:String>
+
+    <sys:String x:Key="S16">Idioma de Destino</sys:String>
+    <sys:String x:Key="S17">¡El idioma de destino que esperabas no está disponible!</sys:String>
+    <sys:String x:Key="S18">Puedes editar directamente el contenido de este combo para personalizar el idioma; se recomienda seguir la</sys:String>
+    <sys:String x:Key="S19">etiqueta de idioma BCP 47.</sys:String>
+    <sys:String x:Key="S20">Algunas APIs (como DeepL) requieren otra forma de definir el idioma de destino; consulta su documentación oficial para más detalles.</sys:String>
+    <sys:String x:Key="S21">No es necesario considerar esto para los idiomas incluidos, ya que hemos incorporado mapeos de etiquetas. Pero si tu idioma esperado no está en la lista, tenlo en cuenta.</sys:String>
+
+    <sys:String x:Key="S22">Configuración de API</sys:String>
+    <sys:String x:Key="S23">Abrir</sys:String>
+
+    <sys:String x:Key="S24">Mostrar Latencia</sys:String>
+    <sys:String x:Key="S25">Desactivado</sys:String>
+    <sys:String x:Key="S26">Activado</sys:String>
+
+    <sys:String x:Key="S27">Contextos</sys:String>
+    <sys:String x:Key="S28">Contextos:</sys:String>
+    <sys:String x:Key="S29">Determina el número de frases de contexto cuando</sys:String>
+    <sys:String x:Key="S30">Contexto Inteligente</sys:String>
+    <sys:String x:Key="S31">está activado.</sys:String>
+    <sys:String x:Key="S32">Frases en Overlay:</sys:String>
+    <sys:String x:Key="S33">Determina el número de tarjetas mostradas cuando</sys:String>
+    <sys:String x:Key="S34">Registro de Tarjetas</sys:String>
+    <sys:String x:Key="S35">está activado, así como el número máximo de frases mostradas en la Ventana Overlay.</sys:String>
+    <sys:String x:Key="S36">Los contextos deben ser</sys:String>
+    <sys:String x:Key="S37">mayores o iguales a</sys:String>
+    <sys:String x:Key="S38">Frases a Mostrar</sys:String>
+    <sys:String x:Key="S39">. Si no se cumple, el programa los ajustará automáticamente.</sys:String>
+
+    <sys:String x:Key="S40">Frases a Mostrar</sys:String>
+
+    <sys:String x:Key="S41">Traducir en contexto.</sys:String>
+    <sys:String x:Key="S42">Puede mejorar la precisión de la traducción, pero consumirá más tokens.</sys:String>
+
+    <sys:String x:Key="S43">Idioma de la Interfaz</sys:String>
+    <sys:String x:Key="S44">Selecciona el idioma usado por la interfaz de la aplicación.</sys:String>
+
+    <!-- HistoryPage strings -->
+    <sys:String x:Key="H0">Anterior</sys:String>
+    <sys:String x:Key="H1">Página Siguiente</sys:String>
+    <sys:String x:Key="H2">Buscar</sys:String>
+    <sys:String x:Key="H3">Exportar</sys:String>
+    <sys:String x:Key="H4">Eliminar Todo</sys:String>
+    <sys:String x:Key="H5">Actualizar</sys:String>
+    <sys:String x:Key="H6">Hora</sys:String>
+    <sys:String x:Key="H7">Subtítulo</sys:String>
+    <sys:String x:Key="H8">Traducido</sys:String>
+    <sys:String x:Key="H9">API</sys:String>
+    <sys:String x:Key="H10">20/página</sys:String>
+    <sys:String x:Key="H11">30/página</sys:String>
+    <sys:String x:Key="H12">50/página</sys:String>
+    <sys:String x:Key="H13">100/página</sys:String>
+
+    <!-- HistoryPage (code-behind) strings -->
+    <sys:String x:Key="H20">¿Deseas eliminar todo el historial?</sys:String>
+    <sys:String x:Key="H21">¡Esta acción no se puede deshacer!</sys:String>
+    <sys:String x:Key="H22">Sí</sys:String>
+    <sys:String x:Key="H23">No</sys:String>
+    <sys:String x:Key="H24">CSV (*.csv)|*.csv|Todos los archivos (*.*)|*.*</sys:String>
+    <sys:String x:Key="H25">Guardado Correctamente</sys:String>
+    <sys:String x:Key="H26">Archivo guardado en: {0}</sys:String>
+    <sys:String x:Key="H27">Error al Guardar</sys:String>
+    <sys:String x:Key="H28">Error al guardar el archivo: {0}</sys:String>
+
+    <!-- OverlayWindow strings -->
+    <sys:String x:Key="O0">Ventana Overlay</sys:String>
+    <sys:String x:Key="O1">Aumentar Tamaño de Fuente</sys:String>
+    <sys:String x:Key="O2">Disminuir Tamaño de Fuente</sys:String>
+    <sys:String x:Key="O3">Aumentar Contorno de Fuente</sys:String>
+    <sys:String x:Key="O4">Disminuir Contorno de Fuente</sys:String>
+    <sys:String x:Key="O5">Fuente Negrita</sys:String>
+    <sys:String x:Key="O6">Color de Fuente</sys:String>
+    <sys:String x:Key="O7">Aumentar Opacidad de Fondo</sys:String>
+    <sys:String x:Key="O8">Disminuir Opacidad de Fondo</sys:String>
+    <sys:String x:Key="O9">Color de Fondo</sys:String>
+    <sys:String x:Key="O10">Mostrar solo subtítulos o traducciones</sys:String>
+    <sys:String x:Key="O11">Cambiar posición subtítulo/traducción</sys:String>
+    <sys:String x:Key="O12">Ignorar Clic</sys:String>
+
+    <!-- InfoPage strings -->
+    <sys:String x:Key="I0">¡Agradecemos cualquier tipo de contribución! Puedes enviar sugerencias o reportar errores vía GitHub, o contribuir con código directamente mediante Pull Requests.</sys:String>
+    <sys:String x:Key="I1">Si este programa te resulta útil, ¡considera darnos una estrella!</sys:String>
+    <sys:String x:Key="I2">Repositorio:</sys:String>
+    <sys:String x:Key="I3">Wiki:</sys:String>
+    <sys:String x:Key="I4">Mantenedor:</sys:String>
+    <sys:String x:Key="I5">(Autor) y</sys:String>
+    <sys:String x:Key="I6">Versión:</sys:String>
+
+    <!-- WelcomeWindow strings -->
+    <sys:String x:Key="W0">Comenzando</sys:String>
+    <sys:String x:Key="W1">¡Bienvenido a LiveCaptions Translator!</sys:String>
+
+    <sys:String x:Key="W2">LiveCaptions Translator se basa en Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="W3">&#x0A;Antes de ejecutarlo por primera vez, configúralo según los siguientes pasos:&#x0A;</sys:String>
+
+    <sys:String x:Key="W4">&#x0A;1. Abre Windows LiveCaptions y sigue la guía para descargar los archivos necesarios para el reconocimiento de voz en el dispositivo y los paquetes de idioma.</sys:String>
+    <sys:String x:Key="W5">&#x0A;2. Haz clic en el</sys:String>
+    <sys:String x:Key="W6">⚙️ ícono de engranaje</sys:String>
+    <sys:String x:Key="W7">en Windows LiveCaptions para abrir el menú de configuración y selecciona</sys:String>
+    <sys:String x:Key="W8">"Posición > Superpuesto en Pantalla"</sys:String>
+    <sys:String x:Key="W9">3. Haz clic en el botón</sys:String>
+    <sys:String x:Key="W10">"Ocultar"</sys:String>
+    <sys:String x:Key="W11">ubicado en la página de configuración de LiveCaptions Translator para ocultar Windows LiveCaptions.&#x0A;</sys:String>
+
+    <sys:String x:Key="W12">&#x0A;El programa ha navegado automáticamente a la página de configuración y abierto Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="W13">Después de completar la configuración, puedes volver a la página principal y disfrutar de la traducción de audio en tiempo real.&#x0A;</sys:String>
+
+    <sys:String x:Key="W14">&#x0A;Para más detalles, visita nuestra wiki: </sys:String>
+    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+
+    <sys:String x:Key="W16">&#x0A;&#x0A;Consejo:&#x0A;</sys:String>
+    <sys:String x:Key="W17">Para cambiar el </sys:String>
+    <sys:String x:Key="W18">Idioma de Origen</sys:String>
+    <sys:String x:Key="W19">, por favor [Mostrar] LiveCaptions en la página de configuración y hazlo en Windows LiveCaptions.</sys:String>
+
+    <sys:String x:Key="W20">He entendido y configurado completamente.</sys:String>
+
+    <!-- MainWindow strings -->
+    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
+
+    <!-- Navigation menu -->
+    <sys:String x:Key="M10">Subtítulos</sys:String>
+    <sys:String x:Key="M11">Configuración</sys:String>
+    <sys:String x:Key="M12">Historial</sys:String>
+    <sys:String x:Key="M13">Información</sys:String>
+
+    <!-- Title bar buttons tooltips -->
+    <sys:String x:Key="M20">Tarjetas de Log de Subtítulos</sys:String>
+    <sys:String x:Key="M21">Pausar Traducción (Solo Log)</sys:String>
+    <sys:String x:Key="M22">Ventana Overlay</sys:String>
+    <sys:String x:Key="M23">Siempre al Frente</sys:String>
+
+    <!-- MainWindow (code-behind) strings -->
+    <sys:String x:Key="MC0">[ERROR] Falló la Verificación de Actualizaciones.</sys:String>
+    <sys:String x:Key="MC1">error</sys:String>
+
+    <sys:String x:Key="MC2">Nueva Versión Disponible</sys:String>
+    <sys:String x:Key="MC3">Se ha detectado una nueva versión: {0}
+Versión actual: {1}
+Por favor visita GitHub para descargar la última versión.</sys:String>
+    <sys:String x:Key="MC4">Actualizar</sys:String>
+    <sys:String x:Key="MC5">Ignorar esta versión</sys:String>
+
+    <sys:String x:Key="MC6">[ERROR] Falló Abrir el Navegador.</sys:String>
+
+    <!-- Translator (runtime status) strings -->
+    <sys:String x:Key="T0">[ADVERTENCIA] LiveCaptions se cerró inesperadamente, reiniciando...</sys:String>
+    <sys:String x:Key="T1">[Pausado]</sys:String>
+    <sys:String x:Key="T2">¡Error!</sys:String>
+    <sys:String x:Key="T3">Error al registrar historial: {0}</sys:String>
+
+    <!-- CaptionPage strings -->
+    <sys:String x:Key="C0">Haz clic para Copiar</sys:String>
+    <sys:String x:Key="C1">Copiado</sys:String>
+    <sys:String x:Key="C2">Error al Copiar</sys:String>
+
+</ResourceDictionary>

@@ -11,6 +11,27 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Dark" />
                 <ui:ControlsDictionary />
+                <ResourceDictionary Source="localization/zh-cn.xaml" />
+                <ResourceDictionary Source="localization/ar.xaml" />
+                <ResourceDictionary Source="localization/bn.xaml" />
+                <ResourceDictionary Source="localization/zh-tw.xaml" />
+                <ResourceDictionary Source="localization/cs-cz.xaml" />
+                <ResourceDictionary Source="localization/de-de.xaml" />
+                <ResourceDictionary Source="localization/es-mx.xaml" />
+                <ResourceDictionary Source="localization/fr-fr.xaml" />
+                <ResourceDictionary Source="localization/it-it.xaml" />
+                <ResourceDictionary Source="localization/ja-jp.xaml" />
+                <ResourceDictionary Source="localization/ko-kr.xaml" />
+                <ResourceDictionary Source="localization/lt-lt.xaml" />
+                <ResourceDictionary Source="localization/nl-nl.xaml" />
+                <ResourceDictionary Source="localization/pl-pl.xaml" />
+                <ResourceDictionary Source="localization/pt-br.xaml" />
+                <ResourceDictionary Source="localization/pt-pt.xaml" />
+                <ResourceDictionary Source="localization/ru-ru.xaml" />
+                <ResourceDictionary Source="localization/sv-se.xaml" />
+                <ResourceDictionary Source="localization/tr-tr.xaml" />
+                <ResourceDictionary Source="localization/vi-vn.xaml" />
+                <ResourceDictionary Source="localization/en-us.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <FontFamily x:Key="SegoeFluentIcons">pack://application:,,,/;component/Fonts/#Segoe Fluent Icons</FontFamily>
         </ResourceDictionary>

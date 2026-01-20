@@ -21,17 +21,29 @@ namespace LiveCaptionsTranslator.models
         private int displaySentences = 1;
         private bool contextAware = false;
 
+        private string uiLanguageFileName = "en-us.xaml";
+
         private string apiName;
         private string targetLanguage;
         private string prompt;
         private string? ignoredUpdateVersion;
-        
+
         private MainWindowState mainWindowState;
         private OverlayWindowState overlayWindowState;
         private Dictionary<string, string> windowBounds;
 
         private Dictionary<string, List<TranslateAPIConfig>> configs;
         private Dictionary<string, int> configIndices;
+
+        public string UiLanguageFileName
+        {
+            get => uiLanguageFileName;
+            set
+            {
+                uiLanguageFileName = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int MaxIdleInterval => maxIdleInterval;
         public int MaxSyncInterval
@@ -173,6 +185,8 @@ namespace LiveCaptionsTranslator.models
                      "You can only provide the translated sentence; Any explanation or other text is not permitted. " +
                      "REMOVE all 🔤 when you output.";
 
+            uiLanguageFileName = "en-us.xaml";
+
             mainWindowState = new MainWindowState();
             overlayWindowState = new OverlayWindowState();
 
@@ -237,7 +251,6 @@ namespace LiveCaptionsTranslator.models
         {
             Setting setting;
 
-            // Load from JSON file if it exists
             if (File.Exists(jsonPath))
             {
                 using (FileStream fileStream = File.Open(jsonPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -253,7 +266,16 @@ namespace LiveCaptionsTranslator.models
             else
                 setting = new Setting();
 
-            // Ensure all required API configs are present
+            setting.uiLanguageFileName = setting.uiLanguageFileName switch
+            {
+                "zh-cn.xaml" or "ar.xaml" or "bn.xaml" or "en-us.xaml" or
+                "zh-tw.xaml" or "cs-cz.xaml" or "de-de.xaml" or "es-mx.xaml" or "fr-fr.xaml" or
+                "it-it.xaml" or "ja-jp.xaml" or "ko-kr.xaml" or "lt-lt.xaml" or "nl-nl.xaml" or
+                "pl-pl.xaml" or "pt-br.xaml" or "pt-pt.xaml" or "ru-ru.xaml" or "sv-se.xaml" or
+                "tr-tr.xaml" or "vi-vn.xaml" => setting.uiLanguageFileName,
+                _ => "en-us.xaml"
+            };
+
             foreach (string key in TranslateAPI.TRANSLATE_FUNCTIONS.Keys)
             {
                 if (setting.Configs.ContainsKey(key))

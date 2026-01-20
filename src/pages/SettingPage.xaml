@@ -22,16 +22,32 @@
         <StackPanel Grid.Column="0" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="LiveCaptions" />
+                    <Grid Width="14" Height="14" Margin="0,0,6,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Row="0" Grid.Column="0" Margin="0,0,1,1" Background="#FF1E9BFA" />
+                        <Border Grid.Row="0" Grid.Column="1" Margin="1,0,0,1" Background="#FF1E9BFA" />
+                        <Border Grid.Row="1" Grid.Column="0" Margin="0,1,1,0" Background="#FF1E9BFA" />
+                        <Border Grid.Row="1" Grid.Column="1" Margin="1,1,0,0" Background="#FF1E9BFA" />
+                    </Grid>
+
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S0}" />
                     <ui:Flyout x:Name="LiveCaptionsInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run Text="After Windows 11 version 24H2, you can only change the" />
-                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="Source Language" />
-                            <Run Text="in LiveCaptions." />
-                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
-                            <Run Text="Please click" />
-                            <Run FontWeight="Bold" Text="&quot;Hide&quot;" />
-                            <Run Text="to hide LiveCaptions instead of closing it directly." />
+                            <Run Text="{DynamicResource S1}" />
+                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="{DynamicResource S2}" />
+                            <Run Text="{DynamicResource S3}" />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;" />
+                            <Run FontWeight="Bold" Text="{DynamicResource S4}" />
+                            <Run Text="{DynamicResource S5}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource S6}" />
+                            <Run Text="{DynamicResource S7}" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -53,19 +69,20 @@
                     Height="30"
                     Padding="11,4,11,4"
                     Click="LiveCaptionsButton_click">
-                    <TextBlock x:Name="ButtonText" Text="Show" />
+                    <TextBlock x:Name="ButtonText" Text="{DynamicResource S8}" />
                 </ui:Button>
             </StackPanel>
 
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="API Interval" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S9}" />
                     <ui:Flyout x:Name="FrequencyInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run Text="Determines the frequency of translate API calls. The smaller it is, the more frequent API calls." />
-                            <Run Text="&#x0A;The translate API is called once after the caption changes" />
-                            <Run FontWeight="SemiBold" Text="[API Interval]" />
-                            <Run Text="times." />
+                            <Run Text="{DynamicResource S10}" />
+                            <Run Text="&#x0A;" />
+                            <Run Text="{DynamicResource S11}" />
+                            <Run FontWeight="SemiBold" Text="{DynamicResource S12}" />
+                            <Run Text="{DynamicResource S13}" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -96,11 +113,11 @@
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="Translate API" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S14}" />
                     <ui:Flyout x:Name="TranslateAPIInfoFlyout">
                         <TextBlock
                             Width="300"
-                            Text="Except for Google and Google2, all other APIs require configuring before they can be used."
+                            Text="{DynamicResource S15}"
                             TextWrapping="Wrap" />
                     </ui:Flyout>
                     <Button
@@ -131,15 +148,18 @@
                     <TextBlock
                         Margin="2.5,0,0,5"
                         VerticalAlignment="Center"
-                        Text="Target Language" />
+                        Text="{DynamicResource S16}" />
                     <ui:Flyout x:Name="TargetLangInfoFlyout">
                         <TextBlock Width="350" TextWrapping="Wrap">
-                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="&quot;There isn’t the target language I expect!&quot;" />
-                            <Run Text="&#x0A;You can directly edit the content of this combobox to customize the language, and it is recommended to follow the" />
-                            <Run FontWeight="Bold" Text="BCP 47 language tag." />
-                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
-                            <Run Text="Some of APIs (such as DeepL) needs another way to define target language, see their official docs for more details." />
-                            <Run Text="&#x0A;No need to consider this for included target languages, since we've built in tag mappings. But if your expected language isn't in the list, keep this in mind." />
+                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="{DynamicResource S17}" />
+                            <Run Text="&#x0A;" />
+                            <Run Text="{DynamicResource S18}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource S19}" />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;" />
+                            <Run FontWeight="Bold" Text="{DynamicResource S4}" />
+                            <Run Text="{DynamicResource S20}" />
+                            <Run Text="&#x0A;" />
+                            <Run Text="{DynamicResource S21}" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -170,7 +190,7 @@
         <StackPanel Grid.Column="2" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="API Setting" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S22}" />
                 </StackPanel>
                 <ui:Button
                     x:Name="APISettingButton"
@@ -178,39 +198,42 @@
                     Height="30"
                     Padding="11,4,11,4"
                     Click="APISettingButton_click">
-                    <TextBlock Text="Open" />
+                    <TextBlock Text="{DynamicResource S23}" />
                 </ui:Button>
             </StackPanel>
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="Show Latency" />
+                <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S24}" />
                 <ui:ToggleSwitch
                     Width="100"
                     Height="30"
                     Padding="10,4,10,7"
                     IsChecked="{Binding MainWindow.LatencyShow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    OffContent="Off"
-                    OnContent="On" />
+                    OffContent="{DynamicResource S25}"
+                    OnContent="{DynamicResource S26}" />
             </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Column="3" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="Contexts" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S27}" />
                     <ui:Flyout x:Name="CaptionLogMaxInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run FontWeight="Bold" Text="Contexts:" />
-                            <Run Text="Determines the number of context sentences when" />
-                            <Run FontWeight="Bold" Text="Context Aware" />
-                            <Run Text="is enabled." />
-                            <Run FontWeight="Bold" Text="&#x0A;Overlay Sentences:" />
-                            <Run Text="Determines the number of displayed cards when" />
-                            <Run FontWeight="Bold" Text="Log Cards" />
-                            <Run Text="is enabled, as well as the max number of sentences displayed in the Overlay Window." />
-                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
-                            <Run Text="Contexts must be" />
-                            <Run FontWeight="Bold" Text="greater than or equal" />
-                            <Run Text="Display Sentences. If not met, the program will automatically adjust them." />
+                            <Run FontWeight="Bold" Text="{DynamicResource S28}" />
+                            <Run Text="{DynamicResource S29}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource S30}" />
+                            <Run Text="{DynamicResource S31}" />
+                            <Run FontWeight="Bold" Text="&#x0A;" />
+                            <Run FontWeight="Bold" Text="{DynamicResource S32}" />
+                            <Run Text="{DynamicResource S33}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource S34}" />
+                            <Run Text="{DynamicResource S35}" />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;" />
+                            <Run FontWeight="Bold" Text="{DynamicResource S4}" />
+                            <Run Text="{DynamicResource S36}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource S37}" />
+                            <Run Text="{DynamicResource S38}" />
+                            <Run Text="{DynamicResource S39}" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -243,7 +266,7 @@
             </StackPanel>
 
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="Display Sentences" />
+                <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S40}" />
                 <ui:NumberBox
                     Width="135"
                     Height="30"
@@ -263,15 +286,15 @@
 
         <StackPanel Grid.Column="4" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="Context Aware" />
+                <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S30}" />
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <ui:ToggleSwitch
                         Width="90"
                         Height="30"
                         Padding="10,4,10,7"
                         IsChecked="{Binding ContextAware, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        OffContent="Off"
-                        OnContent="On" />
+                        OffContent="{DynamicResource S25}"
+                        OnContent="{DynamicResource S26}" />
                     <Button
                         x:Name="ContextAwareInfo"
                         Width="15"
@@ -286,11 +309,61 @@
                     </Button>
                     <ui:Flyout x:Name="ContextAwareInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run Text="Translate in context." />
-                            <Run Text="&#x0A;It can improve translation accuracy, but will consume more tokens." />
+                            <Run Text="{DynamicResource S41}" />
+                            <Run Text="&#x0A;" />
+                            <Run Text="{DynamicResource S42}" />
                         </TextBlock>
                     </ui:Flyout>
                 </StackPanel>
+            </StackPanel>
+
+            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <ui:SymbolIcon Symbol="Globe20" Margin="0,0,6,0" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S43}" />
+                    <ui:Flyout x:Name="UILanguageInfoFlyout">
+                        <TextBlock Width="300" TextWrapping="Wrap">
+                            <Run Text="{DynamicResource S44}" />
+                            <Run Text="&#x0A;&#x0A;" />
+                            <Run Text="Changes take effect immediately and are saved automatically." />
+                        </TextBlock>
+                    </ui:Flyout>
+                    <Button
+                        x:Name="UILanguageInfo"
+                        Width="15"
+                        Height="15"
+                        Margin="-5,-3,0,0"
+                        Padding="0"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        MouseEnter="UILanguageInfo_MouseEnter"
+                        MouseLeave="UILanguageInfo_MouseLeave">
+                        <ui:SymbolIcon Symbol="Info16" />
+                    </Button>
+                </StackPanel>
+                <ComboBox x:Name="UILanguageBox" Width="150" Height="30" Padding="10,4,10,7" FontSize="13.3" SelectionChanged="UILanguageBox_SelectionChanged">
+                    <ComboBoxItem Content="English" />
+                    <ComboBoxItem Content="&#x7B80;&#x4F53;&#x4E2D;&#x6587;" />
+                    <ComboBoxItem Content="&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;" />
+                    <ComboBoxItem Content="&#x9AC;&#x9BE;&#x982;&#x9B2;&#x9BE;" />
+                    <ComboBoxItem Content="&#x10C;e&#x161;tina" />
+                    <ComboBoxItem Content="Deutsch" />
+                    <ComboBoxItem Content="Espa&#xF1;ol (M&#xE9;xico)" />
+                    <ComboBoxItem Content="Fran&#xE7;ais" />
+                    <ComboBoxItem Content="Italiano" />
+                    <ComboBoxItem Content="&#x65E5;&#x672C;&#x8A9E;" />
+                    <ComboBoxItem Content="&#xD55C;&#xAD6D;&#xC5B4;" />
+                    <ComboBoxItem Content="Lietuvi&#x173;" />
+                    <ComboBoxItem Content="Nederlands" />
+                    <ComboBoxItem Content="Polski" />
+                    <ComboBoxItem Content="Portugu&#xEA;s (Brasil)" />
+                    <ComboBoxItem Content="Portugu&#xEA;s (Portugal)" />
+                    <ComboBoxItem Content="&#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;" />
+                    <ComboBoxItem Content="Svenska" />
+                    <ComboBoxItem Content="T&#xFC;rk&#xE7;e" />
+                    <ComboBoxItem Content="Ti&#x1EBF;ng Vi&#x1EC7;t" />
+                    <ComboBoxItem Content="&#x7E41;&#x9AD4;&#x4E2D;&#x6587; (&#x53F0;&#x7063;)" />
+                </ComboBox>
             </StackPanel>
         </StackPanel>
     </Grid>

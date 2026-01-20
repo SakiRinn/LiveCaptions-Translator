@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- SettingPage strings (compact numeric keys) -->
+    <sys:String x:Key="S0">Живые субтитры</sys:String>
+    <sys:String x:Key="S1">После версии Windows 11 24H2 можно изменить только</sys:String>
+    <sys:String x:Key="S2">Язык источника</sys:String>
+    <sys:String x:Key="S3">в Живых субтитрах.</sys:String>
+    <sys:String x:Key="S4">Примечание:</sys:String>
+    <sys:String x:Key="S5">Пожалуйста, нажмите</sys:String>
+    <sys:String x:Key="S6">"Скрыть"</sys:String>
+    <sys:String x:Key="S7">чтобы скрыть Живые субтитры, а не закрывать их напрямую.</sys:String>
+
+    <sys:String x:Key="S8">Показать</sys:String>
+
+    <!-- LiveCaptions toggle button text -->
+    <sys:String x:Key="S45">Скрыть</sys:String>
+    <sys:String x:Key="S46">Показать</sys:String>
+
+    <sys:String x:Key="S9">Интервал API</sys:String>
+    <sys:String x:Key="S10">Определяет частоту вызовов API перевода. Чем меньше значение, тем чаще вызовы.</sys:String>
+    <sys:String x:Key="S11">API перевода вызывается один раз после изменения субтитра</sys:String>
+    <sys:String x:Key="S12">[Интервал API]</sys:String>
+    <sys:String x:Key="S13">раз.</sys:String>
+
+    <sys:String x:Key="S14">API перевода</sys:String>
+    <sys:String x:Key="S15">За исключением Google и Google2, все остальные API требуют настройки перед использованием.</sys:String>
+
+    <sys:String x:Key="S16">Целевой язык</sys:String>
+    <sys:String x:Key="S17">Ожидаемого целевого языка нет!</sys:String>
+    <sys:String x:Key="S18">Вы можете напрямую редактировать содержимое этого комбобокса для настройки языка, рекомендуется использовать</sys:String>
+    <sys:String x:Key="S19">языковой тег BCP 47.</sys:String>
+    <sys:String x:Key="S20">Некоторые API (например, DeepL) требуют другого способа задания целевого языка, см. их официальную документацию.</sys:String>
+    <sys:String x:Key="S21">Не нужно учитывать это для встроенных целевых языков, так как мы уже создали соответствие тегов. Но если нужного языка нет в списке, имейте это в виду.</sys:String>
+
+    <sys:String x:Key="S22">Настройки API</sys:String>
+    <sys:String x:Key="S23">Открыть</sys:String>
+
+    <sys:String x:Key="S24">Показать задержку</sys:String>
+    <sys:String x:Key="S25">Выкл.</sys:String>
+    <sys:String x:Key="S26">Вкл.</sys:String>
+
+    <sys:String x:Key="S27">Контексты</sys:String>
+    <sys:String x:Key="S28">Контексты:</sys:String>
+    <sys:String x:Key="S29">Определяет количество контекстных предложений при включенном</sys:String>
+    <sys:String x:Key="S30">Контекстном переводе</sys:String>
+    <sys:String x:Key="S31">.</sys:String>
+    <sys:String x:Key="S32">Отображаемые предложения:</sys:String>
+    <sys:String x:Key="S33">Определяет количество отображаемых карточек при включенных</sys:String>
+    <sys:String x:Key="S34">Картах журнала</sys:String>
+    <sys:String x:Key="S35">а также максимальное количество предложений, отображаемых в окне наложения.</sys:String>
+    <sys:String x:Key="S36">Контексты должны быть</sys:String>
+    <sys:String x:Key="S37">больше или равны</sys:String>
+    <sys:String x:Key="S38">Отображаемым предложениям</sys:String>
+    <sys:String x:Key="S39">. Если нет, программа скорректирует их автоматически.</sys:String>
+
+    <sys:String x:Key="S40">Отображаемые предложения</sys:String>
+
+    <sys:String x:Key="S41">Перевод в контексте.</sys:String>
+    <sys:String x:Key="S42">Это может улучшить точность перевода, но потребляет больше токенов.</sys:String>
+
+    <sys:String x:Key="S43">Язык интерфейса</sys:String>
+    <sys:String x:Key="S44">Выберите язык интерфейса приложения.</sys:String>
+
+    <!-- HistoryPage strings -->
+    <sys:String x:Key="H0">Предыдущая</sys:String>
+    <sys:String x:Key="H1">Следующая страница</sys:String>
+    <sys:String x:Key="H2">Поиск</sys:String>
+    <sys:String x:Key="H3">Экспорт</sys:String>
+    <sys:String x:Key="H4">Удалить все</sys:String>
+    <sys:String x:Key="H5">Обновить</sys:String>
+    <sys:String x:Key="H6">Время</sys:String>
+    <sys:String x:Key="H7">Субтитры</sys:String>
+    <sys:String x:Key="H8">Переведено</sys:String>
+    <sys:String x:Key="H9">API</sys:String>
+    <sys:String x:Key="H10">20/страница</sys:String>
+    <sys:String x:Key="H11">30/страница</sys:String>
+    <sys:String x:Key="H12">50/страница</sys:String>
+    <sys:String x:Key="H13">100/страница</sys:String>
+    <sys:String x:Key="H20">Вы действительно хотите удалить всю историю?</sys:String>
+    <sys:String x:Key="H21">Это действие нельзя отменить!</sys:String>
+    <sys:String x:Key="H22">Да</sys:String>
+    <sys:String x:Key="H23">Нет</sys:String>
+    <sys:String x:Key="H24">CSV (*.csv)|*.csv|Все файлы (*.*)|*.*</sys:String>
+    <sys:String x:Key="H25">Сохранение прошло успешно</sys:String>
+    <sys:String x:Key="H26">Файл сохранён: {0}</sys:String>
+    <sys:String x:Key="H27">Ошибка сохранения</sys:String>
+    <sys:String x:Key="H28">Не удалось сохранить файл: {0}</sys:String>
+
+    <!-- OverlayWindow strings -->
+    <sys:String x:Key="O0">Окно наложения</sys:String>
+    <sys:String x:Key="O1">Увеличить размер шрифта</sys:String>
+    <sys:String x:Key="O2">Уменьшить размер шрифта</sys:String>
+    <sys:String x:Key="O3">Увеличить обводку шрифта</sys:String>
+    <sys:String x:Key="O4">Уменьшить обводку шрифта</sys:String>
+    <sys:String x:Key="O5">Жирный</sys:String>
+    <sys:String x:Key="O6">Цвет шрифта</sys:String>
+    <sys:String x:Key="O7">Увеличить прозрачность фона</sys:String>
+    <sys:String x:Key="O8">Уменьшить прозрачность фона</sys:String>
+    <sys:String x:Key="O9">Цвет фона</sys:String>
+    <sys:String x:Key="O10">Показывать только субтитры или переводы</sys:String>
+    <sys:String x:Key="O11">Сменить позицию субтитров/переводов</sys:String>
+    <sys:String x:Key="O12">Кликабельность сквозь окно</sys:String>
+
+    <!-- InfoPage strings -->
+    <sys:String x:Key="I0">Мы приветствуем любые виды вклада! Вы можете оставлять предложения или сообщать об ошибках через GitHub issues или отправлять код через Pull Requests.</sys:String>
+    <sys:String x:Key="I1">Если эта программа полезна для вас, пожалуйста, поставьте нам звезду!</sys:String>
+    <sys:String x:Key="I2">Репозиторий:</sys:String>
+    <sys:String x:Key="I3">Wiki:</sys:String>
+    <sys:String x:Key="I4">Поддержка:</sys:String>
+    <sys:String x:Key="I5">(Автор) и</sys:String>
+    <sys:String x:Key="I6">Версия:</sys:String>
+
+    <!-- WelcomeWindow strings -->
+    <sys:String x:Key="W0">Начало работы</sys:String>
+    <sys:String x:Key="W1">Добро пожаловать в LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="W2">LiveCaptions Translator основан на Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="W3">&#x0A;Перед первым запуском необходимо настроить программу по следующим шагам:&#x0A;</sys:String>
+    <sys:String x:Key="W4">&#x0A;1. Откройте Windows LiveCaptions и следуйте инструкции для загрузки необходимых файлов распознавания речи и языковых пакетов.</sys:String>
+    <sys:String x:Key="W5">&#x0A;2. Нажмите</sys:String>
+    <sys:String x:Key="W6">⚙️ значок</sys:String>
+    <sys:String x:Key="W7">в Windows LiveCaptions для открытия настроек и выберите</sys:String>
+    <sys:String x:Key="W8">"Позиция &gt; На экране"</sys:String>
+    <sys:String x:Key="W9">3. Нажмите</sys:String>
+    <sys:String x:Key="W10">"Скрыть"</sys:String>
+    <sys:String x:Key="W11">кнопку на странице настроек LiveCaptions Translator, чтобы скрыть Windows LiveCaptions.&#x0A;</sys:String>
+    <sys:String x:Key="W12">&#x0A;Программа автоматически перешла на страницу настроек и открыла Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="W13">После завершения настройки вы можете вернуться на главную страницу и наслаждаться переводом в реальном времени.&#x0A;</sys:String>
+    <sys:String x:Key="W14">&#x0A;Более подробную информацию см. в нашей wiki: </sys:String>
+    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="W16">&#x0A;&#x0A;Совет:&#x0A;</sys:String>
+    <sys:String x:Key="W17">Чтобы изменить </sys:String>
+    <sys:String x:Key="W18">Язык источника</sys:String>
+    <sys:String x:Key="W19">, нажмите [Показать] на странице настроек и сделайте это в Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="W20">Я полностью понял и настроил программу.</sys:String>
+
+    <!-- MainWindow strings -->
+    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="M10">Субтитры</sys:String>
+    <sys:String x:Key="M11">Настройки</sys:String>
+    <sys:String x:Key="M12">История</sys:String>
+    <sys:String x:Key="M13">Информация</sys:String>
+    <sys:String x:Key="M20">Карты логов субтитров</sys:String>
+    <sys:String x:Key="M21">Пауза перевода (только лог)</sys:String>
+    <sys:String x:Key="M22">Окно наложения</sys:String>
+    <sys:String x:Key="M23">Всегда поверх</sys:String>
+
+    <sys:String x:Key="MC0">[ОШИБКА] Проверка обновлений не удалась.</sys:String>
+    <sys:String x:Key="MC1">ошибка</sys:String>
+    <sys:String x:Key="MC2">Доступна новая версия</sys:String>
+    <sys:String x:Key="MC3">Обнаружена новая версия: {0}
+Текущая версия: {1}
+Пожалуйста, посетите GitHub, чтобы скачать последнюю версию.</sys:String>
+    <sys:String x:Key="MC4">Обновить</sys:String>
+    <sys:String x:Key="MC5">Игнорировать эту версию</sys:String>
+    <sys:String x:Key="MC6">[ОШИБКА] Не удалось открыть браузер.</sys:String>
+
+    <!-- Translator (runtime status) strings -->
+    <sys:String x:Key="T0">[ПРЕДУПРЕЖДЕНИЕ] LiveCaptions был неожиданно закрыт, перезапуск...</sys:String>
+    <sys:String x:Key="T1">[Пауза]</sys:String>
+    <sys:String x:Key="T2">Ошибка!</sys:String>
+    <sys:String x:Key="T3">Не удалось записать историю: {0}</sys:String>
+
+    <!-- CaptionPage strings -->
+    <sys:String x:Key="C0">Нажмите, чтобы скопировать</sys:String>
+    <sys:String x:Key="C1">Скопировано</sys:String>
+    <sys:String x:Key="C2">Не удалось скопировать</sys:String>
+
+</ResourceDictionary>

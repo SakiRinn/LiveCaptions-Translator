@@ -35,7 +35,7 @@
                     Icon="{ui:SymbolIcon chevronLeft12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Previous " />
+                    ToolTip="{DynamicResource H0}" />
 
                 <ui:TextBlock
                     x:Name="PageNumber"
@@ -51,7 +51,7 @@
                     Icon="{ui:SymbolIcon chevronRight12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Next Page" />
+                    ToolTip="{DynamicResource H1}" />
 
                 <ComboBox
                     x:Name="HistoryMaxRow"
@@ -60,10 +60,10 @@
                     Padding="10,4,10,7"
                     VerticalAlignment="Stretch"
                     SelectedIndex="1">
-                    <ComboBoxItem Content="20/page" Tag="20" />
-                    <ComboBoxItem Content="30/page" Tag="30" />
-                    <ComboBoxItem Content="50/page" Tag="50" />
-                    <ComboBoxItem Content="100/page" Tag="100" />
+                    <ComboBoxItem Content="{DynamicResource H10}" Tag="20" />
+                    <ComboBoxItem Content="{DynamicResource H11}" Tag="30" />
+                    <ComboBoxItem Content="{DynamicResource H12}" Tag="50" />
+                    <ComboBoxItem Content="{DynamicResource H13}" Tag="100" />
                 </ComboBox>
 
                 <ui:AutoSuggestBox
@@ -71,7 +71,7 @@
                     MinWidth="200"
                     MaxWidth="200"
                     Margin="5,0,0,0"
-                    PlaceholderText="Search"
+                    PlaceholderText="{DynamicResource H2}"
                     QuerySubmitted="HistorySearchBox_QuerySubmitted"
                     TextChanged="HistorySearchBox_TextChanged" />
 
@@ -92,7 +92,7 @@
                     Icon="{ui:SymbolIcon ArrowDown12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Export" />
+                    ToolTip="{DynamicResource H3}" />
                 <ui:Button
                     x:Name="Delete"
                     Margin="5,0,0,0"
@@ -102,7 +102,7 @@
                     Icon="{ui:SymbolIcon Delete12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Delete All" />
+                    ToolTip="{DynamicResource H4}" />
 
                 <ui:Button
                     x:Name="Refresh"
@@ -113,7 +113,7 @@
                     Icon="{ui:SymbolIcon ArrowClockwise12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Refresh" />
+                    ToolTip="{DynamicResource H5}" />
             </StackPanel>
         </Grid>
 
@@ -148,7 +148,7 @@
                 </LinearGradientBrush>
             </DataGrid.BorderBrush>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="0.4*" Header="Time">
+                <DataGridTemplateColumn Width="0.4*" Header="{DynamicResource H6}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock
@@ -159,7 +159,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="*" Header="Caption">
+                <DataGridTemplateColumn Width="*" Header="{DynamicResource H7}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding SourceText}" TextWrapping="Wrap" />
@@ -167,7 +167,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="*" Header="Translated">
+                <DataGridTemplateColumn Width="*" Header="{DynamicResource H8}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding TranslatedText}" TextWrapping="Wrap" />
@@ -175,7 +175,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="0.3*" Header="API">
+                <DataGridTemplateColumn Width="0.3*" Header="{DynamicResource H9}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding ApiUsed}" TextWrapping="Wrap" />
