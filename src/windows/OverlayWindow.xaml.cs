@@ -18,7 +18,7 @@ namespace LiveCaptionsTranslator
 {
     public partial class OverlayWindow : Window
     {
-        private readonly Dictionary<ColorEnum, SolidColorBrush> colorMap = new ()
+        private readonly Dictionary<ColorEnum, SolidColorBrush> colorMap = new()
         {
             {ColorEnum.White, Brushes.White},
             {ColorEnum.Yellow, Brushes.Yellow},
@@ -360,7 +360,7 @@ namespace LiveCaptionsTranslator
         private void UpdateTranslationColor(SolidColorBrush brush)
         {
             var color = brush.Color;
-            
+
             double target = 0.299 * color.R + 0.587 * color.G + 0.114 * color.B > 127 ? 0 : 255;
             byte r = (byte)Math.Clamp(color.R + (target - color.R) * 0.3, 0, 255);
             byte g = (byte)Math.Clamp(color.G + (target - color.G) * 0.4, 0, 255);

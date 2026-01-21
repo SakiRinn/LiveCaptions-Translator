@@ -61,7 +61,7 @@ namespace LiveCaptionsTranslator.apis
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
                 new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
             };
-            
+
             if (Translator.Setting.ContextAware)
             {
                 foreach (var entry in Translator.Caption.AwareContexts)
@@ -140,7 +140,7 @@ namespace LiveCaptionsTranslator.apis
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
                 new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
             };
-            
+
             if (Translator.Setting.ContextAware)
             {
                 foreach (var entry in Translator.Caption.AwareContexts)
@@ -203,7 +203,7 @@ namespace LiveCaptionsTranslator.apis
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
                 new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
             };
-            
+
             if (Translator.Setting.ContextAware)
             {
                 foreach (var entry in Translator.Caption.AwareContexts)

@@ -295,7 +295,7 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show("[ERROR] Logging history failed.", ex.Message, SnackbarType.Error, 
+                SnackbarHost.Show("[ERROR] Logging history failed.", ex.Message, SnackbarType.Error,
                     timeout: 2, closeButton: true);
             }
         }
@@ -315,7 +315,7 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show("[ERROR] Logging history failed.", ex.Message, SnackbarType.Error, 
+                SnackbarHost.Show("[ERROR] Logging history failed.", ex.Message, SnackbarType.Error,
                     timeout: 2, closeButton: true);
             }
         }
@@ -348,11 +348,11 @@ namespace LiveCaptionsTranslator
             string lastOriginalText = await SQLiteHistoryLogger.LoadLastSourceText(token);
             if (lastOriginalText == null)
                 return false;
-            
+
             int minLen = Math.Min(originalText.Length, lastOriginalText.Length);
             originalText = originalText.Substring(0, minLen);
             lastOriginalText = lastOriginalText.Substring(0, minLen);
-            
+
             double similarity = TextUtil.Similarity(originalText, lastOriginalText);
             return similarity > TextUtil.SIM_THRESHOLD;
         }

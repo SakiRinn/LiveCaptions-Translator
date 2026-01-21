@@ -36,6 +36,9 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore
 
+      - name: Check code formatting
+        run: dotnet format ./LiveCaptionsTranslator.csproj --verify-no-changes --verbosity diagnostic
+
       - name: Build
         run: |
           dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true -o ./publish/x64/selfcontained

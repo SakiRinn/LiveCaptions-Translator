@@ -7,8 +7,8 @@ namespace LiveCaptionsTranslator
         public static Snackbar? mainSnackbar;
         public static MainWindow? mainWindow = (MainWindow)App.Current.MainWindow;
 
-        public static void Show(string title = "", string message = "", SnackbarType type = SnackbarType.Info, 
-                                int width = 500, int timeout = 1,  bool closeButton = false)
+        public static void Show(string title = "", string message = "", SnackbarType type = SnackbarType.Info,
+                                int width = 500, int timeout = 1, bool closeButton = false)
         {
             ControlAppearance appearance;
             SymbolIcon icon;
@@ -49,7 +49,7 @@ namespace LiveCaptionsTranslator
             snackbar.Show(true);
         }
     }
-    
+
     public enum SnackbarType
     {
         Warning,
