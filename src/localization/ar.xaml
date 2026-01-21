@@ -4,183 +4,178 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <!-- SettingPage strings -->
-    <sys:String x:Key="S0">الترجمة المباشرة للتسميات التوضيحية</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsName">الترجمة المباشرة للتسميات التوضيحية</sys:String>
     <sys:String x:Key="S1">بعد Windows 11 الإصدار 24H2، يمكنك فقط تغيير</sys:String>
-    <sys:String x:Key="S2">لغة المصدر</sys:String>
-    <sys:String x:Key="S3">في Live Captions.</sys:String>
-    <sys:String x:Key="S4">ملاحظة:</sys:String>
-    <sys:String x:Key="S5">يرجى الضغط على</sys:String>
-    <sys:String x:Key="S6">"إخفاء"</sys:String>
-    <sys:String x:Key="S7">لإخفاء Live Captions بدلاً من إغلاقه مباشرة.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">لغة المصدر</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">في Live Captions.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">ملاحظة:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">يرجى الضغط على</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"إخفاء"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">لإخفاء Live Captions بدلاً من إغلاقه مباشرة.</sys:String>
 
-    <sys:String x:Key="S8">إظهار</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">إظهار</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">إخفاء</sys:String>
 
-    <!-- LiveCaptions toggle button text -->
-    <sys:String x:Key="S45">إخفاء</sys:String>
-    <sys:String x:Key="S46">إظهار</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Label">فاصل API</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">يحدد تكرار استدعاءات واجهة API للترجمة. كلما كان أصغر كانت الاستدعاءات أكثر.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">يتم استدعاء واجهة الترجمة مرة واحدة بعد تغيّر التسميات التوضيحية</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[فاصل API]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">مرات.</sys:String>
 
-    <sys:String x:Key="S9">فاصل API</sys:String>
-    <sys:String x:Key="S10">يحدد تكرار استدعاءات واجهة API للترجمة. كلما كان أصغر كانت الاستدعاءات أكثر.</sys:String>
-    <sys:String x:Key="S11">يتم استدعاء واجهة الترجمة مرة واحدة بعد تغيّر التسميات التوضيحية</sys:String>
-    <sys:String x:Key="S12">[فاصل API]</sys:String>
-    <sys:String x:Key="S13">مرات.</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Label">واجهة ترجمة API</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">باستثناء Google و Google2، تتطلب جميع واجهات API الأخرى إعدادات قبل الاستخدام.</sys:String>
 
-    <sys:String x:Key="S14">واجهة ترجمة API</sys:String>
-    <sys:String x:Key="S15">باستثناء Google و Google2، تتطلب جميع واجهات API الأخرى إعدادات قبل الاستخدام.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">لغة الهدف</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">لا توجد لغة الهدف التي أتوقعها!</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">يمكنك تعديل محتوى مربع الاختيار هذا مباشرة لتخصيص اللغة، ويُنصح باتباع</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">وسم اللغة BCP 47.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">تتطلب بعض واجهات API (مثل DeepL) طريقة مختلفة لتحديد لغة الهدف، راجع وثائقهم الرسمية.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">للغات المضمنة لا حاجة للقلق (هناك تعيينات جاهزة). لكن إذا لم تكن لغتك في القائمة فضع ذلك في الحسبان.</sys:String>
 
-    <sys:String x:Key="S16">لغة الهدف</sys:String>
-    <sys:String x:Key="S17">لا توجد لغة الهدف التي أتوقعها!</sys:String>
-    <sys:String x:Key="S18">يمكنك تعديل محتوى مربع الاختيار هذا مباشرة لتخصيص اللغة، ويُنصح باتباع</sys:String>
-    <sys:String x:Key="S19">وسم اللغة BCP 47.</sys:String>
-    <sys:String x:Key="S20">تتطلب بعض واجهات API (مثل DeepL) طريقة مختلفة لتحديد لغة الهدف، راجع وثائقهم الرسمية.</sys:String>
-    <sys:String x:Key="S21">للغات المضمنة لا حاجة للقلق (هناك تعيينات جاهزة). لكن إذا لم تكن لغتك في القائمة فضع ذلك في الحسبان.</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Label">إعدادات API</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">فتح</sys:String>
 
-    <sys:String x:Key="S22">إعدادات API</sys:String>
-    <sys:String x:Key="S23">فتح</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">إظهار زمن التأخير</sys:String>
+    <sys:String x:Key="Common_Off">إيقاف</sys:String>
+    <sys:String x:Key="Common_On">تشغيل</sys:String>
 
-    <sys:String x:Key="S24">إظهار زمن التأخير</sys:String>
-    <sys:String x:Key="S25">إيقاف</sys:String>
-    <sys:String x:Key="S26">تشغيل</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Label">السياق</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">السياق:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">يحدد عدد جمل السياق عند تفعيل</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">الترجمة بحسب السياق</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">الجمل المعروضة:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">يحدد عدد البطاقات المعروضة عند تفعيل</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">بطاقات السجل</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">، وكذلك الحد الأقصى لعدد الجمل في نافذة التراكب.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">يجب أن تكون جمل السياق</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">أكبر من أو تساوي</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">الجمل المعروضة</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">. وإلا سيقوم البرنامج بالتعديل تلقائياً.</sys:String>
 
-    <sys:String x:Key="S27">السياق</sys:String>
-    <sys:String x:Key="S28">السياق:</sys:String>
-    <sys:String x:Key="S29">يحدد عدد جمل السياق عند تفعيل</sys:String>
-    <sys:String x:Key="S30">الترجمة بحسب السياق</sys:String>
-    <sys:String x:Key="S31">.</sys:String>
-    <sys:String x:Key="S32">الجمل المعروضة:</sys:String>
-    <sys:String x:Key="S33">يحدد عدد البطاقات المعروضة عند تفعيل</sys:String>
-    <sys:String x:Key="S34">بطاقات السجل</sys:String>
-    <sys:String x:Key="S35">، وكذلك الحد الأقصى لعدد الجمل في نافذة التراكب.</sys:String>
-    <sys:String x:Key="S36">يجب أن تكون جمل السياق</sys:String>
-    <sys:String x:Key="S37">أكبر من أو تساوي</sys:String>
-    <sys:String x:Key="S38">الجمل المعروضة</sys:String>
-    <sys:String x:Key="S39">. وإلا سيقوم البرنامج بالتعديل تلقائياً.</sys:String>
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">الجمل المعروضة</sys:String>
 
-    <sys:String x:Key="S40">الجمل المعروضة</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">الترجمة ضمن السياق.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">قد يحسن الدقة لكنه يستهلك رموزاً (tokens) أكثر.</sys:String>
 
-    <sys:String x:Key="S41">الترجمة ضمن السياق.</sys:String>
-    <sys:String x:Key="S42">قد يحسن الدقة لكنه يستهلك رموزاً (tokens) أكثر.</sys:String>
-
-    <sys:String x:Key="S43">لغة الواجهة</sys:String>
-    <sys:String x:Key="S44">اختر اللغة المستخدمة في واجهة التطبيق.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Label">لغة الواجهة</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">اختر اللغة المستخدمة في واجهة التطبيق.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">تسري التغييرات فورًا ويتم حفظها تلقائيًا.</sys:String>
 
     <!-- HistoryPage strings -->
-    <sys:String x:Key="H0">السابق</sys:String>
-    <sys:String x:Key="H1">الصفحة التالية</sys:String>
-    <sys:String x:Key="H2">بحث</sys:String>
-    <sys:String x:Key="H3">تصدير</sys:String>
-    <sys:String x:Key="H4">حذف الكل</sys:String>
-    <sys:String x:Key="H5">تحديث</sys:String>
-    <sys:String x:Key="H6">الوقت</sys:String>
-    <sys:String x:Key="H7">النص</sys:String>
-    <sys:String x:Key="H8">المترجم</sys:String>
-    <sys:String x:Key="H9">واجهة API</sys:String>
-    <sys:String x:Key="H10">20/صفحة</sys:String>
-    <sys:String x:Key="H11">30/صفحة</sys:String>
-    <sys:String x:Key="H12">50/صفحة</sys:String>
-    <sys:String x:Key="H13">100/صفحة</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Previous">السابق</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">الصفحة التالية</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">بحث</sys:String>
+
+    <sys:String x:Key="HistoryPage_Action_Export">تصدير</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">حذف الكل</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">تحديث</sys:String>
+
+    <sys:String x:Key="HistoryPage_Column_Time">الوقت</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">النص</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">المترجم</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">واجهة API</sys:String>
+
+    <sys:String x:Key="HistoryPage_PageSize_20">20/صفحة</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/صفحة</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/صفحة</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/صفحة</sys:String>
 
     <!-- HistoryPage (code-behind) strings -->
-    <sys:String x:Key="H20">هل تريد حذف كل السجل؟</sys:String>
-    <sys:String x:Key="H21">لا يمكن التراجع عن هذه العملية!</sys:String>
-    <sys:String x:Key="H22">نعم</sys:String>
-    <sys:String x:Key="H23">لا</sys:String>
-    <sys:String x:Key="H24">CSV (*.csv)|*.csv|All file (*.*)|*.*</sys:String>
-    <sys:String x:Key="H25">تم الحفظ</sys:String>
-    <sys:String x:Key="H26">تم حفظ الملف إلى: {0}</sys:String>
-    <sys:String x:Key="H27">فشل الحفظ</sys:String>
-    <sys:String x:Key="H28">فشل حفظ الملف: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">هل تريد حذف كل السجل؟</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">لا يمكن التراجع عن هذه العملية!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">نعم</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">لا</sys:String>
+
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|All file (*.*)|*.*</sys:String>
+
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">تم الحفظ</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">تم حفظ الملف إلى: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">فشل الحفظ</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">فشل حفظ الملف: {0}</sys:String>
 
     <!-- OverlayWindow strings -->
-    <sys:String x:Key="O0">نافذة التراكب</sys:String>
-    <sys:String x:Key="O1">زيادة حجم الخط</sys:String>
-    <sys:String x:Key="O2">تقليل حجم الخط</sys:String>
-    <sys:String x:Key="O3">زيادة سماكة الحد</sys:String>
-    <sys:String x:Key="O4">تقليل سماكة الحد</sys:String>
-    <sys:String x:Key="O5">تغليظ الخط</sys:String>
-    <sys:String x:Key="O6">لون الخط</sys:String>
-    <sys:String x:Key="O7">زيادة شفافية الخلفية</sys:String>
-    <sys:String x:Key="O8">تقليل شفافية الخلفية</sys:String>
-    <sys:String x:Key="O9">لون الخلفية</sys:String>
-    <sys:String x:Key="O10">عرض النص الأصلي فقط أو الترجمة فقط</sys:String>
-    <sys:String x:Key="O11">تبديل موضع النص الأصلي/الترجمة</sys:String>
-    <sys:String x:Key="O12">نقر عبر النافذة</sys:String>
+    <sys:String x:Key="OverlayWindow_Title">نافذة التراكب</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">زيادة حجم الخط</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">تقليل حجم الخط</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">زيادة سماكة الحد</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">تقليل سماكة الحد</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">تغليظ الخط</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">لون الخط</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">زيادة شفافية الخلفية</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">تقليل شفافية الخلفية</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">لون الخلفية</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">عرض النص الأصلي فقط أو الترجمة فقط</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">تبديل موضع النص الأصلي/الترجمة</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">نقر عبر النافذة</sys:String>
 
     <!-- InfoPage strings -->
-    <sys:String x:Key="I0">نرحب بأي شكل من أشكال المساهمة! يمكنك تقديم اقتراحات أو الإبلاغ عن أخطاء عبر GitHub issues، أو المساهمة بالكود مباشرة عبر Pull Requests.</sys:String>
-    <sys:String x:Key="I1">إذا كان هذا البرنامج مفيداً لك، فالرجاء التفكير في منحنا نجمة!</sys:String>
-    <sys:String x:Key="I2">المستودع:</sys:String>
-    <sys:String x:Key="I3">الويكي:</sys:String>
-    <sys:String x:Key="I4">المشرف:</sys:String>
-    <sys:String x:Key="I5">(المؤلف) و</sys:String>
-    <sys:String x:Key="I6">الإصدار:</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_Message">نرحب بأي شكل من أشكال المساهمة! يمكنك تقديم اقتراحات أو الإبلاغ عن أخطاء عبر GitHub issues، أو المساهمة بالكود مباشرة عبر Pull Requests.</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">إذا كان هذا البرنامج مفيداً لك، فالرجاء التفكير في منحنا نجمة!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">المستودع:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">الويكي:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">المشرف:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(المؤلف) و</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">الإصدار:</sys:String>
 
     <!-- WelcomeWindow strings -->
-    <sys:String x:Key="W0">البدء</sys:String>
-    <sys:String x:Key="W1">مرحباً بك في LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="WelcomeWindow_GetStarted">ابدأ</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">مرحباً بك في LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">يعتمد LiveCaptions Translator على Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">قبل التشغيل لأول مرة، عليك إعداده وفق الخطوات التالية:&#x0A;</sys:String>
 
-    <sys:String x:Key="W2">يعتمد LiveCaptions Translator على Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W3">قبل التشغيل لأول مرة، عليك إعداده وفق الخطوات التالية:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. افتح Windows LiveCaptions واتبع الإرشادات لتنزيل الملفات اللازمة للتعرّف على الكلام دون اتصال وحزم اللغات.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. انقر على</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ ترس الإعدادات</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">لفتح الإعدادات واختر</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"Position &gt; Overlaid on screen"</sys:String>
 
-    <sys:String x:Key="W4">&#x0A;1. افتح Windows LiveCaptions واتبع الإرشادات لتنزيل الملفات اللازمة للتعرّف على الكلام دون اتصال وحزم اللغات.</sys:String>
-    <sys:String x:Key="W5">&#x0A;2. انقر على</sys:String>
-    <sys:String x:Key="W6"> ترس الإعدادات </sys:String>
-    <sys:String x:Key="W7">في Windows LiveCaptions لفتح قائمة الإعدادات، واختر</sys:String>
-    <sys:String x:Key="W8"> "Position &gt; Overlaid on screen" </sys:String>
-    <sys:String x:Key="W9">.&#x0A;3. انقر على</sys:String>
-    <sys:String x:Key="W10"> "إخفاء" </sys:String>
-    <sys:String x:Key="W11">الموجود في صفحة الإعدادات داخل LiveCaptions Translator لإخفاء Windows LiveCaptions.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. انقر على</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"إخفاء"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">في صفحة الإعدادات داخل LiveCaptions Translator لإخفاء Windows LiveCaptions.&#x0A;</sys:String>
 
-    <sys:String x:Key="W12">&#x0A;لقد انتقل البرنامج تلقائياً إلى صفحة الإعدادات وفتح Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W13">بعد إكمال الإعداد، يمكنك الرجوع إلى الصفحة الرئيسية والاستمتاع بالترجمة الصوتية الفورية.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;لقد انتقل البرنامج تلقائياً إلى صفحة الإعدادات وفتح Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">بعد إكمال الإعداد، يمكنك الرجوع إلى الصفحة الرئيسية والاستمتاع بالترجمة الصوتية الفورية.&#x0A;</sys:String>
 
-    <sys:String x:Key="W14">&#x0A;لمزيد من التفاصيل، تفضل بزيارة الويكي: </sys:String>
-    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;لمزيد من التفاصيل، تفضل بزيارة الويكي: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
 
-    <sys:String x:Key="W16">&#x0A;&#x0A;نصيحة:&#x0A;</sys:String>
-    <sys:String x:Key="W17">لتغيير </sys:String>
-    <sys:String x:Key="W18">لغة المصدر</sys:String>
-    <sys:String x:Key="W19">، يرجى [إظهار] LiveCaptions في صفحة الإعدادات ثم القيام بذلك داخل Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;نصيحة:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">لتغيير</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">لغة المصدر</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">، يرجى [إظهار] LiveCaptions في صفحة الإعدادات ثم القيام بذلك داخل Windows LiveCaptions.</sys:String>
 
-    <sys:String x:Key="W20">لقد فهمت بالكامل وقمت بإعدادها.</sys:String>
-
-    <!-- MainWindow strings -->
-    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">لقد فهمت بالكامل وقمت بإعدادها.</sys:String>
 
     <!-- Navigation menu -->
-    <sys:String x:Key="M10">التسميات</sys:String>
-    <sys:String x:Key="M11">الإعدادات</sys:String>
-    <sys:String x:Key="M12">السجل</sys:String>
-    <sys:String x:Key="M13">معلومات</sys:String>
+    <sys:String x:Key="Navigation_Captions">التسميات</sys:String>
+    <sys:String x:Key="Navigation_Settings">الإعدادات</sys:String>
+    <sys:String x:Key="Navigation_History">السجل</sys:String>
+    <sys:String x:Key="Navigation_Info">معلومات</sys:String>
 
-    <!-- Title bar buttons tooltips -->
-    <sys:String x:Key="M20">بطاقات سجل التسميات</sys:String>
-    <sys:String x:Key="M21">إيقاف الترجمة مؤقتاً (تسجيل فقط)</sys:String>
-    <sys:String x:Key="M22">نافذة التراكب</sys:String>
-    <sys:String x:Key="M23">دائماً في المقدمة</sys:String>
+    <!-- MainWindow strings -->
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">بطاقات سجل التسميات</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">إيقاف الترجمة مؤقتاً (تسجيل فقط)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">نافذة التراكب</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">دائماً في المقدمة</sys:String>
 
-    <!-- MainWindow (code-behind) strings -->
-    <sys:String x:Key="MC0">[ERROR] Update Check Failed.</sys:String>
-    <sys:String x:Key="MC1">error</sys:String>
-
-    <sys:String x:Key="MC2">يتوفر إصدار جديد</sys:String>
-    <sys:String x:Key="MC3">تم اكتشاف إصدار جديد: {0}
+    <sys:String x:Key="MainWindow_Update_Error">[ERROR] Update Check Failed.</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">error</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">يتوفر إصدار جديد</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">تم اكتشاف إصدار جديد: {0}
 الإصدار الحالي: {1}
 يرجى زيارة GitHub لتنزيل أحدث إصدار.</sys:String>
-    <sys:String x:Key="MC4">تحديث</sys:String>
-    <sys:String x:Key="MC5">تجاهل هذا الإصدار</sys:String>
 
-    <sys:String x:Key="MC6">[ERROR] Open Browser Failed.</sys:String>
-
-    <!-- Translator (runtime status) strings -->
-    <sys:String x:Key="T0">[WARNING] تم إغلاق LiveCaptions بشكل غير متوقع، جارٍ إعادة التشغيل...</sys:String>
-    <sys:String x:Key="T1">[متوقف مؤقتاً]</sys:String>
-    <sys:String x:Key="T2">خطأ!</sys:String>
-    <sys:String x:Key="T3">فشل حفظ السجل: {0}</sys:String>
+    <!-- Translator -->
+    <sys:String x:Key="Translator_Status_Restarting">[WARNING] تم إغلاق LiveCaptions بشكل غير متوقع، جارٍ إعادة التشغيل...</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[متوقف مؤقتاً]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">خطأ!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">فشل حفظ السجل: {0}</sys:String>
 
     <!-- CaptionPage strings -->
-    <sys:String x:Key="C0">انقر للنسخ</sys:String>
-    <sys:String x:Key="C1">تم النسخ</sys:String>
-    <sys:String x:Key="C2">فشل النسخ</sys:String>
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">انقر للنسخ</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">تم النسخ</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">فشل النسخ</sys:String>
 
 </ResourceDictionary>

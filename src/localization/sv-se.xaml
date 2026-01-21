@@ -3,169 +3,156 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- SettingPage strings (compact numeric keys) -->
-    <sys:String x:Key="S0">LiveCaptions</sys:String>
-    <sys:String x:Key="S1">Efter Windows 11 version 24H2 kan du endast ändra</sys:String>
-    <sys:String x:Key="S2">Källspråk</sys:String>
-    <sys:String x:Key="S3">i LiveCaptions.</sys:String>
-    <sys:String x:Key="S4">Observera:</sys:String>
-    <sys:String x:Key="S5">Klicka på</sys:String>
-    <sys:String x:Key="S6">"Dölj"</sys:String>
-    <sys:String x:Key="S7">för att dölja LiveCaptions istället för att stänga det direkt.</sys:String>
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">LiveCaptions</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_AfterWin11">Efter Windows 11 version 24H2 kan du endast ändra</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">Källspråk</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">i LiveCaptions.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">Observera:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">Klicka på</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"Dölj"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">för att dölja LiveCaptions istället för att stänga det direkt.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">Visa</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">Dölj</sys:String>
 
-    <sys:String x:Key="S8">Visa</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Label">API-intervall</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">Bestämmer hur ofta översättnings-API:et anropas. Ju mindre värde, desto oftare anrop.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">Översättnings-API anropas en gång efter att texten ändrats</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[API-intervall]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">gånger.</sys:String>
 
-    <!-- LiveCaptions toggle button text -->
-    <sys:String x:Key="S45">Dölj</sys:String>
-    <sys:String x:Key="S46">Visa</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Label">Översättnings-API</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">Förutom Google och Google2 kräver alla andra API:er konfigurering innan de kan användas.</sys:String>
 
-    <sys:String x:Key="S9">API-intervall</sys:String>
-    <sys:String x:Key="S10">Bestämmer hur ofta översättnings-API:et anropas. Ju mindre värde, desto oftare anrop.</sys:String>
-    <sys:String x:Key="S11">Översättnings-API anropas en gång efter att texten ändrats</sys:String>
-    <sys:String x:Key="S12">[API-intervall]</sys:String>
-    <sys:String x:Key="S13">gånger.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">Målspråk</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">Det finns inget målspråk jag förväntade mig!</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">Du kan direkt redigera innehållet i denna kombinationsruta för att anpassa språket. Det rekommenderas att följa</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">BCP 47-språktagg.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">Vissa API:er (t.ex. DeepL) kräver ett annat sätt att definiera målspråk, se deras officiella dokumentation för detaljer.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">Behöver inte tas hänsyn till för inbyggda målspråk, eftersom vi redan har gjort taggkarta. Men om ditt förväntade språk inte finns med, tänk på detta.</sys:String>
 
-    <sys:String x:Key="S14">Översättnings-API</sys:String>
-    <sys:String x:Key="S15">Förutom Google och Google2 kräver alla andra API:er konfigurering innan de kan användas.</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Label">API-inställningar</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">Öppna</sys:String>
 
-    <sys:String x:Key="S16">Målspråk</sys:String>
-    <sys:String x:Key="S17">Det finns inget målspråk jag förväntade mig!</sys:String>
-    <sys:String x:Key="S18">Du kan direkt redigera innehållet i denna kombinationsruta för att anpassa språket. Det rekommenderas att följa</sys:String>
-    <sys:String x:Key="S19">BCP 47-språktagg.</sys:String>
-    <sys:String x:Key="S20">Vissa API:er (t.ex. DeepL) kräver ett annat sätt att definiera målspråk, se deras officiella dokumentation för detaljer.</sys:String>
-    <sys:String x:Key="S21">Behöver inte tas hänsyn till för inbyggda målspråk, eftersom vi redan har gjort taggkarta. Men om ditt förväntade språk inte finns med, tänk på detta.</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">Visa latens</sys:String>
+    <sys:String x:Key="Common_Off">Av</sys:String>
+    <sys:String x:Key="Common_On">På</sys:String>
 
-    <sys:String x:Key="S22">API-inställningar</sys:String>
-    <sys:String x:Key="S23">Öppna</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Label">Kontexter</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">Kontexter:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">Bestämmer antalet kontextsmeningar när</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">Kontextmedveten</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">är aktiverad.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">Överlagda meningar:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">Bestämmer antalet visade kort när</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">Loggkort</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">är aktiverade, samt maximalt antal meningar som visas i överläggsfönstret.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">Kontexter måste vara</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">större än eller lika med</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">Visade meningar</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">. Om inte justerar programmet automatiskt.</sys:String>
 
-    <sys:String x:Key="S24">Visa latens</sys:String>
-    <sys:String x:Key="S25">Av</sys:String>
-    <sys:String x:Key="S26">På</sys:String>
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">Visade meningar</sys:String>
 
-    <sys:String x:Key="S27">Kontexter</sys:String>
-    <sys:String x:Key="S28">Kontexter:</sys:String>
-    <sys:String x:Key="S29">Bestämmer antalet kontextsmeningar när</sys:String>
-    <sys:String x:Key="S30">Kontextmedveten</sys:String>
-    <sys:String x:Key="S31">är aktiverad.</sys:String>
-    <sys:String x:Key="S32">Överlagda meningar:</sys:String>
-    <sys:String x:Key="S33">Bestämmer antalet visade kort när</sys:String>
-    <sys:String x:Key="S34">Loggkort</sys:String>
-    <sys:String x:Key="S35">är aktiverade, samt maximalt antal meningar som visas i överläggsfönstret.</sys:String>
-    <sys:String x:Key="S36">Kontexter måste vara</sys:String>
-    <sys:String x:Key="S37">större än eller lika med</sys:String>
-    <sys:String x:Key="S38">Visade meningar</sys:String>
-    <sys:String x:Key="S39">. Om inte justerar programmet automatiskt.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">Översätt i kontext.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">Det kan förbättra översättningsnoggrannheten men använder fler tokens.</sys:String>
 
-    <sys:String x:Key="S40">Visade meningar</sys:String>
-
-    <sys:String x:Key="S41">Översätt i kontext.</sys:String>
-    <sys:String x:Key="S42">Det kan förbättra översättningsnoggrannheten men använder fler tokens.</sys:String>
-
-    <sys:String x:Key="S43">UI-språk</sys:String>
-    <sys:String x:Key="S44">Välj språket som används av applikationens användargränssnitt.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Label">UI-språk</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">Välj språket som används av applikationens användargränssnitt.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">Ändringar träder i kraft omedelbart och sparas automatiskt.</sys:String>
 
     <!-- HistoryPage strings -->
-    <sys:String x:Key="H0">Föregående</sys:String>
-    <sys:String x:Key="H1">Nästa sida</sys:String>
-    <sys:String x:Key="H2">Sök</sys:String>
-    <sys:String x:Key="H3">Exportera</sys:String>
-    <sys:String x:Key="H4">Radera allt</sys:String>
-    <sys:String x:Key="H5">Uppdatera</sys:String>
-    <sys:String x:Key="H6">Tid</sys:String>
-    <sys:String x:Key="H7">Text</sys:String>
-    <sys:String x:Key="H8">Översatt</sys:String>
-    <sys:String x:Key="H9">API</sys:String>
-    <sys:String x:Key="H10">20/sida</sys:String>
-    <sys:String x:Key="H11">30/sida</sys:String>
-    <sys:String x:Key="H12">50/sida</sys:String>
-    <sys:String x:Key="H13">100/sida</sys:String>
-    <sys:String x:Key="H20">Vill du radera hela historiken?</sys:String>
-    <sys:String x:Key="H21">Denna åtgärd kan inte ångras!</sys:String>
-    <sys:String x:Key="H22">Ja</sys:String>
-    <sys:String x:Key="H23">Nej</sys:String>
-    <sys:String x:Key="H24">CSV (*.csv)|*.csv|Alla filer (*.*)|*.*</sys:String>
-    <sys:String x:Key="H25">Sparat framgångsrikt</sys:String>
-    <sys:String x:Key="H26">Fil sparad till: {0}</sys:String>
-    <sys:String x:Key="H27">Misslyckades med att spara</sys:String>
-    <sys:String x:Key="H28">Kunde inte spara fil: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Previous">Föregående</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">Nästa sida</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">Sök</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">Exportera</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">Radera allt</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">Uppdatera</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Time">Tid</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">Text</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">Översatt</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_20">20/sida</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/sida</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/sida</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/sida</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">Vill du radera hela historiken?</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">Denna åtgärd kan inte ångras!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">Ja</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">Nej</sys:String>
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|Alla filer (*.*)|*.*</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">Sparat framgångsrikt</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">Fil sparad till: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">Misslyckades med att spara</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">Kunde inte spara fil: {0}</sys:String>
 
     <!-- OverlayWindow strings -->
-    <sys:String x:Key="O0">Överläggsfönster</sys:String>
-    <sys:String x:Key="O1">Öka teckenstorlek</sys:String>
-    <sys:String x:Key="O2">Minska teckenstorlek</sys:String>
-    <sys:String x:Key="O3">Öka teckensnittets kant</sys:String>
-    <sys:String x:Key="O4">Minska teckensnittets kant</sys:String>
-    <sys:String x:Key="O5">Fet stil</sys:String>
-    <sys:String x:Key="O6">Teckenfärg</sys:String>
-    <sys:String x:Key="O7">Öka bakgrundens opacitet</sys:String>
-    <sys:String x:Key="O8">Minska bakgrundens opacitet</sys:String>
-    <sys:String x:Key="O9">Bakgrundsfärg</sys:String>
-    <sys:String x:Key="O10">Visa endast undertexter eller översättningar</sys:String>
-    <sys:String x:Key="O11">Byt plats på undertext/översättning</sys:String>
-    <sys:String x:Key="O12">Klicka igenom</sys:String>
+    <sys:String x:Key="OverlayWindow_Title">Överläggsfönster</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">Öka teckenstorlek</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">Minska teckenstorlek</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">Öka teckensnittets kant</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">Minska teckensnittets kant</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">Fet stil</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">Teckenfärg</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">Öka bakgrundens opacitet</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">Minska bakgrundens opacitet</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">Bakgrundsfärg</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">Visa endast undertexter eller översättningar</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">Byt plats på undertext/översättning</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">Klicka igenom</sys:String>
 
     <!-- InfoPage strings -->
-    <sys:String x:Key="I0">Vi välkomnar alla former av bidrag! Du kan lämna förslag eller rapportera buggar via GitHub-issues, eller bidra med kod direkt via Pull Requests.</sys:String>
-    <sys:String x:Key="I1">Om detta program är användbart för dig, överväg att ge oss en stjärna!</sys:String>
-    <sys:String x:Key="I2">Repository:</sys:String>
-    <sys:String x:Key="I3">Wiki:</sys:String>
-    <sys:String x:Key="I4">Underhållare:</sys:String>
-    <sys:String x:Key="I5">(Författare) och</sys:String>
-    <sys:String x:Key="I6">Version:</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_Message">Vi välkomnar alla former av bidrag! Du kan lämna förslag eller rapportera buggar via GitHub-issues, eller bidra med kod direkt via Pull Requests.</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">Om detta program är användbart för dig, överväg att ge oss en stjärna!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">Repository:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">Wiki:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">Underhållare:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(Författare) och</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">Version:</sys:String>
 
     <!-- WelcomeWindow strings -->
-    <sys:String x:Key="W0">Kom igång</sys:String>
-    <sys:String x:Key="W1">Välkommen till LiveCaptions Translator!</sys:String>
-    <sys:String x:Key="W2">LiveCaptions Translator är baserat på Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W3">&#x0A;Innan du kör första gången, behöver du konfigurera enligt följande steg:&#x0A;</sys:String>
-    <sys:String x:Key="W4">&#x0A;1. Öppna Windows LiveCaptions och följ guiden för att ladda ner nödvändiga filer för taligenkänning och språkpaket.</sys:String>
-    <sys:String x:Key="W5">&#x0A;2. Klicka på</sys:String>
-    <sys:String x:Key="W6">⚙️-ikonen</sys:String>
-    <sys:String x:Key="W7">i Windows LiveCaptions för att öppna inställningsmenyn och välj</sys:String>
-    <sys:String x:Key="W8">"Position &gt; Överlagrad på skärmen"</sys:String>
-    <sys:String x:Key="W9">3. Klicka på</sys:String>
-    <sys:String x:Key="W10">"Dölj"</sys:String>
-    <sys:String x:Key="W11">knappen på inställningssidan för LiveCaptions Translator för att dölja Windows LiveCaptions.&#x0A;</sys:String>
-    <sys:String x:Key="W12">&#x0A;Programmet har automatiskt navigerat till inställningssidan och öppnat Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W13">Efter att konfigurationen är klar kan du gå tillbaka till huvudsidan och njuta av realtidsöversättning.&#x0A;</sys:String>
-    <sys:String x:Key="W14">&#x0A;För mer information, besök vår wiki: </sys:String>
-    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
-    <sys:String x:Key="W16">&#x0A;&#x0A;Tips:&#x0A;</sys:String>
-    <sys:String x:Key="W17">För att ändra </sys:String>
-    <sys:String x:Key="W18">Källspråk</sys:String>
-    <sys:String x:Key="W19">, visa LiveCaptions på inställningssidan och gör ändringen i Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W20">Jag har full förståelse och har konfigurerat.</sys:String>
+    <sys:String x:Key="WelcomeWindow_GetStarted">Kom igång</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">Välkommen till LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator är baserat på Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;Innan du kör första gången, behöver du konfigurera enligt följande steg:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Öppna Windows LiveCaptions och följ guiden för att ladda ner nödvändiga filer för taligenkänning och språkpaket.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. Klicka på</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️-ikonen</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">i Windows LiveCaptions för att öppna inställningsmenyn och välj</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"Position &gt; Överlagrad på skärmen"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. Klicka på</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"Dölj"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">knappen på inställningssidan för LiveCaptions Translator för att dölja Windows LiveCaptions.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;Programmet har automatiskt navigerat till inställningssidan och öppnat Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">Efter att konfigurationen är klar kan du gå tillbaka till huvudsidan och njuta av realtidsöversättning.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;För mer information, besök vår wiki: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;Tips:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">För att ändra </sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">Källspråk</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">, visa LiveCaptions på inställningssidan och gör ändringen i Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">Jag har full förståelse och har konfigurerat.</sys:String>
 
     <!-- MainWindow strings -->
-    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
-    <sys:String x:Key="M10">Text</sys:String>
-    <sys:String x:Key="M11">Inställningar</sys:String>
-    <sys:String x:Key="M12">Historia</sys:String>
-    <sys:String x:Key="M13">Info</sys:String>
-    <sys:String x:Key="M20">Loggkort av undertexter</sys:String>
-    <sys:String x:Key="M21">Pausa översättning (endast logg)</sys:String>
-    <sys:String x:Key="M22">Överläggsfönster</sys:String>
-    <sys:String x:Key="M23">Alltid överst</sys:String>
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">Loggkort av undertexter</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">Pausa översättning (endast logg)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">Överläggsfönster</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">Alltid överst</sys:String>
+    <sys:String x:Key="MainWindow_Update_Error">[FEL] Uppdateringskontroll misslyckades.</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">fel</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">Ny version tillgänglig</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">En ny version har upptäckts: {0} Nuvarande version: {1} Besök GitHub för att ladda ner den senaste releasen.</sys:String>
 
-    <sys:String x:Key="MC0">[FEL] Uppdateringskontroll misslyckades.</sys:String>
-    <sys:String x:Key="MC1">fel</sys:String>
-    <sys:String x:Key="MC2">Ny version tillgänglig</sys:String>
-    <sys:String x:Key="MC3">En ny version har upptäckts: {0}
-Nuvarande version: {1}
-Besök GitHub för att ladda ner den senaste releasen.</sys:String>
-    <sys:String x:Key="MC4">Uppdatera</sys:String>
-    <sys:String x:Key="MC5">Ignorera denna version</sys:String>
-    <sys:String x:Key="MC6">[FEL] Kunde inte öppna webbläsare.</sys:String>
-
-    <!-- Translator (runtime status) strings -->
-    <sys:String x:Key="T0">[VARNING] LiveCaptions stängdes oväntat, startar om...</sys:String>
-    <sys:String x:Key="T1">[Pausad]</sys:String>
-    <sys:String x:Key="T2">Fel!</sys:String>
-    <sys:String x:Key="T3">Loggning av historik misslyckades: {0}</sys:String>
+    <!-- Translator -->
+    <sys:String x:Key="Translator_Status_Restarting">[VARNING] LiveCaptions stängdes oväntat, startar om...</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[Pausad]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">Fel!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">Loggning av historik misslyckades: {0}</sys:String>
 
     <!-- CaptionPage strings -->
-    <sys:String x:Key="C0">Klicka för att kopiera</sys:String>
-    <sys:String x:Key="C1">Kopierad</sys:String>
-    <sys:String x:Key="C2">Kopiering misslyckades</sys:String>
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">Klicka för att kopiera</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">Kopierad</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">Kopiering misslyckades</sys:String>
 
 </ResourceDictionary>

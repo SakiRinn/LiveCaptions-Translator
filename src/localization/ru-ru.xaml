@@ -3,169 +3,157 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- SettingPage strings (compact numeric keys) -->
-    <sys:String x:Key="S0">Живые субтитры</sys:String>
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">Живые субтитры</sys:String>
     <sys:String x:Key="S1">После версии Windows 11 24H2 можно изменить только</sys:String>
-    <sys:String x:Key="S2">Язык источника</sys:String>
-    <sys:String x:Key="S3">в Живых субтитрах.</sys:String>
-    <sys:String x:Key="S4">Примечание:</sys:String>
-    <sys:String x:Key="S5">Пожалуйста, нажмите</sys:String>
-    <sys:String x:Key="S6">"Скрыть"</sys:String>
-    <sys:String x:Key="S7">чтобы скрыть Живые субтитры, а не закрывать их напрямую.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">Язык источника</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">в Живых субтитрах.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">Примечание:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">Пожалуйста, нажмите</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"Скрыть"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">чтобы скрыть Живые субтитры, а не закрывать их напрямую.</sys:String>
 
-    <sys:String x:Key="S8">Показать</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">Показать</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">Скрыть</sys:String>
 
-    <!-- LiveCaptions toggle button text -->
-    <sys:String x:Key="S45">Скрыть</sys:String>
-    <sys:String x:Key="S46">Показать</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Label">Интервал API</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">Определяет частоту вызовов API перевода. Чем меньше значение, тем чаще вызовы.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">API перевода вызывается один раз после изменения субтитра</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[Интервал API]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">раз.</sys:String>
 
-    <sys:String x:Key="S9">Интервал API</sys:String>
-    <sys:String x:Key="S10">Определяет частоту вызовов API перевода. Чем меньше значение, тем чаще вызовы.</sys:String>
-    <sys:String x:Key="S11">API перевода вызывается один раз после изменения субтитра</sys:String>
-    <sys:String x:Key="S12">[Интервал API]</sys:String>
-    <sys:String x:Key="S13">раз.</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Label">API перевода</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">За исключением Google и Google2, все остальные API требуют настройки перед использованием.</sys:String>
 
-    <sys:String x:Key="S14">API перевода</sys:String>
-    <sys:String x:Key="S15">За исключением Google и Google2, все остальные API требуют настройки перед использованием.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">Целевой язык</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">Ожидаемого целевого языка нет!</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">Вы можете напрямую редактировать содержимое этого комбобокса для настройки языка, рекомендуется использовать</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">языковой тег BCP 47.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">Некоторые API (например, DeepL) требуют другого способа задания целевого языка, см. их официальную документацию.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">Не нужно учитывать это для встроенных целевых языков, так как мы уже создали соответствие тегов. Но если нужного языка нет в списке, имейте это в виду.</sys:String>
 
-    <sys:String x:Key="S16">Целевой язык</sys:String>
-    <sys:String x:Key="S17">Ожидаемого целевого языка нет!</sys:String>
-    <sys:String x:Key="S18">Вы можете напрямую редактировать содержимое этого комбобокса для настройки языка, рекомендуется использовать</sys:String>
-    <sys:String x:Key="S19">языковой тег BCP 47.</sys:String>
-    <sys:String x:Key="S20">Некоторые API (например, DeepL) требуют другого способа задания целевого языка, см. их официальную документацию.</sys:String>
-    <sys:String x:Key="S21">Не нужно учитывать это для встроенных целевых языков, так как мы уже создали соответствие тегов. Но если нужного языка нет в списке, имейте это в виду.</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Label">Настройки API</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">Открыть</sys:String>
 
-    <sys:String x:Key="S22">Настройки API</sys:String>
-    <sys:String x:Key="S23">Открыть</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">Показать задержку</sys:String>
+    <sys:String x:Key="Common_Off">Выкл.</sys:String>
+    <sys:String x:Key="Common_On">Вкл.</sys:String>
 
-    <sys:String x:Key="S24">Показать задержку</sys:String>
-    <sys:String x:Key="S25">Выкл.</sys:String>
-    <sys:String x:Key="S26">Вкл.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Label">Контексты</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">Контексты:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">Определяет количество контекстных предложений при включенном</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">Контекстном переводе</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">Отображаемые предложения:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">Определяет количество отображаемых карточек при включенных</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">Картах журнала</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">а также максимальное количество предложений, отображаемых в окне наложения.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">Контексты должны быть</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">больше или равны</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">Отображаемым предложениям</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">. Если нет, программа скорректирует их автоматически.</sys:String>
 
-    <sys:String x:Key="S27">Контексты</sys:String>
-    <sys:String x:Key="S28">Контексты:</sys:String>
-    <sys:String x:Key="S29">Определяет количество контекстных предложений при включенном</sys:String>
-    <sys:String x:Key="S30">Контекстном переводе</sys:String>
-    <sys:String x:Key="S31">.</sys:String>
-    <sys:String x:Key="S32">Отображаемые предложения:</sys:String>
-    <sys:String x:Key="S33">Определяет количество отображаемых карточек при включенных</sys:String>
-    <sys:String x:Key="S34">Картах журнала</sys:String>
-    <sys:String x:Key="S35">а также максимальное количество предложений, отображаемых в окне наложения.</sys:String>
-    <sys:String x:Key="S36">Контексты должны быть</sys:String>
-    <sys:String x:Key="S37">больше или равны</sys:String>
-    <sys:String x:Key="S38">Отображаемым предложениям</sys:String>
-    <sys:String x:Key="S39">. Если нет, программа скорректирует их автоматически.</sys:String>
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">Отображаемые предложения</sys:String>
 
-    <sys:String x:Key="S40">Отображаемые предложения</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">Перевод в контексте.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">Это может улучшить точность перевода, но потребляет больше токенов.</sys:String>
 
-    <sys:String x:Key="S41">Перевод в контексте.</sys:String>
-    <sys:String x:Key="S42">Это может улучшить точность перевода, но потребляет больше токенов.</sys:String>
-
-    <sys:String x:Key="S43">Язык интерфейса</sys:String>
-    <sys:String x:Key="S44">Выберите язык интерфейса приложения.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Label">Язык интерфейса</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">Выберите язык интерфейса приложения.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">Изменения вступают в силу сразу и сохраняются автоматически.</sys:String>
 
     <!-- HistoryPage strings -->
-    <sys:String x:Key="H0">Предыдущая</sys:String>
-    <sys:String x:Key="H1">Следующая страница</sys:String>
-    <sys:String x:Key="H2">Поиск</sys:String>
-    <sys:String x:Key="H3">Экспорт</sys:String>
-    <sys:String x:Key="H4">Удалить все</sys:String>
-    <sys:String x:Key="H5">Обновить</sys:String>
-    <sys:String x:Key="H6">Время</sys:String>
-    <sys:String x:Key="H7">Субтитры</sys:String>
-    <sys:String x:Key="H8">Переведено</sys:String>
-    <sys:String x:Key="H9">API</sys:String>
-    <sys:String x:Key="H10">20/страница</sys:String>
-    <sys:String x:Key="H11">30/страница</sys:String>
-    <sys:String x:Key="H12">50/страница</sys:String>
-    <sys:String x:Key="H13">100/страница</sys:String>
-    <sys:String x:Key="H20">Вы действительно хотите удалить всю историю?</sys:String>
-    <sys:String x:Key="H21">Это действие нельзя отменить!</sys:String>
-    <sys:String x:Key="H22">Да</sys:String>
-    <sys:String x:Key="H23">Нет</sys:String>
-    <sys:String x:Key="H24">CSV (*.csv)|*.csv|Все файлы (*.*)|*.*</sys:String>
-    <sys:String x:Key="H25">Сохранение прошло успешно</sys:String>
-    <sys:String x:Key="H26">Файл сохранён: {0}</sys:String>
-    <sys:String x:Key="H27">Ошибка сохранения</sys:String>
-    <sys:String x:Key="H28">Не удалось сохранить файл: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Previous">Предыдущая</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">Следующая страница</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">Поиск</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">Экспорт</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">Удалить все</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">Обновить</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Time">Время</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">Субтитры</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">Переведено</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_20">20/страница</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/страница</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/страница</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/страница</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">Вы действительно хотите удалить всю историю?</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">Это действие нельзя отменить!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">Да</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">Нет</sys:String>
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|Все файлы (*.*)|*.*</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">Сохранение прошло успешно</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">Файл сохранён: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">Ошибка сохранения</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">Не удалось сохранить файл: {0}</sys:String>
 
     <!-- OverlayWindow strings -->
-    <sys:String x:Key="O0">Окно наложения</sys:String>
-    <sys:String x:Key="O1">Увеличить размер шрифта</sys:String>
-    <sys:String x:Key="O2">Уменьшить размер шрифта</sys:String>
-    <sys:String x:Key="O3">Увеличить обводку шрифта</sys:String>
-    <sys:String x:Key="O4">Уменьшить обводку шрифта</sys:String>
-    <sys:String x:Key="O5">Жирный</sys:String>
-    <sys:String x:Key="O6">Цвет шрифта</sys:String>
-    <sys:String x:Key="O7">Увеличить прозрачность фона</sys:String>
-    <sys:String x:Key="O8">Уменьшить прозрачность фона</sys:String>
-    <sys:String x:Key="O9">Цвет фона</sys:String>
-    <sys:String x:Key="O10">Показывать только субтитры или переводы</sys:String>
-    <sys:String x:Key="O11">Сменить позицию субтитров/переводов</sys:String>
-    <sys:String x:Key="O12">Кликабельность сквозь окно</sys:String>
+    <sys:String x:Key="OverlayWindow_Title">Окно наложения</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">Увеличить размер шрифта</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">Уменьшить размер шрифта</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">Увеличить обводку шрифта</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">Уменьшить обводку шрифта</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">Жирный</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">Цвет шрифта</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">Увеличить прозрачность фона</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">Уменьшить прозрачность фона</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">Цвет фона</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">Показывать только субтитры или переводы</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">Сменить позицию субтитров/переводов</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">Кликабельность сквозь окно</sys:String>
 
     <!-- InfoPage strings -->
-    <sys:String x:Key="I0">Мы приветствуем любые виды вклада! Вы можете оставлять предложения или сообщать об ошибках через GitHub issues или отправлять код через Pull Requests.</sys:String>
-    <sys:String x:Key="I1">Если эта программа полезна для вас, пожалуйста, поставьте нам звезду!</sys:String>
-    <sys:String x:Key="I2">Репозиторий:</sys:String>
-    <sys:String x:Key="I3">Wiki:</sys:String>
-    <sys:String x:Key="I4">Поддержка:</sys:String>
-    <sys:String x:Key="I5">(Автор) и</sys:String>
-    <sys:String x:Key="I6">Версия:</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_Message">Мы приветствуем любые виды вклада! Вы можете оставлять предложения или сообщать об ошибках через GitHub issues или отправлять код через Pull Requests.</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">Если эта программа полезна для вас, пожалуйста, поставьте нам звезду!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">Репозиторий:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">Wiki:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">Поддержка:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(Автор) и</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">Версия:</sys:String>
 
     <!-- WelcomeWindow strings -->
-    <sys:String x:Key="W0">Начало работы</sys:String>
-    <sys:String x:Key="W1">Добро пожаловать в LiveCaptions Translator!</sys:String>
-    <sys:String x:Key="W2">LiveCaptions Translator основан на Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W3">&#x0A;Перед первым запуском необходимо настроить программу по следующим шагам:&#x0A;</sys:String>
-    <sys:String x:Key="W4">&#x0A;1. Откройте Windows LiveCaptions и следуйте инструкции для загрузки необходимых файлов распознавания речи и языковых пакетов.</sys:String>
-    <sys:String x:Key="W5">&#x0A;2. Нажмите</sys:String>
-    <sys:String x:Key="W6">⚙️ значок</sys:String>
-    <sys:String x:Key="W7">в Windows LiveCaptions для открытия настроек и выберите</sys:String>
-    <sys:String x:Key="W8">"Позиция &gt; На экране"</sys:String>
-    <sys:String x:Key="W9">3. Нажмите</sys:String>
-    <sys:String x:Key="W10">"Скрыть"</sys:String>
-    <sys:String x:Key="W11">кнопку на странице настроек LiveCaptions Translator, чтобы скрыть Windows LiveCaptions.&#x0A;</sys:String>
-    <sys:String x:Key="W12">&#x0A;Программа автоматически перешла на страницу настроек и открыла Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W13">После завершения настройки вы можете вернуться на главную страницу и наслаждаться переводом в реальном времени.&#x0A;</sys:String>
-    <sys:String x:Key="W14">&#x0A;Более подробную информацию см. в нашей wiki: </sys:String>
-    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
-    <sys:String x:Key="W16">&#x0A;&#x0A;Совет:&#x0A;</sys:String>
-    <sys:String x:Key="W17">Чтобы изменить </sys:String>
-    <sys:String x:Key="W18">Язык источника</sys:String>
-    <sys:String x:Key="W19">, нажмите [Показать] на странице настроек и сделайте это в Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W20">Я полностью понял и настроил программу.</sys:String>
+    <sys:String x:Key="WelcomeWindow_GetStarted">Начать</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">Добро пожаловать в LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator основан на Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;Перед первым запуском необходимо настроить программу по следующим шагам:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Откройте Windows LiveCaptions и следуйте инструкции для загрузки необходимых файлов распознавания речи и языковых пакетов.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. Нажмите</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ значок</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">в Windows LiveCaptions для открытия настроек и выберите</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"Позиция &gt; На экране"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. Нажмите</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"Скрыть"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">кнопку на странице настроек LiveCaptions Translator, чтобы скрыть Windows LiveCaptions.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;Программа автоматически перешла на страницу настроек и открыла Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">После завершения настройки вы можете вернуться на главную страницу и наслаждаться переводом в реальном времени.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;Более подробную информацию см. в нашей wiki: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;Совет:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">Чтобы изменить </sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">Язык источника</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">, нажмите [Показать] на странице настроек и сделайте это в Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">Я полностью понял и настроил программу.</sys:String>
 
     <!-- MainWindow strings -->
-    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
-    <sys:String x:Key="M10">Субтитры</sys:String>
-    <sys:String x:Key="M11">Настройки</sys:String>
-    <sys:String x:Key="M12">История</sys:String>
-    <sys:String x:Key="M13">Информация</sys:String>
-    <sys:String x:Key="M20">Карты логов субтитров</sys:String>
-    <sys:String x:Key="M21">Пауза перевода (только лог)</sys:String>
-    <sys:String x:Key="M22">Окно наложения</sys:String>
-    <sys:String x:Key="M23">Всегда поверх</sys:String>
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">Карты логов субтитров</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">Пауза перевода (только лог)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">Окно наложения</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">Всегда поверх</sys:String>
+    <sys:String x:Key="MainWindow_Update_Error">[ОШИБКА] Проверка обновлений не удалась.</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">ошибка</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">Доступна новая версия</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">Обнаружена новая версия: {0} Текущая версия: {1} Пожалуйста, посетите GitHub, чтобы скачать последнюю версию.</sys:String>
 
-    <sys:String x:Key="MC0">[ОШИБКА] Проверка обновлений не удалась.</sys:String>
-    <sys:String x:Key="MC1">ошибка</sys:String>
-    <sys:String x:Key="MC2">Доступна новая версия</sys:String>
-    <sys:String x:Key="MC3">Обнаружена новая версия: {0}
-Текущая версия: {1}
-Пожалуйста, посетите GitHub, чтобы скачать последнюю версию.</sys:String>
-    <sys:String x:Key="MC4">Обновить</sys:String>
-    <sys:String x:Key="MC5">Игнорировать эту версию</sys:String>
-    <sys:String x:Key="MC6">[ОШИБКА] Не удалось открыть браузер.</sys:String>
-
-    <!-- Translator (runtime status) strings -->
-    <sys:String x:Key="T0">[ПРЕДУПРЕЖДЕНИЕ] LiveCaptions был неожиданно закрыт, перезапуск...</sys:String>
-    <sys:String x:Key="T1">[Пауза]</sys:String>
-    <sys:String x:Key="T2">Ошибка!</sys:String>
-    <sys:String x:Key="T3">Не удалось записать историю: {0}</sys:String>
+    <!-- Translator -->
+    <sys:String x:Key="Translator_Status_Restarting">[ПРЕДУПРЕЖДЕНИЕ] LiveCaptions был неожиданно закрыт, перезапуск...</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[Пауза]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">Ошибка!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">Не удалось записать историю: {0}</sys:String>
 
     <!-- CaptionPage strings -->
-    <sys:String x:Key="C0">Нажмите, чтобы скопировать</sys:String>
-    <sys:String x:Key="C1">Скопировано</sys:String>
-    <sys:String x:Key="C2">Не удалось скопировать</sys:String>
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">Нажмите, чтобы скопировать</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">Скопировано</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">Не удалось скопировать</sys:String>
 
 </ResourceDictionary>

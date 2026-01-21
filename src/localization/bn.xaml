@@ -1,182 +1,174 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- Bengali (bn) localization (improved) -->
-
     <!-- SettingPage strings -->
-    <sys:String x:Key="S0">লাইভ ক্যাপশন</sys:String>
-    <sys:String x:Key="S1">Windows 11 সংস্করণ 24H2 এর পরে, আপনি কেবল</sys:String>
-    <sys:String x:Key="S2">উৎস ভাষা</sys:String>
-    <sys:String x:Key="S3">লাইভ ক্যাপশন-এ পরিবর্তন করতে পারবেন।</sys:String>
-    <sys:String x:Key="S4">নোট:</sys:String>
-    <sys:String x:Key="S5">অনুগ্রহ করে ক্লিক করুন</sys:String>
-    <sys:String x:Key="S6">"লুকান"</sys:String>
-    <sys:String x:Key="S7">লাইভ ক্যাপশন সরাসরি বন্ধ করার পরিবর্তে লুকাতে।</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsName">লাইভ ক্যাপশন</sys:String>
+    <sys:String x:Key="S1">Windows 11 24H2 এর পরে, আপনি কেবল পরিবর্তন করতে পারবেন</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">উৎস ভাষা</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">লাইভ ক্যাপশন-এ।</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">নোট:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">অনুগ্রহ করে ক্লিক করুন</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"লুকান"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">লাইভ ক্যাপশন সরাসরি বন্ধ করার পরিবর্তে লুকান।</sys:String>
 
-    <sys:String x:Key="S8">দেখান</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">দেখান</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">লুকান</sys:String>
 
-    <!-- LiveCaptions toggle button text -->
-    <sys:String x:Key="S45">লুকান</sys:String>
-    <sys:String x:Key="S46">দেখান</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Label">API অন্তরাল</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">অনুবাদ API কত ঘন ঘন কল হবে তা নির্ধারণ করে। ছোট মান হলে আরও ঘন ঘন কল হয়।</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">ক্যাপশন পরিবর্তনের পরে একবার API কল হবে</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[API অন্তরাল]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">বার।</sys:String>
 
-    <sys:String x:Key="S9">API অন্তরাল</sys:String>
-    <sys:String x:Key="S10">অনুবাদ API কলের ফ্রিকোয়েন্সি নির্ধারণ করে। যত ছোট, কল তত ঘন ঘন।</sys:String>
-    <sys:String x:Key="S11">ক্যাপশন পরিবর্তনের পরে API একবার কল হয়</sys:String>
-    <sys:String x:Key="S12">[API অন্তরাল]</sys:String>
-    <sys:String x:Key="S13">বার</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Label">অনুবাদ API</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">Google এবং Google2 ব্যতীত, অন্য API ব্যবহারের আগে কনফিগার করা প্রয়োজন।</sys:String>
 
-    <sys:String x:Key="S14">অনুবাদ API</sys:String>
-    <sys:String x:Key="S15">Google এবং Google2 ব্যতীত, অন্য API গুলো ব্যবহারের আগে কনফিগার করা প্রয়োজন।</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">লক্ষ্য ভাষা</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">আপনার কাঙ্ক্ষিত লক্ষ্য ভাষা নেই?</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">আপনি সরাসরি এই ComboBox-এর লেখা সম্পাদনা করে ভাষা কাস্টমাইজ করতে পারেন। সুপারিশ করা হয়</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">BCP 47 ভাষা ট্যাগ অনুসরণ করতে।</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">কিছু API (যেমন DeepL) লক্ষ্য ভাষা নির্ধারণের জন্য ভিন্ন পদ্ধতি ব্যবহার করে। অনুগ্রহ করে তাদের ডকুমেন্টেশন দেখুন।</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">অন্তর্নির্মিত লক্ষ্য ভাষা ইতিমধ্যেই ম্যাপ করা হয়েছে। আপনার ভাষা তালিকায় না থাকলে এটি মনে রাখুন।</sys:String>
 
-    <sys:String x:Key="S16">লক্ষ্য ভাষা</sys:String>
-    <sys:String x:Key="S17">প্রত্যাশিত লক্ষ্য ভাষা নেই!</sys:String>
-    <sys:String x:Key="S18">আপনি সরাসরি এই কম্বোবক্সে ভাষা সম্পাদনা করতে পারেন, এবং এটি সুপারিশ করা হয়</sys:String>
-    <sys:String x:Key="S19">BCP 47 ভাষা ট্যাগ অনুযায়ী।</sys:String>
-    <sys:String x:Key="S20">কিছু API (যেমন DeepL) অন্যভাবে লক্ষ্য ভাষা নির্ধারণ করে; তাদের ডকুমেন্টেশন দেখুন।</sys:String>
-    <sys:String x:Key="S21">যদি তালিকায় আপনার প্রত্যাশিত ভাষা না থাকে, এই বিষয়টি মনে রাখুন।</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Label">API সেটিংস</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">খুলুন</sys:String>
 
-    <sys:String x:Key="S22">এপিআই সেটিংস</sys:String>
-    <sys:String x:Key="S23">খোলা</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">ল্যাটেন্সি দেখান</sys:String>
+    <sys:String x:Key="Common_Off">বন্ধ</sys:String>
+    <sys:String x:Key="Common_On">চালু</sys:String>
 
-    <sys:String x:Key="S24">প্রদর্শনের বিলম্ব দেখান</sys:String>
-    <sys:String x:Key="S25">বন্ধ</sys:String>
-    <sys:String x:Key="S26">চালু</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Label">প্রসঙ্গ</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">প্রসঙ্গ:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">যখন</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">প্রসঙ্গ সচেতন</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">চালু থাকে, তখন প্রসঙ্গ বাক্যের সংখ্যা নির্ধারণ করে।</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">ওভারলে বাক্য:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">যখন</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">লগ কার্ড</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">চালু থাকে, তখন প্রদর্শিত কার্ডের সংখ্যা এবং ওভারলে উইন্ডোতে সর্বাধিক বাক্যের সংখ্যা নির্ধারণ করে।</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">প্রসঙ্গ অবশ্যই</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">বড় বা সমান হতে হবে</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">প্রদর্শিত বাক্য</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">। না হলে অ্যাপ স্বয়ংক্রিয়ভাবে সামঞ্জস্য করবে।</sys:String>
 
-    <sys:String x:Key="S27">প্রসঙ্গ</sys:String>
-    <sys:String x:Key="S28">প্রসঙ্গ:</sys:String>
-    <sys:String x:Key="S29">ক্যাপশন অনুবাদের সময় প্রসঙ্গ বাক্যের সংখ্যা নির্ধারণ করে</sys:String>
-    <sys:String x:Key="S30">প্রসঙ্গ সচেতন</sys:String>
-    <sys:String x:Key="S31">চালু থাকলে।</sys:String>
-    <sys:String x:Key="S32">ওভারলে বাক্য:</sys:String>
-    <sys:String x:Key="S33">লগ কার্ড সক্রিয় থাকলে প্রদর্শিত কার্ডের সংখ্যা এবং ওভারলে উইন্ডোতে সর্বোচ্চ বাক্যের সংখ্যা নির্ধারণ করে।</sys:String>
-    <sys:String x:Key="S34">লগ কার্ড</sys:String>
-    <sys:String x:Key="S35">।</sys:String>
-    <sys:String x:Key="S36">প্রসঙ্গ অবশ্যই</sys:String>
-    <sys:String x:Key="S37">সামান্য বা সমান হতে হবে</sys:String>
-    <sys:String x:Key="S38">প্রদর্শনের বাক্য</sys:String>
-    <sys:String x:Key="S39">। না হলে প্রোগ্রাম স্বয়ংক্রিয়ভাবে তাদের সমন্বয় করবে।</sys:String>
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">প্রদর্শিত বাক্য</sys:String>
 
-    <sys:String x:Key="S40">প্রদর্শনের বাক্য</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">প্রসঙ্গসহ অনুবাদ।</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">নির্ভুলতা বাড়াতে পারে, তবে বেশি টোকেন ব্যবহার করে।</sys:String>
 
-    <sys:String x:Key="S41">প্রসঙ্গ অনুযায়ী অনুবাদ।</sys:String>
-    <sys:String x:Key="S42">অনুবাদের সঠিকতা বাড়ায়, তবে বেশি টোকেন খরচ হয়।</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Label">UI ভাষা</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">অ্যাপ UI-এ ব্যবহৃত ভাষা নির্বাচন করুন।</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">পরিবর্তন সঙ্গে সঙ্গে কার্যকর হয় এবং স্বয়ংক্রিয়ভাবে সংরক্ষিত হয়।</sys:String>
 
-    <sys:String x:Key="S43">UI ভাষা</sys:String>
-    <sys:String x:Key="S44">অ্যাপের UI এর জন্য ভাষা নির্বাচন করুন।</sys:String>
+    <!-- HistoryPage strings (semantic keys) -->
+    <sys:String x:Key="HistoryPage_Pagination_Previous">পূর্ববর্তী পৃষ্ঠা</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">পরবর্তী পৃষ্ঠা</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">অনুসন্ধান</sys:String>
 
-    <!-- HistoryPage strings -->
-    <sys:String x:Key="H0">পূর্ববর্তী</sys:String>
-    <sys:String x:Key="H1">পরবর্তী পাতা</sys:String>
-    <sys:String x:Key="H2">অনুসন্ধান</sys:String>
-    <sys:String x:Key="H3">নির্মাণ করুন</sys:String>
-    <sys:String x:Key="H4">সব মুছে ফেলে দিন</sys:String>
-    <sys:String x:Key="H5">রিফ্রেশ</sys:String>
-    <sys:String x:Key="H6">সময়</sys:String>
-    <sys:String x:Key="H7">ক্যাপশন</sys:String>
-    <sys:String x:Key="H8">অনুবাদ</sys:String>
-    <sys:String x:Key="H9">API</sys:String>
-    <sys:String x:Key="H10">20/পৃষ্ঠা</sys:String>
-    <sys:String x:Key="H11">30/পাতা</sys:String>
-    <sys:String x:Key="H12">50/পৃষ্ঠা</sys:String>
-    <sys:String x:Key="H13">100/পৃষ্ঠা</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">রপ্তানি</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">সব মুছে ফেলুন</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">রিফ্রেশ</sys:String>
+
+    <sys:String x:Key="HistoryPage_Column_Time">সময়</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">ক্যাপশন</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">অনুবাদ</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+
+    <sys:String x:Key="HistoryPage_PageSize_20">20/পৃষ্ঠা</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/পৃষ্ঠা</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/পৃষ্ঠা</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/পৃষ্ঠা</sys:String>
 
     <!-- HistoryPage (code-behind) strings -->
-    <sys:String x:Key="H20">আপনি কি সব ইতিহাস মুছে দিতে চান?</sys:String>
-    <sys:String x:Key="H21">এই কাজ পূর্বাবস্থায় ফেরানো যাবে না!</sys:String>
-    <sys:String x:Key="H22">হ্যাঁ</sys:String>
-    <sys:String x:Key="H23">না</sys:String>
-    <sys:String x:Key="H24">CSV (*.csv)|*.csv|All file (*.*)|*.*</sys:String>
-    <sys:String x:Key="H25">সংরক্ষণ সফল</sys:String>
-    <sys:String x:Key="H26">ফাইল সংরক্ষিত হয়েছে: {0}</sys:String>
-    <sys:String x:Key="H27">সংরক্ষণ ব্যর্থ</sys:String>
-    <sys:String x:Key="H28">ফাইল সংরক্ষণ ব্যর্থ: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">আপনি কি সব ইতিহাস মুছে ফেলতে চান?</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">হ্যাঁ</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">না</sys:String>
 
-    <!-- OverlayWindow strings -->
-    <sys:String x:Key="O0">ওভারলে উইন্ডো</sys:String>
-    <sys:String x:Key="O1">ফন্ট সাইজ বাড়ান</sys:String>
-    <sys:String x:Key="O2">ফন্ট সাইজ কমান</sys:String>
-    <sys:String x:Key="O3">ফন্ট স্ট্রোক বাড়ান</sys:String>
-    <sys:String x:Key="O4">ফন্ট স্ট্রোক কমান</sys:String>
-    <sys:String x:Key="O5">ফন্ট বোল্ড</sys:String>
-    <sys:String x:Key="O6">ফন্ট রঙ</sys:String>
-    <sys:String x:Key="O7">পটভূমির অস্পষ্টতা বাড়ান</sys:String>
-    <sys:String x:Key="O8">পট্ভূমির অস্পষ্টতা কমান</sys:String>
-    <sys:String x:Key="O9">পটভূমির রঙ</sys:String>
-    <sys:String x:Key="O10">শুধু সাবটাইটেল বা অনুবাদ দেখান</sys:String>
-    <sys:String x:Key="O11">সাবটাইটেল/অনুবাদের অবস্থান পরিবর্তন করুন</sys:String>
-    <sys:String x:Key="O12">ক্লিক থ্রু</sys:String>
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|All file (*.*)|*.*</sys:String>
+
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">সংরক্ষণ সফল</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">ফাইল সংরক্ষিত হয়েছে: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">সংরক্ষণ ব্যর্থ</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">ফাইল সংরক্ষণ ব্যর্থ: {0}</sys:String>
+
+    <!-- OverlayWindow strings (semantic tooltips) -->
+    <sys:String x:Key="OverlayWindow_Title">ওভারলে উইন্ডো</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">ফন্ট সাইজ বাড়ান</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">ফন্ট সাইজ কমান</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">ফন্ট স্ট্রোক বাড়ান</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">ফন্ট স্ট্রোক কমান</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">বোল্ড</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">ফন্ট রঙ</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">পটভূমির অস্বচ্ছতা বাড়ান</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">পটভূমির অস্বচ্ছতা কমান</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">পটভূমির রঙ</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">শুধু সাবটাইটেল বা অনুবাদ দেখান</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">সাবটাইটেল/অনুবাদের অবস্থান পরিবর্তন</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">ক্লিক-থ্রু</sys:String>
 
     <!-- InfoPage strings -->
-    <sys:String x:Key="I0">আমরা যে কোনো রকম অবদানকে স্বাগত জানাই! আপনি GitHub ইস্যুর মাধ্যমে পরামর্শ দিতে পারেন বা কোড সরাসরি Pull Request করে অবদান রাখতে পারেন।</sys:String>
-    <sys:String x:Key="I1">এই প্রোগ্রামটি আপনার কাজে লাগলে, আমাদের একটি স্টার দেওয়ার কথা ভাবুন!</sys:String>
-    <sys:String x:Key="I2">রেপোজিটরি:</sys:String>
-    <sys:String x:Key="I3">উইকি:</sys:String>
-    <sys:String x:Key="I4">রক্ষণকারী:</sys:String>
-    <sys:String x:Key="I5">(লেখক) এবং</sys:String>
-    <sys:String x:Key="I6">সংস্করণ:</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_Message">সব ধরনের অবদান স্বাগত! আপনি GitHub ইস্যুর মাধ্যমে ফিচার প্রস্তাব বা বাগ রিপোর্ট করতে পারেন, অথবা সরাসরি Pull Request জমা দিয়ে কোডে অবদান রাখতে পারেন।</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">যদি এই প্রোগ্রামটি আপনার কাজে আসে, অনুগ্রহ করে প্রকল্পটিকে একটি স্টার দিন!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">রেপো:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">উইকি:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">রক্ষণাবেক্ষক:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(লেখক) এবং</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">সংস্করণ:</sys:String>
 
     <!-- WelcomeWindow strings -->
-    <sys:String x:Key="W0">শুরু করুন</sys:String>
-    <sys:String x:Key="W1">LiveCaptions Translator-এ স্বাগতম!</sys:String>
-    <sys:String x:Key="W2">LiveCaptions Translator Windows LiveCaptions-এর উপর ভিত্তি করে তৈরি।</sys:String>
-    <sys:String x:Key="W3">প্রথমবার চালানোর আগে, নিচের ধাপগুলো অনুসরণ করে সেটআপ করুন:&#x0A;</sys:String>
-    <sys:String x:Key="W4">&#x0A;1. Windows LiveCaptions খুলুন এবং নির্দেশনা অনুসরণ করে অন-ডিভাইস স্পিচ রিকগনিশন ও ভাষা প্যাকের প্রয়োজনীয় ফাইল ডাউনলোড করুন।</sys:String>
-    <sys:String x:Key="W5">&#x0A;2. Windows LiveCaptions-এ</sys:String>
-    <sys:String x:Key="W6"> গিয়ার </sys:String>
-    <sys:String x:Key="W7">আইকনে ক্লিক করে সেটিংস মেনু খুলুন এবং</sys:String>
-    <sys:String x:Key="W8"> "Position &gt; Overlaid on screen" </sys:String>
-    <sys:String x:Key="W9"> নির্বাচন করুন।&#x0A;3. LiveCaptions Translator-এর সেটিংস পেজে থাকা</sys:String>
-    <sys:String x:Key="W10"> "লুকান" </sys:String>
-    <sys:String x:Key="W11">বোতামে ক্লিক করে Windows LiveCaptions লুকান।&#x0A;</sys:String>
-    <sys:String x:Key="W12">&#x0A;প্রোগ্রামটি স্বয়ংক্রিয়ভাবে সেটিংস পেজে নিয়ে গেছে এবং Windows LiveCaptions খুলেছে।</sys:String>
-    <sys:String x:Key="W13">সেটআপ শেষ হলে, আপনি মূল পেজে ফিরে গিয়ে রিয়েল-টাইম অডিও অনুবাদ উপভোগ করতে পারবেন।&#x0A;</sys:String>
-    <sys:String x:Key="W14">&#x0A;আরও বিস্তারিত জানতে আমাদের উইকি দেখুন: </sys:String>
-    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
-    <sys:String x:Key="W16">&#x0A;&#x0A;টিপ:&#x0A;</sys:String>
-    <sys:String x:Key="W17">পরিবর্তন করতে </sys:String>
-    <sys:String x:Key="W18">উৎস ভাষা</sys:String>
-    <sys:String x:Key="W19">, সেটিংস পেজে [দেখান] দিয়ে LiveCaptions দেখান এবং এটি Windows LiveCaptions-এ গিয়ে পরিবর্তন করুন।</sys:String>
-    <sys:String x:Key="W20">আমি সম্পূর্ণভাবে বুঝেছি এবং কনফিগার করেছি।</sys:String>
-
-    <!-- MainWindow strings -->
-    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="WelcomeWindow_GetStarted">শুরু করুন</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">LiveCaptions Translator-এ স্বাগতম!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator Windows Live Captions-এর উপর ভিত্তি করে তৈরি।</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;প্রথমবার চালানোর আগে, নিম্নলিখিত সেটআপ ধাপগুলো সম্পন্ন করুন:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Windows Live Captions খুলুন এবং নির্দেশিকা অনুযায়ী অফলাইন স্পিচ রিকগনিশন ফাইল এবং ভাষা প্যাক ডাউনলোড করুন।</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. ক্লিক করুন</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ গিয়ার</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">আইকন খুলতে সেটিংসে এবং নির্বাচন করতে</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"অবস্থান > স্ক্রিনে ওভারলে"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. ক্লিক করুন</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"লুকান"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">LiveCaptions Translator সেটিংস পৃষ্ঠায় বোতামটি লাইভ ক্যাপশন লুকাতে।&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;অ্যাপ স্বয়ংক্রিয়ভাবে সেটিংস পৃষ্ঠায় গেছে এবং Windows Live Captions খুলেছে।</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">সেটআপ সম্পন্ন হলে, আপনি প্রধান পৃষ্ঠায় ফিরে গিয়ে রিয়েল-টাইম অডিও অনুবাদ উপভোগ করতে পারেন।&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;বিস্তারিত তথ্যের জন্য উইকি দেখুন: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;টিপ:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">আপনি যদি পরিবর্তন করতে চান</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">উৎস ভাষা</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">, অনুগ্রহ করে প্রথমে [Show] লাইভ ক্যাপশন ক্লিক করুন এবং তারপর Windows Live Captions-এ এটি পরিবর্তন করুন।</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">আমি সম্পূর্ণরূপে বুঝেছি এবং সেটআপ সম্পন্ন করেছি।</sys:String>
 
     <!-- Navigation menu -->
-    <sys:String x:Key="M10">ক্যাপশন</sys:String>
-    <sys:String x:Key="M11">সেটিং</sys:String>
-    <sys:String x:Key="M12">ইতিহাস</sys:String>
-    <sys:String x:Key="M13">তথ্য</sys:String>
+    <sys:String x:Key="Navigation_Captions">ক্যাপশন</sys:String>
+    <sys:String x:Key="Navigation_Settings">সেটিংস</sys:String>
+    <sys:String x:Key="Navigation_History">ইতিহাস</sys:String>
+    <sys:String x:Key="Navigation_Info">তথ্য</sys:String>
 
-    <!-- Title bar buttons tooltips -->
-    <sys:String x:Key="M20">ক্যাপশনের লগ কার্ড</sys:String>
-    <sys:String x:Key="M21">অনুবাদ বিরতি (শুধু লগ)</sys:String>
-    <sys:String x:Key="M22">ওভারলে উইন্ডো</sys:String>
-    <sys:String x:Key="M23">সবসময় উপরে</sys:String>
+    <!-- MainWindow strings -->
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">ক্যাপশন লগ কার্ড</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">অনুবাদ বিরতি (শুধু লগ)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">ওভারলে উইন্ডো</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">সর্বদা উপরে</sys:String>
 
-    <!-- MainWindow (code-behind) strings -->
-    <sys:String x:Key="MC0">[ERROR] আপডেট পরীক্ষা ব্যর্থ।</sys:String>
-    <sys:String x:Key="MC1">ভুলি</sys:String>
-
-    <sys:String x:Key="MC2">নতুন সংস্করণ উপলব্ধ</sys:String>
-    <sys:String x:Key="MC3">একটি নতুন সংস্করণ সনাক্ত হয়েছে: {0}
+    <sys:String x:Key="MainWindow_Update_Error">[ত্রুটি] আপডেট চেক ব্যর্থ হয়েছে।</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">ত্রুটি</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">নতুন সংস্করণ পাওয়া গেছে</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">নতুন সংস্করণ পাওয়া গেছে: {0}
 বর্তমান সংস্করণ: {1}
-সর্বশেষ রিলিজ ডাউনলোড করতে অনুগ্রহ করে GitHub ভিজিট করুন।</sys:String>
-    <sys:String x:Key="MC4">আপডেট</sys:String>
-    <sys:String x:Key="MC5">এই সংস্করণ উপেক্ষা করুন</sys:String>
+অনুগ্রহ করে GitHub-এ গিয়ে সর্বশেষ রিলিজ ডাউনলোড করুন।</sys:String>
 
-    <sys:String x:Key="MC6">[ERROR] ব্রাউজার খুলতে ব্যর্থ।</sys:String>
-
-    <!-- Translator (runtime status) strings -->
-    <sys:String x:Key="T0">[WARNING] LiveCaptions অপ্রত্যাশিতভাবে বন্ধ হয়েছিল, পুনরায় চালু করা হচ্ছে...</sys:String>
-    <sys:String x:Key="T1">[Paused]</sys:String>
-    <sys:String x:Key="T2">Error!</sys:String>
-    <sys:String x:Key="T3">ইতিহাস সংরক্ষণ ব্যর্থ: {0}</sys:String>
+    <!-- Translator  -->
+    <sys:String x:Key="Translator_Status_Restarting">[WARNING] লাইভ ক্যাপশন অপ্রত্যাশিতভাবে বন্ধ হয়েছে, পুনরায় চালু করা হচ্ছে…</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[বিরতি]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">ত্রুটি!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">ইতিহাস সংরক্ষণ ব্যর্থ: {0}</sys:String>
 
     <!-- CaptionPage strings -->
-    <sys:String x:Key="C0">ক্লিক করে কপি করুন</sys:String>
-    <sys:String x:Key="C1">কপি হয়েছে</sys:String>
-    <sys:String x:Key="C2">কপি ব্যর্থ</sys:String>
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">কপি করতে ক্লিক করুন</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">কপি হয়েছে</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">কপি ব্যর্থ</sys:String>
 
 </ResourceDictionary>

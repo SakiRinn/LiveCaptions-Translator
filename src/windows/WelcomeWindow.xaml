@@ -4,9 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
+    xmlns:models="clr-namespace:LiveCaptionsTranslator.models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="{DynamicResource W0}"
+    Title="{DynamicResource WelcomeWindow_GetStarted}"
     Width="700"
     MaxWidth="800"
     Height="540"
@@ -31,7 +32,7 @@
             ShowMinimize="False">
             <ui:TitleBar.Header>
                 <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap">
-                    <Run Text="{DynamicResource W0}" />
+                    <Run Text="{DynamicResource WelcomeWindow_GetStarted}" />
                 </ui:TextBlock>
             </ui:TitleBar.Header>
         </ui:TitleBar>
@@ -42,7 +43,7 @@
                 HorizontalAlignment="Left"
                 FontSize="24"
                 FontWeight="Bold"
-                Text="{DynamicResource W1}"
+                Text="{DynamicResource WelcomeWindow_Title}"
                 TextAlignment="Left"
                 TextWrapping="Wrap" />
 
@@ -50,52 +51,52 @@
                 Margin="20,0,20,0"
                 TextAlignment="Left"
                 TextWrapping="Wrap">
-                <Run Text="{DynamicResource W2}" />
+                <Run Text="{DynamicResource WelcomeWindow_Intro_Base}" />
                 <Run Text="&#x0A;" />
-                <Run Text="{DynamicResource W3}" />
+                <Run Text="{DynamicResource WelcomeWindow_Intro_StepsLead}" />
                 <Run Text="&#x0A;" />
 
                 <!-- Step 1 -->
-                <Run Text="{DynamicResource W4}" />
+                <Run Text="{DynamicResource WelcomeWindow_Step1}" />
                 <Run Text="&#x0A;" />
 
                 <!-- Step 2 -->
-                <Run Text="{DynamicResource W5}" />
+                <Run Text="{DynamicResource WelcomeWindow_Step2_Click}" />
                 <Run Text="&#xA0;" />
-                <Run FontWeight="Bold" Text="{DynamicResource W6}" />
+                <Run FontWeight="Bold" Text="{DynamicResource WelcomeWindow_Step2_Gear}" />
                 <Run Text="&#xA0;" />
-                <Run Text="{DynamicResource W7}" />
+                <Run Text="{DynamicResource WelcomeWindow_Step2_Instruction}" />
                 <Run Text="&#xA0;" />
-                <Run FontWeight="Bold" Text="{DynamicResource W8}" />
+                <Run FontWeight="Bold" Text="{DynamicResource WelcomeWindow_Step2_Position}" />
                 <Run Text=".&#x0A;" />
 
                 <!-- Step 3 -->
-                <Run Text="{DynamicResource W9}" />
+                <Run Text="{DynamicResource WelcomeWindow_Step3_Click}" />
                 <Run Text="&#xA0;" />
-                <Run FontWeight="Bold" Text="{DynamicResource W10}" />
+                <Run FontWeight="Bold" Text="{DynamicResource WelcomeWindow_Step3_HideQuoted}" />
                 <Run Text="&#xA0;" />
-                <Run Text="{DynamicResource W11}" />
+                <Run Text="{DynamicResource WelcomeWindow_Step3_Instruction}" />
                 <Run Text="&#x0A;" />
 
                 <Run Text="&#x0A;" />
-                <Run Text="{DynamicResource W12}" />
+                <Run Text="{DynamicResource WelcomeWindow_AutoOpen}" />
                 <Run Text="&#x0A;" />
-                <Run Text="{DynamicResource W13}" />
+                <Run Text="{DynamicResource WelcomeWindow_Enjoy}" />
                 <Run Text="&#x0A;" />
 
                 <Run Text="&#x0A;" />
-                <Run Text="{DynamicResource W14}" />
+                <Run Text="{DynamicResource WelcomeWindow_WikiLead}" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator/wiki" RequestNavigate="Hyperlink_RequestNavigate">
-                    <Run Text="{DynamicResource W15}" />
+                    <Run Text="{DynamicResource WelcomeWindow_WikiUrl}" />
                 </Hyperlink>
 
                 <Run Text="&#x0A;" />
                 <Run Text="&#x0A;" />
-                <Run FontWeight="Bold" Text="{DynamicResource W16}" />
+                <Run FontWeight="Bold" Text="{DynamicResource WelcomeWindow_TipLead}" />
                 <Run Text="&#x0A;" />
-                <Run Text="{DynamicResource W17}" />
-                <Run FontWeight="DemiBold" TextDecorations="Underline" Text="{DynamicResource W18}" />
-                <Run Text="{DynamicResource W19}" />
+                <Run Text="{DynamicResource WelcomeWindow_Tip_IfYouWantToChange}" />
+                <Run FontWeight="DemiBold" TextDecorations="Underline" Text="{DynamicResource WelcomeWindow_Tip_SourceLanguage}" />
+                <Run Text="{DynamicResource WelcomeWindow_Tip_Instruction}" />
             </ui:TextBlock>
 
             <!-- Bottom row: language selector (left) + close button (center) -->
@@ -114,30 +115,10 @@
                         Height="30"
                         Padding="10,4,10,7"
                         FontSize="13.3"
-                        SelectionChanged="WelcomeLanguageBox_SelectionChanged">
-                        <ComboBoxItem Content="English" />
-                        <ComboBoxItem Content="&#x7B80;&#x4F53;&#x4E2D;&#x6587;" />
-                        <ComboBoxItem Content="&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;" />
-                        <ComboBoxItem Content="&#x9AC;&#x9BE;&#x982;&#x9B2;&#x9BE;" />
-
-                        <ComboBoxItem Content="&#x10C;e&#x161;tina" />
-                        <ComboBoxItem Content="Deutsch" />
-                        <ComboBoxItem Content="Espa&#xF1;ol (M&#xE9;xico)" />
-                        <ComboBoxItem Content="Fran&#xE7;ais" />
-                        <ComboBoxItem Content="Italiano" />
-                        <ComboBoxItem Content="&#x65E5;&#x672C;&#x8A9E;" />
-                        <ComboBoxItem Content="&#xD55C;&#xAD6D;&#xC5B4;" />
-                        <ComboBoxItem Content="Lietuvi&#x173;" />
-                        <ComboBoxItem Content="Nederlands" />
-                        <ComboBoxItem Content="Polski" />
-                        <ComboBoxItem Content="Portugu&#xEA;s (Brasil)" />
-                        <ComboBoxItem Content="Portugu&#xEA;s (Portugal)" />
-                        <ComboBoxItem Content="&#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;" />
-                        <ComboBoxItem Content="Svenska" />
-                        <ComboBoxItem Content="T&#xFC;rk&#xE7;e" />
-                        <ComboBoxItem Content="Ti&#x1EBF;ng Vi&#x1EC7;t" />
-                        <ComboBoxItem Content="&#x7E41;&#x9AD4;&#x4E2D;&#x6587; (&#x53F0;&#x7063;)" />
-                    </ComboBox>
+                        ItemsSource="{x:Static models:LanguageCatalog.SupportedUiLanguages}"
+                        DisplayMemberPath="DisplayName"
+                        SelectedValuePath="CultureCode"
+                        SelectionChanged="WelcomeLanguageBox_SelectionChanged" />
                 </StackPanel>
 
                 <ui:Button
@@ -145,7 +126,7 @@
                     Padding="30,10,30,10"
                     HorizontalAlignment="Center"
                     Click="CloseButton_Click"
-                    Content="{DynamicResource W20}" />
+                    Content="{DynamicResource WelcomeWindow_Button_Confirm}" />
             </Grid>
         </StackPanel>
     </Grid>

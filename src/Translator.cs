@@ -246,9 +246,11 @@ namespace LiveCaptionsTranslator
             {
                 var sw = Setting.MainWindow.LatencyShow ? Stopwatch.StartNew() : null;
 
+                // Ensure we don't reference removed Caption.ContextPreviousCaption after reverting Caption.cs
+                // Use the restored AwareContextsCaption for context-aware translation.
                 if (Setting.ContextAware && !TranslateAPI.IsLLMBased)
                 {
-                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.ContextPreviousCaption} 🔤{text}🔤", token);
+                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.AwareContextsCaption} 🔤{text}🔤", token);
                     translatedText = RegexPatterns.TargetSentence().Match(translatedText).Groups[1].Value;
                 }
                 else
@@ -305,8 +307,8 @@ namespace LiveCaptionsTranslator
                 SnackbarHost.Show(
                     L("T2", "Error!"),
                     string.Format(L("T3", "Logging history failed: {0}"), ex.Message),
-                    "error",
-                    2);
+                    SnackbarType.Error,
+                    timeout: 2);
             }
         }
 
@@ -328,8 +330,8 @@ namespace LiveCaptionsTranslator
                 SnackbarHost.Show(
                     L("T2", "Error!"),
                     string.Format(L("T3", "Logging history failed: {0}"), ex.Message),
-                    "error",
-                    2);
+                    SnackbarType.Error,
+                    timeout: 2);
             }
         }
 

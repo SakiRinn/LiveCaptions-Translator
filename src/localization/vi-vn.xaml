@@ -3,169 +3,157 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- SettingPage strings (compact numeric keys) -->
-    <sys:String x:Key="S0">Phụ đề trực tiếp</sys:String>
-    <sys:String x:Key="S1">Sau phiên bản Windows 11 24H2, bạn chỉ có thể thay đổi</sys:String>
-    <sys:String x:Key="S2">Ngôn ngữ nguồn</sys:String>
-    <sys:String x:Key="S3">trong Phụ đề trực tiếp.</sys:String>
-    <sys:String x:Key="S4">Lưu ý:</sys:String>
-    <sys:String x:Key="S5">Vui lòng nhấp</sys:String>
-    <sys:String x:Key="S6">"Ẩn"</sys:String>
-    <sys:String x:Key="S7">để ẩn Phụ đề trực tiếp thay vì đóng trực tiếp.</sys:String>
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">Phụ đề trực tiếp</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_Notice">Sau phiên bản Windows 11 24H2, bạn chỉ có thể thay đổi</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">Ngôn ngữ nguồn</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">trong Phụ đề trực tiếp.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">Lưu ý:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">Vui lòng nhấp</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"Ẩn"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">để ẩn Phụ đề trực tiếp thay vì đóng trực tiếp.</sys:String>
 
-    <sys:String x:Key="S8">Hiển thị</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">Hiển thị</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">Ẩn</sys:String>
 
-    <!-- LiveCaptions toggle button text -->
-    <sys:String x:Key="S45">Ẩn</sys:String>
-    <sys:String x:Key="S46">Hiển thị</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Label">Khoảng thời gian API</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">Xác định tần suất gọi API dịch. Giá trị nhỏ hơn sẽ gọi API thường xuyên hơn.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">API dịch sẽ được gọi một lần sau khi phụ đề thay đổi</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[Khoảng thời gian API]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">lần.</sys:String>
 
-    <sys:String x:Key="S9">Khoảng thời gian API</sys:String>
-    <sys:String x:Key="S10">Xác định tần suất gọi API dịch. Giá trị nhỏ hơn sẽ gọi API thường xuyên hơn.</sys:String>
-    <sys:String x:Key="S11">API dịch sẽ được gọi một lần sau khi phụ đề thay đổi</sys:String>
-    <sys:String x:Key="S12">[Khoảng thời gian API]</sys:String>
-    <sys:String x:Key="S13">lần.</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Label">API dịch</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">Ngoại trừ Google và Google2, tất cả các API khác cần được cấu hình trước khi sử dụng.</sys:String>
 
-    <sys:String x:Key="S14">API dịch</sys:String>
-    <sys:String x:Key="S15">Ngoại trừ Google và Google2, tất cả các API khác cần được cấu hình trước khi sử dụng.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">Ngôn ngữ đích</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">Không có ngôn ngữ đích mà tôi mong đợi!</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">Bạn có thể trực tiếp chỉnh sửa nội dung của hộp kết hợp này để tùy chỉnh ngôn ngữ, khuyến nghị theo</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">thẻ ngôn ngữ BCP 47.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">Một số API (như DeepL) yêu cầu cách khác để định nghĩa ngôn ngữ đích, xem tài liệu chính thức để biết chi tiết.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">Không cần quan tâm đến điều này đối với các ngôn ngữ đích đã tích hợp, vì chúng tôi đã tạo sẵn bản đồ thẻ. Nhưng nếu ngôn ngữ mong muốn không có trong danh sách, hãy lưu ý.</sys:String>
 
-    <sys:String x:Key="S16">Ngôn ngữ đích</sys:String>
-    <sys:String x:Key="S17">Không có ngôn ngữ đích mà tôi mong đợi!</sys:String>
-    <sys:String x:Key="S18">Bạn có thể trực tiếp chỉnh sửa nội dung của hộp kết hợp này để tùy chỉnh ngôn ngữ, khuyến nghị theo</sys:String>
-    <sys:String x:Key="S19">thẻ ngôn ngữ BCP 47.</sys:String>
-    <sys:String x:Key="S20">Một số API (như DeepL) yêu cầu cách khác để định nghĩa ngôn ngữ đích, xem tài liệu chính thức để biết chi tiết.</sys:String>
-    <sys:String x:Key="S21">Không cần quan tâm đến điều này đối với các ngôn ngữ đích đã tích hợp, vì chúng tôi đã tạo sẵn bản đồ thẻ. Nhưng nếu ngôn ngữ mong muốn không có trong danh sách, hãy lưu ý.</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Label">Cài đặt API</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">Mở</sys:String>
 
-    <sys:String x:Key="S22">Cài đặt API</sys:String>
-    <sys:String x:Key="S23">Mở</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">Hiển thị độ trễ</sys:String>
+    <sys:String x:Key="Common_Off">Tắt</sys:String>
+    <sys:String x:Key="Common_On">Bật</sys:String>
 
-    <sys:String x:Key="S24">Hiển thị độ trễ</sys:String>
-    <sys:String x:Key="S25">Tắt</sys:String>
-    <sys:String x:Key="S26">Bật</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Label">Ngữ cảnh</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">Ngữ cảnh:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">Xác định số câu ngữ cảnh khi</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">Nhận thức ngữ cảnh</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">được bật.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">Câu hiển thị:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">Xác định số thẻ hiển thị khi</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">Thẻ nhật ký</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">được bật, cũng như số câu tối đa hiển thị trong cửa sổ lớp phủ.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">Ngữ cảnh phải</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">lớn hơn hoặc bằng</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">Câu hiển thị</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">. Nếu không, chương trình sẽ tự động điều chỉnh.</sys:String>
 
-    <sys:String x:Key="S27">Ngữ cảnh</sys:String>
-    <sys:String x:Key="S28">Ngữ cảnh:</sys:String>
-    <sys:String x:Key="S29">Xác định số câu ngữ cảnh khi</sys:String>
-    <sys:String x:Key="S30">Nhận thức ngữ cảnh</sys:String>
-    <sys:String x:Key="S31">được bật.</sys:String>
-    <sys:String x:Key="S32">Câu hiển thị:</sys:String>
-    <sys:String x:Key="S33">Xác định số thẻ hiển thị khi</sys:String>
-    <sys:String x:Key="S34">Thẻ nhật ký</sys:String>
-    <sys:String x:Key="S35">được bật, cũng như số câu tối đa hiển thị trong cửa sổ lớp phủ.</sys:String>
-    <sys:String x:Key="S36">Ngữ cảnh phải</sys:String>
-    <sys:String x:Key="S37">lớn hơn hoặc bằng</sys:String>
-    <sys:String x:Key="S38">Câu hiển thị</sys:String>
-    <sys:String x:Key="S39">. Nếu không, chương trình sẽ tự động điều chỉnh.</sys:String>
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">Câu hiển thị</sys:String>
 
-    <sys:String x:Key="S40">Câu hiển thị</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">Dịch trong ngữ cảnh.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">Điều này có thể cải thiện độ chính xác của bản dịch, nhưng sẽ tốn nhiều token hơn.</sys:String>
 
-    <sys:String x:Key="S41">Dịch trong ngữ cảnh.</sys:String>
-    <sys:String x:Key="S42">Điều này có thể cải thiện độ chính xác của bản dịch, nhưng sẽ tốn nhiều token hơn.</sys:String>
-
-    <sys:String x:Key="S43">Ngôn ngữ giao diện</sys:String>
-    <sys:String x:Key="S44">Chọn ngôn ngữ sử dụng cho giao diện ứng dụng.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Label">Ngôn ngữ giao diện</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">Chọn ngôn ngữ sử dụng cho giao diện ứng dụng.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">Thay đổi có hiệu lực ngay lập tức và được lưu tự động.</sys:String>
 
     <!-- HistoryPage strings -->
-    <sys:String x:Key="H0">Trước</sys:String>
-    <sys:String x:Key="H1">Trang tiếp theo</sys:String>
-    <sys:String x:Key="H2">Tìm kiếm</sys:String>
-    <sys:String x:Key="H3">Xuất</sys:String>
-    <sys:String x:Key="H4">Xóa tất cả</sys:String>
-    <sys:String x:Key="H5">Làm mới</sys:String>
-    <sys:String x:Key="H6">Thời gian</sys:String>
-    <sys:String x:Key="H7">Phụ đề</sys:String>
-    <sys:String x:Key="H8">Đã dịch</sys:String>
-    <sys:String x:Key="H9">API</sys:String>
-    <sys:String x:Key="H10">20/trang</sys:String>
-    <sys:String x:Key="H11">30/trang</sys:String>
-    <sys:String x:Key="H12">50/trang</sys:String>
-    <sys:String x:Key="H13">100/trang</sys:String>
-    <sys:String x:Key="H20">Bạn có muốn xóa toàn bộ lịch sử không?</sys:String>
-    <sys:String x:Key="H21">Hành động này không thể hoàn tác!</sys:String>
-    <sys:String x:Key="H22">Có</sys:String>
-    <sys:String x:Key="H23">Không</sys:String>
-    <sys:String x:Key="H24">CSV (*.csv)|*.csv|Tất cả tệp (*.*)|*.*</sys:String>
-    <sys:String x:Key="H25">Lưu thành công</sys:String>
-    <sys:String x:Key="H26">Tệp đã lưu tại: {0}</sys:String>
-    <sys:String x:Key="H27">Lưu thất bại</sys:String>
-    <sys:String x:Key="H28">Không lưu được tệp: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Previous">Trước</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">Trang tiếp theo</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">Tìm kiếm</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">Xuất</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">Xóa tất cả</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">Làm mới</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Time">Thời gian</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">Phụ đề</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">Đã dịch</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_20">20/trang</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/trang</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/trang</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/trang</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">Bạn có muốn xóa toàn bộ lịch sử không?</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">Hành động này không thể hoàn tác!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">Có</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">Không</sys:String>
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|Tất cả tệp (*.*)|*.*</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">Lưu thành công</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">Tệp đã lưu tại: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">Lưu thất bại</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">Không lưu được tệp: {0}</sys:String>
 
     <!-- OverlayWindow strings -->
-    <sys:String x:Key="O0">Cửa sổ lớp phủ</sys:String>
-    <sys:String x:Key="O1">Tăng cỡ chữ</sys:String>
-    <sys:String x:Key="O2">Giảm cỡ chữ</sys:String>
-    <sys:String x:Key="O3">Tăng viền chữ</sys:String>
-    <sys:String x:Key="O4">Giảm viền chữ</sys:String>
-    <sys:String x:Key="O5">Đậm</sys:String>
-    <sys:String x:Key="O6">Màu chữ</sys:String>
-    <sys:String x:Key="O7">Tăng độ mờ nền</sys:String>
-    <sys:String x:Key="O8">Giảm độ mờ nền</sys:String>
-    <sys:String x:Key="O9">Màu nền</sys:String>
-    <sys:String x:Key="O10">Chỉ hiển thị phụ đề hoặc bản dịch</sys:String>
-    <sys:String x:Key="O11">Chuyển vị trí phụ đề/bản dịch</sys:String>
-    <sys:String x:Key="O12">Nhấp xuyên qua</sys:String>
+    <sys:String x:Key="OverlayWindow_Title">Cửa sổ lớp phủ</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">Tăng cỡ chữ</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">Giảm cỡ chữ</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">Tăng viền chữ</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">Giảm viền chữ</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">Đậm</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">Màu chữ</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">Tăng độ mờ nền</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">Giảm độ mờ nền</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">Màu nền</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">Chỉ hiển thị phụ đề hoặc bản dịch</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">Chuyển vị trí phụ đề/bản dịch</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">Nhấp xuyên qua</sys:String>
 
     <!-- InfoPage strings -->
-    <sys:String x:Key="I0">Chúng tôi hoan nghênh mọi hình thức đóng góp! Bạn có thể gửi đề xuất hoặc báo lỗi qua GitHub issues, hoặc đóng góp mã trực tiếp bằng Pull Requests.</sys:String>
-    <sys:String x:Key="I1">Nếu chương trình này hữu ích với bạn, hãy cân nhắc cho chúng tôi một ngôi sao!</sys:String>
-    <sys:String x:Key="I2">Kho lưu trữ:</sys:String>
-    <sys:String x:Key="I3">Wiki:</sys:String>
-    <sys:String x:Key="I4">Người duy trì:</sys:String>
-    <sys:String x:Key="I5">(Tác giả) và</sys:String>
-    <sys:String x:Key="I6">Phiên bản:</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_Message">Chúng tôi hoan nghênh mọi hình thức đóng góp! Bạn có thể gửi đề xuất hoặc báo lỗi qua GitHub issues, hoặc đóng góp mã trực tiếp bằng Pull Requests.</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">Nếu chương trình này hữu ích với bạn, hãy cân nhắc cho chúng tôi một ngôi sao!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">Kho lưu trữ:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">Wiki:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">Người duy trì:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(Tác giả) và</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">Phiên bản:</sys:String>
 
     <!-- WelcomeWindow strings -->
-    <sys:String x:Key="W0">Bắt đầu</sys:String>
-    <sys:String x:Key="W1">Chào mừng đến với LiveCaptions Translator!</sys:String>
-    <sys:String x:Key="W2">LiveCaptions Translator dựa trên Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W3">&#x0A;Trước khi chạy lần đầu, bạn cần cấu hình theo các bước sau:&#x0A;</sys:String>
-    <sys:String x:Key="W4">&#x0A;1. Mở Windows LiveCaptions và làm theo hướng dẫn để tải các tệp cần thiết cho nhận dạng giọng nói và gói ngôn ngữ.</sys:String>
-    <sys:String x:Key="W5">&#x0A;2. Nhấp vào</sys:String>
-    <sys:String x:Key="W6">biểu tượng ⚙️</sys:String>
-    <sys:String x:Key="W7">trong Windows LiveCaptions để mở menu cài đặt và chọn</sys:String>
-    <sys:String x:Key="W8">"Vị trí &gt; Chồng lên màn hình"</sys:String>
-    <sys:String x:Key="W9">3. Nhấp vào</sys:String>
-    <sys:String x:Key="W10">"Ẩn"</sys:String>
-    <sys:String x:Key="W11">nút trên trang cài đặt của LiveCaptions Translator để ẩn Windows LiveCaptions.&#x0A;</sys:String>
-    <sys:String x:Key="W12">&#x0A;Chương trình đã tự động điều hướng đến trang cài đặt và mở Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W13">Sau khi cấu hình xong, bạn có thể trở lại trang chính và thưởng thức dịch âm thanh thời gian thực.&#x0A;</sys:String>
-    <sys:String x:Key="W14">&#x0A;Chi tiết hơn, hãy truy cập wiki của chúng tôi: </sys:String>
-    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
-    <sys:String x:Key="W16">&#x0A;&#x0A;Mẹo:&#x0A;</sys:String>
-    <sys:String x:Key="W17">Để thay đổi </sys:String>
-    <sys:String x:Key="W18">Ngôn ngữ nguồn</sys:String>
-    <sys:String x:Key="W19">, hãy [Hiển thị] LiveCaptions trên trang cài đặt và thực hiện trong Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W20">Tôi đã hiểu đầy đủ và đã cấu hình.</sys:String>
+    <sys:String x:Key="WelcomeWindow_GetStarted">Bắt đầu</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">Chào mừng đến với LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator dựa trên Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;Trước khi chạy lần đầu, bạn cần cấu hình theo các bước sau:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Mở Windows LiveCaptions và làm theo hướng dẫn để tải các tệp cần thiết cho nhận dạng giọng nói và gói ngôn ngữ.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. Nhấp vào</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">biểu tượng ⚙️</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">trong Windows LiveCaptions để mở menu cài đặt và chọn</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"Vị trí &gt; Chồng lên màn hình"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. Nhấp vào</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"Ẩn"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">nút trên trang cài đặt của LiveCaptions Translator để ẩn Windows LiveCaptions.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;Chương trình đã tự động điều hướng đến trang cài đặt và mở Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">Sau khi cấu hình xong, bạn có thể trở lại trang chính và thưởng thức dịch âm thanh thời gian thực.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;Chi tiết hơn, hãy truy cập wiki của chúng tôi: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;Mẹo:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">Để thay đổi</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">Ngôn ngữ nguồn</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">, hãy [Hiển thị] LiveCaptions trên trang cài đặt và thực hiện trong Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">Tôi đã hiểu đầy đủ và đã cấu hình.</sys:String>
 
     <!-- MainWindow strings -->
-    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
-    <sys:String x:Key="M10">Phụ đề</sys:String>
-    <sys:String x:Key="M11">Cài đặt</sys:String>
-    <sys:String x:Key="M12">Lịch sử</sys:String>
-    <sys:String x:Key="M13">Thông tin</sys:String>
-    <sys:String x:Key="M20">Thẻ nhật ký của phụ đề</sys:String>
-    <sys:String x:Key="M21">Tạm dừng dịch (chỉ nhật ký)</sys:String>
-    <sys:String x:Key="M22">Cửa sổ lớp phủ</sys:String>
-    <sys:String x:Key="M23">Luôn ở trên cùng</sys:String>
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">Thẻ nhật ký của phụ đề</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">Tạm dừng dịch (chỉ nhật ký)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">Cửa sổ lớp phủ</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">Luôn ở trên cùng</sys:String>
+    <sys:String x:Key="MainWindow_Update_Error">[LỖI] Kiểm tra cập nhật thất bại.</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">lỗi</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">Có phiên bản mới</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">Phát hiện phiên bản mới: {0} Phiên bản hiện tại: {1} Vui lòng truy cập GitHub để tải phiên bản mới nhất.</sys:String>
 
-    <sys:String x:Key="MC0">[LỖI] Kiểm tra cập nhật thất bại.</sys:String>
-    <sys:String x:Key="MC1">lỗi</sys:String>
-    <sys:String x:Key="MC2">Có phiên bản mới</sys:String>
-    <sys:String x:Key="MC3">Phát hiện phiên bản mới: {0}
-Phiên bản hiện tại: {1}
-Vui lòng truy cập GitHub để tải phiên bản mới nhất.</sys:String>
-    <sys:String x:Key="MC4">Cập nhật</sys:String>
-    <sys:String x:Key="MC5">Bỏ qua phiên bản này</sys:String>
-    <sys:String x:Key="MC6">[LỖI] Mở trình duyệt thất bại.</sys:String>
-
-    <!-- Translator (runtime status) strings -->
-    <sys:String x:Key="T0">[CẢNH BÁO] LiveCaptions đã đóng bất ngờ, đang khởi động lại...</sys:String>
-    <sys:String x:Key="T1">[Tạm dừng]</sys:String>
-    <sys:String x:Key="T2">Lỗi!</sys:String>
-    <sys:String x:Key="T3">Ghi lịch sử thất bại: {0}</sys:String>
+    <!-- Translator strings -->
+    <sys:String x:Key="Translator_Status_Restarting">[CẢNH BÁO] LiveCaptions đã đóng bất ngờ, đang khởi động lại...</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[Tạm dừng]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">Lỗi!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">Ghi lịch sử thất bại: {0}</sys:String>
 
     <!-- CaptionPage strings -->
-    <sys:String x:Key="C0">Nhấp để sao chép</sys:String>
-    <sys:String x:Key="C1">Đã sao chép</sys:String>
-    <sys:String x:Key="C2">Sao chép thất bại</sys:String>
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">Nhấp để sao chép</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">Đã sao chép</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">Sao chép thất bại</sys:String>
 
 </ResourceDictionary>

@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="{DynamicResource M0}"
+    Title="{DynamicResource MainWindow_Title}"
     Width="750"
     Height="170"
     MinWidth="750"
@@ -35,7 +35,7 @@
                 ShowMaximize="False">
                 <ui:TitleBar.Header>
                     <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center" FontFamily="Segoe UI">
-                        <Run Text="{DynamicResource M0}" />
+                        <Run Text="{DynamicResource MainWindow_Title}" />
                     </ui:TextBlock>
                 </ui:TitleBar.Header>
                 <ui:TitleBar.TrailingContent>
@@ -47,7 +47,7 @@
                             Click="CaptionLogButton_Click"
                             Icon="{ui:SymbolIcon History16,
                                                  Filled=False}"
-                            ToolTip="{DynamicResource M20}"
+                            ToolTip="{DynamicResource MainWindow_Tooltip_CaptionLog}"
                             Visibility="Collapsed" />
                         <ui:Button
                             x:Name="LogOnlyButton"
@@ -56,7 +56,7 @@
                             Click="LogOnlyButton_Click"
                             Icon="{ui:SymbolIcon Pause16,
                                                  Filled=False}"
-                            ToolTip="{DynamicResource M21}" />
+                            ToolTip="{DynamicResource MainWindow_Tooltip_LogOnly}" />
                         <ui:Button
                             x:Name="OverlayModeButton"
                             Margin="0,0,5,0"
@@ -64,7 +64,7 @@
                             Click="OverlayModeButton_Click"
                             Icon="{ui:SymbolIcon ClosedCaptionOff24,
                                                  Filled=False}"
-                            ToolTip="{DynamicResource M22}" />
+                            ToolTip="{DynamicResource MainWindow_Tooltip_Overlay}" />
                         <ui:Button
                             x:Name="TopmostButton"
                             Margin="0,0,5,0"
@@ -72,7 +72,7 @@
                             Click="TopmostButton_Click"
                             Icon="{ui:SymbolIcon Pin16,
                                                  Filled=True}"
-                            ToolTip="{DynamicResource M23}" />
+                            ToolTip="{DynamicResource MainWindow_Tooltip_Topmost}" />
                     </StackPanel>
                 </ui:TitleBar.TrailingContent>
             </ui:TitleBar>
@@ -89,14 +89,14 @@
                 <ui:NavigationView.MenuItems>
                     <ui:NavigationViewItem
                         Margin="0,6,0,3"
-                        Content="{DynamicResource M10}"
+                        Content="{DynamicResource Navigation_Captions}"
                         FontFamily="Segoe UI"
                         Icon="{ui:SymbolIcon Home24}"
                         NavigationCacheMode="Enabled"
                         TargetPageType="{x:Type local:CaptionPage}" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
-                        Content="{DynamicResource M11}"
+                        Content="{DynamicResource Navigation_Settings}"
                         FontFamily="Segoe UI"
                         Icon="{ui:SymbolIcon Settings24}"
                         NavigationCacheMode="Required"
@@ -104,14 +104,14 @@
                         Click="SettingNavItem_Click" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
-                        Content="{DynamicResource M12}"
+                        Content="{DynamicResource Navigation_History}"
                         FontFamily="Segoe UI"
                         Icon="{ui:SymbolIcon History24}"
                         NavigationCacheMode="Disabled"
                         TargetPageType="{x:Type local:HistoryPage}" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
-                        Content="{DynamicResource M13}"
+                        Content="{DynamicResource Navigation_Info}"
                         FontFamily="Segoe UI"
                         Icon="{ui:SymbolIcon Info24}"
                         NavigationCacheMode="Required"

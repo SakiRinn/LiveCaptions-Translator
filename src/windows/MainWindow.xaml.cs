@@ -28,7 +28,6 @@ namespace LiveCaptionsTranslator
                 IsAutoHeight = true;
                 CheckForFirstUse();
 
-                // Fire-and-forget, but keep a reference so exceptions aren't silently ignored by analyzers.
                 _ = CheckForUpdates();
             };
 
@@ -118,24 +117,19 @@ namespace LiveCaptionsTranslator
             if (Translator.LogOnlyFlag)
             {
                 Translator.LogOnlyFlag = false;
-                if (symbolIcon is not null)
-                    symbolIcon.Filled = false;
+                symbolIcon.Filled = false;
             }
             else
             {
                 Translator.LogOnlyFlag = true;
-                if (symbolIcon is not null)
-                    symbolIcon.Filled = true;
+                symbolIcon.Filled = true;
             }
 
-            Translator.Caption?.Contexts.Clear();
+            Translator.ClearContexts();
         }
 
         private void CaptionLogButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Translator.Setting is null)
-                return;
-
             Translator.Setting.MainWindow.CaptionLogEnabled = !Translator.Setting.MainWindow.CaptionLogEnabled;
             ShowLogCard(Translator.Setting.MainWindow.CaptionLogEnabled);
             CaptionPage.Instance?.AutoHeight();
@@ -143,12 +137,8 @@ namespace LiveCaptionsTranslator
 
         private void MainWindow_LocationChanged(object sender, EventArgs e)
         {
-            if (Translator.Setting is null)
-                return;
-
             var window = sender as Window;
-            if (window is not null)
-                WindowHandler.SaveState(window, Translator.Setting);
+            WindowHandler.SaveState(window, Translator.Setting);
         }
 
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -157,45 +147,13 @@ namespace LiveCaptionsTranslator
             IsAutoHeight = false;
         }
 
-        private void MainContent_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            // Re-run auto sizing on demand (e.g. after language switch).
-            TriggerAutoSizeForCurrentContent();
-        }
-
-        private void TriggerAutoSizeForCurrentContent()
-        {
-            // Keep the user's manual resizing respected if they changed size.
-            // This is only a "best effort" refinement when language changes.
-            Dispatcher.BeginInvoke(new Action(() =>
-            {
-                var prev = SizeToContent;
-                SizeToContent = SizeToContent.WidthAndHeight;
-                UpdateLayout();
-
-                // Clamp so window won't become too small/large.
-                const double minW = 750;  // matches XAML MinWidth
-                const double maxW = 1400;
-                const double minH = 170;  // matches XAML MinHeight
-                const double maxH = 900;
-
-                Width = Math.Max(minW, Math.Min(maxW, ActualWidth));
-                Height = Math.Max(minH, Math.Min(maxH, ActualHeight));
-
-                SizeToContent = prev;
-            }), System.Windows.Threading.DispatcherPriority.Loaded);
-        }
-
         public void ToggleTopmost(bool enabled)
         {
             var button = TopmostButton as Button;
             var symbolIcon = button?.Icon as SymbolIcon;
-            if (symbolIcon is not null)
-                symbolIcon.Filled = enabled;
-
-            Topmost = enabled;
-            if (Translator.Setting is not null)
-                Translator.Setting.MainWindow.Topmost = enabled;
+            symbolIcon.Filled = enabled;
+            this.Topmost = enabled;
+            Translator.Setting.MainWindow.Topmost = enabled;
         }
 
         private void CheckForFirstUse()
@@ -204,9 +162,7 @@ namespace LiveCaptionsTranslator
                 return;
 
             RootNavigation.Navigate(typeof(SettingPage));
-
-            if (Translator.Window is not null)
-                LiveCaptionsHandler.RestoreLiveCaptions(Translator.Window);
+            LiveCaptionsHandler.RestoreLiveCaptions(Translator.Window);
 
             Dispatcher.InvokeAsync(() =>
             {
@@ -214,19 +170,6 @@ namespace LiveCaptionsTranslator
                 {
                     Owner = this
                 };
-
-                // Auto-size WelcomeWindow on first show.
-                welcomeWindow.Loaded += (_, __) =>
-                {
-                    welcomeWindow.Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        var prev = welcomeWindow.SizeToContent;
-                        welcomeWindow.SizeToContent = SizeToContent.Height;
-                        welcomeWindow.UpdateLayout();
-                        welcomeWindow.SizeToContent = prev;
-                    }), System.Windows.Threading.DispatcherPriority.Loaded);
-                };
-
                 welcomeWindow.Show();
             }, System.Windows.Threading.DispatcherPriority.Background);
         }
@@ -243,10 +186,8 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show(
-                    TryFindResource("MC0") as string ?? "[ERROR] Update Check Failed.",
-                    ex.Message,
-                    TryFindResource("MC1") as string ?? "error");
+                SnackbarHost.Show("[ERROR] Update Check Failed.", ex.Message, SnackbarType.Error,
+                    timeout: 2, closeButton: true);
 
                 return;
             }
@@ -259,14 +200,12 @@ namespace LiveCaptionsTranslator
             {
                 var dialog = new Wpf.Ui.Controls.MessageBox
                 {
-                    Title = TryFindResource("MC2") as string ?? "New Version Available",
-                    Content = string.Format(
-                        TryFindResource("MC3") as string ??
-                        "A new version has been detected: {0}\nCurrent version: {1}\nPlease visit GitHub to download the latest release.",
-                        latestVersion,
-                        currentVersion),
-                    PrimaryButtonText = TryFindResource("MC4") as string ?? "Update",
-                    CloseButtonText = TryFindResource("MC5") as string ?? "Ignore this version"
+                    Title = "New Version Available",
+                    Content = $"A new version has been detected: {latestVersion}\n" +
+                              $"Current version: {currentVersion}\n" +
+                              $"Please visit GitHub to download the latest release.",
+                    PrimaryButtonText = "Update",
+                    CloseButtonText = "Ignore this version"
                 };
                 var result = await dialog.ShowDialogAsync();
 
@@ -283,10 +222,8 @@ namespace LiveCaptionsTranslator
                     }
                     catch (Exception ex)
                     {
-                        SnackbarHost.Show(
-                            TryFindResource("MC6") as string ?? "[ERROR] Open Browser Failed.",
-                            ex.Message,
-                            TryFindResource("MC1") as string ?? "error");
+                        SnackbarHost.Show("[ERROR] Open Browser Failed.", ex.Message, SnackbarType.Error,
+                            timeout: 2, closeButton: true);
                     }
                 }
                 else
@@ -318,40 +255,19 @@ namespace LiveCaptionsTranslator
                 Height = maxHeight;
         }
 
-        private void SettingNavItem_Click(object sender, RoutedEventArgs e)
+        private void MainContent_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Best-effort: try to find a SettingPage in the visual tree and ask it to auto-fit.
-            // If we cannot locate it, still do a window-level measurement.
-            try
-            {
-                var sp = FindDescendant<SettingPage>(this);
-                sp?.RequestAutoFitWidth();
-                if (sp is not null)
-                    return;
-            }
-            catch
-            {
-                // ignore and fall back
-            }
-
-            TriggerAutoSizeForCurrentContent();
         }
 
-        private static T? FindDescendant<T>(DependencyObject root) where T : DependencyObject
+        private void SettingNavItem_Click(object sender, RoutedEventArgs e)
         {
-            int count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(root);
-            for (int i = 0; i < count; i++)
+            RootNavigation.Navigate(typeof(SettingPage));
+
+            Dispatcher.BeginInvoke(new Action(() =>
             {
-                var child = System.Windows.Media.VisualTreeHelper.GetChild(root, i);
-                if (child is T typed)
-                    return typed;
-
-                var found = FindDescendant<T>(child);
-                if (found is not null)
-                    return found;
-            }
-
-            return null;
+                var sp = LocalizationHelper.FindDescendant<SettingPage>(this);
+                sp?.RequestAutoFitWidth();
+            }), System.Windows.Threading.DispatcherPriority.Loaded);
         }
     }
 }

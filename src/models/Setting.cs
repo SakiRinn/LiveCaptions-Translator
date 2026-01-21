@@ -4,8 +4,10 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
+using System.Linq;
 
 using LiveCaptionsTranslator.apis;
+using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -266,15 +268,8 @@ namespace LiveCaptionsTranslator.models
             else
                 setting = new Setting();
 
-            setting.uiLanguageFileName = setting.uiLanguageFileName switch
-            {
-                "zh-cn.xaml" or "ar.xaml" or "bn.xaml" or "en-us.xaml" or
-                "zh-tw.xaml" or "cs-cz.xaml" or "de-de.xaml" or "es-mx.xaml" or "fr-fr.xaml" or
-                "it-it.xaml" or "ja-jp.xaml" or "ko-kr.xaml" or "lt-lt.xaml" or "nl-nl.xaml" or
-                "pl-pl.xaml" or "pt-br.xaml" or "pt-pt.xaml" or "ru-ru.xaml" or "sv-se.xaml" or
-                "tr-tr.xaml" or "vi-vn.xaml" => setting.uiLanguageFileName,
-                _ => "en-us.xaml"
-            };
+            if (!LocalizationHelper.SupportedFiles.Contains(setting.uiLanguageFileName, StringComparer.OrdinalIgnoreCase))
+                setting.uiLanguageFileName = "en-us.xaml";
 
             foreach (string key in TranslateAPI.TRANSLATE_FUNCTIONS.Keys)
             {

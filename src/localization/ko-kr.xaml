@@ -3,169 +3,164 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- SettingPage strings (compact numeric keys) -->
-    <sys:String x:Key="S0">라이브 캡션</sys:String>
-    <sys:String x:Key="S1">Windows 11 버전 24H2 이후에는</sys:String>
-    <sys:String x:Key="S2">원본 언어</sys:String>
-    <sys:String x:Key="S3">만 변경할 수 있습니다 (라이브 캡션에서).</sys:String>
-    <sys:String x:Key="S4">참고:</sys:String>
-    <sys:String x:Key="S5">반드시 클릭하세요</sys:String>
-    <sys:String x:Key="S6">"숨기기"</sys:String>
-    <sys:String x:Key="S7">버튼을 눌러 라이브 캡션을 바로 닫지 말고 숨기세요.</sys:String>
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">라이브 캡션</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_Intro">Windows 11 버전 24H2 이후에는</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">원본 언어</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">만 변경할 수 있습니다 (라이브 캡션에서).</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">참고:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">반드시 클릭하세요</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"숨기기"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">버튼을 눌러 라이브 캡션을 바로 닫지 말고 숨기세요.</sys:String>
 
-    <sys:String x:Key="S8">표시</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">표시</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">숨기기</sys:String>
 
-    <!-- LiveCaptions toggle button text -->
-    <sys:String x:Key="S45">숨기기</sys:String>
-    <sys:String x:Key="S46">표시</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Label">API 간격</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">번역 API 호출 빈도를 결정합니다. 값이 작을수록 호출이 더 빈번해집니다.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">자막이 변경된 후 API가 한 번 호출됩니다</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[API 간격]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">번.</sys:String>
 
-    <sys:String x:Key="S9">API 간격</sys:String>
-    <sys:String x:Key="S10">번역 API 호출 빈도를 결정합니다. 값이 작을수록 호출이 더 빈번해집니다.</sys:String>
-    <sys:String x:Key="S11">자막이 변경된 후 API가 한 번 호출됩니다</sys:String>
-    <sys:String x:Key="S12">[API 간격]</sys:String>
-    <sys:String x:Key="S13">번.</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Label">번역 API</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">Google과 Google2를 제외한 모든 API는 사용 전에 설정이 필요합니다.</sys:String>
 
-    <sys:String x:Key="S14">번역 API</sys:String>
-    <sys:String x:Key="S15">Google과 Google2를 제외한 모든 API는 사용 전에 설정이 필요합니다.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">대상 언어</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">원하는 대상 언어가 없습니다!</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">이 콤보박스 내용을 직접 편집하여 언어를 맞춤 설정할 수 있으며,</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">BCP 47 언어 태그를 따르는 것이 좋습니다.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">DeepL과 같은 일부 API는 대상 언어를 지정하는 다른 방법이 필요합니다. 자세한 내용은 공식 문서를 참조하세요.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">포함된 대상 언어에 대해서는 신경 쓸 필요가 없지만, 원하는 언어가 목록에 없으면 유념하세요.</sys:String>
 
-    <sys:String x:Key="S16">대상 언어</sys:String>
-    <sys:String x:Key="S17">원하는 대상 언어가 없습니다!</sys:String>
-    <sys:String x:Key="S18">이 콤보박스 내용을 직접 편집하여 언어를 맞춤 설정할 수 있으며, BCP 47 언어 태그를 따르는 것이 좋습니다.</sys:String>
-    <sys:String x:Key="S19">BCP 47 언어 태그</sys:String>
-    <sys:String x:Key="S20">DeepL과 같은 일부 API는 대상 언어를 지정하는 다른 방법이 필요합니다. 자세한 내용은 공식 문서를 참조하세요.</sys:String>
-    <sys:String x:Key="S21">포함된 대상 언어에 대해서는 신경 쓸 필요가 없지만, 원하는 언어가 목록에 없으면 유념하세요.</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Label">API 설정</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">열기</sys:String>
 
-    <sys:String x:Key="S22">API 설정</sys:String>
-    <sys:String x:Key="S23">열기</sys:String>
-    <sys:String x:Key="S24">지연 시간 표시</sys:String>
-    <sys:String x:Key="S25">끔</sys:String>
-    <sys:String x:Key="S26">켬</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">지연 시간 표시</sys:String>
+    <sys:String x:Key="Common_Off">끔</sys:String>
+    <sys:String x:Key="Common_On">켬</sys:String>
 
-    <sys:String x:Key="S27">컨텍스트</sys:String>
-    <sys:String x:Key="S28">컨텍스트:</sys:String>
-    <sys:String x:Key="S29">컨텍스트 인식이 활성화되었을 때 고려할 문장의 수를 결정합니다.</sys:String>
-    <sys:String x:Key="S30">컨텍스트 인식</sys:String>
-    <sys:String x:Key="S31">이 활성화되었습니다.</sys:String>
-    <sys:String x:Key="S32">오버레이 문장:</sys:String>
-    <sys:String x:Key="S33">로그 카드가 활성화되었을 때 표시되는 카드 수와 오버레이 창에 표시되는 최대 문장 수를 결정합니다.</sys:String>
-    <sys:String x:Key="S34">로그 카드</sys:String>
-    <sys:String x:Key="S35">활성화됨</sys:String>
-    <sys:String x:Key="S36">컨텍스트는</sys:String>
-    <sys:String x:Key="S37">이상이어야 합니다</sys:String>
-    <sys:String x:Key="S38">표시 문장 수</sys:String>
-    <sys:String x:Key="S39">. 조건이 충족되지 않으면 프로그램이 자동으로 조정합니다.</sys:String>
-    <sys:String x:Key="S40">표시 문장 수</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Label">컨텍스트</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">컨텍스트:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">컨텍스트 인식이 활성화되었을 때 고려할 문장의 수를 결정합니다.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">컨텍스트 인식</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">이 활성화되었습니다.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">오버레이 문장:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">로그 카드가 활성화되었을 때 표시되는 카드 수와 오버레이 창에 표시되는 최대 문장 수를 결정합니다.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">로그 카드</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">활성화됨</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">컨텍스트는</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">이상이어야 합니다</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">표시 문장 수</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">. 조건이 충족되지 않으면 프로그램이 자동으로 조정합니다.</sys:String>
 
-    <sys:String x:Key="S41">컨텍스트 기반 번역</sys:String>
-    <sys:String x:Key="S42">번역 정확도를 향상시키지만 더 많은 토큰을 소비합니다.</sys:String>
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">표시 문장 수</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">컨텍스트 기반 번역</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">번역 정확도를 향상시키지만 더 많은 토큰을 소비합니다.</sys:String>
 
-    <sys:String x:Key="S43">UI 언어</sys:String>
-    <sys:String x:Key="S44">앱 UI에서 사용할 언어를 선택합니다.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Label">UI 언어</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">앱 UI에서 사용할 언어를 선택합니다.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">변경 사항은 즉시 적용되고 자동 저장됩니다.</sys:String>
 
     <!-- HistoryPage strings -->
-    <sys:String x:Key="H0">이전</sys:String>
-    <sys:String x:Key="H1">다음 페이지</sys:String>
-    <sys:String x:Key="H2">검색</sys:String>
-    <sys:String x:Key="H3">내보내기</sys:String>
-    <sys:String x:Key="H4">모두 삭제</sys:String>
-    <sys:String x:Key="H5">새로고침</sys:String>
-    <sys:String x:Key="H6">시간</sys:String>
-    <sys:String x:Key="H7">자막</sys:String>
-    <sys:String x:Key="H8">번역됨</sys:String>
-    <sys:String x:Key="H9">API</sys:String>
-    <sys:String x:Key="H10">20/페이지</sys:String>
-    <sys:String x:Key="H11">30/페이지</sys:String>
-    <sys:String x:Key="H12">50/페이지</sys:String>
-    <sys:String x:Key="H13">100/페이지</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Previous">이전</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">다음 페이지</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">검색</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">내보내기</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">모두 삭제</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">새로고침</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Time">시간</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">자막</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">번역됨</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_20">20/페이지</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/페이지</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/페이지</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/페이지</sys:String>
 
-    <sys:String x:Key="H20">모든 기록을 삭제하시겠습니까?</sys:String>
-    <sys:String x:Key="H21">이 작업은 되돌릴 수 없습니다!</sys:String>
-    <sys:String x:Key="H22">예</sys:String>
-    <sys:String x:Key="H23">아니오</sys:String>
-    <sys:String x:Key="H24">CSV (*.csv)|*.csv|모든 파일 (*.*)|*.*</sys:String>
-    <sys:String x:Key="H25">저장 성공</sys:String>
-    <sys:String x:Key="H26">파일이 저장되었습니다: {0}</sys:String>
-    <sys:String x:Key="H27">저장 실패</sys:String>
-    <sys:String x:Key="H28">파일 저장 실패: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">모든 기록을 삭제하시겠습니까?</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">이 작업은 되돌릴 수 없습니다!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">예</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">아니오</sys:String>
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|모든 파일 (*.*)|*.*</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">저장 성공</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">파일이 저장되었습니다: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">저장 실패</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">파일 저장 실패: {0}</sys:String>
 
     <!-- OverlayWindow strings -->
-    <sys:String x:Key="O0">오버레이 창</sys:String>
-    <sys:String x:Key="O1">글꼴 크기 증가</sys:String>
-    <sys:String x:Key="O2">글꼴 크기 감소</sys:String>
-    <sys:String x:Key="O3">글꼴 테두리 증가</sys:String>
-    <sys:String x:Key="O4">글꼴 테두리 감소</sys:String>
-    <sys:String x:Key="O5">굵게</sys:String>
-    <sys:String x:Key="O6">글꼴 색상</sys:String>
-    <sys:String x:Key="O7">배경 불투명도 증가</sys:String>
-    <sys:String x:Key="O8">배경 불투명도 감소</sys:String>
-    <sys:String x:Key="O9">배경 색상</sys:String>
-    <sys:String x:Key="O10">자막 또는 번역만 표시</sys:String>
-    <sys:String x:Key="O11">자막/번역 위치 전환</sys:String>
-    <sys:String x:Key="O12">클릭 통과</sys:String>
+    <sys:String x:Key="OverlayWindow_Title">오버레이 창</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">글꼴 크기 증가</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">글꼴 크기 감소</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">글꼴 테두리 증가</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">글꼴 테두리 감소</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">굵게</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">글꼴 색상</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">배경 불투명도 증가</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">배경 불투명도 감소</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">배경 색상</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">자막 또는 번역만 표시</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">자막/번역 위치 전환</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">클릭 통과</sys:String>
 
     <!-- InfoPage strings -->
-    <sys:String x:Key="I0">모든 형태의 기여를 환영합니다! 제안이나 버그 신고는 GitHub Issues를 통해, 코드 기여는 Pull Request로 제출할 수 있습니다.</sys:String>
-    <sys:String x:Key="I1">이 프로그램이 유용했다면 별을 눌러주세요!</sys:String>
-    <sys:String x:Key="I2">저장소:</sys:String>
-    <sys:String x:Key="I3">위키:</sys:String>
-    <sys:String x:Key="I4">관리자:</sys:String>
-    <sys:String x:Key="I5">(저자) 및</sys:String>
-    <sys:String x:Key="I6">버전:</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_Message">모든 형태의 기여를 환영합니다! 제안이나 버그 신고는 GitHub Issues를 통해, 코드 기여는 Pull Request로 제출할 수 있습니다.</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">이 프로그램이 유용했다면 별을 눌러주세요!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">저장소:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">위키:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">관리자:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(저자) 및</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">버전:</sys:String>
 
     <!-- WelcomeWindow strings -->
-    <sys:String x:Key="W0">시작하기</sys:String>
-    <sys:String x:Key="W1">LiveCaptions Translator에 오신 것을 환영합니다!</sys:String>
-    <sys:String x:Key="W2">LiveCaptions Translator는 Windows LiveCaptions를 기반으로 합니다.</sys:String>
-    <sys:String x:Key="W3">&#x0A;첫 실행 전, 아래 단계를 따라 설정하세요:&#x0A;</sys:String>
-    <sys:String x:Key="W4">&#x0A;1. Windows LiveCaptions를 열고, 기기 내 음성 인식 및 언어 팩 다운로드 안내를 따릅니다.</sys:String>
-    <sys:String x:Key="W5">&#x0A;2. Windows LiveCaptions에서</sys:String>
-    <sys:String x:Key="W6">⚙️ 설정 아이콘</sys:String>
-    <sys:String x:Key="W7">을 클릭하고 설정 메뉴에서</sys:String>
-    <sys:String x:Key="W8">"위치 &gt; 화면 위에 오버레이"</sys:String>
-    <sys:String x:Key="W9">를 선택합니다.</sys:String>
-    <sys:String x:Key="W10">3. LiveCaptions Translator 설정 페이지에 있는</sys:String>
-    <sys:String x:Key="W11">"숨기기"</sys:String>
-    <sys:String x:Key="W12">버튼을 클릭하여 Windows LiveCaptions를 숨깁니다.&#x0A;</sys:String>
-    <sys:String x:Key="W13">설정 완료 후, 메인 페이지로 돌아가 실시간 음성 번역을 즐기세요.&#x0A;</sys:String>
-    <sys:String x:Key="W14">&#x0A;자세한 내용은 위키를 참조하세요: </sys:String>
-    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
-    <sys:String x:Key="W16">&#x0A;&#x0A;팁:&#x0A;</sys:String>
-    <sys:String x:Key="W17">원본 언어를 변경하려면 </sys:String>
-    <sys:String x:Key="W18">원본 언어</sys:String>
-    <sys:String x:Key="W19">, 설정 페이지에서 LiveCaptions를 [표시]한 다음 Windows LiveCaptions에서 변경하세요.</sys:String>
+    <sys:String x:Key="WelcomeWindow_GetStarted">시작하기</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">LiveCaptions Translator에 오신 것을 환영합니다!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator는 Windows LiveCaptions를 기반으로 합니다.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;첫 실행 전, 아래 단계를 따라 설정하세요:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Windows LiveCaptions를 열고, 기기 내 음성 인식 및 언어 팩 다운로드 안내를 따릅니다.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. Windows LiveCaptions에서</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ 설정 아이콘</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">을 클릭하고 설정 메뉴에서</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"위치 &gt; 화면 위에 오버레이"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. LiveCaptions Translator 설정 페이지에 있는</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"숨기기"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">버튼을 클릭하여 Windows LiveCaptions를 숨깁니다.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">설정 완료 후, 메인 페이지로 돌아가 실시간 음성 번역을 즐기세요.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;자세한 내용은 위키를 참조하세요: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;팁:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">원본 언어를 변경하려면 </sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">원본 언어</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">, 설정 페이지에서 LiveCaptions를 [표시]한 다음 Windows LiveCaptions에서 변경하세요.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">모든 설정을 이해하고 완료했습니다.</sys:String>
 
-    <sys:String x:Key="W20">모든 설정을 이해하고 완료했습니다.</sys:String>
+    <!-- Navigation menu -->
+    <sys:String x:Key="Navigation_Captions">자막</sys:String>
+    <sys:String x:Key="Navigation_Settings">설정</sys:String>
+    <sys:String x:Key="Navigation_History">기록</sys:String>
+    <sys:String x:Key="Navigation_Info">정보</sys:String>
 
     <!-- MainWindow strings -->
-    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
-    <sys:String x:Key="M10">자막</sys:String>
-    <sys:String x:Key="M11">설정</sys:String>
-    <sys:String x:Key="M12">기록</sys:String>
-    <sys:String x:Key="M13">정보</sys:String>
-    <sys:String x:Key="M20">자막 로그 카드</sys:String>
-    <sys:String x:Key="M21">번역 일시정지 (로그만)</sys:String>
-    <sys:String x:Key="M22">오버레이 창</sys:String>
-    <sys:String x:Key="M23">항상 위에 표시</sys:String>
-
-    <sys:String x:Key="MC0">[오류] 업데이트 확인 실패</sys:String>
-    <sys:String x:Key="MC1">오류</sys:String>
-    <sys:String x:Key="MC2">새 버전 이용 가능</sys:String>
-    <sys:String x:Key="MC3">새 버전이 감지되었습니다: {0}
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">자막 로그 카드</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">번역 일시정지 (로그만)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">오버레이 창</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">항상 위에 표시</sys:String>
+    <sys:String x:Key="MainWindow_Update_Error">[오류] 업데이트 확인 실패</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">오류</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">새 버전 이용 가능</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">새 버전이 감지되었습니다: {0}
 현재 버전: {1}
 최신 릴리스를 GitHub에서 다운로드하세요.</sys:String>
-    <sys:String x:Key="MC4">업데이트</sys:String>
-    <sys:String x:Key="MC5">이 버전 무시</sys:String>
-    <sys:String x:Key="MC6">[오류] 브라우저 열기 실패</sys:String>
 
-    <!-- Translator (runtime status) strings -->
-    <sys:String x:Key="T0">[경고] LiveCaptions가 예기치 않게 종료되었습니다. 재시작 중...</sys:String>
-    <sys:String x:Key="T1">[일시정지]</sys:String>
-    <sys:String x:Key="T2">오류!</sys:String>
-    <sys:String x:Key="T3">기록 저장 실패: {0}</sys:String>
+    <!-- Translator -->
+    <sys:String x:Key="Translator_Status_Restarting">[경고] LiveCaptions가 예기치 않게 종료되었습니다. 재시작 중...</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[일시정지]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">오류!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">기록 저장 실패: {0}</sys:String>
 
     <!-- CaptionPage strings -->
-    <sys:String x:Key="C0">클릭하여 복사</sys:String>
-    <sys:String x:Key="C1">복사됨</sys:String>
-    <sys:String x:Key="C2">복사 실패</sys:String>
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">클릭하여 복사</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">복사됨</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">복사 실패</sys:String>
 
 </ResourceDictionary>

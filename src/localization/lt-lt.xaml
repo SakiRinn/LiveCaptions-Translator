@@ -3,167 +3,157 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- SettingPage strings (compact numeric keys) -->
-    <sys:String x:Key="S0">Tiesioginės antraštės</sys:String>
-    <sys:String x:Key="S1">Po Windows 11 24H2 versijos galite pakeisti tik</sys:String>
-    <sys:String x:Key="S2">Šaltinio kalbą</sys:String>
-    <sys:String x:Key="S3">Tiesioginėse antraštėse.</sys:String>
-    <sys:String x:Key="S4">Pastaba:</sys:String>
-    <sys:String x:Key="S5">Prašome spustelėti</sys:String>
-    <sys:String x:Key="S6">"Slėpti"</sys:String>
-    <sys:String x:Key="S7">norėdami paslėpti Tiesiogines antraštes, o ne uždaryti jas tiesiogiai.</sys:String>
-    <sys:String x:Key="S8">Rodyti</sys:String>
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">Tiesioginės antraštės</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_Notice">Po Windows 11 24H2 versijos galite pakeisti tik</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">Šaltinio kalbą</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">Tiesioginėse antraštėse.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">Pastaba:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">Prašome spustelėti</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"Slėpti"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">norėdami paslėpti Tiesiogines antraštes, o ne uždaryti jas tiesiogiai.</sys:String>
 
-    <!-- LiveCaptions toggle button text -->
-    <sys:String x:Key="S45">Slėpti</sys:String>
-    <sys:String x:Key="S46">Rodyti</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">Rodyti</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">Slėpti</sys:String>
 
-    <sys:String x:Key="S9">API intervalas</sys:String>
-    <sys:String x:Key="S10">Nustato vertimo API kvietimų dažnį. Mažesnė reikšmė reiškia dažnesnius kvietimus.</sys:String>
-    <sys:String x:Key="S11">Vertimo API kviečiama vieną kartą po antraštės pakeitimo</sys:String>
-    <sys:String x:Key="S12">[API intervalas]</sys:String>
-    <sys:String x:Key="S13">kartų.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Label">API intervalas</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">Nustato vertimo API kvietimų dažnį. Mažesnė reikšmė reiškia dažnesnius kvietimus.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">Vertimo API kviečiama vieną kartą po antraštės pakeitimo</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[API intervalas]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">kartų.</sys:String>
 
-    <sys:String x:Key="S14">Vertimo API</sys:String>
-    <sys:String x:Key="S15">Išskyrus Google ir Google2, kitos API turi būti sukonfigūruotos prieš naudojimą.</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Label">Vertimo API</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">Išskyrus Google ir Google2, kitos API turi būti sukonfigūruotos prieš naudojimą.</sys:String>
 
-    <sys:String x:Key="S16">Tikslinė kalba</sys:String>
-    <sys:String x:Key="S17">Norimos tikslinės kalbos nėra!</sys:String>
-    <sys:String x:Key="S18">Galite tiesiogiai redaguoti šio kombinuoto sąrašo turinį, kad pritaikytumėte kalbą; rekomenduojama naudoti</sys:String>
-    <sys:String x:Key="S19">BCP 47 kalbos žymą.</sys:String>
-    <sys:String x:Key="S20">Kai kurios API (pvz., DeepL) reikalauja kito būdo tikslinės kalbos nustatymui, žr. jų oficialią dokumentaciją.</sys:String>
-    <sys:String x:Key="S21">Įtrauktoms kalboms apie tai galvoti nereikia, bet jei norima kalba nėra sąraše, atsiminkite tai.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">Tikslinė kalba</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">Norimos tikslinės kalbos nėra!</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">Galite tiesiogiai redaguoti šio kombinuoto sąrašo turinį, kad pritaikytumėte kalbą; rekomenduojama naudoti</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">BCP 47 kalbos žymą.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">Kai kurios API (pvz., DeepL) reikalauja kito būdo tikslinės kalbos nustatymui, žr. jų oficialią dokumentaciją.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">Įtrauktoms kalboms apie tai galvoti nereikia, bet jei norima kalba nėra sąraše, atsiminkite tai.</sys:String>
 
-    <sys:String x:Key="S22">API nustatymai</sys:String>
-    <sys:String x:Key="S23">Atidaryti</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Label">API nustatymai</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">Atidaryti</sys:String>
 
-    <sys:String x:Key="S24">Rodyti delsą</sys:String>
-    <sys:String x:Key="S25">Išjungta</sys:String>
-    <sys:String x:Key="S26">Įjungta</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">Rodyti delsą</sys:String>
+    <sys:String x:Key="Common_Off">Išjungta</sys:String>
+    <sys:String x:Key="Common_On">Įjungta</sys:String>
 
-    <sys:String x:Key="S27">Kontekstai</sys:String>
-    <sys:String x:Key="S28">Kontekstai:</sys:String>
-    <sys:String x:Key="S29">Nustato kontekstinių sakinių skaičių, kai įjungtas</sys:String>
-    <sys:String x:Key="S30">Konteksto suvokimas</sys:String>
-    <sys:String x:Key="S31">.</sys:String>
-    <sys:String x:Key="S32">Peržiūros sakiniai:</sys:String>
-    <sys:String x:Key="S33">Nustato rodomų kortelių skaičių, kai įjungtas</sys:String>
-    <sys:String x:Key="S34">Žurnalo kortelės</sys:String>
-    <sys:String x:Key="S35">, taip pat maksimalų sakinių skaičių, rodomą peržiūros lange.</sys:String>
-    <sys:String x:Key="S36">Kontekstai turi būti</sys:String>
-    <sys:String x:Key="S37">didesni arba lygūs</sys:String>
-    <sys:String x:Key="S38">Peržiūros sakiniai</sys:String>
-    <sys:String x:Key="S39">. Jei nebus įvykdyta, programa automatiškai pakoreguos.</sys:String>
-    <sys:String x:Key="S40">Peržiūros sakiniai</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Label">Kontekstai</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">Kontekstai:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">Nustato kontekstinių sakinių skaičių, kai įjungtas</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">Konteksto suvokimas</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">Peržiūros sakiniai:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">Nustato rodomų kortelių skaičių, kai įjungtas</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">Žurnalo kortelės</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">, taip pat maksimalų sakinių skaičių, rodomą peržiūros lange.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">Kontekstai turi būti</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">didesni arba lygūs</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">Peržiūros sakiniai</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">. Jei nebus įvykdyta, programa automatiškai pakoreguos.</sys:String>
 
-    <sys:String x:Key="S41">Versti kontekste.</sys:String>
-    <sys:String x:Key="S42">Tai gali pagerinti vertimo tikslumą, bet sunaudos daugiau žetonų.</sys:String>
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">Peržiūros sakiniai</sys:String>
 
-    <sys:String x:Key="S43">UI kalba</sys:String>
-    <sys:String x:Key="S44">Pasirinkite kalbą, kurią naudos programos vartotojo sąsaja.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">Versti kontekste.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">Tai gali pagerinti vertimo tikslumą, bet sunaudos daugiau žetonų.</sys:String>
+
+    <sys:String x:Key="SettingPage_UiLanguage_Label">UI kalba</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">Pasirinkite kalbą, kurią naudos programos vartotojo sąsaja.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">Pakeitimai įsigalioja iš karto ir automatiškai išsaugomi.</sys:String>
 
     <!-- HistoryPage strings -->
-    <sys:String x:Key="H0">Ankstesnis</sys:String>
-    <sys:String x:Key="H1">Kitas puslapis</sys:String>
-    <sys:String x:Key="H2">Ieškoti</sys:String>
-    <sys:String x:Key="H3">Eksportuoti</sys:String>
-    <sys:String x:Key="H4">Ištrinti viską</sys:String>
-    <sys:String x:Key="H5">Atnaujinti</sys:String>
-    <sys:String x:Key="H6">Laikas</sys:String>
-    <sys:String x:Key="H7">Antraštė</sys:String>
-    <sys:String x:Key="H8">Išversta</sys:String>
-    <sys:String x:Key="H9">API</sys:String>
-    <sys:String x:Key="H10">20/puslapis</sys:String>
-    <sys:String x:Key="H11">30/puslapis</sys:String>
-    <sys:String x:Key="H12">50/puslapis</sys:String>
-    <sys:String x:Key="H13">100/puslapis</sys:String>
-    <sys:String x:Key="H20">Ar tikrai norite ištrinti visą istoriją?</sys:String>
-    <sys:String x:Key="H21">Šio veiksmo nebus galima atšaukti!</sys:String>
-    <sys:String x:Key="H22">Taip</sys:String>
-    <sys:String x:Key="H23">Ne</sys:String>
-    <sys:String x:Key="H24">CSV (*.csv)|*.csv|Visi failai (*.*)|*.*</sys:String>
-    <sys:String x:Key="H25">Išsaugota sėkmingai</sys:String>
-    <sys:String x:Key="H26">Failas išsaugotas: {0}</sys:String>
-    <sys:String x:Key="H27">Išsaugojimas nepavyko</sys:String>
-    <sys:String x:Key="H28">Failo išsaugojimas nepavyko: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Previous">Ankstesnis</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">Kitas puslapis</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">Ieškoti</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">Eksportuoti</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">Ištrinti viską</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">Atnaujinti</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Time">Laikas</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">Antraštė</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">Išversta</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_20">20/puslapis</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/puslapis</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/puslapis</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/puslapis</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">Ar tikrai norite ištrinti visą istoriją?</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">Šio veiksmo nebus galima atšaukti!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">Taip</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">Ne</sys:String>
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|Visi failai (*.*)|*.*</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">Išsaugota sėkmingai</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">Failas išsaugotas: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">Išsaugojimas nepavyko</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">Failo išsaugojimas nepavyko: {0}</sys:String>
 
     <!-- OverlayWindow strings -->
-    <sys:String x:Key="O0">Peržiūros langas</sys:String>
-    <sys:String x:Key="O1">Padidinti šrifto dydį</sys:String>
-    <sys:String x:Key="O2">Sumažinti šrifto dydį</sys:String>
-    <sys:String x:Key="O3">Padidinti šrifto kontūrą</sys:String>
-    <sys:String x:Key="O4">Sumažinti šrifto kontūrą</sys:String>
-    <sys:String x:Key="O5">Paryškintas</sys:String>
-    <sys:String x:Key="O6">Šrifto spalva</sys:String>
-    <sys:String x:Key="O7">Padidinti fono skaidrumą</sys:String>
-    <sys:String x:Key="O8">Sumažinti fono skaidrumą</sys:String>
-    <sys:String x:Key="O9">Fono spalva</sys:String>
-    <sys:String x:Key="O10">Rodyti tik subtitrus arba vertimus</sys:String>
-    <sys:String x:Key="O11">Keisti subtitrų/vertimo poziciją</sys:String>
-    <sys:String x:Key="O12">Spustelėjimo praleidimas</sys:String>
+    <sys:String x:Key="OverlayWindow_Title">Peržiūros langas</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">Padidinti šrifto dydį</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">Sumažinti šrifto dydį</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">Padidinti šrifto kontūrą</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">Sumažinti šrifto kontūrą</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">Paryškintas</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">Šrifto spalva</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">Padidinti fono skaidrumą</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">Sumažinti fono skaidrumą</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">Fono spalva</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">Rodyti tik subtitrus arba vertimus</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">Keisti subtitrų/vertimo poziciją</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">Spustelėjimo praleidimas</sys:String>
 
     <!-- InfoPage strings -->
-    <sys:String x:Key="I0">Mes sveikiname bet kokį indėlį! Galite pateikti pasiūlymus ar pranešti apie klaidas per GitHub issues arba prisidėti prie kodo pateikdami Pull Request.</sys:String>
-    <sys:String x:Key="I1">Jei ši programa jums naudinga, apsvarstykite galimybę suteikti mums žvaigždutę!</sys:String>
-    <sys:String x:Key="I2">Saugykla:</sys:String>
-    <sys:String x:Key="I3">Wiki:</sys:String>
-    <sys:String x:Key="I4">Palaikytojas:</sys:String>
-    <sys:String x:Key="I5">(Autorius) ir</sys:String>
-    <sys:String x:Key="I6">Versija:</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_Message">Mes sveikiname bet kokį indėlį! Galite pateikti pasiūlymus ar pranešti apie klaidas per GitHub issues arba prisidėti prie kodo pateikdami Pull Request.</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">Jei ši programa jums naudinga, apsvarstykite galimybę suteikti mums žvaigždutę!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">Saugykla:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">Wiki:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">Palaikytojas:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(Autorius) ir</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">Versija:</sys:String>
 
     <!-- WelcomeWindow strings -->
-    <sys:String x:Key="W0">Pradžia</sys:String>
-    <sys:String x:Key="W1">Sveiki atvykę į LiveCaptions Translator!</sys:String>
-    <sys:String x:Key="W2">LiveCaptions Translator pagrįstas Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W3">&#x0A;Prieš pirmą kartą paleisdami, sukonfigūruokite pagal šiuos veiksmus:&#x0A;</sys:String>
-    <sys:String x:Key="W4">&#x0A;1. Atidarykite Windows LiveCaptions ir sekite gido nurodymus atsisiųsti reikalingus vietinius kalbos atpažinimo failus ir kalbų paketus.</sys:String>
-    <sys:String x:Key="W5">&#x0A;2. Spustelėkite</sys:String>
-    <sys:String x:Key="W6">⚙️ piktogramą</sys:String>
-    <sys:String x:Key="W7">Windows LiveCaptions nustatymuose ir pasirinkite</sys:String>
-    <sys:String x:Key="W8">"Pozicija &gt; Ant ekrano"</sys:String>
-    <sys:String x:Key="W9">3. Spustelėkite</sys:String>
-    <sys:String x:Key="W10">"Slėpti"</sys:String>
-    <sys:String x:Key="W11">mygtuką LiveCaptions Translator nustatymų puslapyje, kad paslėptumėte Windows LiveCaptions.&#x0A;</sys:String>
-    <sys:String x:Key="W12">&#x0A;Programa automatiškai nukreipė jus į nustatymų puslapį ir atidarė Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W13">Užbaigus konfigūraciją, galite grįžti į pagrindinį puslapį ir mėgautis realaus laiko garso vertimu.&#x0A;</sys:String>
-    <sys:String x:Key="W14">&#x0A;Daugiau informacijos rasite mūsų wiki: </sys:String>
-    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
-    <sys:String x:Key="W16">&#x0A;&#x0A;Patarimas:&#x0A;</sys:String>
-    <sys:String x:Key="W17">Norėdami pakeisti </sys:String>
-    <sys:String x:Key="W18">Šaltinio kalbą</sys:String>
-    <sys:String x:Key="W19">, spustelėkite [Rodyti] nustatymų puslapyje ir padarykite tai Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W20">Aš visiškai supratau ir sukonfigūravau.</sys:String>
+    <sys:String x:Key="WelcomeWindow_GetStarted">Pradėti</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">Sveiki atvykę į LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator pagrįstas Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;Prieš pirmą kartą paleisdami, sukonfigūruokite pagal šiuos veiksmus:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Atidarykite Windows LiveCaptions ir sekite gido nurodymus atsisiųsti reikalingus vietinius kalbos atpažinimo failus ir kalbų paketus.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. Spustelėkite</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ piktogramą</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">Windows LiveCaptions nustatymuose ir pasirinkite</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"Pozicija &gt; Ant ekrano"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. Spustelėkite</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"Slėpti"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">mygtuką LiveCaptions Translator nustatymų puslapyje, kad paslėptumėte Windows LiveCaptions.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;Programa automatiškai nukreipė jus į nustatymų puslapį ir atidarė Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">Užbaigus konfigūraciją, galite grįžti į pagrindinį puslapį ir mėgautis realaus laiko garso vertimu.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;Daugiau informacijos rasite mūsų wiki: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;Patarimas:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">Norėdami pakeisti </sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">Šaltinio kalbą</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">, spustelėkite [Rodyti] nustatymų puslapyje ir padarykite tai Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">Aš visiškai supratau ir sukonfigūravau.</sys:String>
 
     <!-- MainWindow strings -->
-    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
-    <sys:String x:Key="M10">Antraštė</sys:String>
-    <sys:String x:Key="M11">Nustatymai</sys:String>
-    <sys:String x:Key="M12">Istorija</sys:String>
-    <sys:String x:Key="M13">Informacija</sys:String>
-    <sys:String x:Key="M20">Antraščių žurnalo kortelės</sys:String>
-    <sys:String x:Key="M21">Sustabdyti vertimą (tik žurnalas)</sys:String>
-    <sys:String x:Key="M22">Peržiūros langas</sys:String>
-    <sys:String x:Key="M23">Visada viršuje</sys:String>
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">Antraščių žurnalo kortelės</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">Sustabdyti vertimą (tik žurnalas)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">Peržiūros langas</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">Visada viršuje</sys:String>
+    <sys:String x:Key="MainWindow_Update_Error">[KLAIDA] Atnaujinimo tikrinimas nepavyko.</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">klaida</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">Nauja versija pasiekiama</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">Nustatyta nauja versija: {0} Dabartinė versija: {1} Atsisiųskite naujausią versiją iš GitHub.</sys:String>
 
-    <sys:String x:Key="MC0">[KLAIDA] Atnaujinimo tikrinimas nepavyko.</sys:String>
-    <sys:String x:Key="MC1">klaida</sys:String>
-    <sys:String x:Key="MC2">Nauja versija pasiekiama</sys:String>
-    <sys:String x:Key="MC3">Nustatyta nauja versija: {0}
-Dabartinė versija: {1}
-Atsisiųskite naujausią versiją iš GitHub.</sys:String>
-    <sys:String x:Key="MC4">Atnaujinti</sys:String>
-    <sys:String x:Key="MC5">Ignoruoti šią versiją</sys:String>
-    <sys:String x:Key="MC6">[KLAIDA] Naršyklės atidarymas nepavyko.</sys:String>
-
-    <!-- Translator (runtime status) strings -->
-    <sys:String x:Key="T0">[ĮSPĖJIMAS] LiveCaptions buvo netikėtai uždaryta, paleidžiama iš naujo...</sys:String>
-    <sys:String x:Key="T1">[Sustabdyta]</sys:String>
-    <sys:String x:Key="T2">Klaida!</sys:String>
-    <sys:String x:Key="T3">Istorijos registravimas nepavyko: {0}</sys:String>
+    <!-- Translator strings -->
+    <sys:String x:Key="Translator_Status_Restarting">[ĮSPĖJIMAS] LiveCaptions buvo netikėtai uždaryta, paleidžiama iš naujo...</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[Sustabdyta]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">Klaida!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">Istorijos registravimas nepavyko: {0}</sys:String>
 
     <!-- CaptionPage strings -->
-    <sys:String x:Key="C0">Spustelėkite, kad nukopijuotumėte</sys:String>
-    <sys:String x:Key="C1">Nukopijuota</sys:String>
-    <sys:String x:Key="C2">Kopijavimas nepavyko</sys:String>
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">Spustelėkite, kad nukopijuotumėte</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">Nukopijuota</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">Kopijavimas nepavyko</sys:String>
 
 </ResourceDictionary>

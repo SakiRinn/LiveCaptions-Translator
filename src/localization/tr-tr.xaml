@@ -3,184 +3,162 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- SettingPage strings (compact numeric keys) -->
-    <sys:String x:Key="S0">Canlı Altyazılar</sys:String>
-    <sys:String x:Key="S1">Windows 11 sürüm 24H2'den sonra, yalnızca</sys:String>
-    <sys:String x:Key="S2">Kaynak Dili</sys:String>
-    <sys:String x:Key="S3">Canlı Altyazılar'da değiştirilebilir.</sys:String>
-    <sys:String x:Key="S4">Not:</sys:String>
-    <sys:String x:Key="S5">Lütfen tıklayın</sys:String>
-    <sys:String x:Key="S6">"Gizle"</sys:String>
-    <sys:String x:Key="S7">Canlı Altyazıları doğrudan kapatmak yerine gizlemek için.</sys:String>
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">Canlı Altyazılar</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_Text1">Windows 11 sürüm 24H2'den sonra, yalnızca</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">Kaynak Dili</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">Canlı Altyazılar'da değiştirilebilir.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">Not:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">Lütfen tıklayın</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"Gizle"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">Canlı Altyazıları doğrudan kapatmak yerine gizlemek için.</sys:String>
 
-    <sys:String x:Key="S8">Göster</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">Göster</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">Gizle</sys:String>
 
-    <!-- LiveCaptions toggle button text -->
-    <sys:String x:Key="S45">Gizle</sys:String>
-    <sys:String x:Key="S46">Göster</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Label">API Aralığı</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">Çeviri API çağrılarının sıklığını belirler. Daha küçük değer, daha sık çağrı demektir.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">Altyazı değiştikten sonra çeviri API'si</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[API Aralığı]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">kere çağrılır.</sys:String>
 
-    <sys:String x:Key="S9">API Aralığı</sys:String>
-    <sys:String x:Key="S10">Çeviri API çağrılarının sıklığını belirler. Daha küçük değer, daha sık çağrı demektir.</sys:String>
-    <sys:String x:Key="S11">Altyazı değiştikten sonra çeviri API'si</sys:String>
-    <sys:String x:Key="S12">[API Aralığı]</sys:String>
-    <sys:String x:Key="S13">kere çağrılır.</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Label">Çeviri API'si</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">Google ve Google2 dışındaki tüm API'ler kullanılmadan önce yapılandırılmalıdır.</sys:String>
 
-    <sys:String x:Key="S14">Çeviri API'si</sys:String>
-    <sys:String x:Key="S15">Google ve Google2 dışındaki tüm API'ler kullanılmadan önce yapılandırılmalıdır.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">Hedef Dil</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">Beklediğim hedef dil yok!</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">Bu açılır kutunun içeriğini doğrudan düzenleyebilir ve dili özelleştirebilirsiniz; BCP 47 dil etiketini takip etmeniz önerilir.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">BCP 47 dil etiketi.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">Bazı API'ler (ör. DeepL) hedef dili farklı bir şekilde tanımlar, daha fazla bilgi için resmi belgelerine bakın.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">Dahili hedef diller için bunu düşünmenize gerek yok, çünkü etiket eşlemeleri zaten mevcut. Ancak beklediğiniz dil listede yoksa bunu unutmayın.</sys:String>
 
-    <sys:String x:Key="S16">Hedef Dil</sys:String>
-    <sys:String x:Key="S17">Beklediğim hedef dil yok!</sys:String>
-    <sys:String x:Key="S18">Bu açılır kutunun içeriğini doğrudan düzenleyebilir ve dili özelleştirebilirsiniz; BCP 47 dil etiketini takip etmeniz önerilir.</sys:String>
-    <sys:String x:Key="S19">BCP 47 dil etiketi.</sys:String>
-    <sys:String x:Key="S20">Bazı API'ler (ör. DeepL) hedef dili farklı bir şekilde tanımlar, daha fazla bilgi için resmi belgelerine bakın.</sys:String>
-    <sys:String x:Key="S21">Dahili hedef diller için bunu düşünmenize gerek yok, çünkü etiket eşlemeleri zaten mevcut. Ancak beklediğiniz dil listede yoksa bunu unutmayın.</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Label">API Ayarları</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">Aç</sys:String>
 
-    <sys:String x:Key="S22">API Ayarları</sys:String>
-    <sys:String x:Key="S23">Aç</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">Gecikmeyi Göster</sys:String>
+    <sys:String x:Key="Common_Off">Kapalı</sys:String>
+    <sys:String x:Key="Common_On">Açık</sys:String>
 
-    <sys:String x:Key="S24">Gecikmeyi Göster</sys:String>
-    <sys:String x:Key="S25">Kapalı</sys:String>
-    <sys:String x:Key="S26">Açık</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Label">Bağlamlar</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">Bağlamlar:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">Bağlam Bilinçli çeviri etkin olduğunda bağlam cümlelerinin sayısını belirler.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">Bağlam Bilinçli</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">etkinleştirildiğinde.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">Kaplama Cümleler:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">Log Kartları etkin olduğunda gösterilen kart sayısını ve Kaplama Penceresinde gösterilen maksimum cümle sayısını belirler.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">Log Kartları</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">etkinleştirildiğinde, ayrıca Kaplama Penceresinde gösterilen maksimum cümle sayısı.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">Bağlam sayısı</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">en az</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">Gösterilecek Cümleler</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">olmalıdır. Karşılanmazsa, program otomatik olarak ayarlayacaktır.</sys:String>
 
-    <sys:String x:Key="S27">Bağlamlar</sys:String>
-    <sys:String x:Key="S28">Bağlamlar:</sys:String>
-    <sys:String x:Key="S29">Bağlam Bilinçli çeviri etkin olduğunda bağlam cümlelerinin sayısını belirler.</sys:String>
-    <sys:String x:Key="S30">Bağlam Bilinçli</sys:String>
-    <sys:String x:Key="S31">etkinleştirildiğinde.</sys:String>
-    <sys:String x:Key="S32">Kaplama Cümleler:</sys:String>
-    <sys:String x:Key="S33">Log Kartları etkin olduğunda gösterilen kart sayısını ve Kaplama Penceresinde gösterilen maksimum cümle sayısını belirler.</sys:String>
-    <sys:String x:Key="S34">Log Kartları</sys:String>
-    <sys:String x:Key="S35">etkinleştirildiğinde, ayrıca Kaplama Penceresinde gösterilen maksimum cümle sayısı.</sys:String>
-    <sys:String x:Key="S36">Bağlam sayısı</sys:String>
-    <sys:String x:Key="S37">en az</sys:String>
-    <sys:String x:Key="S38">Gösterilecek Cümleler</sys:String>
-    <sys:String x:Key="S39">olmalıdır. Karşılanmazsa, program otomatik olarak ayarlayacaktır.</sys:String>
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">Gösterilecek Cümleler</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">Bağlam içinde çevir.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">Çeviri doğruluğunu artırabilir, ancak daha fazla token tüketir.</sys:String>
 
-    <sys:String x:Key="S40">Gösterilecek Cümleler</sys:String>
-
-    <sys:String x:Key="S41">Bağlam içinde çevir.</sys:String>
-    <sys:String x:Key="S42">Çeviri doğruluğunu artırabilir, ancak daha fazla token tüketir.</sys:String>
-
-    <sys:String x:Key="S43">UI Dili</sys:String>
-    <sys:String x:Key="S44">Uygulamanın kullanıcı arayüzü dili seçin.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Label">UI Dili</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">Uygulamanın kullanıcı arayüzü dili seçin.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">Değişiklikler anında geçerli olur ve otomatik kaydedilir.</sys:String>
 
     <!-- HistoryPage strings -->
-    <sys:String x:Key="H0">Önceki</sys:String>
-    <sys:String x:Key="H1">Sonraki Sayfa</sys:String>
-    <sys:String x:Key="H2">Ara</sys:String>
-    <sys:String x:Key="H3">Dışa Aktar</sys:String>
-    <sys:String x:Key="H4">Tümünü Sil</sys:String>
-    <sys:String x:Key="H5">Yenile</sys:String>
-    <sys:String x:Key="H6">Zaman</sys:String>
-    <sys:String x:Key="H7">Altyazı</sys:String>
-    <sys:String x:Key="H8">Çevirisi</sys:String>
-    <sys:String x:Key="H9">API</sys:String>
-    <sys:String x:Key="H10">20/sayfa</sys:String>
-    <sys:String x:Key="H11">30/sayfa</sys:String>
-    <sys:String x:Key="H12">50/sayfa</sys:String>
-    <sys:String x:Key="H13">100/sayfa</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Previous">Önceki Sayfa</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">Sonraki Sayfa</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">Ara</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">Dışa Aktar</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">Tümünü Sil</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">Yenile</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Time">Zaman</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">Altyazı</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">Çevirisi</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_20">20/sayfa</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/sayfa</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/sayfa</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/sayfa</sys:String>
 
-    <!-- HistoryPage (code-behind) strings -->
-    <sys:String x:Key="H20">Tüm geçmişi silmek istiyor musunuz?</sys:String>
-    <sys:String x:Key="H21">Bu işlem geri alınamaz!</sys:String>
-    <sys:String x:Key="H22">Evet</sys:String>
-    <sys:String x:Key="H23">Hayır</sys:String>
-    <sys:String x:Key="H24">CSV (*.csv)|*.csv|Tüm dosyalar (*.*)|*.*</sys:String>
-    <sys:String x:Key="H25">Başarıyla Kaydedildi</sys:String>
-    <sys:String x:Key="H26">Dosya kaydedildi: {0}</sys:String>
-    <sys:String x:Key="H27">Kaydetme Başarısız</sys:String>
-    <sys:String x:Key="H28">Dosya kaydedilemedi: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">Tüm geçmişi silmek istiyor musunuz?</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">Bu işlem geri alınamaz!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">Evet</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">Hayır</sys:String>
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|Tüm dosyalar (*.*)|*.*</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">Başarıyla Kaydedildi</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">Dosya kaydedildi: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">Kaydetme Başarısız</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">Dosya kaydedilemedi: {0}</sys:String>
 
     <!-- OverlayWindow strings -->
-    <sys:String x:Key="O0">Kaplama Penceresi</sys:String>
-    <sys:String x:Key="O1">Yazı Tipi Boyutunu Artır</sys:String>
-    <sys:String x:Key="O2">Yazı Tipi Boyutunu Azalt</sys:String>
-    <sys:String x:Key="O3">Yazı Tipi Çizgisi Artır</sys:String>
-    <sys:String x:Key="O4">Yazı Tipi Çizgisi Azalt</sys:String>
-    <sys:String x:Key="O5">Kalın Yazı Tipi</sys:String>
-    <sys:String x:Key="O6">Yazı Rengi</sys:String>
-    <sys:String x:Key="O7">Arka Plan Opaklığı Artır</sys:String>
-    <sys:String x:Key="O8">Arka Plan Opaklığı Azalt</sys:String>
-    <sys:String x:Key="O9">Arka Plan Rengi</sys:String>
-    <sys:String x:Key="O10">Sadece altyazı veya çeviriyi göster</sys:String>
-    <sys:String x:Key="O11">Altyazı/çeviri konumunu değiştir</sys:String>
-    <sys:String x:Key="O12">Tıklamayı Geç</sys:String>
+    <sys:String x:Key="OverlayWindow_Title">Kaplama Penceresi</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">Yazı Tipi Boyutunu Artır</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">Yazı Tipi Boyutunu Azalt</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">Yazı Tipi Çizgisi Artır</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">Yazı Tipi Çizgisi Azalt</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">Kalın Yazı Tipi</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">Yazı Rengi</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">Arka Plan Opaklığı Artır</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">Arka Plan Opaklığı Azalt</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">Arka Plan Rengi</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">Sadece altyazı veya çeviriyi göster</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">Altyazı/çeviri konumunu değiştir</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">Tıklamayı Geç</sys:String>
 
     <!-- InfoPage strings -->
-    <sys:String x:Key="I0">Her türlü katkıya açığız! Öneri veya hata bildirimi için GitHub issues kullanabilir veya Pull Request göndererek doğrudan kod katkısında bulunabilirsiniz.</sys:String>
-    <sys:String x:Key="I1">Bu program size yardımcı olduysa, lütfen bize bir yıldız verin!</sys:String>
-    <sys:String x:Key="I2">Depo:</sys:String>
-    <sys:String x:Key="I3">Wiki:</sys:String>
-    <sys:String x:Key="I4">Bakımcı:</sys:String>
-    <sys:String x:Key="I5">(Yazar) ve</sys:String>
-    <sys:String x:Key="I6">Sürüm:</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_Message">Her türlü katkıya açığız! Öneri veya hata bildirimi için GitHub issues kullanabilir veya Pull Request göndererek doğrudan kod katkısında bulunabilirsiniz.</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">Bu program size yardımcı olduysa, lütfen bize bir yıldız verin!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">Depo:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">Wiki:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">Bakımcı:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(Yazar) ve</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">Sürüm:</sys:String>
 
     <!-- WelcomeWindow strings -->
-    <sys:String x:Key="W0">Başlarken</sys:String>
-    <sys:String x:Key="W1">LiveCaptions Translator'a Hoşgeldiniz!</sys:String>
-
-    <sys:String x:Key="W2">LiveCaptions Translator, Windows LiveCaptions tabanlıdır.</sys:String>
-    <sys:String x:Key="W3">&#x0A;İlk çalıştırmadan önce, aşağıdaki adımlara göre yapılandırmanız gerekir:&#x0A;</sys:String>
-
-    <sys:String x:Key="W4">&#x0A;1. Windows LiveCaptions'ı açın ve cihaz üzeri konuşma tanıma ve dil paketlerini indirme kılavuzunu takip edin.</sys:String>
-    <sys:String x:Key="W5">&#x0A;2. Windows LiveCaptions'ta ayarlar menüsünü açmak için</sys:String>
-    <sys:String x:Key="W6">⚙️ dişli</sys:String>
-    <sys:String x:Key="W7">simgesine tıklayın ve şunu seçin</sys:String>
-    <sys:String x:Key="W8">"Konum > Ekranda Üstüste"</sys:String>
-    <sys:String x:Key="W9">3. CanlıAltyazılar Translator ayar sayfasında bulunan</sys:String>
-    <sys:String x:Key="W10">"Gizle"</sys:String>
-    <sys:String x:Key="W11">butonuna tıklayarak Windows LiveCaptions'ı gizleyin.&#x0A;</sys:String>
-
-    <sys:String x:Key="W12">&#x0A;Program otomatik olarak ayar sayfasına yönlendirildi ve Windows LiveCaptions açıldı.</sys:String>
-    <sys:String x:Key="W13">Yapılandırmayı tamamladıktan sonra, ana sayfaya geri dönebilir ve gerçek zamanlı ses çevirisinin tadını çıkarabilirsiniz.&#x0A;</sys:String>
-
-    <sys:String x:Key="W14">&#x0A;Detaylar için wiki sayfamızı ziyaret edin: </sys:String>
-    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
-
-    <sys:String x:Key="W16">&#x0A;&#x0A;İpucu:&#x0A;</sys:String>
-    <sys:String x:Key="W17"> </sys:String>
-    <sys:String x:Key="W18">Kaynak Dili</sys:String>
-    <sys:String x:Key="W19"> değiştirmek için ayar sayfasında LiveCaptions'ı [Göster] yapın ve bunu Windows LiveCaptions içinde yapın.</sys:String>
-
-    <sys:String x:Key="W20">Tamamen anladım ve yapılandırdım.</sys:String>
-
-    <!-- MainWindow strings -->
-    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="WelcomeWindow_GetStarted">Başlayın</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">LiveCaptions Translator'a Hoşgeldiniz!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator, Windows LiveCaptions tabanlıdır.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;İlk çalıştırmadan önce, aşağıdaki adımlara göre yapılandırmanız gerekir:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Windows LiveCaptions'ı açın ve cihaz üzeri konuşma tanıma ve dil paketlerini indirme kılavuzunu takip edin.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. Windows LiveCaptions'ta ayarlar menüsünü açmak için</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ dişli</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">simgesine tıklayın ve şunu seçin</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"Konum &gt; Ekranda Üstüste"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. CanlıAltyazılar Translator ayar sayfasında bulunan</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"Gizle"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">butonuna tıklayarak Windows LiveCaptions'ı gizleyin.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;Program otomatik olarak ayar sayfasına yönlendirildi ve Windows LiveCaptions açıldı.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">Yapılandırmayı tamamladıktan sonra, ana sayfaya geri dönebilir ve gerçek zamanlı ses çevirisinin tadını çıkarabilirsiniz.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;Detaylar için wiki sayfamızı ziyaret edin: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;İpucu:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">Kaynak Dili</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage"> değiştirmek için ayar sayfasında LiveCaptions'ı [Göster] yapın ve bunu Windows LiveCaptions içinde yapın.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">Tamamen anladım ve yapılandırdım.</sys:String>
 
     <!-- Navigation menu -->
-    <sys:String x:Key="M10">Altyazı</sys:String>
-    <sys:String x:Key="M11">Ayarlar</sys:String>
-    <sys:String x:Key="M12">Geçmiş</sys:String>
-    <sys:String x:Key="M13">Bilgi</sys:String>
+    <sys:String x:Key="Navigation_Captions">Altyazı</sys:String>
+    <sys:String x:Key="Navigation_Settings">Ayarlar</sys:String>
+    <sys:String x:Key="Navigation_History">Geçmiş</sys:String>
+    <sys:String x:Key="Navigation_Info">Bilgi</sys:String>
 
-    <!-- Title bar buttons tooltips -->
-    <sys:String x:Key="M20">Altyazı Log Kartları</sys:String>
-    <sys:String x:Key="M21">Çeviriyi Duraklat (Sadece Log)</sys:String>
-    <sys:String x:Key="M22">Kaplama Penceresi</sys:String>
-    <sys:String x:Key="M23">Her Zaman Üstte</sys:String>
+    <!-- MainWindow strings -->
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">Altyazı Log Kartları</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">Çeviriyi Duraklat (Sadece Log)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">Kaplama Penceresi</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">Her Zaman Üstte</sys:String>
+    <sys:String x:Key="MainWindow_Update_Error">[HATA] Güncelleme Kontrolü Başarısız.</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">hata</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">Yeni Sürüm Mevcut</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">Yeni bir sürüm tespit edildi: {0} Mevcut sürüm: {1} Lütfen en son sürümü indirmek için GitHub'u ziyaret edin.</sys:String>
 
-    <!-- MainWindow (code-behind) strings -->
-    <sys:String x:Key="MC0">[HATA] Güncelleme Kontrolü Başarısız.</sys:String>
-    <sys:String x:Key="MC1">hata</sys:String>
-
-    <sys:String x:Key="MC2">Yeni Sürüm Mevcut</sys:String>
-    <sys:String x:Key="MC3">Yeni bir sürüm tespit edildi: {0}
-Mevcut sürüm: {1}
-Lütfen en son sürümü indirmek için GitHub'u ziyaret edin.</sys:String>
-    <sys:String x:Key="MC4">Güncelle</sys:String>
-    <sys:String x:Key="MC5">Bu sürümü yoksay</sys:String>
-
-    <sys:String x:Key="MC6">[HATA] Tarayıcı Açma Başarısız.</sys:String>
-
-    <!-- Translator (runtime status) strings -->
-    <sys:String x:Key="T0">[UYARI] LiveCaptions beklenmedik şekilde kapandı, yeniden başlatılıyor...</sys:String>
-    <sys:String x:Key="T1">[Duraklatıldı]</sys:String>
-    <sys:String x:Key="T2">Hata!</sys:String>
-    <sys:String x:Key="T3">Geçmiş kaydı başarısız: {0}</sys:String>
+    <!-- Translator -->
+    <sys:String x:Key="Translator_Status_Restarting">[UYARI] LiveCaptions beklenmedik şekilde kapandı, yeniden başlatılıyor...</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[Duraklatıldı]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">Hata!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">Geçmiş kaydı başarısız: {0}</sys:String>
 
     <!-- CaptionPage strings -->
-    <sys:String x:Key="C0">Kopyalamak için tıklayın</sys:String>
-    <sys:String x:Key="C1">Kopyalandı</sys:String>
-    <sys:String x:Key="C2">Kopyalama Başarısız</sys:String>
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">Kopyalamak için tıklayın</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">Kopyalandı</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">Kopyalama Başarısız</sys:String>
 
 </ResourceDictionary>

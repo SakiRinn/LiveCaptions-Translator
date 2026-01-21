@@ -4,13 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
+    xmlns:models="clr-namespace:LiveCaptionsTranslator.models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="SettingPage"
-    JournalEntry.KeepAlive="False"
+    JournalEntry.KeepAlive="True"
     mc:Ignorable="d">
 
-    <Grid Margin="15">
+    <Grid Margin="15" Cursor="">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
@@ -19,6 +20,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
+        <!-- Column 0: LiveCaptions + API Interval -->
         <StackPanel Grid.Column="0" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
@@ -37,17 +39,16 @@
                         <Border Grid.Row="1" Grid.Column="1" Margin="1,1,0,0" Background="#FF1E9BFA" />
                     </Grid>
 
-                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S0}" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource SettingPage_LiveCaptionsName}" />
                     <ui:Flyout x:Name="LiveCaptionsInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
                             <Run Text="{DynamicResource S1}" />
-                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="{DynamicResource S2}" />
-                            <Run Text="{DynamicResource S3}" />
-                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;" />
-                            <Run FontWeight="Bold" Text="{DynamicResource S4}" />
-                            <Run Text="{DynamicResource S5}" />
-                            <Run FontWeight="Bold" Text="{DynamicResource S6}" />
-                            <Run Text="{DynamicResource S7}" />
+                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="{DynamicResource SettingPage_LiveCaptionsInfo_SourceLanguage}" />
+                            <Run Text="{DynamicResource SettingPage_LiveCaptionsInfo_InLiveCaptions}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource SettingPage_LiveCaptionsInfo_NoteLabel}" />
+                            <Run Text="{DynamicResource SettingPage_LiveCaptionsInfo_PleaseClick}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource SettingPage_LiveCaptionsInfo_HideQuoted}" />
+                            <Run Text="{DynamicResource SettingPage_LiveCaptionsInfo_HideInsteadOfClose}" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -69,20 +70,20 @@
                     Height="30"
                     Padding="11,4,11,4"
                     Click="LiveCaptionsButton_click">
-                    <TextBlock x:Name="ButtonText" Text="{DynamicResource S8}" />
+                    <TextBlock x:Name="ButtonText" Text="{DynamicResource SettingPage_LiveCaptionsToggle_Show}" />
                 </ui:Button>
             </StackPanel>
 
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S9}" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource SettingPage_ApiInterval_Label}" />
                     <ui:Flyout x:Name="FrequencyInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run Text="{DynamicResource S10}" />
+                            <Run Text="{DynamicResource SettingPage_ApiInterval_Tooltip_Desc}" />
                             <Run Text="&#x0A;" />
-                            <Run Text="{DynamicResource S11}" />
-                            <Run FontWeight="SemiBold" Text="{DynamicResource S12}" />
-                            <Run Text="{DynamicResource S13}" />
+                            <Run Text="{DynamicResource SettingPage_ApiInterval_Tooltip_Line1}" />
+                            <Run FontWeight="SemiBold" Text="{DynamicResource SettingPage_ApiInterval_Tooltip_IntervalName}" />
+                            <Run Text="{DynamicResource SettingPage_ApiInterval_Tooltip_Suffix}" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -110,14 +111,15 @@
             </StackPanel>
         </StackPanel>
 
+        <!-- Column 1: Translate API + Target Language -->
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S14}" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource SettingPage_TranslateApi_Label}" />
                     <ui:Flyout x:Name="TranslateAPIInfoFlyout">
                         <TextBlock
                             Width="300"
-                            Text="{DynamicResource S15}"
+                            Text="{DynamicResource SettingPage_TranslateApi_Tooltip}"
                             TextWrapping="Wrap" />
                     </ui:Flyout>
                     <Button
@@ -148,18 +150,18 @@
                     <TextBlock
                         Margin="2.5,0,0,5"
                         VerticalAlignment="Center"
-                        Text="{DynamicResource S16}" />
+                        Text="{DynamicResource SettingPage_TargetLanguage_Label}" />
                     <ui:Flyout x:Name="TargetLangInfoFlyout">
                         <TextBlock Width="350" TextWrapping="Wrap">
-                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="{DynamicResource S17}" />
+                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="{DynamicResource SettingPage_TargetLanguage_Tooltip_Title}" />
                             <Run Text="&#x0A;" />
-                            <Run Text="{DynamicResource S18}" />
-                            <Run FontWeight="Bold" Text="{DynamicResource S19}" />
+                            <Run Text="{DynamicResource SettingPage_TargetLanguage_Tooltip_Line1}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource SettingPage_TargetLanguage_Tooltip_Bcp47}" />
                             <Run FontWeight="Bold" Text="&#x0A;&#x0A;" />
-                            <Run FontWeight="Bold" Text="{DynamicResource S4}" />
-                            <Run Text="{DynamicResource S20}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource SettingPage_LiveCaptionsInfo_NoteLabel}" />
+                            <Run Text="{DynamicResource SettingPage_TargetLanguage_Tooltip_Note1}" />
                             <Run Text="&#x0A;" />
-                            <Run Text="{DynamicResource S21}" />
+                            <Run Text="{DynamicResource SettingPage_TargetLanguage_Tooltip_Note2}" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -187,10 +189,11 @@
             </StackPanel>
         </StackPanel>
 
+        <!-- Columns 2-4 unchanged -->
         <StackPanel Grid.Column="2" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S22}" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource SettingPage_ApiSetting_Label}" />
                 </StackPanel>
                 <ui:Button
                     x:Name="APISettingButton"
@@ -198,42 +201,42 @@
                     Height="30"
                     Padding="11,4,11,4"
                     Click="APISettingButton_click">
-                    <TextBlock Text="{DynamicResource S23}" />
+                    <TextBlock Text="{DynamicResource SettingPage_ApiSetting_Open}" />
                 </ui:Button>
             </StackPanel>
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S24}" />
+                <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource SettingPage_ShowLatency_Label}" />
                 <ui:ToggleSwitch
                     Width="100"
                     Height="30"
                     Padding="10,4,10,7"
                     IsChecked="{Binding MainWindow.LatencyShow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    OffContent="{DynamicResource S25}"
-                    OnContent="{DynamicResource S26}" />
+                    OffContent="{DynamicResource Common_Off}"
+                    OnContent="{DynamicResource Common_On}" />
             </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Column="3" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S27}" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource SettingPage_Contexts_Label}" />
                     <ui:Flyout x:Name="CaptionLogMaxInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run FontWeight="Bold" Text="{DynamicResource S28}" />
-                            <Run Text="{DynamicResource S29}" />
-                            <Run FontWeight="Bold" Text="{DynamicResource S30}" />
-                            <Run Text="{DynamicResource S31}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource SettingPage_Contexts_Tooltip_Title}" />
+                            <Run Text="{DynamicResource SettingPage_Contexts_Tooltip_Line1}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource SettingPage_Contexts_Tooltip_ContextAware}" />
+                            <Run Text="{DynamicResource SettingPage_Contexts_Tooltip_Line2}" />
                             <Run FontWeight="Bold" Text="&#x0A;" />
-                            <Run FontWeight="Bold" Text="{DynamicResource S32}" />
-                            <Run Text="{DynamicResource S33}" />
-                            <Run FontWeight="Bold" Text="{DynamicResource S34}" />
-                            <Run Text="{DynamicResource S35}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource SettingPage_Contexts_Tooltip_OverlaySentences}" />
+                            <Run Text="{DynamicResource SettingPage_Contexts_Tooltip_Line3}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource SettingPage_Contexts_Tooltip_LogCards}" />
+                            <Run Text="{DynamicResource SettingPage_Contexts_Tooltip_Line4}" />
                             <Run FontWeight="Bold" Text="&#x0A;&#x0A;" />
-                            <Run FontWeight="Bold" Text="{DynamicResource S4}" />
-                            <Run Text="{DynamicResource S36}" />
-                            <Run FontWeight="Bold" Text="{DynamicResource S37}" />
-                            <Run Text="{DynamicResource S38}" />
-                            <Run Text="{DynamicResource S39}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource SettingPage_LiveCaptionsInfo_NoteLabel}" />
+                            <Run Text="{DynamicResource SettingPage_Contexts_Tooltip_Line5}" />
+                            <Run FontWeight="Bold" Text="{DynamicResource SettingPage_Contexts_Tooltip_Line6}" />
+                            <Run Text="{DynamicResource SettingPage_Contexts_Tooltip_DisplaySentences}" />
+                            <Run Text="{DynamicResource SettingPage_Contexts_Tooltip_Line7}" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -266,7 +269,7 @@
             </StackPanel>
 
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S40}" />
+                <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource SettingPage_DisplaySentences_Label}" />
                 <ui:NumberBox
                     Width="135"
                     Height="30"
@@ -286,15 +289,15 @@
 
         <StackPanel Grid.Column="4" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S30}" />
+                <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource SettingPage_Contexts_Tooltip_ContextAware}" />
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <ui:ToggleSwitch
                         Width="90"
                         Height="30"
                         Padding="10,4,10,7"
                         IsChecked="{Binding ContextAware, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        OffContent="{DynamicResource S25}"
-                        OnContent="{DynamicResource S26}" />
+                        OffContent="{DynamicResource Common_Off}"
+                        OnContent="{DynamicResource Common_On}" />
                     <Button
                         x:Name="ContextAwareInfo"
                         Width="15"
@@ -309,9 +312,9 @@
                     </Button>
                     <ui:Flyout x:Name="ContextAwareInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run Text="{DynamicResource S41}" />
+                            <Run Text="{DynamicResource SettingPage_ContextAware_Tooltip_Line1}" />
                             <Run Text="&#x0A;" />
-                            <Run Text="{DynamicResource S42}" />
+                            <Run Text="{DynamicResource SettingPage_ContextAware_Tooltip_Line2}" />
                         </TextBlock>
                     </ui:Flyout>
                 </StackPanel>
@@ -320,12 +323,12 @@
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <ui:SymbolIcon Symbol="Globe20" Margin="0,0,6,0" />
-                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource S43}" />
+                    <TextBlock Margin="2.5,0,0,5" Text="{DynamicResource SettingPage_UiLanguage_Label}" />
                     <ui:Flyout x:Name="UILanguageInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run Text="{DynamicResource S44}" />
+                            <Run Text="{DynamicResource SettingPage_UiLanguage_Tooltip}" />
                             <Run Text="&#x0A;&#x0A;" />
-                            <Run Text="Changes take effect immediately and are saved automatically." />
+                            <Run Text="{DynamicResource SettingPage_UiLanguage_Tooltip_ImmediateSave}" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -341,29 +344,16 @@
                         <ui:SymbolIcon Symbol="Info16" />
                     </Button>
                 </StackPanel>
-                <ComboBox x:Name="UILanguageBox" Width="150" Height="30" Padding="10,4,10,7" FontSize="13.3" SelectionChanged="UILanguageBox_SelectionChanged">
-                    <ComboBoxItem Content="English" />
-                    <ComboBoxItem Content="&#x7B80;&#x4F53;&#x4E2D;&#x6587;" />
-                    <ComboBoxItem Content="&#x627;&#x644;&#x639;&#x631;&#x628;&#x64A;&#x629;" />
-                    <ComboBoxItem Content="&#x9AC;&#x9BE;&#x982;&#x9B2;&#x9BE;" />
-                    <ComboBoxItem Content="&#x10C;e&#x161;tina" />
-                    <ComboBoxItem Content="Deutsch" />
-                    <ComboBoxItem Content="Espa&#xF1;ol (M&#xE9;xico)" />
-                    <ComboBoxItem Content="Fran&#xE7;ais" />
-                    <ComboBoxItem Content="Italiano" />
-                    <ComboBoxItem Content="&#x65E5;&#x672C;&#x8A9E;" />
-                    <ComboBoxItem Content="&#xD55C;&#xAD6D;&#xC5B4;" />
-                    <ComboBoxItem Content="Lietuvi&#x173;" />
-                    <ComboBoxItem Content="Nederlands" />
-                    <ComboBoxItem Content="Polski" />
-                    <ComboBoxItem Content="Portugu&#xEA;s (Brasil)" />
-                    <ComboBoxItem Content="Portugu&#xEA;s (Portugal)" />
-                    <ComboBoxItem Content="&#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;" />
-                    <ComboBoxItem Content="Svenska" />
-                    <ComboBoxItem Content="T&#xFC;rk&#xE7;e" />
-                    <ComboBoxItem Content="Ti&#x1EBF;ng Vi&#x1EC7;t" />
-                    <ComboBoxItem Content="&#x7E41;&#x9AD4;&#x4E2D;&#x6587; (&#x53F0;&#x7063;)" />
-                </ComboBox>
+                <ComboBox
+                    x:Name="UILanguageBox"
+                    Width="150"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    ItemsSource="{x:Static models:LanguageCatalog.SupportedUiLanguages}"
+                    DisplayMemberPath="DisplayName"
+                    SelectedValuePath="CultureCode"
+                    SelectionChanged="UILanguageBox_SelectionChanged" />
             </StackPanel>
         </StackPanel>
     </Grid>

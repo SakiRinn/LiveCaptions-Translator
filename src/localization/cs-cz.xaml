@@ -3,165 +3,172 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- SettingPage strings (compact numeric keys) -->
-    <sys:String x:Key="S0">Živé titulky</sys:String>
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">Živé titulky</sys:String>
     <sys:String x:Key="S1">Po verzi 24H2 Windows 11 můžete změnit pouze</sys:String>
-    <sys:String x:Key="S2">Zdrojový jazyk</sys:String>
-    <sys:String x:Key="S3">v Živých titulcích.</sys:String>
-    <sys:String x:Key="S4">Poznámka:</sys:String>
-    <sys:String x:Key="S5">Klikněte prosím</sys:String>
-    <sys:String x:Key="S6">"Skrýt"</sys:String>
-    <sys:String x:Key="S7">pro skrytí Živých titulků místo jejich přímého zavření.</sys:String>
-    <sys:String x:Key="S8">Zobrazit</sys:String>
-    <sys:String x:Key="S45">Skrýt</sys:String>
-    <sys:String x:Key="S46">Zobrazit</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">Zdrojový jazyk</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">v Živých titulcích.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">Poznámka:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">Klikněte prosím</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"Skrýt"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">pro skrytí Živých titulků místo jejich přímého zavření.</sys:String>
 
-    <sys:String x:Key="S9">Interval API</sys:String>
-    <sys:String x:Key="S10">Určuje frekvenci volání překladatelského API. Čím menší, tím častější volání.</sys:String>
-    <sys:String x:Key="S11">Překladatelské API se volá jednou po změně titulku</sys:String>
-    <sys:String x:Key="S12">[Interval API]</sys:String>
-    <sys:String x:Key="S13">krát.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">Zobrazit</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">Skrýt</sys:String>
 
-    <sys:String x:Key="S14">Překladatelské API</sys:String>
-    <sys:String x:Key="S15">S výjimkou Google a Google2 je nutné ostatní API nakonfigurovat před použitím.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Label">Interval API</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">Určuje frekvenci volání překladatelského API. Čím menší, tím častější volání.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">Překladatelské API se volá jednou po změně titulku</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[Interval API]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">krát.</sys:String>
 
-    <sys:String x:Key="S16">Cílový jazyk</sys:String>
-    <sys:String x:Key="S17">Požadovaný cílový jazyk není dostupný!</sys:String>
-    <sys:String x:Key="S18">Můžete přímo upravit obsah tohoto rozbalovacího seznamu pro přizpůsobení jazyka; doporučuje se dodržovat</sys:String>
-    <sys:String x:Key="S19">značku jazyka BCP 47.</sys:String>
-    <sys:String x:Key="S20">Některá API (např. DeepL) vyžadují jiný způsob definice cílového jazyka, viz jejich oficiální dokumentace.</sys:String>
-    <sys:String x:Key="S21">Pro zahrnuté cílové jazyky není třeba to řešit, protože jsme vytvořili mapování značek. Pokud však váš očekávaný jazyk není v seznamu, mějte toto na paměti.</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Label">Překladatelské API</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">S výjimkou Google a Google2 je nutné ostatní API nakonfigurovat před použitím.</sys:String>
 
-    <sys:String x:Key="S22">Nastavení API</sys:String>
-    <sys:String x:Key="S23">Otevřít</sys:String>
-    <sys:String x:Key="S24">Zobrazit zpoždění</sys:String>
-    <sys:String x:Key="S25">Vypnuto</sys:String>
-    <sys:String x:Key="S26">Zapnuto</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">Cílový jazyk</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">Požadovaný cílový jazyk není dostupný!</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">Můžete přímo upravit obsah tohoto rozbalovacího seznamu pro přizpůsobení jazyka; doporučuje se dodržovat</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">značku jazyka BCP 47.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">Některá API (např. DeepL) vyžadují jiný způsob definice cílového jazyka, viz jejich oficiální dokumentace.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">Pro zahrnuté cílové jazyky není třeba to řešit, protože jsme vytvořili mapování značek. Pokud však váš očekávaný jazyk není v seznamu, mějte toto na paměti.</sys:String>
 
-    <sys:String x:Key="S27">Kontexty</sys:String>
-    <sys:String x:Key="S28">Kontexty:</sys:String>
-    <sys:String x:Key="S29">Určuje počet kontextových vět, když je</sys:String>
-    <sys:String x:Key="S30">Chytrý kontext</sys:String>
-    <sys:String x:Key="S31">zapnutý.</sys:String>
-    <sys:String x:Key="S32">Zobrazené věty:</sys:String>
-    <sys:String x:Key="S33">Určuje počet zobrazených karet, když je</sys:String>
-    <sys:String x:Key="S34">Záznam karet</sys:String>
-    <sys:String x:Key="S35">zapnutý, stejně jako maximální počet vět zobrazených v překryvné vrstvě.</sys:String>
-    <sys:String x:Key="S36">Kontexty musí být</sys:String>
-    <sys:String x:Key="S37">větší nebo rovno</sys:String>
-    <sys:String x:Key="S38">Zobrazené věty</sys:String>
-    <sys:String x:Key="S39">. Pokud není splněno, program je automaticky upraví.</sys:String>
-    <sys:String x:Key="S40">Zobrazené věty</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Label">Nastavení API</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">Otevřít</sys:String>
 
-    <sys:String x:Key="S41">Překládat v kontextu.</sys:String>
-    <sys:String x:Key="S42">Může zlepšit přesnost překladu, ale spotřebuje více tokenů.</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">Zobrazit zpoždění</sys:String>
+    <sys:String x:Key="Common_Off">Vypnuto</sys:String>
+    <sys:String x:Key="Common_On">Zapnuto</sys:String>
 
-    <sys:String x:Key="S43">Jazyk UI</sys:String>
-    <sys:String x:Key="S44">Vyberte jazyk používaný uživatelským rozhraním aplikace.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Label">Kontexty</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">Kontexty:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">Určuje počet kontextových vět, když je</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">Chytrý kontext</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">zapnutý.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">Zobrazené věty:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">Určuje počet zobrazených karet, když je</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">Záznam karet</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">zapnutý, stejně jako maximální počet vět zobrazených v překryvné vrstvě.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">Kontexty musí být</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">větší nebo rovno</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">Zobrazené věty</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">. Pokud není splněno, program je automaticky upraví.</sys:String>
+
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">Zobrazené věty</sys:String>
+
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">Překládat v kontextu.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">Může zlepšit přesnost překladu, ale spotřebuje více tokenů.</sys:String>
+
+    <sys:String x:Key="SettingPage_UiLanguage_Label">Jazyk UI</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">Vyberte jazyk používaný uživatelským rozhraním aplikace.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">Změny se projeví okamžitě a automaticky se uloží.</sys:String>
 
     <!-- HistoryPage strings -->
-    <sys:String x:Key="H0">Předchozí</sys:String>
-    <sys:String x:Key="H1">Další stránka</sys:String>
-    <sys:String x:Key="H2">Hledat</sys:String>
-    <sys:String x:Key="H3">Exportovat</sys:String>
-    <sys:String x:Key="H4">Smazat vše</sys:String>
-    <sys:String x:Key="H5">Obnovit</sys:String>
-    <sys:String x:Key="H6">Čas</sys:String>
-    <sys:String x:Key="H7">Titulek</sys:String>
-    <sys:String x:Key="H8">Přeloženo</sys:String>
-    <sys:String x:Key="H9">API</sys:String>
-    <sys:String x:Key="H10">20/stránka</sys:String>
-    <sys:String x:Key="H11">30/stránka</sys:String>
-    <sys:String x:Key="H12">50/stránka</sys:String>
-    <sys:String x:Key="H13">100/stránka</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Previous">Předchozí stránka</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">Další stránka</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">Hledat</sys:String>
 
-    <sys:String x:Key="H20">Opravdu chcete smazat celou historii?</sys:String>
-    <sys:String x:Key="H21">Tuto akci nelze vrátit!</sys:String>
-    <sys:String x:Key="H22">Ano</sys:String>
-    <sys:String x:Key="H23">Ne</sys:String>
-    <sys:String x:Key="H24">CSV (*.csv)|*.csv|Všechny soubory (*.*)|*.*</sys:String>
-    <sys:String x:Key="H25">Uloženo úspěšně</sys:String>
-    <sys:String x:Key="H26">Soubor uložen do: {0}</sys:String>
-    <sys:String x:Key="H27">Uložení selhalo</sys:String>
-    <sys:String x:Key="H28">Uložení souboru selhalo: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">Exportovat</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">Smazat vše</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">Obnovit</sys:String>
+
+    <sys:String x:Key="HistoryPage_Column_Time">Čas</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">Titulek</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">Přeloženo</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+
+    <sys:String x:Key="HistoryPage_PageSize_20">20/stránka</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/stránka</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/stránka</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/stránka</sys:String>
+
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">Opravdu chcete smazat celou historii?</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">Tuto akci nelze vrátit!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">Ano</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">Ne</sys:String>
+
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|Všechny soubory (*.*)|*.*</sys:String>
+
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">Uloženo úspěšně</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">Soubor uložen do: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">Uložení selhalo</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">Uložení souboru selhalo: {0}</sys:String>
 
     <!-- OverlayWindow strings -->
-    <sys:String x:Key="O0">Překryvná okna</sys:String>
-    <sys:String x:Key="O1">Zvětšit velikost písma</sys:String>
-    <sys:String x:Key="O2">Zmenšit velikost písma</sys:String>
-    <sys:String x:Key="O3">Zvětšit obrys písma</sys:String>
-    <sys:String x:Key="O4">Zmenšit obrys písma</sys:String>
-    <sys:String x:Key="O5">Tučné</sys:String>
-    <sys:String x:Key="O6">Barva písma</sys:String>
-    <sys:String x:Key="O7">Zvýšit průhlednost pozadí</sys:String>
-    <sys:String x:Key="O8">Snížit průhlednost pozadí</sys:String>
-    <sys:String x:Key="O9">Barva pozadí</sys:String>
-    <sys:String x:Key="O10">Zobrazit pouze titulky nebo překlady</sys:String>
-    <sys:String x:Key="O11">Přepnout pozici titulku/překladu</sys:String>
-    <sys:String x:Key="O12">Ignorovat kliknutí</sys:String>
+    <sys:String x:Key="OverlayWindow_Title">Překryvná okna</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">Zvětšit velikost písma</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">Zmenšit velikost písma</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">Zvětšit obrys písma</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">Zmenšit obrys písma</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">Tučné</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">Barva písma</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">Zvýšit průhlednost pozadí</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">Snížit průhlednost pozadí</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">Barva pozadí</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">Zobrazit pouze titulky nebo překlady</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">Přepnout pozici titulku/překladu</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">Ignorovat kliknutí</sys:String>
 
     <!-- InfoPage strings -->
-    <sys:String x:Key="I0">Vítáme jakoukoli formu příspěvků! Můžete poskytnout návrhy nebo nahlásit chyby prostřednictvím GitHub Issues, nebo přímo přispět kódem pomocí Pull Requests.</sys:String>
-    <sys:String x:Key="I1">Pokud je vám tento program užitečný, prosím zvažte hvězdičku na GitHubu!</sys:String>
-    <sys:String x:Key="I2">Repozitář:</sys:String>
-    <sys:String x:Key="I3">Wiki:</sys:String>
-    <sys:String x:Key="I4">Správce:</sys:String>
-    <sys:String x:Key="I5">(Autor) a</sys:String>
-    <sys:String x:Key="I6">Verze:</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_Message">Vítáme jakoukoli formu příspěvků! Můžete poskytnout návrhy nebo nahlásit chyby prostřednictvím GitHub Issues, nebo přímo přispět kódem pomocí Pull Requests.</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">Pokud je vám tento program užitečný, prosím zvažte hvězdičku na GitHubu!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">Repozitář:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">Wiki:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">Správce:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(Autor) a</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">Verze:</sys:String>
 
     <!-- WelcomeWindow strings -->
-    <sys:String x:Key="W0">Začínáme</sys:String>
-    <sys:String x:Key="W1">Vítejte v LiveCaptions Translator!</sys:String>
-    <sys:String x:Key="W2">LiveCaptions Translator je založen na Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W3">&#x0A;Před prvním spuštěním je nutné jej nakonfigurovat podle následujících kroků:&#x0A;</sys:String>
-    <sys:String x:Key="W4">&#x0A;1. Otevřete Windows LiveCaptions a podle průvodce stáhněte potřebné soubory pro místní rozpoznávání řeči a jazykové balíčky.</sys:String>
-    <sys:String x:Key="W5">&#x0A;2. Klikněte na</sys:String>
-    <sys:String x:Key="W6">⚙️ ikonu ozubeného kola</sys:String>
-    <sys:String x:Key="W7">v Windows LiveCaptions pro otevření nabídky nastavení a vyberte</sys:String>
-    <sys:String x:Key="W8">"Pozice &gt; Překryté na obrazovce"</sys:String>
-    <sys:String x:Key="W9">3. Klikněte na tlačítko</sys:String>
-    <sys:String x:Key="W10">"Skrýt"</sys:String>
-    <sys:String x:Key="W11">v nastavení LiveCaptions Translator pro skrytí Windows LiveCaptions.&#x0A;</sys:String>
-    <sys:String x:Key="W12">&#x0A;Program automaticky otevřel stránku nastavení a Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W13">Po dokončení konfigurace se můžete vrátit na hlavní stránku a užívat si překlad zvuku v reálném čase.&#x0A;</sys:String>
-    <sys:String x:Key="W14">&#x0A;Pro více informací navštivte naši wiki: </sys:String>
-    <sys:String x:Key="W15">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
-    <sys:String x:Key="W16">&#x0A;&#x0A;Tip:&#x0A;</sys:String>
-    <sys:String x:Key="W17">Pro změnu </sys:String>
-    <sys:String x:Key="W18">Zdrojového jazyka</sys:String>
-    <sys:String x:Key="W19">, prosím [Zobrazit] LiveCaptions na stránce nastavení a proveďte změnu ve Windows LiveCaptions.</sys:String>
-    <sys:String x:Key="W20">Plně jsem porozuměl a nakonfiguroval.</sys:String>
+    <sys:String x:Key="WelcomeWindow_GetStarted">Začínáme</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">Vítejte v LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator je založen na Windows Live Captions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;Před prvním spuštěním je nutné jej nakonfigurovat podle následujících kroků:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Otevřete Windows Live Captions a podle průvodce stáhněte potřebné soubory pro místní rozpoznávání řeči a jazykové balíčky.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. Klikněte</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ ikonu</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">pro otevření nabídky nastavení a vyberte</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"Pozice &gt; Překryté na obrazovce"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. Klikněte na</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"Skrýt"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">tlačítko v nastavení LiveCaptions Translator pro skrytí Windows Live Captions.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;Program automaticky otevřel stránku nastavení a Windows Live Captions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">Po dokončení konfigurace se můžete vrátit na hlavní stránku a užívat si překlad zvuku v reálném čase.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;Pro více informací navštivte naši wiki: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;Tip:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">Pro změnu</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">zdrojového jazyka</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">, prosím klikněte [Zobrazit] Live Captions a změňte jazyk ve Windows Live Captions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">Plně jsem porozuměl a nakonfiguroval.</sys:String>
+
+    <!-- Navigation menu -->
+    <sys:String x:Key="Navigation_Captions">Titulky</sys:String>
+    <sys:String x:Key="Navigation_Settings">Nastavení</sys:String>
+    <sys:String x:Key="Navigation_History">Historie</sys:String>
+    <sys:String x:Key="Navigation_Info">Info</sys:String>
 
     <!-- MainWindow strings -->
-    <sys:String x:Key="M0">LiveCaptions Translator</sys:String>
-    <sys:String x:Key="M10">Titulky</sys:String>
-    <sys:String x:Key="M11">Nastavení</sys:String>
-    <sys:String x:Key="M12">Historie</sys:String>
-    <sys:String x:Key="M13">Info</sys:String>
-    <sys:String x:Key="M20">Záznam karet titulků</sys:String>
-    <sys:String x:Key="M21">Pozastavit překlad (jen záznam)</sys:String>
-    <sys:String x:Key="M22">Překryvná okna</sys:String>
-    <sys:String x:Key="M23">Vždy navrchu</sys:String>
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">Záznam karet titulků</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">Pozastavit překlad (jen záznam)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">Překryvná okna</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">Vždy navrchu</sys:String>
 
-    <sys:String x:Key="MC0">[CHYBA] Kontrola aktualizace selhala.</sys:String>
-    <sys:String x:Key="MC1">chyba</sys:String>
-    <sys:String x:Key="MC2">Nová verze dostupná</sys:String>
-    <sys:String x:Key="MC3">Byla nalezena nová verze: {0}
+    <sys:String x:Key="MainWindow_Update_Error">[CHYBA] Kontrola aktualizace selhala.</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">Chyba</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">Nová verze dostupná</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">Byla nalezena nová verze: {0}
 Aktuální verze: {1}
 Navštivte prosím GitHub pro stažení nejnovější verze.</sys:String>
-    <sys:String x:Key="MC4">Aktualizovat</sys:String>
-    <sys:String x:Key="MC5">Ignorovat tuto verzi</sys:String>
-    <sys:String x:Key="MC6">[CHYBA] Otevření prohlížeče selhalo.</sys:String>
 
-    <!-- Translator (runtime status) strings -->
-    <sys:String x:Key="T0">[UPOZORNĚNÍ] Živé titulky byly neočekávaně uzavřeny, restartuji...</sys:String>
-    <sys:String x:Key="T1">[Pozastaveno]</sys:String>
-    <sys:String x:Key="T2">Chyba!</sys:String>
-    <sys:String x:Key="T3">Záznam historie selhal: {0}</sys:String>
+    <!-- Translator -->
+    <sys:String x:Key="Translator_Status_Restarting">[UPOZORNĚNÍ] Živé titulky byly neočekávaně uzavřeny, restartuji...</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[Pozastaveno]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">Chyba!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">Záznam historie selhal: {0}</sys:String>
 
     <!-- CaptionPage strings -->
-    <sys:String x:Key="C0">Klikněte pro kopírování</sys:String>
-    <sys:String x:Key="C1">Zkopírováno</sys:String>
-    <sys:String x:Key="C2">Kopírování selhalo</sys:String>
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">Klikněte pro kopírování</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">Zkopírováno</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">Kopírování selhalo</sys:String>
 
 </ResourceDictionary>

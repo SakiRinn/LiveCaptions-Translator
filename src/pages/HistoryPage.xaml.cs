@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
@@ -22,8 +21,6 @@ namespace LiveCaptionsTranslator
         private int maxRowPerPage = 30;
 
         public string SearchText { get; set; } = string.Empty;
-
-        private string R(string key, string fallback) => TryFindResource(key) as string ?? fallback;
 
         public HistoryPage()
         {
@@ -64,6 +61,12 @@ namespace LiveCaptionsTranslator
             await LoadHistory();
         }
 
+        private static string Res(string key)
+        {
+            // Use resources (merged dictionaries) for localization of code-behind strings.
+            return Application.Current?.TryFindResource(key)?.ToString() ?? key;
+        }
+
         private async void Delete_click(object sender, RoutedEventArgs e)
         {
             var dialogHostContainer = (Application.Current.MainWindow as MainWindow)?.DialogHostContainer;
@@ -72,13 +75,13 @@ namespace LiveCaptionsTranslator
             {
                 Title = new TextBlock
                 {
-                    Text = R("H20", "Do you want to delete all history?"),
+                    Text = Res("HistoryPage_Dialog_DeleteAll_Title"),
                     FontSize = 18,
                     FontWeight = FontWeights.Regular
                 },
-                Content = R("H21", "This operation cannot be undone!"),
-                PrimaryButtonText = R("H22", "Yes"),
-                CloseButtonText = R("H23", "No"),
+                Content = Res("HistoryPage_Dialog_DeleteAll_Content"),
+                PrimaryButtonText = Res("HistoryPage_Dialog_DeleteAll_Primary"),
+                CloseButtonText = Res("HistoryPage_Dialog_DeleteAll_Close"),
                 DefaultButton = ContentDialogButton.Close,
                 DialogHost = dialogHostContainer,
                 Padding = new Thickness(8, 4, 8, 8),
@@ -119,7 +122,7 @@ namespace LiveCaptionsTranslator
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                Filter = R("H24", "CSV (*.csv)|*.csv|All file (*.*)|*.*"),
+                Filter = Res("HistoryPage_Export_Filter"),
                 DefaultExt = ".csv",
                 FileName = $"exported_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.csv",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
@@ -130,11 +133,11 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCSV(saveFileDialog.FileName);
-                    SnackbarHost.Show(R("H25", "Saved Success"), string.Format(CultureInfo.CurrentCulture, R("H26", "File saved to: {0}"), saveFileDialog.FileName));
+                    SnackbarHost.Show(Res("HistoryPage_Save_SuccessTitle"), string.Format(Res("HistoryPage_Save_SuccessMessage"), saveFileDialog.FileName), SnackbarType.Success);
                 }
                 catch (Exception ex)
                 {
-                    SnackbarHost.Show(R("H27", "Save Failed"), string.Format(CultureInfo.CurrentCulture, R("H28", "File saved failed: {0}"), ex.Message), "error");
+                    SnackbarHost.Show(Res("HistoryPage_Save_FailedTitle"), string.Format(Res("HistoryPage_Save_FailedMessage"), ex.Message), SnackbarType.Error);
                 }
             }
         }
@@ -143,12 +146,13 @@ namespace LiveCaptionsTranslator
         {
             string searchText = (sender as AutoSuggestBox)?.Text ?? "";
 
+            // Clear search by Ctrl+A and Delete and Enter
             if (string.IsNullOrEmpty(searchText))
             {
                 SearchText = string.Empty;
                 currentPage = searchPage;
             }
-            else 
+            else // Submit search
             {
                 if (string.IsNullOrEmpty(SearchText))
                 {
@@ -162,6 +166,7 @@ namespace LiveCaptionsTranslator
 
         private async void HistorySearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
+            // Press X to clear search box
             if (args.Reason == AutoSuggestionBoxTextChangeReason.ProgrammaticChange)
             {
                 if (!string.IsNullOrEmpty(SearchText))

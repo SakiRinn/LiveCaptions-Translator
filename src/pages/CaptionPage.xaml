@@ -35,7 +35,7 @@
                 MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                 Style="{StaticResource CaptionBlockStyle}"
                 Text="{Binding DisplayOriginalCaption, UpdateSourceTrigger=PropertyChanged}"
-                ToolTip="{DynamicResource C0}" />
+                ToolTip="{DynamicResource CaptionPage_Tooltip_ClickToCopy}" />
         </ui:Card>
 
         <ui:Card
@@ -52,7 +52,7 @@
                 MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                 Style="{StaticResource CaptionBlockStyle}"
                 Text="{Binding DisplayTranslatedCaption, UpdateSourceTrigger=PropertyChanged}"
-                ToolTip="{DynamicResource C0}" />
+                ToolTip="{DynamicResource CaptionPage_Tooltip_ClickToCopy}" />
         </ui:Card>
 
         <ui:Card
@@ -93,7 +93,7 @@
                                         MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                                         Style="{StaticResource CaptionBlockStyle}"
                                         Text="{Binding SourceText}"
-                                        ToolTip="{DynamicResource C0}" />
+                                        ToolTip="{DynamicResource CaptionPage_Tooltip_ClickToCopy}" />
                                 </ui:Card>
                                 <ui:Card
                                     Grid.Row="1"
@@ -108,7 +108,7 @@
                                         MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
                                         Style="{StaticResource CaptionBlockStyle}"
                                         Text="{Binding TranslatedText}"
-                                        ToolTip="{DynamicResource C0}" />
+                                        ToolTip="{DynamicResource CaptionPage_Tooltip_ClickToCopy}" />
                                 </ui:Card>
                             </Grid>
                         </Border>
