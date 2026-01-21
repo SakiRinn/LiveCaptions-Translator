@@ -3,29 +3,18 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - '*'
+      - "*"
     tags:
-      - 'v*'
+      - "v*"
     paths:
-      - 'src/**'
-      - 'Properties/**'
+      - "src/**"
+      - "Properties/**"
+      - ".github/workflows/**"
   pull_request:
   workflow_dispatch:
 
 jobs:
   build:
-    if: >
-      github.event_name == 'pull_request' &&
-      contains(github.event.pull_request.title, 'feat') ||
-      contains(github.event.pull_request.title, 'fix') ||
-      contains(github.event.pull_request.title, 'perf') ||
-      contains(github.event.pull_request.title, 'build') ||
-      github.event_name == 'workflow_dispatch' ||
-      github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') ||
-      contains(github.event.head_commit.message, 'feat') ||
-      contains(github.event.head_commit.message, 'fix') ||
-      contains(github.event.head_commit.message, 'perf') ||
-      contains(github.event.head_commit.message, 'build')
     name: Build and Test
     runs-on: windows-latest
 
@@ -36,7 +25,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
 
       - name: Restore Dependencies
         run: dotnet restore
