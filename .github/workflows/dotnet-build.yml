@@ -15,6 +15,11 @@ on:
 jobs:
   build:
     if: >
+      github.event_name == 'pull_request' &&
+      contains(github.event.pull_request.title, 'feat') ||
+      contains(github.event.pull_request.title, 'fix') ||
+      contains(github.event.pull_request.title, 'perf') ||
+      contains(github.event.pull_request.title, 'build') ||
       github.event_name == 'workflow_dispatch' ||
       github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') ||
       contains(github.event.head_commit.message, 'feat') ||
