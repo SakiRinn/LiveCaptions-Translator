@@ -38,10 +38,10 @@
                 for (int i = index; i >= 0; i--)
                     tasks.RemoveAt(i);
             }
-            
+
             output = translationTask.Task.Result;
             var translatedText = output.Item1;
-            
+
             // Log after translation.
             bool isOverwrite = await Translator.IsOverwrite(translationTask.OriginalText);
             if (!isOverwrite)

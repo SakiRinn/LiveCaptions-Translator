@@ -233,7 +233,7 @@ namespace LiveCaptionsTranslator
 
         private static T GetValue<T>(DependencyObject obj, DependencyProperty property, T fallback)
         {
-            return obj.ReadLocalValue(property) != DependencyProperty.UnsetValue ? 
+            return obj.ReadLocalValue(property) != DependencyProperty.UnsetValue ?
                 (T)obj.GetValue(property) : fallback;
         }
     }

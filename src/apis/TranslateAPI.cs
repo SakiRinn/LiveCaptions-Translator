@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -12,10 +12,7 @@ namespace LiveCaptionsTranslator.apis
 {
     public static class TranslateAPI
     {
-        /*
-         * The key of this field is used as the content for `translateAPIBox` in the `SettingPage`.
-         * If you'd like to add a new API, please insert the key-value pair here.
-         */
+
         public static readonly Dictionary<string, Func<string, CancellationToken, Task<string>>>
             TRANSLATE_FUNCTIONS = new()
         {
@@ -61,6 +58,7 @@ namespace LiveCaptionsTranslator.apis
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
                 new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
             };
+
             if (Translator.Setting.ContextAware)
             {
                 foreach (var entry in Translator.Caption.DisplayLogCards)
@@ -139,6 +137,7 @@ namespace LiveCaptionsTranslator.apis
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
                 new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
             };
+
             if (Translator.Setting.ContextAware)
             {
                 foreach (var entry in Translator.Caption.DisplayLogCards)
@@ -201,6 +200,7 @@ namespace LiveCaptionsTranslator.apis
                 new BaseLLMConfig.Message { role = "system", content = string.Format(Prompt, language) },
                 new BaseLLMConfig.Message { role = "user", content = $"🔤 {text} 🔤" }
             };
+
             if (Translator.Setting.ContextAware)
             {
                 foreach (var entry in Translator.Caption.DisplayLogCards)

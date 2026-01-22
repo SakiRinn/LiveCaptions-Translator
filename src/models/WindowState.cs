@@ -55,7 +55,7 @@ namespace LiveCaptionsTranslator.models
         private Color fontColor = Color.White;
         private FontBold fontBold = FontBold.None;
         private double fontStroke = 0.0;
-        
+
         private Color backgroundColor = Color.Black;
         private int opacity = 150;
 

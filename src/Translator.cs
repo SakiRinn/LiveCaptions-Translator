@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -171,7 +171,7 @@ namespace LiveCaptionsTranslator
                 // Check LiveCaptions.exe still alive
                 if (Window == null)
                 {
-                    Caption.DisplayTranslatedCaption = L("T0", "[WARNING] LiveCaptions was unexpectedly closed, restarting...");
+                    Caption.DisplayTranslatedCaption = L("Translator_Status_Restarting", "[WARNING] LiveCaptions was unexpectedly closed, restarting...");
                     Window = LiveCaptionsHandler.LaunchLiveCaptions();
                     Caption.DisplayTranslatedCaption = "";
                 }
@@ -206,8 +206,8 @@ namespace LiveCaptionsTranslator
                 if (LogOnlyFlag)
                 {
                     Caption.TranslatedCaption = string.Empty;
-                    Caption.DisplayTranslatedCaption = L("T1", "[Paused]");
-                    Caption.OverlayNoticePrefix = L("T1", "[Paused]");
+                    Caption.DisplayTranslatedCaption = L("Translator_Status_Paused", "[Paused]");
+                    Caption.OverlayNoticePrefix = L("Translator_Status_Paused", "[Paused]");
                     Caption.OverlayCurrentTranslation = string.Empty;
                 }
                 else if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
@@ -305,10 +305,11 @@ namespace LiveCaptionsTranslator
             catch (Exception ex)
             {
                 SnackbarHost.Show(
-                    L("T2", "Error!"),
-                    string.Format(L("T3", "Logging history failed: {0}"), ex.Message),
+                    L("Translator_Status_Error", "Error!"),
+                    string.Format(L("Translator_Status_WriteHistoryFailed", "Logging history failed: {0}"), ex.Message),
                     SnackbarType.Error,
-                    timeout: 2);
+                    timeout: 2,
+                    closeButton: true);
             }
         }
 
@@ -328,10 +329,11 @@ namespace LiveCaptionsTranslator
             catch (Exception ex)
             {
                 SnackbarHost.Show(
-                    L("T2", "Error!"),
-                    string.Format(L("T3", "Logging history failed: {0}"), ex.Message),
+                    L("Translator_Status_Error", "Error!"),
+                    string.Format(L("Translator_Status_WriteHistoryFailed", "Logging history failed: {0}"), ex.Message),
                     SnackbarType.Error,
-                    timeout: 2);
+                    timeout: 2,
+                    closeButton: true);
             }
         }
 
