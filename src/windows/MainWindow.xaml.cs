@@ -31,9 +31,9 @@ namespace LiveCaptionsTranslator
 
             double screenWidth = SystemParameters.PrimaryScreenWidth;
             double screenHeight = SystemParameters.PrimaryScreenHeight;
-            
+
             var windowState = WindowHandler.LoadState(this, Translator.Setting);
-            if (windowState.Left <= 0 || windowState.Left >= screenWidth || 
+            if (windowState.Left <= 0 || windowState.Left >= screenWidth ||
                 windowState.Top <= 0 || windowState.Top >= screenHeight)
             {
                 WindowHandler.RestoreState(this, new Rect(
@@ -69,9 +69,9 @@ namespace LiveCaptionsTranslator
 
                 double screenWidth = SystemParameters.PrimaryScreenWidth;
                 double screenHeight = SystemParameters.PrimaryScreenHeight;
-                
+
                 var windowState = WindowHandler.LoadState(OverlayWindow, Translator.Setting);
-                if (windowState.Left <= 0 || windowState.Left >= screenWidth || 
+                if (windowState.Left <= 0 || windowState.Left >= screenWidth ||
                     windowState.Top <= 0 || windowState.Top >= screenHeight)
                 {
                     WindowHandler.RestoreState(OverlayWindow, new Rect(
@@ -79,7 +79,7 @@ namespace LiveCaptionsTranslator
                 }
                 else
                     WindowHandler.RestoreState(OverlayWindow, windowState);
-                
+
                 OverlayWindow.Show();
             }
             else
@@ -180,7 +180,7 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show("[ERROR] Update Check Failed.", ex.Message, SnackbarType.Error, 
+                SnackbarHost.Show("[ERROR] Update Check Failed.", ex.Message, SnackbarType.Error,
                     timeout: 2, closeButton: true);
 
                 return;
@@ -216,7 +216,7 @@ namespace LiveCaptionsTranslator
                     }
                     catch (Exception ex)
                     {
-                        SnackbarHost.Show("[ERROR] Open Browser Failed.", ex.Message, SnackbarType.Error, 
+                        SnackbarHost.Show("[ERROR] Open Browser Failed.", ex.Message, SnackbarType.Error,
                             timeout: 2, closeButton: true);
                     }
                 }

@@ -38,7 +38,7 @@ namespace LiveCaptionsTranslator
                 { "General", ContentPanel },
                 { "Prompt", PromptSection }
             };
-            
+
             foreach (var apiName in TranslateAPI.TRANSLATE_FUNCTIONS.Keys.Where(apiName =>
                          !TranslateAPI.NO_CONFIG_APIS.Contains(apiName)))
             {
@@ -46,7 +46,7 @@ namespace LiveCaptionsTranslator
                 SwitchConfig(apiName, Translator.Setting.ConfigIndices[apiName]);
             }
         }
-        
+
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
@@ -54,16 +54,16 @@ namespace LiveCaptionsTranslator
                 string apiName = button.Tag as string;
                 var configs = Translator.Setting.Configs[apiName];
                 var configIndex = Translator.Setting.ConfigIndices[apiName];
-                
+
                 var type = Type.GetType($"LiveCaptionsTranslator.models.{apiName}Config");
                 var config = Activator.CreateInstance(type) as TranslateAPIConfig;
                 configs.Insert(configIndex + 1, config);
                 SwitchConfig(apiName, configIndex + 1);
-                
+
                 Translator.Setting.OnPropertyChanged("Configs");
             }
         }
-        
+
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
@@ -79,7 +79,7 @@ namespace LiveCaptionsTranslator
                 }
                 configs.RemoveAt(configIndex);
                 SwitchConfig(apiName, Math.Max(0, Math.Min(configs.Count - 1, configIndex)));
-                
+
                 Translator.Setting.OnPropertyChanged("Configs");
             }
         }
@@ -93,7 +93,7 @@ namespace LiveCaptionsTranslator
                 SwitchConfig(apiName, configIndex - 1);
             }
         }
-        
+
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)
@@ -124,7 +124,7 @@ namespace LiveCaptionsTranslator
         {
             OpenAIAPIUrlInfoFlyout.Hide();
         }
-        
+
         private void OllamaAPIUrlInfo_MouseEnter(object sender, MouseEventArgs e)
         {
             OllamaAPIUrlInfoFlyout.Show();
@@ -134,15 +134,15 @@ namespace LiveCaptionsTranslator
         {
             OllamaAPIUrlInfoFlyout.Hide();
         }
-        
+
         private void SwitchConfig(string apiName, int index)
         {
             if (index < 0 || index >= Translator.Setting.Configs[apiName].Count)
                 return;
-            
+
             if (Translator.Setting.ConfigIndices[apiName] != index)
                 Translator.Setting.ConfigIndices[apiName] = index;
-            
+
             if (FindName($"{apiName}Index") is TextBlock indexTextBlock)
             {
                 int total = Translator.Setting.Configs[apiName].Count;
@@ -150,7 +150,7 @@ namespace LiveCaptionsTranslator
             }
             Translator.Setting.OnPropertyChanged(null);
         }
-        
+
         private void SelectButton(System.Windows.Controls.Button button)
         {
             if (currentSelected != null)

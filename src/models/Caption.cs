@@ -27,7 +27,7 @@ namespace LiveCaptionsTranslator.models
         public IEnumerable<TranslationHistoryEntry> AwareContexts => GetPreviousContexts(Translator.Setting.NumContexts);
         public string AwareContextsCaption => GetPreviousText(Translator.Setting.NumContexts, TextType.Caption);
 
-        public IEnumerable<TranslationHistoryEntry> DisplayLogCards => 
+        public IEnumerable<TranslationHistoryEntry> DisplayLogCards =>
             GetPreviousContexts(Translator.Setting.DisplaySentences).Reverse();
 
         public string DisplayOriginalCaption
