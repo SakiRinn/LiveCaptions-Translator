@@ -4,8 +4,10 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
+using System.Linq;
 
 using LiveCaptionsTranslator.apis;
+using LiveCaptionsTranslator.utils;
 
 namespace LiveCaptionsTranslator.models
 {
@@ -21,6 +23,8 @@ namespace LiveCaptionsTranslator.models
         private int displaySentences = 1;
         private bool contextAware = false;
 
+        private string uiLanguageFileName = "en-us.xaml";
+
         private string apiName;
         private string targetLanguage;
         private string prompt;
@@ -32,6 +36,16 @@ namespace LiveCaptionsTranslator.models
 
         private Dictionary<string, List<TranslateAPIConfig>> configs;
         private Dictionary<string, int> configIndices;
+
+        public string UiLanguageFileName
+        {
+            get => uiLanguageFileName;
+            set
+            {
+                uiLanguageFileName = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int MaxIdleInterval => maxIdleInterval;
         public int MaxSyncInterval
@@ -173,6 +187,8 @@ namespace LiveCaptionsTranslator.models
                      "You can only provide the translated sentence; Any explanation or other text is not permitted. " +
                      "REMOVE all 🔤 when you output.";
 
+            uiLanguageFileName = "en-us.xaml";
+
             mainWindowState = new MainWindowState();
             overlayWindowState = new OverlayWindowState();
 
@@ -237,7 +253,6 @@ namespace LiveCaptionsTranslator.models
         {
             Setting setting;
 
-            // Load from JSON file if it exists
             if (File.Exists(jsonPath))
             {
                 using (FileStream fileStream = File.Open(jsonPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -253,7 +268,9 @@ namespace LiveCaptionsTranslator.models
             else
                 setting = new Setting();
 
-            // Ensure all required API configs are present
+            if (!LocalizationHelper.SupportedFiles.Contains(setting.uiLanguageFileName, StringComparer.OrdinalIgnoreCase))
+                setting.uiLanguageFileName = "en-us.xaml";
+
             foreach (string key in TranslateAPI.TRANSLATE_FUNCTIONS.Keys)
             {
                 if (setting.Configs.ContainsKey(key))

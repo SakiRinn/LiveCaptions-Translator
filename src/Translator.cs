@@ -1,6 +1,7 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Windows;
 using System.Windows.Automation;
 
 using LiveCaptionsTranslator.apis;
@@ -157,6 +158,12 @@ namespace LiveCaptionsTranslator
             }
         }
 
+        private static string L(string key, string fallback)
+        {
+            var v = Application.Current?.TryFindResource(key) as string;
+            return string.IsNullOrEmpty(v) ? fallback : v;
+        }
+
         public static async Task TranslateLoop()
         {
             while (true)
@@ -164,7 +171,7 @@ namespace LiveCaptionsTranslator
                 // Check LiveCaptions.exe still alive
                 if (Window == null)
                 {
-                    Caption.DisplayTranslatedCaption = "[WARNING] LiveCaptions was unexpectedly closed, restarting...";
+                    Caption.DisplayTranslatedCaption = L("Translator_Status_Restarting", "[WARNING] LiveCaptions was unexpectedly closed, restarting...");
                     Window = LiveCaptionsHandler.LaunchLiveCaptions();
                     Caption.DisplayTranslatedCaption = "";
                 }
@@ -199,8 +206,8 @@ namespace LiveCaptionsTranslator
                 if (LogOnlyFlag)
                 {
                     Caption.TranslatedCaption = string.Empty;
-                    Caption.DisplayTranslatedCaption = "[Paused]";
-                    Caption.OverlayNoticePrefix = "[Paused]";
+                    Caption.DisplayTranslatedCaption = L("Translator_Status_Paused", "[Paused]");
+                    Caption.OverlayNoticePrefix = L("Translator_Status_Paused", "[Paused]");
                     Caption.OverlayCurrentTranslation = string.Empty;
                 }
                 else if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
@@ -239,9 +246,11 @@ namespace LiveCaptionsTranslator
             {
                 var sw = Setting.MainWindow.LatencyShow ? Stopwatch.StartNew() : null;
 
+                // Ensure we don't reference removed Caption.ContextPreviousCaption after reverting Caption.cs
+                // Use the restored AwareContextsCaption for context-aware translation.
                 if (Setting.ContextAware && !TranslateAPI.IsLLMBased)
                 {
-                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.AwareContextsCaption} 🔤 {text} 🔤", token);
+                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.AwareContextsCaption} 🔤{text}🔤", token);
                     translatedText = RegexPatterns.TargetSentence().Match(translatedText).Groups[1].Value;
                 }
                 else
@@ -295,8 +304,12 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show("[ERROR] Logging history failed.", ex.Message, SnackbarType.Error,
-                    timeout: 2, closeButton: true);
+                SnackbarHost.Show(
+                    L("Translator_Status_Error", "Error!"),
+                    string.Format(L("Translator_Status_WriteHistoryFailed", "Logging history failed: {0}"), ex.Message),
+                    SnackbarType.Error,
+                    timeout: 2,
+                    closeButton: true);
             }
         }
 
@@ -315,8 +328,12 @@ namespace LiveCaptionsTranslator
             }
             catch (Exception ex)
             {
-                SnackbarHost.Show("[ERROR] Logging history failed.", ex.Message, SnackbarType.Error,
-                    timeout: 2, closeButton: true);
+                SnackbarHost.Show(
+                    L("Translator_Status_Error", "Error!"),
+                    string.Format(L("Translator_Status_WriteHistoryFailed", "Logging history failed: {0}"), ex.Message),
+                    SnackbarType.Error,
+                    timeout: 2,
+                    closeButton: true);
             }
         }
 

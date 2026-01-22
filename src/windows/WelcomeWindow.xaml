@@ -4,11 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
+    xmlns:models="clr-namespace:LiveCaptionsTranslator.models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="Getting Started"
+    Title="{DynamicResource WelcomeWindow_GetStarted}"
     Width="700"
-    Height="490"
+    MaxWidth="800"
+    Height="540"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     ExtendsContentIntoTitleBar="True"
@@ -29,8 +31,8 @@
             ShowMaximize="False"
             ShowMinimize="False">
             <ui:TitleBar.Header>
-                <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center">
-                    Getting Started
+                <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center" TextWrapping="Wrap">
+                    <Run Text="{DynamicResource WelcomeWindow_GetStarted}" />
                 </ui:TextBlock>
             </ui:TitleBar.Header>
         </ui:TitleBar>
@@ -41,40 +43,91 @@
                 HorizontalAlignment="Left"
                 FontSize="24"
                 FontWeight="Bold"
-                Text="Welcome to LiveCaptions Translator!"
-                TextAlignment="Left" />
+                Text="{DynamicResource WelcomeWindow_Title}"
+                TextAlignment="Left"
+                TextWrapping="Wrap" />
+
             <ui:TextBlock
-                Margin="20,10,20,10"
+                Margin="20,0,20,0"
                 TextAlignment="Left"
                 TextWrapping="Wrap">
-                <Run Text="LiveCaptions Translator is based on Windows LiveCaptions." />
-                <Run Text="Before your first running, you need to configure it according to the following steps:&#x0A;" />
-                <Run Text="&#x0A;1. Open Windows LiveCaptions and follow the guide to download the necessary files for on-device speech recognition and language packs." />
-                <Run Text="&#x0A;2. Click the" />
-                <Run FontWeight="Bold" Text="⚙️ gear" />
-                <Run Text="icon in Windows LiveCaptions to open the settings menu, and select" />
-                <Run FontWeight="Bold" Text="&quot;Position &gt; Overlaid on screen&quot;" />
-                <Run Text=".&#x0A;3. Click the" />
-                <Run FontWeight="Bold" Text="&quot;Hide&quot;" />
-                <Run Text="button located in the setting page of LiveCaptions Translator to hide Windows LiveCaptions.&#x0A;" />
-                <Run Text="&#x0A;The program has automatically navigated to the setting page and opened Windows LiveCaptions." />
-                <Run Text="After completing the configuration, you can switch back to the main page and enjoy real-time audio translation.&#x0A;" />
-                <Run Text="&#x0A;For more details, visit our wiki: " />
+                <Run Text="{DynamicResource WelcomeWindow_Intro_Base}" />
+                <Run Text="&#x0A;" />
+                <Run Text="{DynamicResource WelcomeWindow_Intro_StepsLead}" />
+                <Run Text="&#x0A;" />
+
+                <!-- Step 1 -->
+                <Run Text="{DynamicResource WelcomeWindow_Step1}" />
+                <Run Text="&#x0A;" />
+
+                <!-- Step 2 -->
+                <Run Text="{DynamicResource WelcomeWindow_Step2_Click}" />
+                <Run Text="&#xA0;" />
+                <Run FontWeight="Bold" Text="{DynamicResource WelcomeWindow_Step2_Gear}" />
+                <Run Text="&#xA0;" />
+                <Run Text="{DynamicResource WelcomeWindow_Step2_Instruction}" />
+                <Run Text="&#xA0;" />
+                <Run FontWeight="Bold" Text="{DynamicResource WelcomeWindow_Step2_Position}" />
+                <Run Text=".&#x0A;" />
+
+                <!-- Step 3 -->
+                <Run Text="{DynamicResource WelcomeWindow_Step3_Click}" />
+                <Run Text="&#xA0;" />
+                <Run FontWeight="Bold" Text="{DynamicResource WelcomeWindow_Step3_HideQuoted}" />
+                <Run Text="&#xA0;" />
+                <Run Text="{DynamicResource WelcomeWindow_Step3_Instruction}" />
+                <Run Text="&#x0A;" />
+
+                <Run Text="&#x0A;" />
+                <Run Text="{DynamicResource WelcomeWindow_AutoOpen}" />
+                <Run Text="&#x0A;" />
+                <Run Text="{DynamicResource WelcomeWindow_Enjoy}" />
+                <Run Text="&#x0A;" />
+
+                <Run Text="&#x0A;" />
+                <Run Text="{DynamicResource WelcomeWindow_WikiLead}" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator/wiki" RequestNavigate="Hyperlink_RequestNavigate">
-                    https://github.com/SakiRinn/LiveCaptions-Translator/wiki
+                    <Run Text="{DynamicResource WelcomeWindow_WikiUrl}" />
                 </Hyperlink>
-                <Run FontWeight="Bold" Text="&#x0A;&#x0A;Tip:" />
-                <Run Text="To change the" />
-                <Run FontWeight="DemiBold" TextDecorations="Underline" Text="Source Language" />
-                <Run Text=", please [Show] LiveCaptions on the setting page and do it in Windows LiveCaptions." />
+
+                <Run Text="&#x0A;" />
+                <Run Text="&#x0A;" />
+                <Run FontWeight="Bold" Text="{DynamicResource WelcomeWindow_TipLead}" />
+                <Run Text="&#x0A;" />
+                <Run Text="{DynamicResource WelcomeWindow_Tip_IfYouWantToChange}" />
+                <Run FontWeight="DemiBold" TextDecorations="Underline" Text="{DynamicResource WelcomeWindow_Tip_SourceLanguage}" />
+                <Run Text="{DynamicResource WelcomeWindow_Tip_Instruction}" />
             </ui:TextBlock>
 
-            <ui:Button
-                Margin="0,10,0,0"
-                Padding="30,10,30,10"
-                HorizontalAlignment="Center"
-                Click="CloseButton_Click"
-                Content="I have fully understood and configured." />
+            <!-- Bottom row: language selector (left) + close button (center) -->
+            <Grid Margin="20,10,20,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:SymbolIcon Symbol="Globe20" Margin="0,0,8,0" />
+                    <ComboBox
+                        x:Name="WelcomeLanguageBox"
+                        Width="150"
+                        Height="30"
+                        Padding="10,4,10,7"
+                        FontSize="13.3"
+                        ItemsSource="{x:Static models:LanguageCatalog.SupportedUiLanguages}"
+                        DisplayMemberPath="DisplayName"
+                        SelectedValuePath="CultureCode"
+                        SelectionChanged="WelcomeLanguageBox_SelectionChanged" />
+                </StackPanel>
+
+                <ui:Button
+                    Grid.Column="1"
+                    Padding="30,10,30,10"
+                    HorizontalAlignment="Center"
+                    Click="CloseButton_Click"
+                    Content="{DynamicResource WelcomeWindow_Button_Confirm}" />
+            </Grid>
         </StackPanel>
     </Grid>
 </ui:FluentWindow>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">LiveCaptions</sys:String>
+    <sys:String x:Key="S1">Na Windows 11 versie 24H2 kunt u alleen de</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">Bron Taal</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">in LiveCaptions wijzigen.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">Opmerking:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">Klik alstublieft</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"Verbergen"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">om LiveCaptions te verbergen in plaats van het direct te sluiten.</sys:String>
+
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">Tonen</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">Verbergen</sys:String>
+
+    <sys:String x:Key="SettingPage_ApiInterval_Label">API-interval</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">Bepaalt hoe vaak de vertaal-API wordt aangeroepen. Hoe kleiner, hoe vaker de oproepen.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">De vertaal-API wordt één keer aangeroepen nadat het onderschrift is gewijzigd</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[API-interval]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">keer.</sys:String>
+
+    <sys:String x:Key="SettingPage_TranslateApi_Label">Vertaal-API</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">Behalve Google en Google2, moeten alle andere API's worden geconfigureerd voordat ze gebruikt kunnen worden.</sys:String>
+
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">Doeltaal</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">De gewenste doeltaal is niet beschikbaar!</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">U kunt de inhoud van dit keuzemenu direct bewerken om de taal aan te passen; het wordt aanbevolen de</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">BCP 47-taalcode te volgen.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">Sommige API's (zoals DeepL) hebben een andere manier nodig om de doeltaal te definiëren; zie hun officiële documentatie voor details.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">Voor de ingebouwde doeltalen hoeft u hier geen rekening mee te houden. Als uw gewenste taal echter niet in de lijst staat, houd hier dan rekening mee.</sys:String>
+
+    <sys:String x:Key="SettingPage_ApiSetting_Label">API-instellingen</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">Openen</sys:String>
+
+    <sys:String x:Key="SettingPage_ShowLatency_Label">Vertraging tonen</sys:String>
+    <sys:String x:Key="Common_Off">Uit</sys:String>
+    <sys:String x:Key="Common_On">Aan</sys:String>
+
+    <sys:String x:Key="SettingPage_Contexts_Label">Contexten</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">Contexten:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">Bepaalt het aantal contextzinnen wanneer</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">Contextbewust</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">is ingeschakeld.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">Overlay-zinnen:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">Bepaalt het aantal weergegeven kaarten wanneer</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">Logkaarten</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">is ingeschakeld, evenals het maximum aantal zinnen dat in het overlay-venster wordt weergegeven.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">Contexten moeten</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">groter dan of gelijk aan</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">Weergavezinnen</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">zijn. Zo niet, dan past het programma dit automatisch aan.</sys:String>
+
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">Weergavezinnen</sys:String>
+
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">Vertalen in context.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">Dit kan de vertaalsnelheid verbeteren, maar verbruikt meer tokens.</sys:String>
+
+    <sys:String x:Key="SettingPage_UiLanguage_Label">UI-taal</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">Selecteer de taal die door de gebruikersinterface van de applicatie wordt gebruikt.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">Wijzigingen worden direct toegepast en automatisch opgeslagen.</sys:String>
+
+    <!-- HistoryPage strings -->
+    <sys:String x:Key="HistoryPage_Pagination_Previous">Vorige pagina</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">Volgende pagina</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">Zoeken</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">Exporteren</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">Alles verwijderen</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">Vernieuwen</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Time">Tijd</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">Onderschrift</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">Vertaald</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_20">20/pagina</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/pagina</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/pagina</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/pagina</sys:String>
+
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">Weet u zeker dat u alle geschiedenis wilt verwijderen?</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">Deze actie kan niet ongedaan worden gemaakt!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">Ja</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">Nee</sys:String>
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|Alle bestanden (*.*)|*.*</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">Succesvol opgeslagen</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">Bestand opgeslagen op: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">Opslaan mislukt</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">Bestand opslaan mislukt: {0}</sys:String>
+
+    <!-- OverlayWindow strings -->
+    <sys:String x:Key="OverlayWindow_Title">Overlay-venster</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">Lettergrootte vergroten</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">Lettergrootte verkleinen</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">Letteromtrek vergroten</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">Letteromtrek verkleinen</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">Vet</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">Letterkleur</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">Achtergronddekking verhogen</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">Achtergronddekking verlagen</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">Achtergrondkleur</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">Alleen ondertitels of vertalingen tonen</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">Onder-/vertaling positie wisselen</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">Doorklikken toestaan</sys:String>
+
+    <!-- InfoPage strings -->
+    <sys:String x:Key="InfoPage_Contrib_Message">We verwelkomen elke vorm van bijdrage! U kunt suggesties doen of bugs melden via GitHub issues, of rechtstreeks code bijdragen door Pull Requests in te dienen.</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">Als dit programma nuttig voor u is, overweeg dan ons een ster te geven!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">Repository:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">Wiki:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">Onderhouder:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(Auteur) en</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">Versie:</sys:String>
+
+    <!-- WelcomeWindow strings -->
+    <sys:String x:Key="WelcomeWindow_GetStarted">Aan de slag</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">Welkom bij LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator is gebaseerd op Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;Voordat u het voor het eerst uitvoert, moet u het als volgt configureren:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Open Windows LiveCaptions en volg de gids om de benodigde bestanden voor on-device spraakherkenning en taalpakketten te downloaden.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. Klik op</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ pictogram</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">in Windows LiveCaptions instellingen en selecteer</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"Positie &gt; Over het scherm"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. Klik op</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"Verbergen"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">knop op de instellingenpagina van LiveCaptions Translator om Windows LiveCaptions te verbergen.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;Het programma heeft automatisch naar de instellingenpagina genavigeerd en Windows LiveCaptions geopend.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">Na het voltooien van de configuratie kunt u terugkeren naar de hoofdpagina en genieten van realtime audiotranslatie.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;Voor meer details, bezoek onze wiki: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;Tip:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">Om de </sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">Bron Taal</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">te wijzigen, klik op [Tonen] op de instellingenpagina en doe dit in Windows LiveCaptions.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">Ik heb het volledig begrepen en geconfigureerd.</sys:String>
+
+    <!-- Navigation menu -->
+    <sys:String x:Key="Navigation_Captions">Onderschrift</sys:String>
+    <sys:String x:Key="Navigation_Settings">Instellingen</sys:String>
+    <sys:String x:Key="Navigation_History">Geschiedenis</sys:String>
+    <sys:String x:Key="Navigation_Info">Info</sys:String>
+
+    <!-- MainWindow strings -->
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">Logkaarten van onderschriften</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">Vertaling pauzeren (alleen log)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">Overlay-venster</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">Altijd bovenaan</sys:String>
+    <sys:String x:Key="MainWindow_Update_Error">[FOUT] Updatecontrole mislukt.</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">fout</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">Nieuwe versie beschikbaar</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">Een nieuwe versie is gedetecteerd: {0} Huidige versie: {1} Bezoek GitHub om de nieuwste release te downloaden.</sys:String>
+
+    <!-- Translator -->
+    <sys:String x:Key="Translator_Status_Restarting">[WAARSCHUWING] LiveCaptions is onverwacht afgesloten, wordt opnieuw gestart...</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[Gepauzeerd]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">Fout!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">Geschiedenislog mislukt: {0}</sys:String>
+
+    <!-- CaptionPage strings -->
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">Klik om te kopiëren</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">Gekopieerd</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">Kopiëren mislukt</sys:String>
+
+</ResourceDictionary>

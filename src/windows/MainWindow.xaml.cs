@@ -1,6 +1,7 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Input;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -26,24 +27,29 @@ namespace LiveCaptionsTranslator
                 RootNavigation.Navigate(typeof(CaptionPage));
                 IsAutoHeight = true;
                 CheckForFirstUse();
-                CheckForUpdates();
+
+                _ = CheckForUpdates();
             };
 
             double screenWidth = SystemParameters.PrimaryScreenWidth;
             double screenHeight = SystemParameters.PrimaryScreenHeight;
 
-            var windowState = WindowHandler.LoadState(this, Translator.Setting);
-            if (windowState.Left <= 0 || windowState.Left >= screenWidth ||
-                windowState.Top <= 0 || windowState.Top >= screenHeight)
+            var setting = Translator.Setting;
+            if (setting is not null)
             {
-                WindowHandler.RestoreState(this, new Rect(
-                    (screenWidth - 775) / 2, screenHeight * 3 / 4 - 167, 775, 167));
-            }
-            else
-                WindowHandler.RestoreState(this, windowState);
+                var windowState = WindowHandler.LoadState(this, setting);
+                if (windowState.Left <= 0 || windowState.Left >= screenWidth ||
+                    windowState.Top <= 0 || windowState.Top >= screenHeight)
+                {
+                    WindowHandler.RestoreState(this, new Rect(
+                        (screenWidth - 775) / 2, screenHeight * 3 / 4 - 167, 775, 167));
+                }
+                else
+                    WindowHandler.RestoreState(this, windowState);
 
-            ToggleTopmost(Translator.Setting.MainWindow.Topmost);
-            ShowLogCard(Translator.Setting.MainWindow.CaptionLogEnabled);
+                ToggleTopmost(setting.MainWindow.Topmost);
+                ShowLogCard(setting.MainWindow.CaptionLogEnabled);
+            }
         }
 
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
@@ -247,6 +253,21 @@ namespace LiveCaptionsTranslator
 
             if (IsAutoHeight && maxHeight > 0 && Height > maxHeight)
                 Height = maxHeight;
+        }
+
+        private void MainContent_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void SettingNavItem_Click(object sender, RoutedEventArgs e)
+        {
+            RootNavigation.Navigate(typeof(SettingPage));
+
+            Dispatcher.BeginInvoke(new Action(() =>
+            {
+                var sp = LocalizationHelper.FindDescendant<SettingPage>(this);
+                sp?.RequestAutoFitWidth();
+            }), System.Windows.Threading.DispatcherPriority.Loaded);
         }
     }
 }

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">ライブキャプション</sys:String>
+    <sys:String x:Key="S1">Windows 11 バージョン24H2以降では、変更できるのは</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">ソース言語</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">のみです（ライブキャプション内）。</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">注意：</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">必ず</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">「非表示」</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">をクリックしてライブキャプションを閉じずに非表示にしてください。</sys:String>
+
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">表示</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">非表示</sys:String>
+
+    <sys:String x:Key="SettingPage_ApiInterval_Label">API間隔</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">翻訳API呼び出しの頻度を決定します。小さいほどAPI呼び出しが頻繁になります。</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">キャプションが変更された後、APIは一度呼び出されます</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[API間隔]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">回。</sys:String>
+
+    <sys:String x:Key="SettingPage_TranslateApi_Label">翻訳API</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">GoogleとGoogle2を除き、他のAPIは使用前に設定が必要です。</sys:String>
+
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">ターゲット言語</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">期待するターゲット言語がありません！</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">このコンボボックスの内容を直接編集して言語をカスタマイズできます。BCP 47言語タグに従うことを推奨します。</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">BCP 47言語タグ</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">DeepLなどの一部APIでは別の方法でターゲット言語を指定する必要があります。詳細は公式ドキュメントをご確認ください。</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">組み込みのターゲット言語については考慮不要ですが、希望の言語がリストにない場合は注意してください。</sys:String>
+
+    <sys:String x:Key="SettingPage_ApiSetting_Label">API設定</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">開く</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">レイテンシ表示</sys:String>
+    <sys:String x:Key="Common_Off">オフ</sys:String>
+    <sys:String x:Key="Common_On">オン</sys:String>
+
+    <sys:String x:Key="SettingPage_Contexts_Label">コンテキスト</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">コンテキスト：</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">「コンテキスト認識」が有効の際に考慮する文の数を決定します。</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">コンテキスト認識</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">が有効です。</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">オーバーレイ表示文：</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">「ログカード」が有効の際に表示されるカードの数、及びオーバーレイウィンドウで表示される最大文数を決定します。</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">ログカード</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">が有効です。</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">コンテキストは</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">以上である必要があります</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">表示文数</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">。満たされない場合、プログラムが自動調整します。</sys:String>
+
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">表示文数</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">コンテキストで翻訳</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">翻訳精度が向上しますが、より多くのトークンを消費します。</sys:String>
+
+    <sys:String x:Key="SettingPage_UiLanguage_Label">UI言語</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">アプリケーションのUIで使用する言語を選択します。</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">変更は即座に反映され、自動保存されます。</sys:String>
+
+    <!-- HistoryPage strings -->
+    <sys:String x:Key="HistoryPage_Pagination_Previous">前へ</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">次のページ</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">検索</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">エクスポート</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">すべて削除</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">更新</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Time">時間</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">キャプション</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">翻訳済み</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_20">20/ページ</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/ページ</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/ページ</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/ページ</sys:String>
+
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">すべての履歴を削除しますか？</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">この操作は元に戻せません！</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">はい</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">いいえ</sys:String>
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|すべてのファイル (*.*)|*.*</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">保存成功</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">ファイルを保存しました: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">保存失敗</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">ファイルの保存に失敗しました: {0}</sys:String>
+
+    <!-- OverlayWindow strings -->
+    <sys:String x:Key="OverlayWindow_Title">オーバーレイウィンドウ</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">フォントサイズを大きく</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">フォントサイズを小さく</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">フォントの縁取りを太く</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">フォントの縁取りを細く</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">太字</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">フォント色</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">背景の不透明度を上げる</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">背景の不透明度を下げる</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">背景色</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">字幕または翻訳のみ表示</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">字幕/翻訳の位置切替</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">クリックスルー</sys:String>
+
+    <!-- InfoPage strings -->
+    <sys:String x:Key="InfoPage_Contrib_Message">どんな形でも貢献を歓迎します！提案やバグ報告はGitHub Issuesで、コード貢献はPull Requestで行えます。</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">このプログラムが役に立った場合、スターをお願いします！</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">リポジトリ:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">Wiki:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">メンテナー:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(著者) と</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">バージョン:</sys:String>
+
+    <!-- WelcomeWindow strings -->
+    <sys:String x:Key="WelcomeWindow_GetStarted">はじめに</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">LiveCaptions Translator へようこそ！</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator は Windows LiveCaptions に基づいています。</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;初回実行前に、以下の手順で設定してください:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Windows LiveCaptions を開き、オンデバイス音声認識および言語パックをダウンロードするガイドに従います。</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. Windows LiveCaptions の</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ 設定アイコン</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">をクリックし、設定メニューを開いて</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">「位置 &gt; 画面上に重ねて表示」</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. LiveCaptions Translator の設定ページにある</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">「非表示」</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">ボタンをクリックして Windows LiveCaptions を非表示にします。&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">設定完了後、メインページに戻ってリアルタイム音声翻訳を楽しめます。&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;詳細はWikiをご覧ください: </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;ヒント:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">ソース言語を変更するには、設定ページで [表示] をクリックして </sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">ソース言語</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction"> を Windows LiveCaptions 上で変更してください。</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">設定を理解し、完了しました。</sys:String>
+
+    <!-- MainWindow strings -->
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">キャプションのログカード</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">翻訳一時停止（ログのみ）</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">オーバーレイウィンドウ</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">常に最前面</sys:String>
+    <sys:String x:Key="MainWindow_Update_Error">[エラー] 更新チェックに失敗しました。</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">エラー</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">新しいバージョンがあります</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">新しいバージョンが検出されました: {0} 現在のバージョン: {1} 最新リリースをGitHubからダウンロードしてください。</sys:String>
+
+    <!-- Translator strings -->
+    <sys:String x:Key="Translator_Status_Restarting">[警告] LiveCaptions が予期せず終了しました。再起動中...</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[一時停止]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">エラー！</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">履歴の記録に失敗しました: {0}</sys:String>
+
+    <!-- CaptionPage strings -->
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">クリックしてコピー</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">コピーしました</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">コピーに失敗しました</sys:String>
+
+</ResourceDictionary>

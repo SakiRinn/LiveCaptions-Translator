@@ -61,6 +61,12 @@ namespace LiveCaptionsTranslator
             await LoadHistory();
         }
 
+        private static string Res(string key)
+        {
+            // Use resources (merged dictionaries) for localization of code-behind strings.
+            return Application.Current?.TryFindResource(key)?.ToString() ?? key;
+        }
+
         private async void Delete_click(object sender, RoutedEventArgs e)
         {
             var dialogHostContainer = (Application.Current.MainWindow as MainWindow)?.DialogHostContainer;
@@ -69,13 +75,13 @@ namespace LiveCaptionsTranslator
             {
                 Title = new TextBlock
                 {
-                    Text = "Do you want to delete all history?",
+                    Text = Res("HistoryPage_Dialog_DeleteAll_Title"),
                     FontSize = 18,
                     FontWeight = FontWeights.Regular
                 },
-                Content = "This operation cannot be undone!",
-                PrimaryButtonText = "Yes",
-                CloseButtonText = "No",
+                Content = Res("HistoryPage_Dialog_DeleteAll_Content"),
+                PrimaryButtonText = Res("HistoryPage_Dialog_DeleteAll_Primary"),
+                CloseButtonText = Res("HistoryPage_Dialog_DeleteAll_Close"),
                 DefaultButton = ContentDialogButton.Close,
                 DialogHost = dialogHostContainer,
                 Padding = new Thickness(8, 4, 8, 8),
@@ -116,9 +122,9 @@ namespace LiveCaptionsTranslator
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                Filter = "CSV (*.csv)|*.csv|All file (*.*)|*.*",
+                Filter = Res("HistoryPage_Export_Filter"),
                 DefaultExt = ".csv",
-                FileName = $"exported_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.csv",
+                FileName = $"exported_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.csv",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
 
@@ -127,11 +133,11 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     await SQLiteHistoryLogger.ExportToCSV(saveFileDialog.FileName);
-                    SnackbarHost.Show("Saved Success.", $"File saved to: {saveFileDialog.FileName}", SnackbarType.Success);
+                    SnackbarHost.Show(Res("HistoryPage_Save_SuccessTitle"), string.Format(Res("HistoryPage_Save_SuccessMessage"), saveFileDialog.FileName), SnackbarType.Success);
                 }
                 catch (Exception ex)
                 {
-                    SnackbarHost.Show("Save Failed.", $"File saved faild:{ex.Message}", SnackbarType.Error);
+                    SnackbarHost.Show(Res("HistoryPage_Save_FailedTitle"), string.Format(Res("HistoryPage_Save_FailedMessage"), ex.Message), SnackbarType.Error);
                 }
             }
         }

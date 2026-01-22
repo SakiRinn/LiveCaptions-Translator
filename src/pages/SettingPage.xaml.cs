@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +15,8 @@ namespace LiveCaptionsTranslator
     public partial class SettingPage : Page
     {
         private static SettingWindow? SettingWindow;
+        private bool _suppressUiLanguageSelectionChanged;
+        private bool _autoFitWidthDone; // ensure width auto-fit runs once at startup
 
         public SettingPage()
         {
@@ -24,12 +28,104 @@ namespace LiveCaptionsTranslator
             {
                 (App.Current.MainWindow as MainWindow)?.AutoHeightAdjust(maxHeight: (int)App.Current.MainWindow.MinHeight);
                 CheckForFirstUse();
+                InitializeUILanguageSelection();
+
+                if (!_autoFitWidthDone)
+                {
+                    _autoFitWidthDone = true;
+                    RequestAutoFitWidth();
+                }
             };
+
+            IsVisibleChanged += (_, __) => SyncUILanguageSelectionFromSetting();
 
             TranslateAPIBox.ItemsSource = Translator.Setting?.Configs.Keys;
             TranslateAPIBox.SelectedIndex = 0;
 
             LoadAPISetting();
+        }
+
+        public void SyncUILanguageSelectionFromSetting()
+        {
+            if (!IsLoaded)
+                return;
+
+            _suppressUiLanguageSelectionChanged = true;
+            try
+            {
+                UILanguageBox.SelectedIndex = LocalizationHelper.GetComboIndexFromFileName(Translator.Setting?.UiLanguageFileName);
+            }
+            finally
+            {
+                _suppressUiLanguageSelectionChanged = false;
+            }
+        }
+
+        private void InitializeUILanguageSelection()
+        {
+            _suppressUiLanguageSelectionChanged = true;
+            try
+            {
+                var current = Translator.Setting?.UiLanguageFileName;
+                if (string.IsNullOrWhiteSpace(current))
+                    current = LocalizationHelper.GetActiveLocalizationFileName();
+
+                UILanguageBox.SelectedIndex = LocalizationHelper.GetComboIndexFromFileName(current);
+                LocalizationHelper.ActivateLocalizationDictionary(current);
+                LocalizationHelper.ApplyFlowDirectionForLocalization(current, keepOverlayWindowLtr: true);
+            }
+            finally
+            {
+                _suppressUiLanguageSelectionChanged = false;
+            }
+        }
+
+        private void UILanguageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_suppressUiLanguageSelectionChanged || !IsLoaded)
+                return;
+
+            string fileName = LocalizationHelper.GetFileNameFromComboIndex(UILanguageBox.SelectedIndex);
+
+            LocalizationHelper.ActivateLocalizationDictionary(fileName);
+            LocalizationHelper.ApplyFlowDirectionForLocalization(fileName, keepOverlayWindowLtr: true);
+
+            if (Translator.Setting is not null)
+                Translator.Setting.UiLanguageFileName = fileName;
+
+            foreach (Window w in Application.Current.Windows)
+            {
+                if (w is WelcomeWindow ww)
+                {
+                    ww.SyncLanguageSelectionFromSetting();
+                    ww.RequestAutoFitHeight(); // trigger welcome window height auto-fit on setting change
+                }
+            }
+
+            var content = Content;
+            Content = null;
+            Content = content;
+
+            RequestAutoFitWidth();
+        }
+
+        public void RequestAutoFitWidth()
+        {
+            if (Application.Current.MainWindow is MainWindow mw)
+            {
+                mw.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    var prev = mw.SizeToContent;
+                    mw.SizeToContent = SizeToContent.Width;
+                    mw.UpdateLayout();
+
+                    const double minW = 860;
+                    const double maxW = 1200;
+                    mw.Width = Math.Max(minW, Math.Min(maxW, mw.ActualWidth));
+
+                    mw.SizeToContent = prev;
+                }), System.Windows.Threading.DispatcherPriority.Loaded);
+            }
         }
 
         private void LiveCaptionsButton_click(object sender, RoutedEventArgs e)
@@ -44,12 +140,12 @@ namespace LiveCaptionsTranslator
             if (isHide)
             {
                 LiveCaptionsHandler.RestoreLiveCaptions(Translator.Window);
-                ButtonText.Text = "Hide";
+                ButtonText.Text = (string)Application.Current.TryFindResource("SettingPage_LiveCaptionsToggle_Hide");
             }
             else
             {
                 LiveCaptionsHandler.HideLiveCaptions(Translator.Window);
-                ButtonText.Text = "Show";
+                ButtonText.Text = (string)Application.Current.TryFindResource("SettingPage_LiveCaptionsToggle_Show");
             }
         }
 
@@ -155,10 +251,20 @@ namespace LiveCaptionsTranslator
             ContextAwareInfoFlyout.Hide();
         }
 
+        private void UILanguageInfo_MouseEnter(object sender, MouseEventArgs e)
+        {
+            UILanguageInfoFlyout.Show();
+        }
+
+        private void UILanguageInfo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            UILanguageInfoFlyout.Hide();
+        }
+
         private void CheckForFirstUse()
         {
             if (Translator.FirstUseFlag)
-                ButtonText.Text = "Hide";
+                ButtonText.Text = (string)Application.Current.TryFindResource("SettingPage_LiveCaptionsToggle_Hide");
         }
 
         public void LoadAPISetting()
@@ -167,7 +273,6 @@ namespace LiveCaptionsTranslator
             var languagesProp = configType.GetProperty(
                 "SupportedLanguages", BindingFlags.Public | BindingFlags.Static);
 
-            // Traverse base classes to find `SupportedLanguages`
             while (configType != null && languagesProp == null)
             {
                 configType = configType.BaseType;
@@ -183,7 +288,7 @@ namespace LiveCaptionsTranslator
 
             string targetLang = Translator.Setting.TargetLanguage;
             if (!supportedLanguages.ContainsKey(targetLang))
-                supportedLanguages[targetLang] = targetLang;    // add custom language to supported languages
+                supportedLanguages[targetLang] = targetLang;
             TargetLangBox.SelectedItem = targetLang;
         }
     }

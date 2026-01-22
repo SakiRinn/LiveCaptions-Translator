@@ -1,0 +1,174 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">Legendas ao Vivo</sys:String>
+    <sys:String x:Key="S1">Após o Windows 11 24H2, você só pode alterar</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">idioma de origem</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">nas Legendas ao Vivo.</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">Nota:</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">Por favor, clique</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"Ocultar"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">para ocultar as Legendas ao Vivo em vez de fechá-las.</sys:String>
+
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">Mostrar</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">Ocultar</sys:String>
+
+    <sys:String x:Key="SettingPage_ApiInterval_Label">Intervalo da API</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">Determina com que frequência a API de tradução é chamada. Valores menores chamam com mais frequência.</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">Chamar a API de tradução uma vez após a legenda mudar</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[Intervalo da API]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">vezes.</sys:String>
+
+    <sys:String x:Key="SettingPage_TranslateApi_Label">API de Tradução</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">Exceto Google e Google2, outras APIs precisam ser configuradas antes de usar.</sys:String>
+
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">Idioma de destino</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">Não encontrou o idioma desejado?</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">Você pode editar este texto do ComboBox para personalizar o idioma. É recomendado seguir</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">tags de idioma BCP 47.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">Algumas APIs (por exemplo, DeepL) requerem uma forma diferente de especificar o idioma de destino. Verifique a documentação.</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">Idiomas de destino integrados já estão mapeados. Se seu idioma não estiver na lista, lembre-se disso.</sys:String>
+
+    <sys:String x:Key="SettingPage_ApiSetting_Label">Configurações da API</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">Abrir</sys:String>
+
+    <sys:String x:Key="SettingPage_ShowLatency_Label">Mostrar latência</sys:String>
+    <sys:String x:Key="Common_Off">Desligado</sys:String>
+    <sys:String x:Key="Common_On">Ligado</sys:String>
+
+    <sys:String x:Key="SettingPage_Contexts_Label">Contextos</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">Contextos:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">Determina o número de sentenças de contexto quando</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">Com consciência de contexto</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">está ativado.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">Sentenças sobrepostas:</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">Determina o número de cartões exibidos quando</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">Cartões de log</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">está ativado, e o número máximo de sentenças mostradas na janela sobreposta.</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">Os contextos devem ser</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">maiores ou iguais a</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">Sentenças exibidas</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">. Caso contrário, o aplicativo ajustará automaticamente.</sys:String>
+
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">Sentenças exibidas</sys:String>
+
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">Traduzir com contexto.</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">Pode melhorar a precisão, mas consome mais tokens.</sys:String>
+
+    <sys:String x:Key="SettingPage_UiLanguage_Label">Idioma da interface</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">Selecione o idioma usado pela interface do aplicativo.</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">As alterações entram em vigor imediatamente e são salvas automaticamente.</sys:String>
+
+    <!-- HistoryPage strings (semantic keys) -->
+    <sys:String x:Key="HistoryPage_Pagination_Previous">Página anterior</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">Próxima página</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">Pesquisar</sys:String>
+
+    <sys:String x:Key="HistoryPage_Action_Export">Exportar</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">Excluir tudo</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">Atualizar</sys:String>
+
+    <sys:String x:Key="HistoryPage_Column_Time">Hora</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">Legenda</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">Tradução</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+
+    <sys:String x:Key="HistoryPage_PageSize_20">20/página</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/página</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/página</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/página</sys:String>
+
+    <!-- HistoryPage (code-behind) strings -->
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">Tem certeza de que deseja excluir todo o histórico?</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">Esta ação não pode ser desfeita!</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">Sim</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">Não</sys:String>
+
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|Todos os arquivos (*.*)|*.*</sys:String>
+
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">Salvo com sucesso</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">Arquivo salvo em: {0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">Falha ao salvar</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">Falha ao salvar o arquivo: {0}</sys:String>
+
+    <!-- OverlayWindow strings (semantic tooltips) -->
+    <sys:String x:Key="OverlayWindow_Title">Janela sobreposta</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">Aumentar tamanho da fonte</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">Diminuir tamanho da fonte</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">Aumentar contorno</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">Diminuir contorno</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">Negrito</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">Cor da fonte</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">Aumentar opacidade do fundo</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">Diminuir opacidade do fundo</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">Cor do fundo</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">Mostrar apenas legenda ou tradução</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">Alternar posição legenda/tradução</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">Permitir clique através</sys:String>
+
+    <!-- InfoPage strings -->
+    <sys:String x:Key="InfoPage_Contrib_Message">Todos os tipos de contribuições são bem-vindas! Você pode sugerir recursos ou relatar bugs através do GitHub, ou contribuir com código enviando Pull Requests.</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">Se este programa te ajudar, considere dar uma estrela ao projeto!</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">Repositório:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">Wiki:</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">Mantenedor:</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(Autor) e</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">Versão:</sys:String>
+
+    <!-- WelcomeWindow strings -->
+    <sys:String x:Key="WelcomeWindow_GetStarted">Começar</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">Bem-vindo ao LiveCaptions Translator!</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">O LiveCaptions Translator é baseado nas Legendas ao Vivo do Windows.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;Antes da primeira execução, complete os seguintes passos:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. Abra as Legendas ao Vivo do Windows e siga o guia para baixar os arquivos de reconhecimento de fala offline e os pacotes de idioma.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. Clique</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ engrenagem</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">ícone para abrir as Configurações e selecionar</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"Posição &gt; Sobreposto na tela"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. Clique</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"Ocultar"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">botão na página de configurações do LiveCaptions Translator para ocultar as Legendas ao Vivo do Windows.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;O aplicativo pulou automaticamente para a página de configurações e abriu as Legendas ao Vivo do Windows.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">Após a configuração, você pode voltar à página principal e aproveitar a tradução de áudio em tempo real.&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;Para mais detalhes, consulte a Wiki:</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;Dica:&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">Se você deseja alterar</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">idioma de origem</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">, clique em [Mostrar] as Legendas ao Vivo primeiro e depois altere nas Legendas ao Vivo do Windows.</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">Entendi completamente e finalizei a configuração.</sys:String>
+
+    <!-- Navigation menu -->
+    <sys:String x:Key="Navigation_Captions">Legendas</sys:String>
+    <sys:String x:Key="Navigation_Settings">Configurações</sys:String>
+    <sys:String x:Key="Navigation_History">Histórico</sys:String>
+    <sys:String x:Key="Navigation_Info">Informações</sys:String>
+
+    <!-- MainWindow strings -->
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">Cartões de log de legenda</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">Pausar tradução (apenas log)</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">Janela sobreposta</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">Sempre no topo</sys:String>
+
+    <sys:String x:Key="MainWindow_Update_Error">[ERRO] Falha ao verificar atualizações.</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">erro</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">Nova versão encontrada</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">Nova versão detectada: {0}
+Versão atual: {1}
+Por favor, vá ao GitHub para baixar a última versão.</sys:String>
+
+    <!-- Translator  -->
+    <sys:String x:Key="Translator_Status_Restarting">[AVISO] Legendas ao Vivo fechadas inesperadamente, reiniciando…</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[Pausado]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">Erro!</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">Falha ao salvar histórico: {0}</sys:String>
+
+    <!-- CaptionPage strings -->
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">Clique para copiar</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">Copiado</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">Falha ao copiar</sys:String>
+
+</ResourceDictionary>

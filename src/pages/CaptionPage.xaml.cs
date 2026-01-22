@@ -36,6 +36,8 @@ namespace LiveCaptionsTranslator
             CollapseTranslatedCaption(Translator.Setting.MainWindow.CaptionLogEnabled);
         }
 
+        private static string Res(string key) => Application.Current?.TryFindResource(key)?.ToString() ?? key;
+
         private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
         {
             if (sender is TextBlock textBlock)
@@ -43,11 +45,11 @@ namespace LiveCaptionsTranslator
                 try
                 {
                     Clipboard.SetText(textBlock.Text);
-                    SnackbarHost.Show("Copied.", textBlock.Text, SnackbarType.Info, 100);
+                    SnackbarHost.Show(Res("CaptionPage_Toast_Copied"), textBlock.Text, SnackbarType.Info, 100);
                 }
                 catch
                 {
-                    SnackbarHost.Show("Copy Failed.", string.Empty, SnackbarType.Error, 100);
+                    SnackbarHost.Show(Res("CaptionPage_Toast_CopyFailed"), string.Empty, SnackbarType.Error, 100);
                 }
                 await Task.Delay(500);
             }

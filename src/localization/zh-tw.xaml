@@ -1,0 +1,156 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- SettingPage strings -->
+    <sys:String x:Key="SettingPage_LiveCaptionsName">即時字幕</sys:String>
+    <sys:String x:Key="S1">在 Windows 11 24H2 之後，您只能更改</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_SourceLanguage">來源語言</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_InLiveCaptions">於即時字幕中。</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_NoteLabel">注意：</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_PleaseClick">請點擊</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideQuoted">"隱藏"</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsInfo_HideInsteadOfClose">以隱藏即時字幕，而非關閉它。</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Show">顯示</sys:String>
+    <sys:String x:Key="SettingPage_LiveCaptionsToggle_Hide">隱藏</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Label">API 間隔</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Desc">決定翻譯 API 的呼叫頻率。數值越小呼叫越頻繁。</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Line1">字幕更改後呼叫一次翻譯 API</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_IntervalName">[API 間隔]</sys:String>
+    <sys:String x:Key="SettingPage_ApiInterval_Tooltip_Suffix">次。</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Label">翻譯 API</sys:String>
+    <sys:String x:Key="SettingPage_TranslateApi_Tooltip">除 Google 與 Google2 外，其他 API 使用前需先配置。</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Label">目標語言</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Title">沒有我想要的目標語言？</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Line1">您可以編輯此下拉框文字來自訂語言。建議遵循</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Bcp47">BCP 47 語言標籤。</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note1">某些 API（如 DeepL）需要不同方式指定目標語言，請查閱其文件。</sys:String>
+    <sys:String x:Key="SettingPage_TargetLanguage_Tooltip_Note2">內建目標語言已對應好。如果您的語言不在列表中，請留意這點。</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Label">API 設定</sys:String>
+    <sys:String x:Key="SettingPage_ApiSetting_Open">開啟</sys:String>
+    <sys:String x:Key="SettingPage_ShowLatency_Label">顯示延遲</sys:String>
+    <sys:String x:Key="Common_Off">關閉</sys:String>
+    <sys:String x:Key="Common_On">開啟</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Label">上下文</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Title">上下文：</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line1">決定啟用</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_ContextAware">上下文感知</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line2">時的上下文句子數量。</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_OverlaySentences">疊加句子：</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line3">決定啟用</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_LogCards">日誌卡片</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line4">時顯示的卡片數量，以及疊加視窗中最大顯示句數。</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line5">上下文必須</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line6">大於或等於</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_DisplaySentences">顯示句數</sys:String>
+    <sys:String x:Key="SettingPage_Contexts_Tooltip_Line7">。否則應用程式將自動調整。</sys:String>
+    <sys:String x:Key="SettingPage_DisplaySentences_Label">顯示句數</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line1">使用上下文進行翻譯。</sys:String>
+    <sys:String x:Key="SettingPage_ContextAware_Tooltip_Line2">可能提高準確性，但會消耗更多 token。</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Label">介面語言</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip">選擇應用程式 UI 使用的語言。</sys:String>
+    <sys:String x:Key="SettingPage_UiLanguage_Tooltip_ImmediateSave">更改會立即生效並自動保存。</sys:String>
+
+    <!-- HistoryPage strings (semantic keys) -->
+    <sys:String x:Key="HistoryPage_Pagination_Previous">上一頁</sys:String>
+    <sys:String x:Key="HistoryPage_Pagination_Next">下一頁</sys:String>
+    <sys:String x:Key="HistoryPage_Search_Placeholder">搜尋</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Export">匯出</sys:String>
+    <sys:String x:Key="HistoryPage_Action_DeleteAll">全部刪除</sys:String>
+    <sys:String x:Key="HistoryPage_Action_Refresh">重新整理</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Time">時間</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Caption">字幕</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Translation">翻譯</sys:String>
+    <sys:String x:Key="HistoryPage_Column_Api">API</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_20">20/頁</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_30">30/頁</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_50">50/頁</sys:String>
+    <sys:String x:Key="HistoryPage_PageSize_100">100/頁</sys:String>
+
+    <!-- HistoryPage (code-behind) strings -->
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Title">確定要刪除所有歷史記錄嗎？</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Content">此操作無法復原！</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Primary">是</sys:String>
+    <sys:String x:Key="HistoryPage_Dialog_DeleteAll_Close">否</sys:String>
+    <sys:String x:Key="HistoryPage_Export_Filter">CSV (*.csv)|*.csv|所有檔案 (*.*)|*.*</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessTitle">保存成功</sys:String>
+    <sys:String x:Key="HistoryPage_Save_SuccessMessage">檔案已保存至：{0}</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedTitle">保存失敗</sys:String>
+    <sys:String x:Key="HistoryPage_Save_FailedMessage">檔案保存失敗：{0}</sys:String>
+
+    <!-- OverlayWindow strings (semantic tooltips) -->
+    <sys:String x:Key="OverlayWindow_Title">疊加視窗</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseFontSize">增大字型</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseFontSize">減小字型</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseStroke">增強描邊</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseStroke">減弱描邊</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_Bold">粗體</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_FontColor">字體顏色</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_IncreaseBackgroundOpacity">增大背景不透明度</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_DecreaseBackgroundOpacity">減小背景不透明度</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_BackgroundColor">背景顏色</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_OnlyMode">只顯示字幕或翻譯</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_SwitchPosition">切換字幕/翻譯位置</sys:String>
+    <sys:String x:Key="OverlayWindow_Button_ClickThrough">穿透點擊</sys:String>
+
+    <!-- InfoPage strings -->
+    <sys:String x:Key="InfoPage_Contrib_Message">歡迎各種貢獻！您可以透過 GitHub 問題建議功能或提交 Pull Request 直接貢獻程式碼。</sys:String>
+    <sys:String x:Key="InfoPage_Contrib_StarHint">如果這個程式對您有幫助，請考慮給專案一顆 Star！</sys:String>
+    <sys:String x:Key="InfoPage_Label_Repo">程式庫：</sys:String>
+    <sys:String x:Key="InfoPage_Label_Wiki">Wiki：</sys:String>
+    <sys:String x:Key="InfoPage_Label_Maintainer">維護者：</sys:String>
+    <sys:String x:Key="InfoPage_Label_And">(作者)及</sys:String>
+    <sys:String x:Key="InfoPage_Label_Version">版本：</sys:String>
+
+    <!-- WelcomeWindow strings -->
+    <sys:String x:Key="WelcomeWindow_GetStarted">開始使用</sys:String>
+    <sys:String x:Key="WelcomeWindow_Title">歡迎使用 LiveCaptions Translator！</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_Base">LiveCaptions Translator 基於 Windows 即時字幕。</sys:String>
+    <sys:String x:Key="WelcomeWindow_Intro_StepsLead">&#x0A;首次使用前，請完成以下設定步驟：&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step1">&#x0A;1. 開啟 Windows 即時字幕，並按照指示下載離線語音辨識檔與語言包。</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Click">&#x0A;2. 點擊</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Gear">⚙️ 齒輪</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Instruction">圖示以開啟設定並選擇</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step2_Position">"位置 &gt; 疊加於螢幕"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Click">3. 點擊</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_HideQuoted">"隱藏"</sys:String>
+    <sys:String x:Key="WelcomeWindow_Step3_Instruction">按鈕於 LiveCaptions Translator 設定頁面中以隱藏 Windows 即時字幕。&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_AutoOpen">&#x0A;程式已自動跳轉到設定頁並開啟 Windows 即時字幕。</sys:String>
+    <sys:String x:Key="WelcomeWindow_Enjoy">完成設定後，即可回到主頁享受即時語音翻譯。&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiLead">&#x0A;更多細節請參考 Wiki： </sys:String>
+    <sys:String x:Key="WelcomeWindow_WikiUrl">https://github.com/SakiRinn/LiveCaptions-Translator/wiki</sys:String>
+    <sys:String x:Key="WelcomeWindow_TipLead">&#x0A;&#x0A;提示：&#x0A;</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_IfYouWantToChange">如果您想更改</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_SourceLanguage">來源語言</sys:String>
+    <sys:String x:Key="WelcomeWindow_Tip_Instruction">，請先點擊 [顯示] 即時字幕，然後在 Windows 即時字幕中更改。</sys:String>
+    <sys:String x:Key="WelcomeWindow_Button_Confirm">我已完全理解並完成設定。</sys:String>
+
+    <!-- Navigation menu -->
+    <sys:String x:Key="Navigation_Captions">字幕</sys:String>
+    <sys:String x:Key="Navigation_Settings">設定</sys:String>
+    <sys:String x:Key="Navigation_History">歷史</sys:String>
+    <sys:String x:Key="Navigation_Info">資訊</sys:String>
+
+    <!-- MainWindow strings -->
+    <sys:String x:Key="MainWindow_Title">LiveCaptions Translator</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_CaptionLog">字幕日誌卡片</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_LogOnly">暫停翻譯（僅日誌）</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Overlay">疊加視窗</sys:String>
+    <sys:String x:Key="MainWindow_Tooltip_Topmost">總在最前</sys:String>
+    <sys:String x:Key="MainWindow_Update_Error">[錯誤] 更新檢查失敗。</sys:String>
+    <sys:String x:Key="MainWindow_Update_ErrorLabel">錯誤</sys:String>
+    <sys:String x:Key="MainWindow_Update_Found">發現新版本</sys:String>
+    <sys:String x:Key="MainWindow_Update_Message">偵測到新版本：{0} 當前版本：{1}，請前往 GitHub 下載最新版本。</sys:String>
+
+    <!-- Translator -->
+    <sys:String x:Key="Translator_Status_Restarting">[警告] 即時字幕意外關閉，正在重啟…</sys:String>
+    <sys:String x:Key="Translator_Status_Paused">[暫停]</sys:String>
+    <sys:String x:Key="Translator_Status_Error">錯誤！</sys:String>
+    <sys:String x:Key="Translator_Status_WriteHistoryFailed">寫入歷史失敗：{0}</sys:String>
+
+    <!-- CaptionPage strings -->
+    <sys:String x:Key="CaptionPage_Tooltip_ClickToCopy">點擊以複製</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_Copied">已複製</sys:String>
+    <sys:String x:Key="CaptionPage_Toast_CopyFailed">複製失敗</sys:String>
+
+</ResourceDictionary>
