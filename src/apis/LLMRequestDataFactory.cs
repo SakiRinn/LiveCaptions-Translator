@@ -14,6 +14,7 @@ namespace LiveCaptionsTranslator.apis
             ["Ollama"] = typeof(OllamaRequestData),
             ["OpenRouter"] = typeof(OpenRouterRequestData),
             ["OpenAI"] = typeof(OpenAIRequestData),
+            ["IOIntelligence"] = typeof(OpenAIRequestData),
             ["XAI"] = typeof(XAIRequestData),
             ["base"] = typeof(BaseLLMRequestData)
         };
