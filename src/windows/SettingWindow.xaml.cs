@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -133,6 +134,47 @@ namespace LiveCaptionsTranslator
         private void OllamaAPIUrlInfo_MouseLeave(object sender, MouseEventArgs e)
         {
             OllamaAPIUrlInfoFlyout.Hide();
+        }
+
+        private void IOIntelligenceGetKey_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://ai.io.net/ai/api-keys",
+                UseShellExecute = true
+            });
+        }
+
+        private async void IOIntelligenceRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            button.IsEnabled = false;
+
+            try
+            {
+                var models = await IOIntelligenceConfig.FetchModelsAsync();
+                IOIntelligenceModelComboBox.Items.Clear();
+                foreach (var model in models)
+                {
+                    IOIntelligenceModelComboBox.Items.Add(model);
+                }
+            }
+            finally
+            {
+                button.IsEnabled = true;
+            }
+        }
+
+        private async void IOIntelligenceModelComboBox_DropDownOpened(object sender, EventArgs e)
+        {
+            if (IOIntelligenceModelComboBox.Items.Count == 0)
+            {
+                var models = await IOIntelligenceConfig.FetchModelsAsync();
+                foreach (var model in models)
+                {
+                    IOIntelligenceModelComboBox.Items.Add(model);
+                }
+            }
         }
 
         private void SwitchConfig(string apiName, int index)

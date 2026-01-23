@@ -98,6 +98,20 @@
                         </ui:Button>
 
                         <ui:Button
+                            x:Name="IOIntelligenceButton"
+                            Margin="10,5,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="IOIntelligence">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock VerticalAlignment="Center" Text="IO Intelligence" />
+                            </StackPanel>
+                        </ui:Button>
+
+                        <ui:Button
                             x:Name="DeepLButton"
                             Margin="10,5,5,0"
                             Padding="10"
@@ -595,6 +609,143 @@
                                                     Padding="10,4,10,7"
                                                     FontSize="13.3"
                                                     Text="{Binding [OpenRouter].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </ui:Card>
+                            </StackPanel>
+
+                            <StackPanel x:Name="IOIntelligenceSection" Margin="20">
+                                <ui:TextBlock
+                                    Margin="10"
+                                    FontSize="20"
+                                    FontWeight="Medium"
+                                    Text="IO Intelligence" />
+                                <ui:Card Padding="15">
+                                    <StackPanel>
+                                        <Grid Margin="15,0,15,10">
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Config: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}"
+                                                    Tag="IOIntelligence" />
+                                                <ui:TextBlock
+                                                    x:Name="IOIntelligenceIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="NextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}"
+                                                    Tag="IOIntelligence" />
+                                            </StackPanel>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="NewButton_Click"
+                                                    Content="New"
+                                                    Tag="IOIntelligence" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="DeleteButton_Click"
+                                                    Content="Delete"
+                                                    Tag="IOIntelligence" />
+                                                <ui:Flyout x:Name="IOIntelligenceDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="120"
+                                                        Text="You must keep at least one config."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Separator Margin="0,0,0,10" />
+                                        <Grid x:Name="IOIntelligenceGrid">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="15,0,0,0"
+                                                Orientation="Vertical">
+                                                <ui:TextBlock Margin="2.5,0,0,5" Text="Model Name" />
+                                                <ComboBox
+                                                    x:Name="IOIntelligenceModelComboBox"
+                                                    Width="130"
+                                                    Height="30"
+                                                    Padding="10,4,10,7"
+                                                    FontSize="13.3"
+                                                    IsEditable="True"
+                                                    DropDownOpened="IOIntelligenceModelComboBox_DropDownOpened"
+                                                    Text="{Binding [IOIntelligence].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </StackPanel>
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="15,10,0,0"
+                                                Orientation="Vertical">
+                                                <ui:TextBlock Margin="2.5,0,0,5" Text="Temperature" />
+                                                <ui:NumberBox
+                                                    Width="130"
+                                                    Height="30"
+                                                    Padding="10,4,10,7"
+                                                    ClearButtonEnabled="False"
+                                                    FontSize="13.3"
+                                                    LargeChange="1"
+                                                    Maximum="2"
+                                                    Minimum="0"
+                                                    SmallChange="0.1"
+                                                    Value="{Binding [IOIntelligence].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </StackPanel>
+                                            <StackPanel
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Margin="15,0,0,0"
+                                                Orientation="Vertical">
+                                                <ui:TextBlock Margin="2.5,0,0,5" Text="API Key" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:TextBox
+                                                        Width="200"
+                                                        Height="30"
+                                                        Padding="10,4,10,7"
+                                                        FontSize="13.3"
+                                                        Text="{Binding [IOIntelligence].ApiKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <ui:Button
+                                                        Width="75"
+                                                        Height="30"
+                                                        Margin="5,0,0,0"
+                                                        Click="IOIntelligenceGetKey_Click"
+                                                        Content="Get Key"
+                                                        ToolTip="Get API Key from IO Intelligence" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Margin="15,10,0,0"
+                                                Orientation="Vertical">
+                                                <ui:TextBlock Margin="2.5,0,0,5" Text="Fetch Models" />
+                                                <ui:Button
+                                                    Width="200"
+                                                    Height="30"
+                                                    Click="IOIntelligenceRefresh_Click"
+                                                    Content="Refresh Model List"
+                                                    Icon="{ui:SymbolIcon ArrowSync16}" />
                                             </StackPanel>
                                         </Grid>
                                     </StackPanel>
