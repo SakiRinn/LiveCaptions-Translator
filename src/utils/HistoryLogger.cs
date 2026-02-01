@@ -231,7 +231,7 @@ namespace LiveCaptionsTranslator.utils
                     history.Add(new TranslationHistoryEntry
                     {
                         Timestamp = localTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                        TimestampFull = localTime.ToString("MM/dd/yy, HH:mm:ss"),
+                        TimestampFull = localTime.ToString("yyyy-MM-dd HH:mm:ss"),
                         SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
                         TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
                         TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
