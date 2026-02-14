@@ -132,8 +132,8 @@ namespace LiveCaptionsTranslator.utils
                         }
                         history.Add(new TranslationHistoryEntry
                         {
-                            Timestamp = localTime.ToString("MM/dd HH:mm"),
-                            TimestampFull = localTime.ToString("MM/dd/yy, HH:mm:ss"),
+                            Timestamp = localTime.ToString("yyyy-MM-dd HH:mm"),
+                            TimestampFull = localTime.ToString("yyyy-MM-dd HH:mm:ss"),
                             SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
                             TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
                             TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
@@ -189,8 +189,8 @@ namespace LiveCaptionsTranslator.utils
                     DateTime localTime = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(unixTime)).LocalDateTime;
                     return new TranslationHistoryEntry
                     {
-                        Timestamp = localTime.ToString("MM/dd HH:mm"),
-                        TimestampFull = localTime.ToString("MM/dd/yy, HH:mm:ss"),
+                        Timestamp = localTime.ToString("yyyy-MM-dd HH:mm"),
+                        TimestampFull = localTime.ToString("yyyy-MM-dd HH:mm:ss"),
                         SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
                         TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
                         TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
@@ -230,8 +230,8 @@ namespace LiveCaptionsTranslator.utils
                     DateTime localTime = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(unixTime)).LocalDateTime;
                     history.Add(new TranslationHistoryEntry
                     {
-                        Timestamp = localTime.ToString("MM/dd HH:mm"),
-                        TimestampFull = localTime.ToString("MM/dd/yy, HH:mm:ss"),
+                        Timestamp = localTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                        TimestampFull = localTime.ToString("yyyy-MM-dd HH:mm:ss"),
                         SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
                         TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
                         TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
