@@ -9,6 +9,7 @@ using LiveCaptionsTranslator.apis;
 using LiveCaptionsTranslator.models;
 using Button = Wpf.Ui.Controls.Button;
 using TextBlock = Wpf.Ui.Controls.TextBlock;
+using ComboBox = System.Windows.Controls.ComboBox;
 
 namespace LiveCaptionsTranslator
 {
@@ -133,6 +134,63 @@ namespace LiveCaptionsTranslator
         private void OllamaAPIUrlInfo_MouseLeave(object sender, MouseEventArgs e)
         {
             OllamaAPIUrlInfoFlyout.Hide();
+        }
+
+        private void LMStudioAPIUrlInfo_MouseEnter(object sender, MouseEventArgs e)
+        {
+            LMStudioAPIUrlInfoFlyout.Show();
+        }
+
+        private void LMStudioAPIUrlInfo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            LMStudioAPIUrlInfoFlyout.Hide();
+        }
+
+        private async void LoadModelsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is string apiName && apiName == "LMStudio")
+            {
+                string baseUrl = (Translator.Setting["LMStudio"] as LMStudioConfig)?.ApiUrl ?? "";
+
+                if (string.IsNullOrWhiteSpace(baseUrl))
+                {
+                    System.Windows.MessageBox.Show("Please set the API URL first.", "Load Models", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    return;
+                }
+
+                button.IsEnabled = false;
+                try
+                {
+                    var models = await ModelsApiService.FetchModelsAsync(apiName, baseUrl);
+                    var comboBox = FindName($"{apiName}ModelComboBox") as ComboBox;
+                    if (comboBox != null)
+                    {
+                        comboBox.ItemsSource = models;
+                        if (models.Count > 0)
+                            System.Windows.MessageBox.Show($"Loaded {models.Count} model(s).", "Load Models", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                        else
+                            System.Windows.MessageBox.Show("No models found or unable to connect. Check that the server is running.", "Load Models", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+                    }
+                }
+                finally
+                {
+                    button.IsEnabled = true;
+                }
+            }
+        }
+
+        private void LMStudioModelComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] is ModelsApiService.ModelInfo mi)
+            {
+                var config = Translator.Setting["LMStudio"] as LMStudioConfig;
+                if (config != null)
+                {
+                    config.ModelName = mi.Id;
+                    if (sender is ComboBox cb)
+                        cb.Text = mi.Id;
+                }
+            }
         }
 
         private void SwitchConfig(string apiName, int index)

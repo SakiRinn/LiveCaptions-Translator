@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="API Setting"
-    Width="800"
+    Width="950"
     Height="500"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
     ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -66,6 +66,20 @@
                             Tag="Ollama">
                             <StackPanel Orientation="Horizontal">
                                 <ui:TextBlock VerticalAlignment="Center" Text="Ollama" />
+                            </StackPanel>
+                        </ui:Button>
+
+                        <ui:Button
+                            x:Name="LMStudioButton"
+                            Margin="10,5,5,0"
+                            Padding="10"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Click="NavigationButton_Click"
+                            Tag="LMStudio">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:TextBlock VerticalAlignment="Center" Text="LMStudio" />
                             </StackPanel>
                         </ui:Button>
 
@@ -336,6 +350,158 @@
                                                     Padding="10,4,10,7"
                                                     FontSize="13.3"
                                                     Text="{Binding [Ollama].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </ui:Card>
+                            </StackPanel>
+
+                            <StackPanel x:Name="LMStudioSection" Margin="20">
+                                <ui:TextBlock
+                                    Margin="10"
+                                    FontSize="20"
+                                    FontWeight="Medium"
+                                    Text="LMStudio" />
+                                <ui:Card Padding="15">
+                                    <StackPanel>
+                                        <Grid Margin="15,0,15,10">
+                                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                <ui:TextBlock
+                                                    Margin="0,0,10,0"
+                                                    VerticalAlignment="Center"
+                                                    FontWeight="Bold"
+                                                    Text="Current Config: " />
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="PriorButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronLeft12}"
+                                                    Tag="LMStudio" />
+                                                <ui:TextBlock
+                                                    x:Name="LMStudioIndex"
+                                                    VerticalAlignment="Center"
+                                                    Text="1/1" />
+                                                <ui:Button
+                                                    Margin="10,0,0,0"
+                                                    Padding="8,4,8,4"
+                                                    Click="NextButton_Click"
+                                                    Icon="{ui:SymbolIcon chevronRight12}"
+                                                    Tag="LMStudio" />
+                                            </StackPanel>
+                                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                                <ui:Button
+                                                    Margin="0,0,10,0"
+                                                    Click="NewButton_Click"
+                                                    Content="New"
+                                                    Tag="LMStudio" />
+                                                <ui:Button
+                                                    Margin="0,0,-10,0"
+                                                    Click="DeleteButton_Click"
+                                                    Content="Delete"
+                                                    Tag="LMStudio" />
+                                                <ui:Flyout x:Name="LMStudioDeleteFlyout">
+                                                    <TextBlock
+                                                        Width="120"
+                                                        Text="You must keep at least one config."
+                                                        TextWrapping="Wrap" />
+                                                </ui:Flyout>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Separator Margin="0,0,0,10" />
+                                        <Grid x:Name="LMStudioGrid">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Row 0: Model Name spans both columns -->
+                                            <StackPanel
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                Margin="15,0,0,0"
+                                                Orientation="Vertical">
+                                                <ui:TextBlock Margin="2.5,0,0,5" Text="Model Name" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ComboBox
+                                                        x:Name="LMStudioModelComboBox"
+                                                        Width="250"
+                                                        Height="30"
+                                                        Padding="10,4,10,7"
+                                                        FontSize="13.3"
+                                                        IsEditable="True"
+                                                        DisplayMemberPath="Id"
+                                                        SelectedValuePath="Id"
+                                                        Text="{Binding [LMStudio].ModelName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                        SelectionChanged="LMStudioModelComboBox_SelectionChanged" />
+                                                    <ui:Button
+                                                        x:Name="LMStudioLoadModelsButton"
+                                                        Margin="10,0,0,0"
+                                                        Padding="8,4,8,4"
+                                                        Content="Load Models"
+                                                        Click="LoadModelsButton_Click"
+                                                        Tag="LMStudio" />
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <!-- Row 1 Col 0: Temperature -->
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="15,10,0,0"
+                                                Orientation="Vertical">
+                                                <ui:TextBlock Margin="2.5,0,0,5" Text="Temperature" />
+                                                <ui:NumberBox
+                                                    Width="130"
+                                                    Height="30"
+                                                    Padding="10,4,10,7"
+                                                    ClearButtonEnabled="False"
+                                                    FontSize="13.3"
+                                                    LargeChange="1"
+                                                    Maximum="2"
+                                                    Minimum="0"
+                                                    SmallChange="0.1"
+                                                    Value="{Binding [LMStudio].Temperature, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            </StackPanel>
+
+                                            <!-- Row 1 Col 1: API Url -->
+                                            <StackPanel
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Margin="15,10,0,0"
+                                                Orientation="Vertical">
+                                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                                    <ui:TextBlock Margin="2.5,0,0,5" Text="API Url (Base)" />
+                                                    <ui:Flyout x:Name="LMStudioAPIUrlInfoFlyout">
+                                                        <ui:TextBlock Width="250" TextWrapping="Wrap">
+                                                            <Run Text="Base URL ending with" />
+                                                            <Run FontWeight="Bold" Text="`api/v1`" />
+                                                            <Run Text=". Chat endpoint and models are appended automatically." />
+                                                        </ui:TextBlock>
+                                                    </ui:Flyout>
+                                                    <Button
+                                                        Width="15"
+                                                        Height="15"
+                                                        Margin="-5,-3,0,0"
+                                                        Padding="0"
+                                                        Background="Transparent"
+                                                        BorderThickness="0"
+                                                        MouseEnter="LMStudioAPIUrlInfo_MouseEnter"
+                                                        MouseLeave="LMStudioAPIUrlInfo_MouseLeave">
+                                                        <ui:SymbolIcon Symbol="Info16" />
+                                                    </Button>
+                                                </StackPanel>
+                                                <ui:TextBox
+                                                    Width="200"
+                                                    Height="30"
+                                                    Margin="0,5,0,0"
+                                                    Padding="10,4,10,7"
+                                                    FontSize="13.3"
+                                                    Text="{Binding [LMStudio].ApiUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                             </StackPanel>
                                         </Grid>
                                     </StackPanel>
