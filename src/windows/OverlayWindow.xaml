@@ -191,7 +191,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon ArrowSyncCircle20,
                                              Filled=False}"
-                        ToolTip="Show only subtitles or translations" />
+                        ToolTip="Switch the order of subtitles and translations" />
                     <ui:Button
                         x:Name="ClickThrough"
                         Background="#FFAAAAAA"
