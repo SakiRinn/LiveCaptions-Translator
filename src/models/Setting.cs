@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
@@ -196,6 +196,7 @@ namespace LiveCaptionsTranslator.models
                 { "Google2", [new TranslateAPIConfig()] },
                 { "Ollama", [new OllamaConfig()] },
                 { "OpenAI", [new OpenAIConfig()] },
+                { "LMStudio", [new LMStudioConfig()] },
                 { "OpenRouter", [new OpenRouterConfig()] },
                 { "DeepL", [new DeepLConfig()] },
                 { "Youdao", [new YoudaoConfig()] },
@@ -209,6 +210,7 @@ namespace LiveCaptionsTranslator.models
                 { "Google2", 0 },
                 { "Ollama", 0 },
                 { "OpenAI", 0 },
+                { "LMStudio", 0 },
                 { "OpenRouter", 0 },
                 { "DeepL", 0 },
                 { "Youdao", 0 },
@@ -263,6 +265,13 @@ namespace LiveCaptionsTranslator.models
                     setting.Configs[key] = [(TranslateAPIConfig)Activator.CreateInstance(configType)];
                 else
                     setting.Configs[key] = [new TranslateAPIConfig()];
+            }
+
+            // Ensure ConfigIndices has all keys (for upgrades from older setting.json)
+            foreach (string key in TranslateAPI.TRANSLATE_FUNCTIONS.Keys)
+            {
+                if (!setting.ConfigIndices.ContainsKey(key))
+                    setting.ConfigIndices[key] = 0;
             }
 
             return setting;

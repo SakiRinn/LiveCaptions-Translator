@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -23,6 +23,7 @@ namespace LiveCaptionsTranslator.apis
             { "Google2", Google2 },
             { "Ollama", Ollama },
             { "OpenAI", OpenAI },
+            { "LMStudio", LMStudio },
             { "DeepL", DeepL },
             { "OpenRouter", OpenRouter },
             { "Youdao", Youdao },
@@ -32,7 +33,7 @@ namespace LiveCaptionsTranslator.apis
         };
         public static readonly List<string> LLM_BASED_APIS = new()
         {
-            "Ollama", "OpenAI", "OpenRouter"
+            "Ollama", "OpenAI", "OpenRouter", "LMStudio"
         };
         public static readonly List<string> NO_CONFIG_APIS = new()
         {
@@ -189,6 +190,92 @@ namespace LiveCaptionsTranslator.apis
             }
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
+        }
+
+        public static async Task<string> LMStudio(string text, CancellationToken token = default)
+        {
+            var config = Translator.Setting["LMStudio"] as LMStudioConfig;
+            string language = LMStudioConfig.SupportedLanguages.TryGetValue(
+                Translator.Setting.TargetLanguage, out var langValue) ? langValue : Translator.Setting.TargetLanguage;
+            string apiUrl = TextUtil.NormalizeUrl(config.ApiUrl) + "/chat";
+
+            string systemPrompt = string.Format(Prompt, language);
+
+            // Build input with optional context
+            string input = $"🔤 {text} 🔤";
+            if (Translator.Setting.ContextAware)
+            {
+                var contextLines = new List<string>();
+                foreach (var entry in Translator.Caption.AwareContexts)
+                {
+                    string translatedText = entry.TranslatedText;
+                    if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
+                        continue;
+                    translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
+                    contextLines.Add($"🔤 {entry.SourceText} 🔤 → {translatedText}");
+                }
+                if (contextLines.Count > 0)
+                    input = string.Join("\n", contextLines) + "\n" + input;
+            }
+
+            var requestData = new
+            {
+                model = config.ModelName,
+                system_prompt = systemPrompt,
+                input = input,
+                temperature = config.Temperature
+            };
+
+            string jsonContent = JsonSerializer.Serialize(requestData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            client.DefaultRequestHeaders.Clear();
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.PostAsync(apiUrl, content, token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
+                throw;
+            }
+            catch (Exception ex)
+            {
+                return $"[ERROR] Translation Failed: {ex.Message}";
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseString = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(responseString);
+                var root = doc.RootElement;
+
+                // LMStudio native /api/v1/chat response:
+                // { "output": [ { "type": "message", "content": "..." }, ... ] }
+                if (root.TryGetProperty("output", out var outputArray) &&
+                    outputArray.ValueKind == JsonValueKind.Array)
+                {
+                    foreach (var item in outputArray.EnumerateArray())
+                    {
+                        if (item.TryGetProperty("type", out var typeProp) &&
+                            typeProp.GetString() == "message" &&
+                            item.TryGetProperty("content", out var contentProp))
+                        {
+                            return RegexPatterns.ModelThinking().Replace(contentProp.GetString() ?? "", "");
+                        }
+                    }
+                }
+
+                return "[ERROR] Translation Failed: Unexpected response format";
+            }
+            else
+            {
+                string body = await response.Content.ReadAsStringAsync();
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}: {body}";
+            }
         }
 
         public static async Task<string> OpenRouter(string text, CancellationToken token = default)

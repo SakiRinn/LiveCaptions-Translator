@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
@@ -160,6 +160,27 @@ namespace LiveCaptionsTranslator.models
             {
                 apiKey = value;
                 OnPropertyChanged();
+            }
+        }
+    }
+
+    public class LMStudioConfig : BaseLLMConfig
+    {
+        public class Response
+        {
+            public string model { get; set; }
+            public string output { get; set; }
+        }
+
+        private string apiUrl = "http://localhost:1234/api/v1";
+
+        public string ApiUrl
+        {
+            get => apiUrl;
+            set
+            {
+                apiUrl = value;
+                OnPropertyChanged("ApiUrl");
             }
         }
     }
