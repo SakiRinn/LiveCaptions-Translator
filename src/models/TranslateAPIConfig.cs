@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
@@ -161,6 +162,51 @@ namespace LiveCaptionsTranslator.models
                 apiKey = value;
                 OnPropertyChanged();
             }
+        }
+    }
+
+    public class IOIntelligenceConfig : BaseLLMConfig
+    {
+        private static readonly HttpClient httpClient = new HttpClient()
+        {
+            Timeout = TimeSpan.FromSeconds(10)
+        };
+
+        public class ModelInfo
+        {
+            public string id { get; set; }
+        }
+
+        public class ModelsResponse
+        {
+            public List<ModelInfo> data { get; set; }
+        }
+
+        private string apiKey = "";
+        public string ApiKey
+        {
+            get => apiKey;
+            set
+            {
+                apiKey = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public static async Task<List<string>> FetchModelsAsync()
+        {
+            try
+            {
+                var response = await httpClient.GetAsync("https://api.intelligence.io.solutions/api/v1/models");
+                if (response.IsSuccessStatusCode)
+                {
+                    string json = await response.Content.ReadAsStringAsync();
+                    var modelsResponse = System.Text.Json.JsonSerializer.Deserialize<ModelsResponse>(json);
+                    return modelsResponse?.data?.Select(m => m.id).ToList() ?? new List<string>();
+                }
+            }
+            catch { }
+            return new List<string>();
         }
     }
 
