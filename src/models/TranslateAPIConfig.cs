@@ -83,7 +83,7 @@ namespace LiveCaptionsTranslator.models
             public int prompt_eval_count { get; set; }
             public long prompt_eval_duration { get; set; }
             public int eval_count { get; set; }
-            public long eval_duration { get; set; } 
+            public long eval_duration { get; set; }
         }
 
         private string apiUrl = "http://localhost:11434";
