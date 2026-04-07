@@ -10,6 +10,7 @@ namespace LiveCaptionsTranslator.models
         
         public int max_tokens { get; set; } = 128;
         public bool stream { get; set; } = false;
+        public int keep_alive { get; set; } = 600;
     }
     
     public class IntegratedLLMRequestData(string model, List<BaseLLMConfig.Message> messages, double temperature)

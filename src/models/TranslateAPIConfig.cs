@@ -83,11 +83,22 @@ namespace LiveCaptionsTranslator.models
             public int prompt_eval_count { get; set; }
             public long prompt_eval_duration { get; set; }
             public int eval_count { get; set; }
-            public long eval_duration { get; set; }
+            public long eval_duration { get; set; } 
         }
 
         private string apiUrl = "http://localhost:11434";
 
+        public int keep_alive = 600;
+        
+        public int Keep_alive
+        {
+            get => keep_alive;
+            set
+            {
+                keep_alive = value;
+                OnPropertyChanged("Keep_alive");
+            }
+        }
         public string ApiUrl
         {
             get => apiUrl;
