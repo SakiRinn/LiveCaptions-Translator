@@ -88,6 +88,17 @@ namespace LiveCaptionsTranslator.models
 
         private string apiUrl = "http://localhost:11434";
 
+        public int keep_alive = 600;
+        
+        public int Keep_alive
+        {
+            get => keep_alive;
+            set
+            {
+                keep_alive = value;
+                OnPropertyChanged("Keep_alive");
+            }
+        }
         public string ApiUrl
         {
             get => apiUrl;
