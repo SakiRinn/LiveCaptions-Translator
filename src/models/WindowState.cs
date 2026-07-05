@@ -11,6 +11,8 @@ namespace LiveCaptionsTranslator.models
         private bool topmost = true;
         private bool captionLogEnabled = false;
         private bool latencyShow = false;
+        private int originalFontSize = 15;
+        private int translatedFontSize = 18;
 
         public bool Topmost
         {
@@ -37,6 +39,24 @@ namespace LiveCaptionsTranslator.models
             {
                 latencyShow = value;
                 OnPropertyChanged("LatencyShow");
+            }
+        }
+        public int OriginalFontSize
+        {
+            get => originalFontSize;
+            set
+            {
+                originalFontSize = value;
+                OnPropertyChanged("OriginalFontSize");
+            }
+        }
+        public int TranslatedFontSize
+        {
+            get => translatedFontSize;
+            set
+            {
+                translatedFontSize = value;
+                OnPropertyChanged("TranslatedFontSize");
             }
         }
 
