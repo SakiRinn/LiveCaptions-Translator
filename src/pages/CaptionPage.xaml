@@ -13,6 +13,7 @@
     <Grid Margin="5,5,15,5">
         <Grid.RowDefinitions>
             <RowDefinition x:Name="OriginalCaption_Row" Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition x:Name="TranslatedCaption_Row" Height="Auto" />
             <RowDefinition x:Name="CaptionLogCard_Row" Height="Auto" />
         </Grid.RowDefinitions>
@@ -38,10 +39,20 @@
                 ToolTip="Click To Copy" />
         </ui:Card>
 
-        <ui:Card
+        <GridSplitter
+            x:Name="CaptionSplitter"
             Grid.Row="1"
+            Height="6"
+            HorizontalAlignment="Stretch"
+            Background="Transparent"
+            Cursor="SizeNS"
+            ResizeBehavior="PreviousAndNext"
+            ResizeDirection="Rows"
+            ToolTip="Drag to Resize" />
+
+        <ui:Card
+            Grid.Row="2"
             MinHeight="43"
-            Margin="0,3,0,0"
             Padding="8"
             VerticalAlignment="Stretch">
             <TextBlock
@@ -57,7 +68,7 @@
 
         <ui:Card
             x:Name="LogCards"
-            Grid.Row="2"
+            Grid.Row="3"
             Margin="0,0,0,5"
             Padding="8"
             VerticalAlignment="Top"
