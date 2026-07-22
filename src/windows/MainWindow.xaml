@@ -9,7 +9,7 @@
     Title="LiveCaptions Translator"
     Width="750"
     Height="170"
-    MinWidth="750"
+    MinWidth="320"
     MinHeight="170"
     Background="Transparent"
     ExtendsContentIntoTitleBar="True"
