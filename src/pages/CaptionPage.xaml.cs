@@ -1,10 +1,8 @@
-﻿using System.ComponentModel;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
+using System.Windows.Input;
 
-using LiveCaptionsTranslator.utils;
+using LiveCaptionsTranslator.Utils;
 
 namespace LiveCaptionsTranslator
 {
@@ -25,15 +23,14 @@ namespace LiveCaptionsTranslator
             {
                 AutoHeight();
                 (App.Current.MainWindow as MainWindow).CaptionLogButton.Visibility = Visibility.Visible;
-                Translator.Caption.PropertyChanged += TranslatedChanged;
             };
             Unloaded += (s, e) =>
             {
                 (App.Current.MainWindow as MainWindow).CaptionLogButton.Visibility = Visibility.Collapsed;
-                Translator.Caption.PropertyChanged -= TranslatedChanged;
             };
 
             CollapseTranslatedCaption(Translator.Setting.MainWindow.CaptionLogEnabled);
+            ApplyFontSizes();
         }
 
         private async void TextBlock_MouseLeftButtonDown(object sender, RoutedEventArgs e)
@@ -53,25 +50,36 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        private void TranslatedChanged(object sender, PropertyChangedEventArgs e)
+        private void ApplyFontSizes()
         {
-            if (e.PropertyName == nameof(Translator.Caption.DisplayTranslatedCaption))
-            {
-                if (Encoding.UTF8.GetByteCount(Translator.Caption.DisplayTranslatedCaption) >= TextUtil.LONG_THRESHOLD)
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        this.TranslatedCaption.FontSize = 15;
-                    }), DispatcherPriority.Background);
-                }
-                else
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                    {
-                        this.TranslatedCaption.FontSize = 18;
-                    }), DispatcherPriority.Background);
-                }
-            }
+            OriginalCaption.FontSize = Translator.Setting.MainWindow.OriginalFontSize;
+            TranslatedCaption.FontSize = Translator.Setting.MainWindow.TranslatedFontSize;
+        }
+
+        private void OriginalCard_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers != ModifierKeys.Control)
+                return;
+            Translator.Setting.MainWindow.OriginalFontSize =
+                AdjustFontSize(Translator.Setting.MainWindow.OriginalFontSize, e.Delta);
+            ApplyFontSizes();
+            e.Handled = true;
+        }
+
+        private void TranslatedCard_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers != ModifierKeys.Control)
+                return;
+            Translator.Setting.MainWindow.TranslatedFontSize =
+                AdjustFontSize(Translator.Setting.MainWindow.TranslatedFontSize, e.Delta);
+            ApplyFontSizes();
+            e.Handled = true;
+        }
+
+        private static int AdjustFontSize(int current, int wheelDelta)
+        {
+            int next = current + (wheelDelta > 0 ? StyleConsts.DELTA_FONT_SIZE : -StyleConsts.DELTA_FONT_SIZE);
+            return Math.Clamp(next, StyleConsts.MIN_FONT_SIZE, StyleConsts.MAX_FONT_SIZE);
         }
 
         public void CollapseTranslatedCaption(bool isCollapsed)
