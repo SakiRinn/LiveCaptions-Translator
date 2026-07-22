@@ -88,12 +88,16 @@ namespace LiveCaptionsTranslator
 
             if (isCollapsed)
             {
+                OriginalCaption_Row.Height = (GridLength)converter.ConvertFromString("Auto");
                 TranslatedCaption_Row.Height = (GridLength)converter.ConvertFromString("Auto");
+                CaptionSplitter.Visibility = Visibility.Collapsed;
                 LogCards.Visibility = Visibility.Visible;
             }
             else
             {
+                OriginalCaption_Row.Height = (GridLength)converter.ConvertFromString("*");
                 TranslatedCaption_Row.Height = (GridLength)converter.ConvertFromString("*");
+                CaptionSplitter.Visibility = Visibility.Visible;
                 LogCards.Visibility = Visibility.Collapsed;
             }
         }
