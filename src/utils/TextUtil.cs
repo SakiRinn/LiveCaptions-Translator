@@ -14,6 +14,44 @@ namespace LiveCaptionsTranslator.utils
 
         public const double SIM_THRESHOLD = 0.6;
 
+        // Whether the text is written in the script of the given language (e.g. "zh-CN"), or null when the
+        // language's script can't be told apart from others (Latin-script languages).
+        public static bool? IsInLanguageScript(string text, string language)
+        {
+            int letters = text.Count(char.IsLetter);
+            if (letters == 0)
+                return null;
+            int han = text.Count(c => c >= '\u4E00' && c <= '\u9FFF');
+            int kana = text.Count(c => c >= '\u3040' && c <= '\u30FF');
+            int hangul = text.Count(c => c >= '\uAC00' && c <= '\uD7AF');
+
+            int inScript;
+            switch (language.Split('-')[0].ToLowerInvariant())
+            {
+                case "zh":
+                    inScript = kana > 0 ? 0 : han;
+                    break;
+                case "ja":
+                    inScript = kana > 0 ? han + kana : 0;
+                    break;
+                case "ko":
+                    inScript = hangul;
+                    break;
+                case "ru":
+                    inScript = text.Count(c => c >= '\u0400' && c <= '\u04FF');
+                    break;
+                case "th":
+                    inScript = text.Count(c => c >= '\u0E00' && c <= '\u0E7F');
+                    break;
+                case "ar":
+                    inScript = text.Count(c => c >= '\u0600' && c <= '\u06FF');
+                    break;
+                default:
+                    return null;
+            }
+            return inScript * 2 > letters;
+        }
+
         public static string ShortenDisplaySentence(string text, int maxByteLength)
         {
             while (Encoding.UTF8.GetByteCount(text) >= maxByteLength)
