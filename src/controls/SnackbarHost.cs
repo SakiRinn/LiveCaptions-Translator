@@ -5,11 +5,22 @@ namespace LiveCaptionsTranslator
     class SnackbarHost
     {
         public static Snackbar? mainSnackbar;
-        public static MainWindow? mainWindow = (MainWindow)App.Current.MainWindow;
+        public static MainWindow? mainWindow => App.Current?.MainWindow as MainWindow;
 
         public static void Show(string title = "", string message = "", SnackbarType type = SnackbarType.Info,
                                 int width = 500, int timeout = 1, bool closeButton = false)
         {
+            // Also called from background threads (e.g. when logging history fails in TranslateLoop). Touching the
+            // snackbar there throws an InvalidOperationException inside the caller's catch block, which ended the loop.
+            var dispatcher = App.Current?.Dispatcher;
+            if (dispatcher == null)
+                return;
+            if (!dispatcher.CheckAccess())
+            {
+                dispatcher.BeginInvoke(() => Show(title, message, type, width, timeout, closeButton));
+                return;
+            }
+
             ControlAppearance appearance;
             SymbolIcon icon;
             Snackbar? snackbar;
