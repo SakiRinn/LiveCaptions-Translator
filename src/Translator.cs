@@ -17,6 +17,8 @@ namespace LiveCaptionsTranslator
 
         private static readonly Queue<string> pendingTextQueue = new();
         private static readonly TranslationTaskQueue translationTaskQueue = new();
+        private static readonly Queue<bool> recentInTargetLanguage = new();
+        private static bool targetLanguageWarningShown = false;
 
         public static AutomationElement? Window
         {
@@ -137,6 +139,7 @@ namespace LiveCaptionsTranslator
                     {
                         syncCount = 0;
                         pendingTextQueue.Enqueue(Caption.OriginalCaption);
+                        CheckCaptionsLanguage(Caption.OriginalCaption);
                     }
                     else if (Encoding.UTF8.GetByteCount(Caption.OriginalCaption) >= TextUtil.SHORT_THRESHOLD)
                         syncCount++;
@@ -155,6 +158,31 @@ namespace LiveCaptionsTranslator
 
                 Thread.Sleep(25);
             }
+        }
+
+        // Newer versions of LiveCaptions can translate captions by themselves. If that is turned on, the text we
+        // read is already in the target language: the original is lost and LiveCaptions' own translation tends to
+        // lag and drop sentences. Tell the user once when the recent sentences are all in the target language.
+        private static void CheckCaptionsLanguage(string sentence)
+        {
+            if (targetLanguageWarningShown)
+                return;
+            bool? inTarget = TextUtil.IsInLanguageScript(sentence, Setting.TargetLanguage);
+            if (inTarget == null)
+                return;
+
+            recentInTargetLanguage.Enqueue(inTarget.Value);
+            while (recentInTargetLanguage.Count > 5)
+                recentInTargetLanguage.Dequeue();
+            if (recentInTargetLanguage.Count < 5 || recentInTargetLanguage.Any(isInTarget => !isInTarget))
+                return;
+
+            targetLanguageWarningShown = true;
+            App.Current?.Dispatcher.BeginInvoke(() => SnackbarHost.Show(
+                "[WARNING] Captions are already in the target language.",
+                "LiveCaptions' own translation seems to be turned on. Turn it off in the LiveCaptions settings " +
+                "(\u2699 menu) to translate the original speech. Ignore this if the speaker uses the target language.",
+                SnackbarType.Warning, timeout: 15, closeButton: true));
         }
 
         public static async Task TranslateLoop()
