@@ -37,7 +37,7 @@ namespace LiveCaptionsTranslator
             LiveCaptionsHandler.FixLiveCaptions(Window);
             LiveCaptionsHandler.HideLiveCaptions(Window);
 
-            if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), models.Setting.FILENAME)))
+            if (!File.Exists(models.Setting.FilePath))
                 FirstUseFlag = true;
 
             caption = Caption.GetInstance();
