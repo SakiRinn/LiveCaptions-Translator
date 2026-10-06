@@ -16,6 +16,7 @@ namespace LiveCaptionsTranslator
         private static Setting? setting = null;
 
         private static readonly Queue<string> pendingTextQueue = new();
+        private static string lastQueuedSentence = string.Empty;
         private static readonly TranslationTaskQueue translationTaskQueue = new();
 
         public static AutomationElement? Window
@@ -103,6 +104,7 @@ namespace LiveCaptionsTranslator
                     lastEOSIndex = fullText[0..lastEOSIndex].LastIndexOfAny(TextUtil.PUNC_EOS);
                     latestCaption = fullText.Substring(lastEOSIndex + 1);
                 }
+                int latestCaptionStart = lastEOSIndex + 1;
 
                 // `OverlayOriginalCaption`: The sentence to be displayed on Overlay Window.
                 Caption.OverlayOriginalCaption = latestCaption;
@@ -136,7 +138,9 @@ namespace LiveCaptionsTranslator
                     if (Array.IndexOf(TextUtil.PUNC_EOS, Caption.OriginalCaption[^1]) != -1)
                     {
                         syncCount = 0;
+                        EnqueueSkippedSentences(fullText.Substring(0, latestCaptionStart));
                         pendingTextQueue.Enqueue(Caption.OriginalCaption);
+                        lastQueuedSentence = Caption.OriginalCaption;
                     }
                     else if (Encoding.UTF8.GetByteCount(Caption.OriginalCaption) >= TextUtil.SHORT_THRESHOLD)
                         syncCount++;
@@ -155,6 +159,24 @@ namespace LiveCaptionsTranslator
 
                 Thread.Sleep(25);
             }
+        }
+
+        // When LiveCaptions finishes more than one sentence between two reads (fast speech, or several
+        // sentences punctuated at once), only the last one used to be queued and the others were never translated.
+        // Queue the finished text between the previously queued sentence and the current one.
+        private static void EnqueueSkippedSentences(string textBeforeLatest)
+        {
+            // A very short sentence ("Yes.") may occur several times, so it can't be used to find the position.
+            if (Encoding.UTF8.GetByteCount(lastQueuedSentence) < TextUtil.SHORT_THRESHOLD)
+                return;
+            // Not found: it scrolled out, was revised by LiveCaptions, or is part of the current sentence.
+            int index = textBeforeLatest.LastIndexOf(lastQueuedSentence, StringComparison.Ordinal);
+            if (index == -1)
+                return;
+
+            string skipped = textBeforeLatest.Substring(index + lastQueuedSentence.Length).Trim();
+            if (skipped.Length > 0 && skipped.IndexOfAny(TextUtil.PUNC_EOS) != -1)
+                pendingTextQueue.Enqueue(skipped);
         }
 
         public static async Task TranslateLoop()
