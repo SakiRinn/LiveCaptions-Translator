@@ -12,6 +12,10 @@ namespace LiveCaptionsTranslator.models
     public class Setting : INotifyPropertyChanged
     {
         public static readonly string FILENAME = "setting.json";
+        // Next to the executable, not relative to the working directory: when the app is started from a shortcut,
+        // the Start menu or autostart, the working directory can be elsewhere and the settings would not be found
+        // (or Load and Save would use different files).
+        public static string FilePath => Path.Combine(AppContext.BaseDirectory, FILENAME);
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -222,7 +226,7 @@ namespace LiveCaptionsTranslator.models
 
         public static Setting Load()
         {
-            string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), FILENAME);
+            string jsonPath = FilePath;
             try
             {
                 return Load(jsonPath);
@@ -230,7 +234,7 @@ namespace LiveCaptionsTranslator.models
             catch (JsonException)
             {
                 string backupPath = jsonPath + ".bak";
-                File.Move(jsonPath, backupPath);
+                File.Move(jsonPath, backupPath, overwrite: true);
                 return Load(jsonPath);
             }
         }
@@ -279,7 +283,7 @@ namespace LiveCaptionsTranslator.models
 
         public void Save()
         {
-            Save(FILENAME);
+            Save(FilePath);
         }
 
         public void Save(string jsonPath)
@@ -303,8 +307,7 @@ namespace LiveCaptionsTranslator.models
 
         public static bool IsConfigExist()
         {
-            string jsonPath = Path.Combine(Directory.GetCurrentDirectory(), FILENAME);
-            return File.Exists(jsonPath);
+            return File.Exists(FilePath);
         }
     }
 }
