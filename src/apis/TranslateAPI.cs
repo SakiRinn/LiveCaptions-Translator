@@ -51,6 +51,17 @@ namespace LiveCaptionsTranslator.apis
         };
         private static int openai_fallback_index = 0;
 
+        // Builds a new request each time instead of changing client.DefaultRequestHeaders, which is shared by all
+        // concurrent requests: one translation clearing the headers while another is being sent caused random 401s.
+        private static Task<HttpResponseMessage> PostAsync(string url, HttpContent content, string? authorization,
+            CancellationToken token)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, url) { Content = content };
+            if (!string.IsNullOrEmpty(authorization))
+                request.Headers.TryAddWithoutValidation("Authorization", authorization);
+            return client.SendAsync(request, token);
+        }
+
         public static async Task<string> OpenAI(string text, CancellationToken token = default)
         {
             var config = Translator.Setting["OpenAI"] as OpenAIConfig;
@@ -79,9 +90,6 @@ namespace LiveCaptionsTranslator.apis
                 }
             }
 
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config.ApiKey}");
-
             HttpResponseMessage response;
             try
             {
@@ -92,7 +100,8 @@ namespace LiveCaptionsTranslator.apis
                     string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
                     var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                    response = await client.PostAsync(TextUtil.NormalizeUrl(config.ApiUrl), content, token);
+                    response = await PostAsync(TextUtil.NormalizeUrl(config.ApiUrl), content,
+                        $"Bearer {config.ApiKey}", token);
                     if (response.StatusCode != HttpStatusCode.BadRequest &&
                         response.StatusCode != HttpStatusCode.UnprocessableEntity)
                         break;
@@ -162,12 +171,11 @@ namespace LiveCaptionsTranslator.apis
             requestData.keep_alive = config.keep_alive;
             string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await PostAsync(apiUrl, content, null, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -228,12 +236,11 @@ namespace LiveCaptionsTranslator.apis
 
             string jsonContent = JsonSerializer.Serialize(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await PostAsync(apiUrl, content, null, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -311,13 +318,11 @@ namespace LiveCaptionsTranslator.apis
 
             string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await PostAsync(apiUrl, content, $"Bearer {config?.ApiKey}", token);
             }
             catch (OperationCanceledException ex)
             {
@@ -453,13 +458,10 @@ namespace LiveCaptionsTranslator.apis
             string jsonContent = JsonSerializer.Serialize(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {config?.ApiKey}");
-
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await PostAsync(apiUrl, content, $"DeepL-Auth-Key {config?.ApiKey}", token);
             }
             catch (OperationCanceledException ex)
             {
@@ -512,12 +514,11 @@ namespace LiveCaptionsTranslator.apis
             };
 
             var content = new FormUrlEncodedContent(parameters);
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(config.ApiUrl, content, token);
+                response = await PostAsync(config.ApiUrl, content, null, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -565,13 +566,10 @@ namespace LiveCaptionsTranslator.apis
             string jsonContent = JsonSerializer.Serialize(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
-
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await PostAsync(apiUrl, content, $"Bearer {config?.ApiKey}", token);
             }
             catch (OperationCanceledException ex)
             {
@@ -617,12 +615,11 @@ namespace LiveCaptionsTranslator.apis
             };
 
             var content = new FormUrlEncodedContent(parameters);
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(config.ApiUrl, content, token);
+                response = await PostAsync(config.ApiUrl, content, null, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -671,12 +668,10 @@ namespace LiveCaptionsTranslator.apis
             string jsonContent = JsonSerializer.Serialize(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            client.DefaultRequestHeaders.Clear();
-
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await PostAsync(apiUrl, content, null, token);
             }
             catch (OperationCanceledException ex)
             {
