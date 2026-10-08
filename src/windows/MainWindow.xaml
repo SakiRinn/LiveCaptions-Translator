@@ -1,4 +1,4 @@
-﻿<!-- zh-CN localization: user-visible strings translated to Simplified Chinese by Sky-lll27
+<!-- zh-CN localization: user-visible strings translated to Simplified Chinese by Sky-lll27
 (AI-assisted draft, human-reviewed), 2026-09. Based on SakiRinn/LiveCaptions-Translator v1.6
 (Apache-2.0). Logic unchanged. -->
 <ui:FluentWindow
@@ -95,6 +95,13 @@
                         Icon="{ui:SymbolIcon Home24}"
                         NavigationCacheMode="Enabled"
                         TargetPageType="{x:Type local:CaptionPage}" />
+                    <ui:NavigationViewItem
+                        Margin="0,3,0,0"
+                        Content="文本"
+                        FontFamily="Bahnschrift"
+                        Icon="{ui:SymbolIcon DocumentEdit24}"
+                        NavigationCacheMode="Enabled"
+                        TargetPageType="{x:Type local:TextPage}" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
                         Content="设置"

@@ -1,3 +1,6 @@
+// zh-CN fork: 本文件由 Sky-lll27 修改（2026-10），修复 Ollama load_duration 的类型定义（int → long）。
+// Based on SakiRinn/LiveCaptions-Translator (Apache-2.0). Modified per §4(b).
+
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
@@ -79,7 +82,7 @@ namespace LiveCaptionsTranslator.models
             public Message message { get; set; }
             public bool done { get; set; }
             public long total_duration { get; set; }
-            public int load_duration { get; set; }
+            public long load_duration { get; set; }
             public int prompt_eval_count { get; set; }
             public long prompt_eval_duration { get; set; }
             public int eval_count { get; set; }

@@ -1,3 +1,6 @@
+// zh-CN fork: 本文件由 Sky-lll27 修改（2026-10），新增「文本」页使用的 120 秒超时管道。
+// Based on SakiRinn/LiveCaptions-Translator (Apache-2.0). Modified per §4(b).
+
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -45,10 +48,42 @@ namespace LiveCaptionsTranslator.apis
         public static bool IsLLMBased => LLM_BASED_APIS.Contains(Translator.Setting.ApiName);
         public static string Prompt => Translator.Setting.Prompt;
 
-        private static readonly HttpClient client = new HttpClient()
+        // 字幕链路：保持上游的 8 秒超时，行为完全不变。
+        private static readonly HttpClient defaultClient = new HttpClient()
         {
             Timeout = TimeSpan.FromSeconds(8)
         };
+
+        // 「文本」页链路：长文、模型冷启动、云端大模型都需要耐心等，单独一台"总机"。
+        private static readonly HttpClient patientClient = new HttpClient()
+        {
+            Timeout = TimeSpan.FromSeconds(120)
+        };
+
+        // 每条异步调用链自己的"便签"：决定这次走哪台总机。
+        // 字幕链路不贴便签 → 走 defaultClient（8 秒）。下面 11 个引擎函数因此一行都不用改。
+        private static readonly AsyncLocal<HttpClient?> pipelineClient = new();
+
+        private static HttpClient client => pipelineClient.Value ?? defaultClient;
+
+        /// <summary>
+        /// 供「文本」页使用：用 120 秒超时的管道翻译一段文本。
+        /// 只影响当前这条调用链，并发进行中的字幕翻译仍然走原来的 8 秒。
+        /// </summary>
+        public static async Task<string> TranslatePatiently(string text, CancellationToken token = default)
+        {
+            var previous = pipelineClient.Value;
+            pipelineClient.Value = patientClient;
+            try
+            {
+                return await TranslateFunction(text, token);
+            }
+            finally
+            {
+                pipelineClient.Value = previous;
+            }
+        }
+
         private static int openai_fallback_index = 0;
 
         public static async Task<string> OpenAI(string text, CancellationToken token = default)

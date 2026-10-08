@@ -1,0 +1,161 @@
+﻿<!-- 新增页面：文本框翻译（上游 v1.6 没有这个功能，由本汉化分支新增）
+     zh-CN localization + new feature by Sky-lll27 (AI-assisted, human-reviewed), 2026-10.
+     Based on SakiRinn/LiveCaptions-Translator (Apache-2.0). Modified per §4(b).
+     本页只做「手输文本翻译」，不参与字幕链路，字幕翻译行为完全不受影响。 -->
+<Page
+    x:Class="LiveCaptionsTranslator.TextPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="文本"
+    JournalEntry.KeepAlive="True"
+    mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid" Margin="5,5,15,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" MinHeight="110" />
+        </Grid.RowDefinitions>
+
+        <!-- 输入区标签行：左边标题，右边字数（到上限时顺带提醒会在框内滚动） -->
+        <Grid Grid.Row="0" Margin="2,0,2,3">
+            <TextBlock
+                FontSize="12"
+                Opacity="0.6"
+                Text="要翻译的文本" />
+            <TextBlock
+                x:Name="CounterLabel"
+                HorizontalAlignment="Right"
+                FontSize="12"
+                Opacity="0.6"
+                Text="0 字" />
+        </Grid>
+
+        <!-- 输入框：随文字长高，到 MaxHeight 后框内滚动（译文区至少要留 110px） -->
+        <Grid Grid.Row="1">
+            <ui:TextBox
+                x:Name="InputBox"
+                MinHeight="106"
+                MaxHeight="240"
+                AcceptsReturn="True"
+                ClearButtonEnabled="False"
+                FontSize="14"
+                PreviewKeyDown="InputBox_PreviewKeyDown"
+                TextChanged="InputBox_TextChanged"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+            <!-- 自绘占位提示（不依赖控件自带的 Placeholder 属性，避免版本差异） -->
+            <TextBlock
+                x:Name="InputPlaceholder"
+                Margin="12,9,12,9"
+                VerticalAlignment="Top"
+                FontSize="14"
+                IsHitTestVisible="False"
+                Opacity="0.45"
+                Text="在这里输入或粘贴要翻译的文本…（Ctrl + Enter 翻译）"
+                TextWrapping="Wrap" />
+            <!-- ui:TextBox 内部的滚动器是 PassiveScrollViewer，它只负责滚动、故意不画滚动条，
+                 所以 VerticalScrollBarVisibility 怎么设都看不见（已实测三种写法）。
+                 这里自己贴一个，跟内部滚动器双向同步（见 TextPage.xaml.cs 的 SyncInputScrollBar）。 -->
+            <ScrollBar
+                x:Name="InputScrollBar"
+                Width="14"
+                Margin="0,1,1,1"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Stretch"
+                Orientation="Vertical"
+                Scroll="InputScrollBar_Scroll"
+                Visibility="Collapsed" />
+        </Grid>
+
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,7,0,0"
+            Orientation="Horizontal">
+            <ui:Button
+                x:Name="TranslateButton"
+                Padding="18,5,18,5"
+                Appearance="Primary"
+                Click="TranslateButton_Click"
+                Content="翻译" />
+            <ui:Button
+                x:Name="CancelButton"
+                Margin="6,0,0,0"
+                Padding="18,5,18,5"
+                Appearance="Danger"
+                Click="CancelButton_Click"
+                Content="取消"
+                Visibility="Collapsed" />
+            <ui:Button
+                x:Name="ClearButton"
+                Margin="6,0,0,0"
+                Padding="18,5,18,5"
+                Click="ClearButton_Click"
+                Content="清空" />
+            <ui:Button
+                x:Name="CopyButton"
+                Margin="6,0,0,0"
+                Padding="18,5,18,5"
+                Click="CopyButton_Click"
+                Content="复制译文" />
+            <TextBlock
+                x:Name="EngineLabel"
+                Margin="12,0,0,0"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Opacity="0.6" />
+        </StackPanel>
+
+        <!-- 译文区标签行 -->
+        <Grid Grid.Row="3" Margin="2,8,2,3">
+            <TextBlock
+                FontSize="12"
+                Opacity="0.6"
+                Text="译文" />
+            <TextBlock
+                x:Name="LatencyLabel"
+                HorizontalAlignment="Right"
+                FontSize="12"
+                Opacity="0.6" />
+        </Grid>
+
+        <!-- 译文区：真实译文在上，虚化提示行永远贴在末尾，全部翻完才消失 -->
+        <ui:Card
+            x:Name="OutputCard"
+            Grid.Row="4"
+            Padding="8">
+            <ScrollViewer
+                x:Name="OutputScroll"
+                Background="Transparent"
+                HorizontalScrollBarVisibility="Disabled"
+                PreviewMouseWheel="OutputScroll_PreviewMouseWheel"
+                VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock
+                        x:Name="OutputText"
+                        FontSize="18"
+                        TextWrapping="Wrap"
+                        Visibility="Collapsed" />
+                    <TextBlock
+                        x:Name="StatusLine"
+                        FontSize="14"
+                        Opacity="0.55"
+                        Text="译文会显示在这里…"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Name="StatusSub"
+                        Margin="0,3,0,0"
+                        FontSize="12.5"
+                        Opacity="0.6"
+                        TextWrapping="Wrap"
+                        Visibility="Collapsed" />
+                </StackPanel>
+            </ScrollViewer>
+        </ui:Card>
+    </Grid>
+</Page>
