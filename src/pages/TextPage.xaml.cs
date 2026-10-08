@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿// 本文件为本分支新增（上游 v1.6 无此功能），作者 Sky-lll27，2026-10。
+// Based on SakiRinn/LiveCaptions-Translator (Apache-2.0). 本文件随本仓库整体以 Apache-2.0 分发。
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
