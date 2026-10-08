@@ -1,6 +1,8 @@
 ﻿<!-- zh-CN localization: user-visible strings translated to Simplified Chinese by Sky-lll27
 (AI-assisted draft, human-reviewed), 2026-09. Based on SakiRinn/LiveCaptions-Translator v1.6
-(Apache-2.0). Logic unchanged. -->
+(Apache-2.0). -->
+<!-- 2026-10 本分支新增：加入「本汉化版」署名区块（汉化作者 / 汉化仓库 / B站），并删除版本号一行；
+     上游署名（原项目 / 仓库 / Wiki / 维护者）原样保留。 -->
 <Page
     x:Class="LiveCaptionsTranslator.InfoPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -19,6 +21,40 @@
                 <Run Text="&#x0A;如果这个程序帮到了你，欢迎给我们点个 star ✨！" />
             </TextBlock>
             <Separator Margin="0,5,0,5" />
+
+            <!-- 本汉化版署名（本分支新增） -->
+            <ui:Card Margin="0,0,0,5" Padding="10,8">
+                <StackPanel>
+                    <TextBlock Margin="0,0,0,4">
+                        <Run FontWeight="SemiBold" Text="本汉化版：" />
+                        <Run Text="简体中文界面 + 新增「文本」页" />
+                    </TextBlock>
+                    <TextBlock Margin="0,0,0,3">
+                        <Run FontWeight="SemiBold" Text="汉化作者：" />
+                        <Hyperlink NavigateUri="https://github.com/Sky-lll27" RequestNavigate="Hyperlink_RequestNavigate">
+                            <Run Text="@Sky-lll27" />
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock Margin="0,0,0,3">
+                        <Run FontWeight="SemiBold" Text="汉化仓库：" />
+                        <Hyperlink NavigateUri="https://github.com/Sky-lll27/LiveCaptions-Translator" RequestNavigate="Hyperlink_RequestNavigate">
+                            <Run Text="https://github.com/Sky-lll27/LiveCaptions-Translator" />
+                        </Hyperlink>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="SemiBold" Text="B站：" />
+                        <Hyperlink NavigateUri="https://space.bilibili.com/496538808" RequestNavigate="Hyperlink_RequestNavigate">
+                            <Run Text="https://space.bilibili.com/496538808" />
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </ui:Card>
+
+            <Separator Margin="0,5,0,5" />
+            <TextBlock Margin="0,0,0,3">
+                <Run FontWeight="SemiBold" Text="原项目：" />
+                <Run Text="基于 SakiRinn/LiveCaptions-Translator 制作（Apache-2.0）" />
+            </TextBlock>
             <TextBlock Margin="0,0,0,3">
                 <Run FontWeight="SemiBold" Text="仓库：" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator" RequestNavigate="Hyperlink_RequestNavigate">
@@ -31,7 +67,7 @@
                     <Run x:Name="Wiki" Text="https://github.com/SakiRinn/LiveCaptions-Translator/wiki" />
                 </Hyperlink>
             </TextBlock>
-            <TextBlock Margin="0,0,0,3">
+            <TextBlock>
                 <Run FontWeight="SemiBold" Text="维护者：" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn" RequestNavigate="Hyperlink_RequestNavigate">
                     <Run Text="@SakiRinn" />
@@ -39,12 +75,6 @@
                 <Run Text="（作者）与" />
                 <Hyperlink NavigateUri="https://github.com/A-nony-mous" RequestNavigate="Hyperlink_RequestNavigate">
                     <Run Text="@A-nony-mous" />
-                </Hyperlink>
-            </TextBlock>
-            <TextBlock>
-                <Run FontWeight="SemiBold" Text="版本：" />
-                <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator/releases" RequestNavigate="Hyperlink_RequestNavigate">
-                    <Run x:Name="Version" Text="1.1.1.1" />
                 </Hyperlink>
             </TextBlock>
         </StackPanel>
