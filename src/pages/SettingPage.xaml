@@ -1,4 +1,7 @@
-﻿<Page
+﻿<!-- zh-CN localization: user-visible strings translated to Simplified Chinese by Sky-lll27
+(AI-assisted draft, human-reviewed), 2026-09. Based on SakiRinn/LiveCaptions-Translator v1.6
+(Apache-2.0). Logic unchanged. -->
+<Page
     x:Class="LiveCaptionsTranslator.SettingPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +9,7 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="SettingPage"
+    Title="设置"
     JournalEntry.KeepAlive="False"
     mc:Ignorable="d">
 
@@ -25,13 +28,13 @@
                     <TextBlock Margin="2.5,0,0,5" Text="LiveCaptions" />
                     <ui:Flyout x:Name="LiveCaptionsInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run Text="After Windows 11 version 24H2, you can only change the" />
-                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="Source Language" />
-                            <Run Text="in LiveCaptions." />
-                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
-                            <Run Text="Please click" />
-                            <Run FontWeight="Bold" Text="&quot;Hide&quot;" />
-                            <Run Text="to hide LiveCaptions instead of closing it directly." />
+                            <Run Text="Windows 11 24H2 及更高版本中，你只能在 LiveCaptions 中修改" />
+                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="源语言" />
+                            <Run Text="。" />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;注意：" />
+                            <Run Text="请点击" />
+                            <Run FontWeight="Bold" Text="&quot;隐藏&quot;" />
+                            <Run Text="按钮隐藏 LiveCaptions，而不是直接关闭它。" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -53,19 +56,19 @@
                     Height="30"
                     Padding="11,4,11,4"
                     Click="LiveCaptionsButton_click">
-                    <TextBlock x:Name="ButtonText" Text="Show" />
+                    <TextBlock x:Name="ButtonText" Text="显示" />
                 </ui:Button>
             </StackPanel>
 
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="API Interval" />
+                    <TextBlock Margin="2.5,0,0,5" Text="API 间隔" />
                     <ui:Flyout x:Name="FrequencyInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run Text="Determines the frequency of translate API calls. The smaller it is, the more frequent API calls." />
-                            <Run Text="&#x0A;The translate API is called once after the caption changes" />
-                            <Run FontWeight="SemiBold" Text="[API Interval]" />
-                            <Run Text="times." />
+                            <Run Text="决定调用翻译 API 的频率，数值越小，调用越频繁。" />
+                            <Run Text="&#x0A;字幕每变化" />
+                            <Run FontWeight="SemiBold" Text="[API 间隔]" />
+                            <Run Text="次，调用一次翻译 API。" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -96,11 +99,11 @@
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="Translate API" />
+                    <TextBlock Margin="2.5,0,0,5" Text="翻译 API" />
                     <ui:Flyout x:Name="TranslateAPIInfoFlyout">
                         <TextBlock
                             Width="300"
-                            Text="Except for Google and Google2, all other APIs require configuring before they can be used."
+                            Text="除 Google 和 Google2 外，其他 API 都需要先配置才能使用。"
                             TextWrapping="Wrap" />
                     </ui:Flyout>
                     <Button
@@ -131,15 +134,15 @@
                     <TextBlock
                         Margin="2.5,0,0,5"
                         VerticalAlignment="Center"
-                        Text="Target Language" />
+                        Text="目标语言" />
                     <ui:Flyout x:Name="TargetLangInfoFlyout">
                         <TextBlock Width="350" TextWrapping="Wrap">
-                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="&quot;There isn’t the target language I expect!&quot;" />
-                            <Run Text="&#x0A;You can directly edit the content of this combobox to customize the language, and it is recommended to follow the" />
-                            <Run FontWeight="Bold" Text="BCP 47 language tag." />
-                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
-                            <Run Text="Some of APIs (such as DeepL) needs another way to define target language, see their official docs for more details." />
-                            <Run Text="&#x0A;No need to consider this for included target languages, since we've built in tag mappings. But if your expected language isn't in the list, keep this in mind." />
+                            <Run FontWeight="DemiBold" TextDecorations="Underline" Text="&quot;没有我想要的目标语言！&quot;" />
+                            <Run Text="&#x0A;可以直接编辑下拉框内容来自定义语言，建议使用" />
+                            <Run FontWeight="Bold" Text="BCP 47 语言标签。" />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;注意：" />
+                            <Run Text="部分 API（如 DeepL）需要其他方式指定目标语言，详见其官方文档。" />
+                            <Run Text="&#x0A;列表内已有的语言无需考虑此问题——已内置标签映射；但如果你要的语言不在列表里，请留意上面说的格式。" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -170,7 +173,7 @@
         <StackPanel Grid.Column="2" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="API Setting" />
+                    <TextBlock Margin="2.5,0,0,5" Text="API 设置" />
                 </StackPanel>
                 <ui:Button
                     x:Name="APISettingButton"
@@ -178,39 +181,39 @@
                     Height="30"
                     Padding="11,4,11,4"
                     Click="APISettingButton_click">
-                    <TextBlock Text="Open" />
+                    <TextBlock Text="打开" />
                 </ui:Button>
             </StackPanel>
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="Show Latency" />
+                <TextBlock Margin="2.5,0,0,5" Text="显示延迟" />
                 <ui:ToggleSwitch
                     Width="100"
                     Height="30"
                     Padding="10,4,10,7"
                     IsChecked="{Binding MainWindow.LatencyShow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    OffContent="Off"
-                    OnContent="On" />
+                    OffContent="关"
+                    OnContent="开" />
             </StackPanel>
         </StackPanel>
 
         <StackPanel Grid.Column="3" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Margin="2.5,0,0,5" Text="Contexts" />
+                    <TextBlock Margin="2.5,0,0,5" Text="上下文" />
                     <ui:Flyout x:Name="CaptionLogMaxInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run FontWeight="Bold" Text="Contexts:" />
-                            <Run Text="Determines the number of context sentences when" />
-                            <Run FontWeight="Bold" Text="Context Aware" />
-                            <Run Text="is enabled." />
-                            <Run FontWeight="Bold" Text="&#x0A;Overlay Sentences:" />
-                            <Run Text="Determines the number of displayed cards when" />
-                            <Run FontWeight="Bold" Text="Log Cards" />
-                            <Run Text="is enabled, as well as the max number of sentences displayed in the Overlay Window." />
-                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;Note:" />
-                            <Run Text="Contexts must be" />
-                            <Run FontWeight="Bold" Text="greater than or equal" />
-                            <Run Text="Display Sentences. If not met, the program will automatically adjust them." />
+                            <Run FontWeight="Bold" Text="上下文：" />
+                            <Run Text="启用" />
+                            <Run FontWeight="Bold" Text="上下文感知" />
+                            <Run Text="后，决定使用的上下文句数。" />
+                            <Run FontWeight="Bold" Text="&#x0A;叠加层句数：" />
+                            <Run Text="启用" />
+                            <Run FontWeight="Bold" Text="记录卡片" />
+                            <Run Text="后，决定显示的卡片数量，同时也是叠加窗口的最大显示句数。" />
+                            <Run FontWeight="Bold" Text="&#x0A;&#x0A;注意：" />
+                            <Run Text="上下文数量必须" />
+                            <Run FontWeight="Bold" Text="大于或等于" />
+                            <Run Text="显示句数。若不满足，程序会自动调整。" />
                         </TextBlock>
                     </ui:Flyout>
                     <Button
@@ -243,7 +246,7 @@
             </StackPanel>
 
             <StackPanel Margin="15,10,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="Display Sentences" />
+                <TextBlock Margin="2.5,0,0,5" Text="显示句数" />
                 <ui:NumberBox
                     Width="135"
                     Height="30"
@@ -263,15 +266,15 @@
 
         <StackPanel Grid.Column="4" Orientation="Vertical">
             <StackPanel Margin="15,0,0,0" Orientation="Vertical">
-                <TextBlock Margin="2.5,0,0,5" Text="Context Aware" />
+                <TextBlock Margin="2.5,0,0,5" Text="上下文感知" />
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <ui:ToggleSwitch
                         Width="90"
                         Height="30"
                         Padding="10,4,10,7"
                         IsChecked="{Binding ContextAware, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        OffContent="Off"
-                        OnContent="On" />
+                        OffContent="关"
+                        OnContent="开" />
                     <Button
                         x:Name="ContextAwareInfo"
                         Width="15"
@@ -286,8 +289,8 @@
                     </Button>
                     <ui:Flyout x:Name="ContextAwareInfoFlyout">
                         <TextBlock Width="300" TextWrapping="Wrap">
-                            <Run Text="Translate in context." />
-                            <Run Text="&#x0A;It can improve translation accuracy, but will consume more tokens." />
+                            <Run Text="结合上下文进行翻译。" />
+                            <Run Text="&#x0A;可提升翻译准确度，但会消耗更多 token。" />
                         </TextBlock>
                     </ui:Flyout>
                 </StackPanel>

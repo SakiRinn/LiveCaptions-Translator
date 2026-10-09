@@ -1,3 +1,6 @@
+<!-- zh-CN localization: user-visible strings translated to Simplified Chinese by Sky-lll27
+(AI-assisted draft, human-reviewed), 2026-09. Based on SakiRinn/LiveCaptions-Translator v1.6
+(Apache-2.0). Logic unchanged. -->
 <ui:FluentWindow
     x:Class="LiveCaptionsTranslator.WelcomeWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -6,7 +9,7 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="Getting Started"
+    Title="开始使用"
     Width="700"
     Height="490"
     ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -30,7 +33,7 @@
             ShowMinimize="False">
             <ui:TitleBar.Header>
                 <ui:TextBlock Padding="15,0,0,0" VerticalAlignment="Center">
-                    Getting Started
+                    开始使用
                 </ui:TextBlock>
             </ui:TitleBar.Header>
         </ui:TitleBar>
@@ -41,32 +44,32 @@
                 HorizontalAlignment="Left"
                 FontSize="24"
                 FontWeight="Bold"
-                Text="Welcome to LiveCaptions Translator!"
+                Text="欢迎使用 LiveCaptions Translator！"
                 TextAlignment="Left" />
             <ui:TextBlock
                 Margin="20,10,20,10"
                 TextAlignment="Left"
                 TextWrapping="Wrap">
-                <Run Text="LiveCaptions Translator is based on Windows LiveCaptions." />
-                <Run Text="Before your first running, you need to configure it according to the following steps:&#x0A;" />
-                <Run Text="&#x0A;1. Open Windows LiveCaptions and follow the guide to download the necessary files for on-device speech recognition and language packs." />
-                <Run Text="&#x0A;2. Click the" />
-                <Run FontWeight="Bold" Text="⚙️ gear" />
-                <Run Text="icon in Windows LiveCaptions to open the settings menu, and select" />
-                <Run FontWeight="Bold" Text="&quot;Position &gt; Overlaid on screen&quot;" />
-                <Run Text=".&#x0A;3. Click the" />
-                <Run FontWeight="Bold" Text="&quot;Hide&quot;" />
-                <Run Text="button located in the setting page of LiveCaptions Translator to hide Windows LiveCaptions.&#x0A;" />
-                <Run Text="&#x0A;The program has automatically navigated to the setting page and opened Windows LiveCaptions." />
-                <Run Text="After completing the configuration, you can switch back to the main page and enjoy real-time audio translation.&#x0A;" />
-                <Run Text="&#x0A;For more details, visit our wiki: " />
+                <Run Text="LiveCaptions Translator 基于 Windows 自带的 LiveCaptions（实时字幕）。" />
+                <Run Text="首次运行前，请按以下步骤完成配置：&#x0A;" />
+                <Run Text="&#x0A;1. 打开 Windows LiveCaptions，按引导下载本地语音识别所需的文件和语言包。" />
+                <Run Text="&#x0A;2. 点击 Windows LiveCaptions 里的" />
+                <Run FontWeight="Bold" Text="⚙️ 齿轮" />
+                <Run Text="图标打开设置菜单，然后选择" />
+                <Run FontWeight="Bold" Text="&quot;位置 &gt; 覆盖在屏幕上&quot;" />
+                <Run Text="。&#x0A;3. 点击" />
+                <Run FontWeight="Bold" Text="&quot;隐藏&quot;" />
+                <Run Text="按钮（在 LiveCaptions Translator 的设置页中），将 Windows LiveCaptions 隐藏。&#x0A;" />
+                <Run Text="&#x0A;程序已自动跳转到设置页，并打开了 Windows LiveCaptions。" />
+                <Run Text="配置完成后，切回主页面即可开始实时语音翻译。&#x0A;" />
+                <Run Text="&#x0A;了解更多请访问我们的 wiki：" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator/wiki" RequestNavigate="Hyperlink_RequestNavigate">
                     https://github.com/SakiRinn/LiveCaptions-Translator/wiki
                 </Hyperlink>
-                <Run FontWeight="Bold" Text="&#x0A;&#x0A;Tip:" />
-                <Run Text="To change the" />
-                <Run FontWeight="DemiBold" TextDecorations="Underline" Text="Source Language" />
-                <Run Text=", please [Show] LiveCaptions on the setting page and do it in Windows LiveCaptions." />
+                <Run FontWeight="Bold" Text="&#x0A;&#x0A;提示：" />
+                <Run Text="若要修改" />
+                <Run FontWeight="DemiBold" TextDecorations="Underline" Text="源语言" />
+                <Run Text="，请先在设置页点击 [显示] 展开 LiveCaptions，再在 Windows LiveCaptions 中操作。" />
             </ui:TextBlock>
 
             <ui:Button
@@ -74,7 +77,7 @@
                 Padding="30,10,30,10"
                 HorizontalAlignment="Center"
                 Click="CloseButton_Click"
-                Content="I have fully understood and configured." />
+                Content="我已充分了解并完成配置。" />
         </StackPanel>
     </Grid>
 </ui:FluentWindow>

@@ -1,4 +1,7 @@
-﻿<ui:FluentWindow
+﻿<!-- zh-CN localization: user-visible strings translated to Simplified Chinese by Sky-lll27
+(AI-assisted draft, human-reviewed), 2026-09. Based on SakiRinn/LiveCaptions-Translator v1.6
+(Apache-2.0). Logic unchanged. -->
+<ui:FluentWindow
     x:Class="LiveCaptionsTranslator.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -45,7 +48,7 @@
                             Click="CaptionLogButton_Click"
                             Icon="{ui:SymbolIcon History16,
                                                  Filled=False}"
-                            ToolTip="Log Cards of Captions"
+                            ToolTip="字幕记录卡片"
                             Visibility="Collapsed" />
                         <ui:Button
                             x:Name="LogOnlyButton"
@@ -54,7 +57,7 @@
                             Click="LogOnlyButton_Click"
                             Icon="{ui:SymbolIcon Pause16,
                                                  Filled=False}"
-                            ToolTip="Pause Translation (Log Only)" />
+                            ToolTip="暂停翻译（仅记录）" />
                         <ui:Button
                             x:Name="OverlayModeButton"
                             Margin="0,0,5,0"
@@ -62,7 +65,7 @@
                             Click="OverlayModeButton_Click"
                             Icon="{ui:SymbolIcon ClosedCaptionOff24,
                                                  Filled=False}"
-                            ToolTip="Overlay Window" />
+                            ToolTip="悬浮字幕窗口" />
                         <ui:Button
                             x:Name="TopmostButton"
                             Margin="0,0,5,0"
@@ -70,7 +73,7 @@
                             Click="TopmostButton_Click"
                             Icon="{ui:SymbolIcon Pin16,
                                                  Filled=True}"
-                            ToolTip="Always on Top" />
+                            ToolTip="窗口置顶" />
                     </StackPanel>
                 </ui:TitleBar.TrailingContent>
             </ui:TitleBar>
@@ -87,28 +90,28 @@
                 <ui:NavigationView.MenuItems>
                     <ui:NavigationViewItem
                         Margin="0,6,0,3"
-                        Content="Caption"
+                        Content="字幕"
                         FontFamily="Bahnschrift"
                         Icon="{ui:SymbolIcon Home24}"
                         NavigationCacheMode="Enabled"
                         TargetPageType="{x:Type local:CaptionPage}" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
-                        Content="Setting"
+                        Content="设置"
                         FontFamily="Bahnschrift"
                         Icon="{ui:SymbolIcon Settings24}"
                         NavigationCacheMode="Required"
                         TargetPageType="{x:Type local:SettingPage}" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
-                        Content="History"
+                        Content="历史"
                         FontFamily="Bahnschrift"
                         Icon="{ui:SymbolIcon History24}"
                         NavigationCacheMode="Disabled"
                         TargetPageType="{x:Type local:HistoryPage}" />
                     <ui:NavigationViewItem
                         Margin="0,3,0,0"
-                        Content="Info"
+                        Content="关于"
                         FontFamily="Bahnschrift"
                         Icon="{ui:SymbolIcon Info24}"
                         NavigationCacheMode="Required"

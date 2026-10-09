@@ -1,4 +1,7 @@
-﻿<div align="center">
+﻿> [!IMPORTANT]
+> **本仓库为简体中文界面汉化 fork**，基于上游 [SakiRinn/LiveCaptions-Translator](https://github.com/SakiRinn/LiveCaptions-Translator) v1.6。汉化详情见 [汉化说明.md](./汉化说明.md)，成品下载请走 [Releases](../../releases)。
+
+<div align="center">
 
 <img src="src/LiveCaptions-Translator.ico" width="128" height="128" alt="LiveCaptions-Translator Icon"/>
 

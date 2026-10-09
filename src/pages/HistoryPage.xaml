@@ -1,4 +1,7 @@
-﻿<Page
+﻿<!-- zh-CN localization: user-visible strings translated to Simplified Chinese by Sky-lll27
+(AI-assisted draft, human-reviewed), 2026-09. Based on SakiRinn/LiveCaptions-Translator v1.6
+(Apache-2.0). Logic unchanged. -->
+<Page
     x:Class="LiveCaptionsTranslator.HistoryPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +9,7 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="HistoryPage"
+    Title="历史"
     HorizontalAlignment="Left"
     VerticalAlignment="Top"
     JournalEntry.KeepAlive="False"
@@ -35,7 +38,7 @@
                     Icon="{ui:SymbolIcon chevronLeft12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Previous " />
+                    ToolTip="上一页" />
 
                 <ui:TextBlock
                     x:Name="PageNumber"
@@ -51,7 +54,7 @@
                     Icon="{ui:SymbolIcon chevronRight12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Next Page" />
+                    ToolTip="下一页" />
 
                 <ComboBox
                     x:Name="HistoryMaxRow"
@@ -60,10 +63,10 @@
                     Padding="10,4,10,7"
                     VerticalAlignment="Stretch"
                     SelectedIndex="1">
-                    <ComboBoxItem Content="20/page" Tag="20" />
-                    <ComboBoxItem Content="30/page" Tag="30" />
-                    <ComboBoxItem Content="50/page" Tag="50" />
-                    <ComboBoxItem Content="100/page" Tag="100" />
+                    <ComboBoxItem Content="20/页" Tag="20" />
+                    <ComboBoxItem Content="30/页" Tag="30" />
+                    <ComboBoxItem Content="50/页" Tag="50" />
+                    <ComboBoxItem Content="100/页" Tag="100" />
                 </ComboBox>
 
                 <ui:AutoSuggestBox
@@ -71,7 +74,7 @@
                     MinWidth="200"
                     MaxWidth="200"
                     Margin="5,0,0,0"
-                    PlaceholderText="Search"
+                    PlaceholderText="搜索"
                     QuerySubmitted="HistorySearchBox_QuerySubmitted"
                     TextChanged="HistorySearchBox_TextChanged" />
 
@@ -92,7 +95,7 @@
                     Icon="{ui:SymbolIcon ArrowDown12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Export" />
+                    ToolTip="导出" />
                 <ui:Button
                     x:Name="Delete"
                     Margin="5,0,0,0"
@@ -102,7 +105,7 @@
                     Icon="{ui:SymbolIcon Delete12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Delete All" />
+                    ToolTip="全部删除" />
 
                 <ui:Button
                     x:Name="Refresh"
@@ -113,7 +116,7 @@
                     Icon="{ui:SymbolIcon ArrowClockwise12,
                                          Filled=False}"
                     MouseOverBackground="#07000000"
-                    ToolTip="Refresh" />
+                    ToolTip="刷新" />
             </StackPanel>
         </Grid>
 
@@ -148,7 +151,7 @@
                 </LinearGradientBrush>
             </DataGrid.BorderBrush>
             <DataGrid.Columns>
-                <DataGridTemplateColumn Width="0.4*" Header="Time">
+                <DataGridTemplateColumn Width="0.4*" Header="时间">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock
@@ -159,7 +162,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="*" Header="Caption">
+                <DataGridTemplateColumn Width="*" Header="原文">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding SourceText}" TextWrapping="Wrap" />
@@ -167,7 +170,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Width="*" Header="Translated">
+                <DataGridTemplateColumn Width="*" Header="译文">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding TranslatedText}" TextWrapping="Wrap" />

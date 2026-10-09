@@ -1,4 +1,7 @@
-﻿<Window
+﻿<!-- zh-CN localization: user-visible strings translated to Simplified Chinese by Sky-lll27
+(AI-assisted draft, human-reviewed), 2026-09. Based on SakiRinn/LiveCaptions-Translator v1.6
+(Apache-2.0). Logic unchanged. -->
+<Window
     x:Class="LiveCaptionsTranslator.OverlayWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +9,7 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="Overlay Window"
+    Title="悬浮字幕窗口"
     Width="650"
     Height="135"
     MinWidth="650"
@@ -107,7 +110,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon fontIncrease20,
                                              Filled=False}"
-                        ToolTip="Font Size Increase" />
+                        ToolTip="增大字号" />
                     <ui:Button
                         x:Name="FontSizeDecrease"
                         Background="#FFAAAAAA"
@@ -115,7 +118,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon fontDecrease20,
                                              Filled=False}"
-                        ToolTip="Font Size Decrease" />
+                        ToolTip="减小字号" />
                     <ui:Button
                         x:Name="FontStrokeIncrease"
                         Background="#FFAAAAAA"
@@ -123,7 +126,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon InkStroke20,
                                              Filled=True}"
-                        ToolTip="Font Stroke Increase" />
+                        ToolTip="增大描边" />
                     <ui:Button
                         x:Name="FontStrokeDecrease"
                         Background="#FFAAAAAA"
@@ -131,7 +134,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon InkStrokeArrowDown20,
                                              Filled=False}"
-                        ToolTip="Font Stroke Decrease" />
+                        ToolTip="减小描边" />
                     <ui:Button
                         x:Name="FontBold"
                         Background="#FFAAAAAA"
@@ -139,7 +142,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon textBold16,
                                              Filled=False}"
-                        ToolTip="Font Bold" />
+                        ToolTip="字体加粗" />
                     <ui:Button
                         x:Name="FontColorCycle"
                         Background="#FFAAAAAA"
@@ -147,7 +150,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon color16,
                                              Filled=False}"
-                        ToolTip="Font Color" />
+                        ToolTip="字体颜色" />
 
                     <ui:Button
                         x:Name="OpacityIncrease"
@@ -157,7 +160,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon arrowAutofitUp20,
                                              Filled=False}"
-                        ToolTip="Background Opacity Increase" />
+                        ToolTip="提高背景不透明度" />
                     <ui:Button
                         x:Name="OpacityDecrease"
                         Background="#FFAAAAAA"
@@ -165,7 +168,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon arrowAutofitDown20,
                                              Filled=False}"
-                        ToolTip="Background Opacity Decrease" />
+                        ToolTip="降低背景不透明度" />
                     <ui:Button
                         x:Name="BackgroundColorCycle"
                         Background="#FFAAAAAA"
@@ -173,7 +176,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon color16,
                                              Filled=False}"
-                        ToolTip="Background Color" />
+                        ToolTip="背景颜色" />
 
                     <ui:Button
                         x:Name="OnlyModeButton"
@@ -183,7 +186,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon PanelBottom20,
                                              Filled=False}"
-                        ToolTip="Show only subtitles or translations" />
+                        ToolTip="仅显示字幕或译文" />
                     <ui:Button
                         x:Name="SwitchModeButton"
                         Background="#FFAAAAAA"
@@ -191,7 +194,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon ArrowSyncCircle20,
                                              Filled=False}"
-                        ToolTip="Switch the order of subtitles and translations" />
+                        ToolTip="切换字幕与译文的顺序" />
                     <ui:Button
                         x:Name="ClickThrough"
                         Background="#FFAAAAAA"
@@ -199,7 +202,7 @@
                         Cursor="Hand"
                         Icon="{ui:SymbolIcon lockClosed16,
                                              Filled=False}"
-                        ToolTip="Click Through" />
+                        ToolTip="鼠标穿透" />
                 </StackPanel>
             </Grid>
         </Border>

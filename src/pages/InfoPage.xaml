@@ -1,4 +1,7 @@
-﻿<Page
+﻿<!-- zh-CN localization: user-visible strings translated to Simplified Chinese by Sky-lll27
+(AI-assisted draft, human-reviewed), 2026-09. Based on SakiRinn/LiveCaptions-Translator v1.6
+(Apache-2.0). Logic unchanged. -->
+<Page
     x:Class="LiveCaptionsTranslator.InfoPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,18 +9,18 @@
     xmlns:local="clr-namespace:LiveCaptionsTranslator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="InfoPage"
+    Title="关于"
     JournalEntry.KeepAlive="False"
     mc:Ignorable="d">
     <Grid Margin="10">
         <StackPanel>
             <TextBlock TextAlignment="Left" TextWrapping="Wrap">
-                <Run Text="We welcome any form of contribution! You can provide suggestions or report bugs via GitHub issues, or contribute code directly by submitting Pull Requests." />
-                <Run Text="&#x0A;If this program is helpful to you, please consider giving us a star ✨!" />
+                <Run Text="我们欢迎任何形式的贡献！你可以通过 GitHub issues 提建议或报告 bug，也可以直接提交 Pull Request 参与开发。" />
+                <Run Text="&#x0A;如果这个程序帮到了你，欢迎给我们点个 star ✨！" />
             </TextBlock>
             <Separator Margin="0,5,0,5" />
             <TextBlock Margin="0,0,0,3">
-                <Run FontWeight="SemiBold" Text="Repository:" />
+                <Run FontWeight="SemiBold" Text="仓库：" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator" RequestNavigate="Hyperlink_RequestNavigate">
                     <Run Text="https://github.com/SakiRinn/LiveCaptions-Translator" />
                 </Hyperlink>
@@ -29,17 +32,17 @@
                 </Hyperlink>
             </TextBlock>
             <TextBlock Margin="0,0,0,3">
-                <Run FontWeight="SemiBold" Text="Maintainer:" />
+                <Run FontWeight="SemiBold" Text="维护者：" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn" RequestNavigate="Hyperlink_RequestNavigate">
                     <Run Text="@SakiRinn" />
                 </Hyperlink>
-                <Run Text="(Author) and" />
+                <Run Text="（作者）与" />
                 <Hyperlink NavigateUri="https://github.com/A-nony-mous" RequestNavigate="Hyperlink_RequestNavigate">
                     <Run Text="@A-nony-mous" />
                 </Hyperlink>
             </TextBlock>
             <TextBlock>
-                <Run FontWeight="SemiBold" Text="Version:" />
+                <Run FontWeight="SemiBold" Text="版本：" />
                 <Hyperlink NavigateUri="https://github.com/SakiRinn/LiveCaptions-Translator/releases" RequestNavigate="Hyperlink_RequestNavigate">
                     <Run x:Name="Version" Text="1.1.1.1" />
                 </Hyperlink>
