@@ -82,6 +82,8 @@ namespace LiveCaptionsTranslator
                 // Note: For certain languages (such as Japanese), LiveCaptions excessively uses `\n`.
                 // Replace redundant `\n` within sentences with comma or period.
                 fullText = TextUtil.ReplaceNewlines(fullText, TextUtil.MEDIUM_THRESHOLD);
+                // Note: Users can end a sentence by hand when LiveCaptions is slow to do so.
+                fullText = SentenceBreaker.Apply(fullText);
 
                 // Prevent adding the last sentence from previous running to log cards
                 // before the first sentence is completed.

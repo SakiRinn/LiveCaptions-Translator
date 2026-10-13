@@ -46,6 +46,12 @@ namespace LiveCaptionsTranslator
             ShowLogCard(Translator.Setting.MainWindow.CaptionLogEnabled);
         }
 
+        private void SentenceBreakButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Once focused, the button also responds to Space and Enter.
+            SentenceBreaker.RequestBreak();
+        }
+
         private void TopmostButton_Click(object sender, RoutedEventArgs e)
         {
             ToggleTopmost(!this.Topmost);
