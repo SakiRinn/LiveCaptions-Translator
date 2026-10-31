@@ -51,6 +51,38 @@ namespace LiveCaptionsTranslator.apis
         };
         private static int openai_fallback_index = 0;
 
+        private static readonly Dictionary<string, int> reasoningEffortIndex = new();
+
+        private static async Task<HttpResponseMessage> PostOpenAIReasoning(
+            OpenAIConfig config, List<BaseLLMConfig.Message> messages, CancellationToken token)
+        {
+            var efforts = OpenAIReasoningRequestData.EffortCandidates(config.ModelName);
+            reasoningEffortIndex.TryGetValue(config.ModelName, out int index);
+            if (index >= efforts.Length)
+                index = 0;
+
+            while (true)
+            {
+                var requestData = new OpenAIReasoningRequestData(
+                    config.ModelName, messages, config.Temperature, efforts[index]);
+                string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
+                var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync(TextUtil.NormalizeUrl(config.ApiUrl), content, token);
+                if (response.StatusCode != HttpStatusCode.BadRequest &&
+                    response.StatusCode != HttpStatusCode.UnprocessableEntity)
+                {
+                    reasoningEffortIndex[config.ModelName] = index;
+                    return response;
+                }
+
+                // The model may not accept this reasoning_effort value; try the next one.
+                if (index + 1 >= efforts.Length)
+                    return response;
+                index++;
+            }
+        }
+
         public static async Task<string> OpenAI(string text, CancellationToken token = default)
         {
             var config = Translator.Setting["OpenAI"] as OpenAIConfig;
@@ -85,24 +117,29 @@ namespace LiveCaptionsTranslator.apis
             HttpResponseMessage response;
             try
             {
-                while (true)
+                if (OpenAIReasoningRequestData.IsReasoningModel(config.ModelName))
+                    response = await PostOpenAIReasoning(config, messages, token);
+                else
                 {
-                    var requestData = LLMRequestDataFactory.Create(openai_fallback_index,
-                        config.ModelName, messages, config.Temperature);
-                    string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
-                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-                    response = await client.PostAsync(TextUtil.NormalizeUrl(config.ApiUrl), content, token);
-                    if (response.StatusCode != HttpStatusCode.BadRequest &&
-                        response.StatusCode != HttpStatusCode.UnprocessableEntity)
-                        break;
-                    Thread.Sleep(15);
-
-                    openai_fallback_index++;
-                    if (openai_fallback_index >= LLMRequestDataFactory.FallbackCount)
+                    while (true)
                     {
-                        openai_fallback_index = 0;
-                        break;
+                        var requestData = LLMRequestDataFactory.Create(openai_fallback_index,
+                            config.ModelName, messages, config.Temperature);
+                        string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
+                        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+                        response = await client.PostAsync(TextUtil.NormalizeUrl(config.ApiUrl), content, token);
+                        if (response.StatusCode != HttpStatusCode.BadRequest &&
+                            response.StatusCode != HttpStatusCode.UnprocessableEntity)
+                            break;
+                        Thread.Sleep(15);
+
+                        openai_fallback_index++;
+                        if (openai_fallback_index >= LLMRequestDataFactory.FallbackCount)
+                        {
+                            openai_fallback_index = 0;
+                            break;
+                        }
                     }
                 }
             }
@@ -123,6 +160,9 @@ namespace LiveCaptionsTranslator.apis
                 string responseString = await response.Content.ReadAsStringAsync();
                 var responseObj = JsonSerializer.Deserialize<OpenAIConfig.Response>(responseString);
                 var output = responseObj.choices[0].message.content;
+                if (string.IsNullOrEmpty(output))
+                    return $"[ERROR] Translation Failed: Empty response " +
+                           $"(finish_reason: {responseObj.choices[0].finish_reason})";
                 return RegexPatterns.ModelThinking().Replace(output, "");
             }
             else
