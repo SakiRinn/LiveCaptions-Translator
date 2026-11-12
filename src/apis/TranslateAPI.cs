@@ -79,31 +79,35 @@ namespace LiveCaptionsTranslator.apis
                 }
             }
 
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config.ApiKey}");
-
             HttpResponseMessage response;
             try
             {
+                int fallbackIndex = Volatile.Read(ref openai_fallback_index);
                 while (true)
                 {
-                    var requestData = LLMRequestDataFactory.Create(openai_fallback_index,
+                    var requestData = LLMRequestDataFactory.Create(fallbackIndex,
                         config.ModelName, messages, config.Temperature);
                     string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
-                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    using var request = new HttpRequestMessage(HttpMethod.Post, TextUtil.NormalizeUrl(config.ApiUrl))
+                    {
+                        Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+                    };
+                    if (!string.IsNullOrEmpty(config.ApiKey))
+                        request.Headers.Add("Authorization", $"Bearer {config.ApiKey}");
 
-                    response = await client.PostAsync(TextUtil.NormalizeUrl(config.ApiUrl), content, token);
+                    response = await client.SendAsync(request, token);
                     if (response.StatusCode != HttpStatusCode.BadRequest &&
                         response.StatusCode != HttpStatusCode.UnprocessableEntity)
                         break;
-                    Thread.Sleep(15);
+                    await Task.Delay(15, token);
 
-                    openai_fallback_index++;
-                    if (openai_fallback_index >= LLMRequestDataFactory.FallbackCount)
+                    fallbackIndex++;
+                    if (fallbackIndex >= LLMRequestDataFactory.FallbackCount)
                     {
-                        openai_fallback_index = 0;
+                        Volatile.Write(ref openai_fallback_index, 0);
                         break;
                     }
+                    Volatile.Write(ref openai_fallback_index, fallbackIndex);
                 }
             }
             catch (OperationCanceledException ex)
@@ -162,7 +166,6 @@ namespace LiveCaptionsTranslator.apis
             requestData.keep_alive = config.keep_alive;
             string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
@@ -228,7 +231,6 @@ namespace LiveCaptionsTranslator.apis
 
             string jsonContent = JsonSerializer.Serialize(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
@@ -310,14 +312,17 @@ namespace LiveCaptionsTranslator.apis
             var requestData = LLMRequestDataFactory.Create("OpenRouter", config.ModelName, messages, config.Temperature);
 
             string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
+            using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+            if (!string.IsNullOrEmpty(config?.ApiKey))
+                request.Headers.Add("Authorization", $"Bearer {config.ApiKey}");
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await client.SendAsync(request, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -451,15 +456,17 @@ namespace LiveCaptionsTranslator.apis
             };
 
             string jsonContent = JsonSerializer.Serialize(requestData);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {config?.ApiKey}");
+            using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+            if (!string.IsNullOrEmpty(config?.ApiKey))
+                request.Headers.Add("Authorization", $"DeepL-Auth-Key {config.ApiKey}");
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await client.SendAsync(request, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -512,7 +519,6 @@ namespace LiveCaptionsTranslator.apis
             };
 
             var content = new FormUrlEncodedContent(parameters);
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
@@ -563,15 +569,17 @@ namespace LiveCaptionsTranslator.apis
             };
 
             string jsonContent = JsonSerializer.Serialize(requestData);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
+            using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+            if (!string.IsNullOrEmpty(config?.ApiKey))
+                request.Headers.Add("Authorization", $"Bearer {config.ApiKey}");
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await client.SendAsync(request, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -617,7 +625,6 @@ namespace LiveCaptionsTranslator.apis
             };
 
             var content = new FormUrlEncodedContent(parameters);
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
@@ -670,8 +677,6 @@ namespace LiveCaptionsTranslator.apis
 
             string jsonContent = JsonSerializer.Serialize(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
