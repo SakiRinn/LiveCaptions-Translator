@@ -100,7 +100,7 @@
                     <ui:Flyout x:Name="TranslateAPIInfoFlyout">
                         <TextBlock
                             Width="300"
-                            Text="Except for Google and Google2, all other APIs require configuring before they can be used."
+                            Text="Except for Google, Google2, and IndexTranslate, all other APIs require configuring before they can be used."
                             TextWrapping="Wrap" />
                     </ui:Flyout>
                     <Button

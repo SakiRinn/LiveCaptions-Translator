@@ -30,14 +30,15 @@ namespace LiveCaptionsTranslator.apis
             { "MTranServer", MTranServer },
             { "Baidu", Baidu },
             { "LibreTranslate", LibreTranslate },
+            { "IndexTranslate", IndexTranslate },
         };
         public static readonly List<string> LLM_BASED_APIS = new()
         {
-            "Ollama", "OpenAI", "OpenRouter", "LMStudio"
+            "Ollama", "OpenAI", "OpenRouter", "LMStudio", "IndexTranslate"
         };
         public static readonly List<string> NO_CONFIG_APIS = new()
         {
-            "Google", "Google2"
+            "Google", "Google2", "IndexTranslate"
         };
 
         public static Func<string, CancellationToken, Task<string>> TranslateFunction =>
@@ -437,6 +438,93 @@ namespace LiveCaptionsTranslator.apis
                 }
                 else
                     return "[ERROR] Translation Failed: Unexpected API response format";
+            }
+            else
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
+        }
+
+        public static async Task<string> IndexTranslate(string text, CancellationToken token = default)
+        {
+            string language = Translator.Setting?.TargetLanguage switch
+            {
+                "zh-CN" => "简体中文",
+                "zh-TW" => "繁体中文",
+                "ja-JP" => "日语",
+                "en-US" or "en-GB" => "英语",
+                "ko-KR" => "韩语",
+                var lang => lang ?? "简体中文"
+            };
+            string apiUrl = "https://index-translate.bilibili.com/v1/chat/completions";
+
+            var messages = new List<BaseLLMConfig.Message>
+            {
+                new BaseLLMConfig.Message
+                {
+                    role = "user",
+                    content = $"请将以下文本翻译为{language}，直接输出翻译结果，不要进行任何解释。\n\n{text}"
+                }
+            };
+
+            if (Translator.Setting.ContextAware)
+            {
+                foreach (var entry in Translator.Caption.AwareContexts)
+                {
+                    string translatedText = entry.TranslatedText;
+                    if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
+                        continue;
+                    translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
+
+                    messages.InsertRange(messages.Count - 1, [
+                        new BaseLLMConfig.Message
+                        {
+                            role = "user",
+                            content = $"请将以下文本翻译为{language}，直接输出翻译结果，不要进行任何解释。\n\n{entry.SourceText}"
+                        },
+                        new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
+                    ]);
+                }
+            }
+
+            var requestData = new
+            {
+                model = "Index-Translate-35B-A3B",
+                messages = messages,
+                temperature = 0.0,
+                max_tokens = 1024,
+                stream = false,
+                chat_template_kwargs = new { enable_thinking = false }
+            };
+
+            string jsonContent = JsonSerializer.Serialize(requestData);
+            using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+            request.Headers.UserAgent.ParseAdd("Index-Translate-Client/1.0");
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.SendAsync(request, token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
+                throw;
+            }
+            catch (Exception ex)
+            {
+                return $"[ERROR] Translation Failed: {ex.Message}";
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseString = await response.Content.ReadAsStringAsync();
+                var responseObj = JsonSerializer.Deserialize<OpenAIConfig.Response>(responseString);
+                var output = responseObj.choices[0].message.content;
+                return RegexPatterns.ModelThinking().Replace(output, "").Trim();
             }
             else
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
