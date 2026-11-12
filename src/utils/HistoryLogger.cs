@@ -154,60 +154,99 @@ namespace LiveCaptionsTranslator.utils
             }
         }
 
-        public static async Task<string> LoadLastSourceText(CancellationToken token = default)
+        public static async Task<string> LoadLastSourceText(CancellationToken token = default) =>
+            await LoadLastSourceText(null, token);
+
+        public static async Task<string> LoadLastSourceText(string? apiUsed, CancellationToken token = default)
         {
-            string selectQuery = @"
-                SELECT SourceText
-                FROM TranslationHistory
-                ORDER BY Id DESC
-                LIMIT 1";
+            string selectQuery = string.IsNullOrEmpty(apiUsed)
+                ? @"
+                    SELECT SourceText
+                    FROM TranslationHistory
+                    ORDER BY Id DESC
+                    LIMIT 1"
+                : @"
+                    SELECT SourceText
+                    FROM TranslationHistory
+                    WHERE ApiUsed = @ApiUsed
+                    ORDER BY Id DESC
+                    LIMIT 1";
 
             using (var command = new SqliteCommand(selectQuery, GetConnection()))
-            using (var reader = await command.ExecuteReaderAsync(token))
             {
-                if (await reader.ReadAsync(token))
-                    return reader.GetString(reader.GetOrdinal("SourceText"));
-                else
-                    return string.Empty;
-            }
-        }
-
-        public static async Task<TranslationHistoryEntry?> LoadLastTranslation(CancellationToken token = default)
-        {
-            string selectQuery = @"
-                SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed
-                FROM TranslationHistory
-                ORDER BY Id DESC
-                LIMIT 1";
-
-            using (var command = new SqliteCommand(selectQuery, GetConnection()))
-            using (var reader = await command.ExecuteReaderAsync(token))
-            {
-                if (await reader.ReadAsync(token))
+                if (!string.IsNullOrEmpty(apiUsed))
+                    command.Parameters.AddWithValue("@ApiUsed", apiUsed);
+                using (var reader = await command.ExecuteReaderAsync(token))
                 {
-                    string unixTime = reader.GetString(reader.GetOrdinal("Timestamp"));
-                    DateTime localTime = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(unixTime)).LocalDateTime;
-                    return new TranslationHistoryEntry
-                    {
-                        Timestamp = localTime.ToString("yyyy-MM-dd HH:mm"),
-                        TimestampFull = localTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                        SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
-                        TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
-                        TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
-                        ApiUsed = reader.GetString(reader.GetOrdinal("ApiUsed"))
-                    };
+                    if (await reader.ReadAsync(token))
+                        return reader.GetString(reader.GetOrdinal("SourceText"));
+                    else
+                        return string.Empty;
                 }
-                return null;
             }
         }
 
-        public static async Task DeleteLastTranslation(CancellationToken token = default)
+        public static async Task<TranslationHistoryEntry?> LoadLastTranslation(CancellationToken token = default) =>
+            await LoadLastTranslation(null, token);
+
+        public static async Task<TranslationHistoryEntry?> LoadLastTranslation(
+            string? apiUsed, CancellationToken token = default)
         {
-            using (var command = new SqliteCommand(@"
-                DELETE FROM TranslationHistory
-                WHERE Id IN (SELECT Id FROM TranslationHistory ORDER BY Id DESC LIMIT 1)",
-                GetConnection()))
+            string selectQuery = string.IsNullOrEmpty(apiUsed)
+                ? @"
+                    SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed
+                    FROM TranslationHistory
+                    ORDER BY Id DESC
+                    LIMIT 1"
+                : @"
+                    SELECT Timestamp, SourceText, TranslatedText, TargetLanguage, ApiUsed
+                    FROM TranslationHistory
+                    WHERE ApiUsed = @ApiUsed
+                    ORDER BY Id DESC
+                    LIMIT 1";
+
+            using (var command = new SqliteCommand(selectQuery, GetConnection()))
             {
+                if (!string.IsNullOrEmpty(apiUsed))
+                    command.Parameters.AddWithValue("@ApiUsed", apiUsed);
+                using (var reader = await command.ExecuteReaderAsync(token))
+                {
+                    if (await reader.ReadAsync(token))
+                    {
+                        string unixTime = reader.GetString(reader.GetOrdinal("Timestamp"));
+                        DateTime localTime = DateTimeOffset.FromUnixTimeSeconds((long)Convert.ToDouble(unixTime)).LocalDateTime;
+                        return new TranslationHistoryEntry
+                        {
+                            Timestamp = localTime.ToString("yyyy-MM-dd HH:mm"),
+                            TimestampFull = localTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                            SourceText = reader.GetString(reader.GetOrdinal("SourceText")),
+                            TranslatedText = reader.GetString(reader.GetOrdinal("TranslatedText")),
+                            TargetLanguage = reader.GetString(reader.GetOrdinal("TargetLanguage")),
+                            ApiUsed = reader.GetString(reader.GetOrdinal("ApiUsed"))
+                        };
+                    }
+                    return null;
+                }
+            }
+        }
+
+        public static async Task DeleteLastTranslation(CancellationToken token = default) =>
+            await DeleteLastTranslation(null, token);
+
+        public static async Task DeleteLastTranslation(string? apiUsed, CancellationToken token = default)
+        {
+            string deleteQuery = string.IsNullOrEmpty(apiUsed)
+                ? @"
+                    DELETE FROM TranslationHistory
+                    WHERE Id IN (SELECT Id FROM TranslationHistory ORDER BY Id DESC LIMIT 1)"
+                : @"
+                    DELETE FROM TranslationHistory
+                    WHERE Id IN (SELECT Id FROM TranslationHistory WHERE ApiUsed = @ApiUsed ORDER BY Id DESC LIMIT 1)";
+
+            using (var command = new SqliteCommand(deleteQuery, GetConnection()))
+            {
+                if (!string.IsNullOrEmpty(apiUsed))
+                    command.Parameters.AddWithValue("@ApiUsed", apiUsed);
                 await command.ExecuteNonQueryAsync(token);
             }
         }
