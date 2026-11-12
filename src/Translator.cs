@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Automation;
@@ -17,6 +18,36 @@ namespace LiveCaptionsTranslator
 
         private static readonly Queue<string> pendingTextQueue = new();
         private static readonly TranslationTaskQueue translationTaskQueue = new();
+        private static readonly ConcurrentDictionary<string, TranslationTaskQueue> parallelTaskQueues = new();
+        private static readonly SemaphoreSlim historyLock = new(1, 1);
+
+        private static TranslationTaskQueue GetTaskQueue(string apiName) =>
+            string.IsNullOrEmpty(apiName)
+                ? translationTaskQueue
+                : parallelTaskQueues.GetOrAdd(apiName, name => new TranslationTaskQueue(name));
+
+        public static List<string> GetActiveApis()
+        {
+            var apis = new List<string>();
+            if (!string.IsNullOrEmpty(Setting?.ApiName) &&
+                TranslateAPI.TRANSLATE_FUNCTIONS.ContainsKey(Setting.ApiName))
+            {
+                apis.Add(Setting.ApiName);
+            }
+            if (Setting?.ParallelApiNames != null)
+            {
+                foreach (var api in Setting.ParallelApiNames)
+                {
+                    if (!string.IsNullOrEmpty(api) &&
+                        TranslateAPI.TRANSLATE_FUNCTIONS.ContainsKey(api) &&
+                        !apis.Contains(api))
+                    {
+                        apis.Add(api);
+                    }
+                }
+            }
+            return apis;
+        }
 
         public static AutomationElement? Window
         {
@@ -176,13 +207,17 @@ namespace LiveCaptionsTranslator
 
                     if (LogOnlyFlag)
                     {
-                        bool isOverwrite = await IsOverwrite(originalSnapshot);
+                        bool isOverwrite = await IsOverwrite(originalSnapshot, "LogOnly");
                         await LogOnly(originalSnapshot, isOverwrite);
                     }
                     else
                     {
-                        translationTaskQueue.Enqueue(token => Task.Run(
-                            () => Translate(originalSnapshot, token), token), originalSnapshot);
+                        foreach (var apiName in GetActiveApis())
+                        {
+                            var api = apiName;
+                            GetTaskQueue(api).Enqueue(token => Task.Run(
+                                () => Translate(originalSnapshot, api, token), token), originalSnapshot);
+                        }
                     }
                 }
 
@@ -194,7 +229,10 @@ namespace LiveCaptionsTranslator
         {
             while (true)
             {
-                var (translatedText, isChoke) = translationTaskQueue.Output;
+                var activeApis = GetActiveApis();
+                var (translatedText, isChoke) = activeApis.Count > 0
+                    ? GetTaskQueue(activeApis[0]).Output
+                    : translationTaskQueue.Output;
 
                 if (LogOnlyFlag)
                 {
@@ -203,24 +241,65 @@ namespace LiveCaptionsTranslator
                     Caption.OverlayNoticePrefix = "[Paused]";
                     Caption.OverlayCurrentTranslation = string.Empty;
                 }
-                else if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
+                else if (activeApis.Count <= 1)
+                {
+                    if (!string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(
                              translatedText, string.Empty).Trim()) &&
                          string.CompareOrdinal(Caption.TranslatedCaption, translatedText) != 0)
-                {
-                    // Main page
-                    Caption.TranslatedCaption = translatedText;
-                    Caption.DisplayTranslatedCaption =
-                        TextUtil.ShortenDisplaySentence(Caption.TranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
-
-                    // Overlay window
-                    if (Caption.TranslatedCaption.Contains("[ERROR]") || Caption.TranslatedCaption.Contains("[WARNING]"))
-                        Caption.OverlayCurrentTranslation = Caption.TranslatedCaption;
-                    else
                     {
-                        var match = RegexPatterns.NoticePrefixAndTranslation().Match(Caption.TranslatedCaption);
-                        Caption.OverlayNoticePrefix = match.Groups[1].Value.Trim();
-                        Caption.OverlayCurrentTranslation = match.Groups[2].Value.Trim();
+                        // Main page
+                        Caption.TranslatedCaption = translatedText;
+                        Caption.DisplayTranslatedCaption =
+                            TextUtil.ShortenDisplaySentence(Caption.TranslatedCaption, TextUtil.VERYLONG_THRESHOLD);
+
+                        // Overlay window
+                        if (Caption.TranslatedCaption.Contains("[ERROR]") || Caption.TranslatedCaption.Contains("[WARNING]"))
+                            Caption.OverlayCurrentTranslation = Caption.TranslatedCaption;
+                        else
+                        {
+                            var match = RegexPatterns.NoticePrefixAndTranslation().Match(Caption.TranslatedCaption);
+                            Caption.OverlayNoticePrefix = match.Groups[1].Value.Trim();
+                            Caption.OverlayCurrentTranslation = match.Groups[2].Value.Trim();
+                        }
                     }
+                }
+                else
+                {
+                    var mainLines = new List<string>();
+                    var overlayLines = new List<string>();
+                    string primaryNoticePrefix = string.Empty;
+
+                    for (int i = 0; i < activeApis.Count; i++)
+                    {
+                        string api = activeApis[i];
+                        string apiOutput = GetTaskQueue(api).Output.translatedText;
+                        if (string.IsNullOrEmpty(RegexPatterns.NoticePrefix().Replace(apiOutput, string.Empty).Trim()))
+                            continue;
+
+                        mainLines.Add($"[{api}] {TextUtil.ShortenDisplaySentence(apiOutput, TextUtil.VERYLONG_THRESHOLD)}");
+
+                        if (i == 0 && !apiOutput.Contains("[ERROR]") && !apiOutput.Contains("[WARNING]"))
+                        {
+                            var match = RegexPatterns.NoticePrefixAndTranslation().Match(apiOutput);
+                            primaryNoticePrefix = match.Groups[1].Value.Trim();
+                            overlayLines.Add($"[{api}] {match.Groups[2].Value.Trim()}");
+                        }
+                        else
+                        {
+                            overlayLines.Add($"[{api}] {apiOutput.Trim()}");
+                        }
+                    }
+
+                    string combinedMain = string.Join("\n", mainLines);
+                    if (mainLines.Count > 0 && string.CompareOrdinal(Caption.TranslatedCaption, combinedMain) != 0)
+                    {
+                        Caption.TranslatedCaption = combinedMain;
+                        Caption.DisplayTranslatedCaption = combinedMain;
+                        Caption.OverlayNoticePrefix = primaryNoticePrefix;
+                        Caption.OverlayCurrentTranslation = string.Join("\n", overlayLines);
+                    }
+
+                    isChoke = activeApis.All(api => GetTaskQueue(api).Output.isChoke);
                 }
 
                 // If the original sentence is a complete sentence, choke for better visual experience.
@@ -230,7 +309,10 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        public static async Task<(string, bool)> Translate(string text, CancellationToken token = default)
+        public static async Task<(string, bool)> Translate(string text, CancellationToken token = default) =>
+            await Translate(text, Setting?.ApiName ?? string.Empty, token);
+
+        public static async Task<(string, bool)> Translate(string text, string apiName, CancellationToken token = default)
         {
             string translatedText;
             bool isChoke = Array.IndexOf(TextUtil.PUNC_EOS, text[^1]) != -1;
@@ -238,15 +320,16 @@ namespace LiveCaptionsTranslator
             try
             {
                 var sw = Setting.MainWindow.LatencyShow ? Stopwatch.StartNew() : null;
+                var translateFunc = TranslateAPI.TRANSLATE_FUNCTIONS[apiName];
 
-                if (Setting.ContextAware && !TranslateAPI.IsLLMBased)
+                if (Setting.ContextAware && !TranslateAPI.LLM_BASED_APIS.Contains(apiName))
                 {
-                    translatedText = await TranslateAPI.TranslateFunction($"{Caption.AwareContextsCaption} 🔤 {text} 🔤", token);
+                    translatedText = await translateFunc($"{Caption.AwareContextsCaption} 🔤 {text} 🔤", token);
                     translatedText = RegexPatterns.TargetSentence().Match(translatedText).Groups[1].Value;
                 }
                 else
                 {
-                    translatedText = await TranslateAPI.TranslateFunction(text, token);
+                    translatedText = await translateFunc(text, token);
                     translatedText = translatedText.Replace("🔤", "");
                 }
 
@@ -268,14 +351,35 @@ namespace LiveCaptionsTranslator
             return (translatedText, isChoke);
         }
 
+        public static async Task CommitTaskResult(string originalText, string translatedText,
+            string apiName, CancellationToken token = default)
+        {
+            await historyLock.WaitAsync(token);
+            try
+            {
+                bool isOverwrite = await IsOverwrite(originalText, apiName, token);
+                if (!isOverwrite && apiName == Setting?.ApiName)
+                    await AddContexts(apiName, token);
+                await Log(originalText, translatedText, isOverwrite, apiName, token);
+            }
+            finally
+            {
+                historyLock.Release();
+            }
+        }
+
         public static async Task Log(string originalText, string translatedText,
-            bool isOverwrite = false, CancellationToken token = default)
+            bool isOverwrite = false, CancellationToken token = default) =>
+            await Log(originalText, translatedText, isOverwrite, Setting?.ApiName, token);
+
+        public static async Task Log(string originalText, string translatedText,
+            bool isOverwrite, string? apiUsed, CancellationToken token = default)
         {
             string targetLanguage, apiName;
             if (Setting != null)
             {
                 targetLanguage = Setting.TargetLanguage;
-                apiName = Setting.ApiName;
+                apiName = string.IsNullOrEmpty(apiUsed) ? Setting.ApiName : apiUsed;
             }
             else
             {
@@ -286,7 +390,7 @@ namespace LiveCaptionsTranslator
             try
             {
                 if (isOverwrite)
-                    await SQLiteHistoryLogger.DeleteLastTranslation(token);
+                    await SQLiteHistoryLogger.DeleteLastTranslation(apiName, token);
                 await SQLiteHistoryLogger.LogTranslation(originalText, translatedText, targetLanguage, apiName);
                 TranslationLogged?.Invoke();
             }
@@ -306,7 +410,7 @@ namespace LiveCaptionsTranslator
             try
             {
                 if (isOverwrite)
-                    await SQLiteHistoryLogger.DeleteLastTranslation(token);
+                    await SQLiteHistoryLogger.DeleteLastTranslation("LogOnly", token);
                 await SQLiteHistoryLogger.LogTranslation(originalText, "N/A", "N/A", "LogOnly");
                 TranslationLogged?.Invoke();
             }
@@ -320,15 +424,24 @@ namespace LiveCaptionsTranslator
             }
         }
 
-        public static async Task AddContexts(CancellationToken token = default)
+        public static async Task AddContexts(CancellationToken token = default) =>
+            await AddContexts(Setting?.ApiName, token);
+
+        public static async Task AddContexts(string? apiUsed, CancellationToken token = default)
         {
-            var lastLog = await SQLiteHistoryLogger.LoadLastTranslation(token);
+            var lastLog = await SQLiteHistoryLogger.LoadLastTranslation(apiUsed, token);
             if (lastLog == null)
                 return;
 
-            if (Caption?.Contexts.Count >= Caption.MAX_CONTEXTS)
-                Caption.Contexts.Dequeue();
-            Caption?.Contexts.Enqueue(lastLog);
+            if (Caption != null)
+            {
+                lock (Caption.Contexts)
+                {
+                    if (Caption.Contexts.Count >= Caption.MAX_CONTEXTS)
+                        Caption.Contexts.Dequeue();
+                    Caption.Contexts.Enqueue(lastLog);
+                }
+            }
 
             Caption?.OnPropertyChanged("DisplayLogCards");
             Caption?.OnPropertyChanged("OverlayPreviousTranslation");
@@ -336,17 +449,26 @@ namespace LiveCaptionsTranslator
 
         public static void ClearContexts()
         {
-            Caption?.Contexts.Clear();
+            if (Caption != null)
+            {
+                lock (Caption.Contexts)
+                {
+                    Caption.Contexts.Clear();
+                }
+            }
 
             Caption?.OnPropertyChanged("DisplayLogCards");
             Caption?.OnPropertyChanged("OverlayPreviousTranslation");
         }
 
         // If this text is too similar to the last one, overwrite it when logging.
-        public static async Task<bool> IsOverwrite(string originalText, CancellationToken token = default)
+        public static async Task<bool> IsOverwrite(string originalText, CancellationToken token = default) =>
+            await IsOverwrite(originalText, Setting?.ApiName, token);
+
+        public static async Task<bool> IsOverwrite(string originalText, string? apiUsed, CancellationToken token = default)
         {
-            string lastOriginalText = await SQLiteHistoryLogger.LoadLastSourceText(token);
-            if (lastOriginalText == null)
+            string lastOriginalText = await SQLiteHistoryLogger.LoadLastSourceText(apiUsed, token);
+            if (string.IsNullOrEmpty(lastOriginalText))
                 return false;
 
             int minLen = Math.Min(originalText.Length, lastOriginalText.Length);
