@@ -30,14 +30,15 @@ namespace LiveCaptionsTranslator.apis
             { "MTranServer", MTranServer },
             { "Baidu", Baidu },
             { "LibreTranslate", LibreTranslate },
+            { "IndexTranslate", IndexTranslate },
         };
         public static readonly List<string> LLM_BASED_APIS = new()
         {
-            "Ollama", "OpenAI", "OpenRouter", "LMStudio"
+            "Ollama", "OpenAI", "OpenRouter", "LMStudio", "IndexTranslate"
         };
         public static readonly List<string> NO_CONFIG_APIS = new()
         {
-            "Google", "Google2"
+            "Google", "Google2", "IndexTranslate"
         };
 
         public static Func<string, CancellationToken, Task<string>> TranslateFunction =>
@@ -79,31 +80,35 @@ namespace LiveCaptionsTranslator.apis
                 }
             }
 
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config.ApiKey}");
-
             HttpResponseMessage response;
             try
             {
+                int fallbackIndex = Volatile.Read(ref openai_fallback_index);
                 while (true)
                 {
-                    var requestData = LLMRequestDataFactory.Create(openai_fallback_index,
+                    var requestData = LLMRequestDataFactory.Create(fallbackIndex,
                         config.ModelName, messages, config.Temperature);
                     string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
-                    var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                    using var request = new HttpRequestMessage(HttpMethod.Post, TextUtil.NormalizeUrl(config.ApiUrl))
+                    {
+                        Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+                    };
+                    if (!string.IsNullOrEmpty(config.ApiKey))
+                        request.Headers.Add("Authorization", $"Bearer {config.ApiKey}");
 
-                    response = await client.PostAsync(TextUtil.NormalizeUrl(config.ApiUrl), content, token);
+                    response = await client.SendAsync(request, token);
                     if (response.StatusCode != HttpStatusCode.BadRequest &&
                         response.StatusCode != HttpStatusCode.UnprocessableEntity)
                         break;
-                    Thread.Sleep(15);
+                    await Task.Delay(15, token);
 
-                    openai_fallback_index++;
-                    if (openai_fallback_index >= LLMRequestDataFactory.FallbackCount)
+                    fallbackIndex++;
+                    if (fallbackIndex >= LLMRequestDataFactory.FallbackCount)
                     {
-                        openai_fallback_index = 0;
+                        Volatile.Write(ref openai_fallback_index, 0);
                         break;
                     }
+                    Volatile.Write(ref openai_fallback_index, fallbackIndex);
                 }
             }
             catch (OperationCanceledException ex)
@@ -162,7 +167,6 @@ namespace LiveCaptionsTranslator.apis
             requestData.keep_alive = config.keep_alive;
             string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
@@ -228,7 +232,6 @@ namespace LiveCaptionsTranslator.apis
 
             string jsonContent = JsonSerializer.Serialize(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
@@ -310,14 +313,17 @@ namespace LiveCaptionsTranslator.apis
             var requestData = LLMRequestDataFactory.Create("OpenRouter", config.ModelName, messages, config.Temperature);
 
             string jsonContent = JsonSerializer.Serialize(requestData, requestData.GetType());
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
+            using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+            if (!string.IsNullOrEmpty(config?.ApiKey))
+                request.Headers.Add("Authorization", $"Bearer {config.ApiKey}");
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await client.SendAsync(request, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -437,6 +443,93 @@ namespace LiveCaptionsTranslator.apis
                 return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
         }
 
+        public static async Task<string> IndexTranslate(string text, CancellationToken token = default)
+        {
+            string language = Translator.Setting?.TargetLanguage switch
+            {
+                "zh-CN" => "简体中文",
+                "zh-TW" => "繁体中文",
+                "ja-JP" => "日语",
+                "en-US" or "en-GB" => "英语",
+                "ko-KR" => "韩语",
+                var lang => lang ?? "简体中文"
+            };
+            string apiUrl = "https://index-translate.bilibili.com/v1/chat/completions";
+
+            var messages = new List<BaseLLMConfig.Message>
+            {
+                new BaseLLMConfig.Message
+                {
+                    role = "user",
+                    content = $"请将以下文本翻译为{language}，直接输出翻译结果，不要进行任何解释。\n\n{text}"
+                }
+            };
+
+            if (Translator.Setting.ContextAware)
+            {
+                foreach (var entry in Translator.Caption.AwareContexts)
+                {
+                    string translatedText = entry.TranslatedText;
+                    if (translatedText.Contains("[ERROR]") || translatedText.Contains("[WARNING]"))
+                        continue;
+                    translatedText = RegexPatterns.NoticePrefix().Replace(translatedText, "");
+
+                    messages.InsertRange(messages.Count - 1, [
+                        new BaseLLMConfig.Message
+                        {
+                            role = "user",
+                            content = $"请将以下文本翻译为{language}，直接输出翻译结果，不要进行任何解释。\n\n{entry.SourceText}"
+                        },
+                        new BaseLLMConfig.Message { role = "assistant", content = $"{translatedText}" }
+                    ]);
+                }
+            }
+
+            var requestData = new
+            {
+                model = "Index-Translate-35B-A3B",
+                messages = messages,
+                temperature = 0.0,
+                max_tokens = 1024,
+                stream = false,
+                chat_template_kwargs = new { enable_thinking = false }
+            };
+
+            string jsonContent = JsonSerializer.Serialize(requestData);
+            using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+            request.Headers.UserAgent.ParseAdd("Index-Translate-Client/1.0");
+
+            HttpResponseMessage response;
+            try
+            {
+                response = await client.SendAsync(request, token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                if (ex.Message.StartsWith("The request"))
+                    return $"[ERROR] Translation Failed: The request was canceled due to timeout (> 8 seconds), " +
+                           $"please use a faster API or check network connection.";
+                throw;
+            }
+            catch (Exception ex)
+            {
+                return $"[ERROR] Translation Failed: {ex.Message}";
+            }
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseString = await response.Content.ReadAsStringAsync();
+                var responseObj = JsonSerializer.Deserialize<OpenAIConfig.Response>(responseString);
+                var output = responseObj.choices[0].message.content;
+                return RegexPatterns.ModelThinking().Replace(output, "").Trim();
+            }
+            else
+                return $"[ERROR] Translation Failed: HTTP Error - {response.StatusCode}";
+        }
+
         public static async Task<string> DeepL(string text, CancellationToken token = default)
         {
             var config = Translator.Setting["DeepL"] as DeepLConfig;
@@ -451,15 +544,17 @@ namespace LiveCaptionsTranslator.apis
             };
 
             string jsonContent = JsonSerializer.Serialize(requestData);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"DeepL-Auth-Key {config?.ApiKey}");
+            using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+            if (!string.IsNullOrEmpty(config?.ApiKey))
+                request.Headers.Add("Authorization", $"DeepL-Auth-Key {config.ApiKey}");
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await client.SendAsync(request, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -512,7 +607,6 @@ namespace LiveCaptionsTranslator.apis
             };
 
             var content = new FormUrlEncodedContent(parameters);
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
@@ -563,15 +657,17 @@ namespace LiveCaptionsTranslator.apis
             };
 
             string jsonContent = JsonSerializer.Serialize(requestData);
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {config?.ApiKey}");
+            using var request = new HttpRequestMessage(HttpMethod.Post, apiUrl)
+            {
+                Content = new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            };
+            if (!string.IsNullOrEmpty(config?.ApiKey))
+                request.Headers.Add("Authorization", $"Bearer {config.ApiKey}");
 
             HttpResponseMessage response;
             try
             {
-                response = await client.PostAsync(apiUrl, content, token);
+                response = await client.SendAsync(request, token);
             }
             catch (OperationCanceledException ex)
             {
@@ -617,7 +713,6 @@ namespace LiveCaptionsTranslator.apis
             };
 
             var content = new FormUrlEncodedContent(parameters);
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try
@@ -670,8 +765,6 @@ namespace LiveCaptionsTranslator.apis
 
             string jsonContent = JsonSerializer.Serialize(requestData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            client.DefaultRequestHeaders.Clear();
 
             HttpResponseMessage response;
             try

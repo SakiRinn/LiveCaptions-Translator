@@ -4,12 +4,14 @@
     {
         private readonly object _lock = new object();
         private readonly List<TranslationTask> tasks;
+        private readonly string apiName;
 
         private (string translatedText, bool isChoke) output;
         public (string translatedText, bool isChoke) Output => output;
 
-        public TranslationTaskQueue()
+        public TranslationTaskQueue(string apiName = "")
         {
+            this.apiName = apiName;
             tasks = new List<TranslationTask>();
             output = (string.Empty, false);
         }
@@ -43,10 +45,8 @@
             var translatedText = output.Item1;
 
             // Log after translation.
-            bool isOverwrite = await Translator.IsOverwrite(translationTask.OriginalText);
-            if (!isOverwrite)
-                await Translator.AddContexts();
-            await Translator.Log(translationTask.OriginalText, translatedText, isOverwrite);
+            string targetApi = string.IsNullOrEmpty(apiName) ? Translator.Setting?.ApiName ?? string.Empty : apiName;
+            await Translator.CommitTaskResult(translationTask.OriginalText, translatedText, targetApi);
         }
     }
 

@@ -94,10 +94,15 @@ namespace LiveCaptionsTranslator.models
 
         public string GetPreviousText(int count, TextType textType)
         {
-            if (count <= 0 || Contexts.Count == 0)
-                return string.Empty;
+            TranslationHistoryEntry[] snapshot;
+            lock (Contexts)
+            {
+                if (count <= 0 || Contexts.Count == 0)
+                    return string.Empty;
+                snapshot = Contexts.ToArray();
+            }
 
-            var prev = Contexts
+            var prev = snapshot
                 .Reverse().Take(count).Reverse()
                 .Select(entry => entry == null || string.CompareOrdinal(entry.TranslatedText, "N/A") == 0 ||
                                  entry.TranslatedText.Contains("[ERROR]") || entry.TranslatedText.Contains("[WARNING]") ?
@@ -126,10 +131,15 @@ namespace LiveCaptionsTranslator.models
 
         public IEnumerable<TranslationHistoryEntry> GetPreviousContexts(int count)
         {
-            if (count <= 0 || Contexts.Count == 0)
-                return [];
+            TranslationHistoryEntry[] snapshot;
+            lock (Contexts)
+            {
+                if (count <= 0 || Contexts.Count == 0)
+                    return [];
+                snapshot = Contexts.ToArray();
+            }
 
-            return Contexts
+            return snapshot
                 .Reverse().Take(count).Reverse()
                 .Where(entry => entry != null && string.CompareOrdinal(entry.TranslatedText, "N/A") != 0 &&
                                 !entry.TranslatedText.Contains("[ERROR]") &&

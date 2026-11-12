@@ -22,6 +22,7 @@ namespace LiveCaptionsTranslator.models
         private bool contextAware = false;
 
         private string apiName;
+        private List<string> parallelApiNames = [];
         private string targetLanguage;
         private string prompt;
         private string? ignoredUpdateVersion;
@@ -78,6 +79,15 @@ namespace LiveCaptionsTranslator.models
             {
                 apiName = value;
                 OnPropertyChanged("ApiName");
+            }
+        }
+        public List<string> ParallelApiNames
+        {
+            get => parallelApiNames;
+            set
+            {
+                parallelApiNames = value ?? [];
+                OnPropertyChanged("ParallelApiNames");
             }
         }
         public string TargetLanguage
@@ -202,7 +212,8 @@ namespace LiveCaptionsTranslator.models
                 { "Youdao", [new YoudaoConfig()] },
                 { "Baidu", [new BaiduConfig()] },
                 { "MTranServer", [new MTranServerConfig()] },
-                { "LibreTranslate", [new LibreTranslateConfig()] }
+                { "LibreTranslate", [new LibreTranslateConfig()] },
+                { "IndexTranslate", [new TranslateAPIConfig()] }
             };
             configIndices = new Dictionary<string, int>
             {
@@ -216,7 +227,8 @@ namespace LiveCaptionsTranslator.models
                 { "Youdao", 0 },
                 { "Baidu", 0 },
                 { "MTranServer", 0 },
-                { "LibreTranslate", 0 }
+                { "LibreTranslate", 0 },
+                { "IndexTranslate", 0 }
             };
         }
 
@@ -273,6 +285,18 @@ namespace LiveCaptionsTranslator.models
                 if (!setting.ConfigIndices.ContainsKey(key))
                     setting.ConfigIndices[key] = 0;
             }
+
+            foreach (string key in setting.Configs.Keys.Except(TranslateAPI.TRANSLATE_FUNCTIONS.Keys).ToList())
+                setting.Configs.Remove(key);
+            foreach (string key in setting.ConfigIndices.Keys.Except(TranslateAPI.TRANSLATE_FUNCTIONS.Keys).ToList())
+                setting.ConfigIndices.Remove(key);
+            if (string.IsNullOrEmpty(setting.ApiName) || !TranslateAPI.TRANSLATE_FUNCTIONS.ContainsKey(setting.ApiName))
+                setting.ApiName = "Google";
+
+            setting.ParallelApiNames = (setting.ParallelApiNames ?? [])
+                .Where(key => TranslateAPI.TRANSLATE_FUNCTIONS.ContainsKey(key))
+                .Distinct()
+                .ToList();
 
             return setting;
         }

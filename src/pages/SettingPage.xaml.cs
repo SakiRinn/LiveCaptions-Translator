@@ -26,8 +26,12 @@ namespace LiveCaptionsTranslator
                 CheckForFirstUse();
             };
 
+            string currentApi = Translator.Setting?.ApiName ?? "Google";
             TranslateAPIBox.ItemsSource = Translator.Setting?.Configs.Keys;
-            TranslateAPIBox.SelectedIndex = 0;
+            TranslateAPIBox.SelectedItem = currentApi;
+
+            ParallelAPIBox.ItemsSource = Translator.Setting?.Configs.Keys;
+            UpdateParallelAPIBoxText();
 
             LoadAPISetting();
         }
@@ -56,6 +60,48 @@ namespace LiveCaptionsTranslator
         private void TranslateAPIBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LoadAPISetting();
+        }
+
+        private void ParallelAPIBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ParallelAPIBox.SelectedItem != null)
+            {
+                ParallelAPIBox.SelectedItem = null;
+                UpdateParallelAPIBoxText();
+            }
+        }
+
+        private void ParallelAPICheckBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox checkBox && checkBox.Content is string apiName)
+                checkBox.IsChecked = Translator.Setting?.ParallelApiNames.Contains(apiName) == true;
+        }
+
+        private void ParallelAPICheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not CheckBox checkBox || checkBox.Content is not string apiName || Translator.Setting == null)
+                return;
+
+            if (checkBox.IsChecked == true)
+            {
+                if (!Translator.Setting.ParallelApiNames.Contains(apiName))
+                    Translator.Setting.ParallelApiNames.Add(apiName);
+            }
+            else
+            {
+                Translator.Setting.ParallelApiNames.Remove(apiName);
+            }
+
+            Translator.Setting.OnPropertyChanged("ParallelApiNames");
+            UpdateParallelAPIBoxText();
+        }
+
+        private void UpdateParallelAPIBoxText()
+        {
+            var names = Translator.Setting?.ParallelApiNames;
+            ParallelAPIBox.Text = names != null && names.Count > 0
+                ? string.Join(", ", names)
+                : "None";
         }
 
         private void TargetLangBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
