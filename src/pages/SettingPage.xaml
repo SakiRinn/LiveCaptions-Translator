@@ -292,6 +292,28 @@
                     </ui:Flyout>
                 </StackPanel>
             </StackPanel>
+
+            <StackPanel Margin="15,10,0,0" Orientation="Vertical">
+                <TextBlock Margin="2.5,0,0,5" Text="Parallel API" />
+                <ComboBox
+                    x:Name="ParallelAPIBox"
+                    Width="115"
+                    Height="30"
+                    Padding="10,4,10,7"
+                    FontSize="13.3"
+                    IsEditable="True"
+                    IsReadOnly="True"
+                    SelectionChanged="ParallelAPIBox_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox
+                                Content="{Binding}"
+                                Click="ParallelAPICheckBox_Click"
+                                Loaded="ParallelAPICheckBox_Loaded" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
