@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows.Automation;
 
 using LiveCaptionsTranslator.apis;
@@ -11,24 +12,32 @@ namespace LiveCaptionsTranslator.utils
 
         private static AutomationElement? captionsTextBlock = null;
 
-        public static AutomationElement LaunchLiveCaptions()
+        public static AutomationElement? LaunchLiveCaptions()
         {
-            // Init
-            KillAllProcessesByPName(PROCESS_NAME);
-            var process = Process.Start(PROCESS_NAME);
-
-            // Search for window
-            AutomationElement? window = null;
-            for (int attemptCount = 0;
-                 window == null || window.Current.ClassName.CompareTo("LiveCaptionsDesktopWindow") != 0;
-                 attemptCount++)
+            try
             {
-                window = FindWindowByPId(process.Id);
-                if (attemptCount > 10000)
-                    throw new Exception("Failed to launch LiveCaptions!");
-            }
+                // Init
+                KillAllProcessesByPName(PROCESS_NAME);
+                var process = Process.Start(PROCESS_NAME);
 
-            return window;
+                // Search for window
+                AutomationElement? window = null;
+                for (int attemptCount = 0;
+                     window == null || window.Current.ClassName.CompareTo("LiveCaptionsDesktopWindow") != 0;
+                     attemptCount++)
+                {
+                    window = FindWindowByPId(process.Id);
+                    if (attemptCount > 10000)
+                        throw new Exception("Failed to launch LiveCaptions!");
+                }
+
+                return window;
+            }
+            catch (Win32Exception)
+            {
+                // LiveCaptions 未安装时仍允许主窗口启动，便于测试其他功能。
+                return null;
+            }
         }
 
         public static void KillLiveCaptions(AutomationElement window)

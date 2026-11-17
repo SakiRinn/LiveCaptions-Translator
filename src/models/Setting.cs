@@ -20,6 +20,7 @@ namespace LiveCaptionsTranslator.models
         private int numContexts = 2;
         private int displaySentences = 1;
         private bool contextAware = false;
+        private bool steamVREnabled = false;
 
         private string apiName;
         private string targetLanguage;
@@ -68,6 +69,15 @@ namespace LiveCaptionsTranslator.models
             {
                 contextAware = value;
                 OnPropertyChanged("ContextAware");
+            }
+        }
+        public bool SteamVREnabled
+        {
+            get => steamVREnabled;
+            set
+            {
+                steamVREnabled = value;
+                OnPropertyChanged("SteamVREnabled");
             }
         }
 

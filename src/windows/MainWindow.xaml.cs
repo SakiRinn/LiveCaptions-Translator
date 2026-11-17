@@ -20,6 +20,9 @@ namespace LiveCaptionsTranslator
             InitializeComponent();
             ApplicationThemeManager.ApplySystemTheme();
 
+            SteamVROverlayService.StateChanged += SteamVROverlayService_StateChanged;
+            Closed += (_, _) => SteamVROverlayService.StateChanged -= SteamVROverlayService_StateChanged;
+
             Loaded += (s, e) =>
             {
                 SystemThemeWatcher.Watch(this, WindowBackdropType.Mica, true);
@@ -27,6 +30,9 @@ namespace LiveCaptionsTranslator
                 IsAutoHeight = true;
                 CheckForFirstUse();
                 CheckForUpdates();
+                UpdateSteamVRButton(SteamVROverlayService.IsRunning);
+                if (Translator.Setting.SteamVREnabled)
+                    RestoreSteamVROverlay();
             };
 
             double screenWidth = SystemParameters.PrimaryScreenWidth;
@@ -103,6 +109,57 @@ namespace LiveCaptionsTranslator
             }
         }
 
+        private void SteamVRButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SteamVROverlayService.IsRunning)
+            {
+                SteamVROverlayService.Stop();
+                Translator.Setting.SteamVREnabled = false;
+                UpdateSteamVRButton(false);
+                return;
+            }
+
+            RestoreSteamVROverlay();
+        }
+
+        private void RestoreSteamVROverlay()
+        {
+            if (SteamVROverlayService.TryStart(out string error))
+            {
+                Translator.Setting.SteamVREnabled = true;
+                UpdateSteamVRButton(true);
+                return;
+            }
+
+            Translator.Setting.SteamVREnabled = false;
+            UpdateSteamVRButton(false);
+            SnackbarHost.Show("[ERROR] SteamVR Overlay", error, SnackbarType.Error,
+                timeout: 3, closeButton: true);
+        }
+
+        private void UpdateSteamVRButton(bool running)
+        {
+            SteamVRButton.Opacity = running ? 1.0 : 0.55;
+            SteamVRButton.ToolTip = running
+                ? "Disable SteamVR Translation Overlay"
+                : "Enable SteamVR Translation Overlay";
+        }
+
+        private void SteamVROverlayService_StateChanged(bool running, string? message)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                if (!running)
+                    Translator.Setting.SteamVREnabled = false;
+                UpdateSteamVRButton(running);
+
+                if (!string.IsNullOrWhiteSpace(message))
+                    SnackbarHost.Show("SteamVR Overlay", message,
+                        running ? SnackbarType.Success : SnackbarType.Warning,
+                        timeout: 3, closeButton: true);
+            });
+        }
+
         private void LogOnlyButton_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
@@ -156,7 +213,8 @@ namespace LiveCaptionsTranslator
                 return;
 
             RootNavigation.Navigate(typeof(SettingPage));
-            LiveCaptionsHandler.RestoreLiveCaptions(Translator.Window);
+            if (Translator.Window != null)
+                LiveCaptionsHandler.RestoreLiveCaptions(Translator.Window);
 
             Dispatcher.InvokeAsync(() =>
             {

@@ -18,6 +18,8 @@ namespace LiveCaptionsTranslator
 
         private static void OnProcessExit(object sender, EventArgs e)
         {
+            SteamVROverlayService.Stop();
+
             if (Translator.Window != null)
             {
                 LiveCaptionsHandler.RestoreLiveCaptions(Translator.Window);

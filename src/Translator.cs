@@ -34,8 +34,11 @@ namespace LiveCaptionsTranslator
         static Translator()
         {
             window = LiveCaptionsHandler.LaunchLiveCaptions();
-            LiveCaptionsHandler.FixLiveCaptions(Window);
-            LiveCaptionsHandler.HideLiveCaptions(Window);
+            if (Window != null)
+            {
+                LiveCaptionsHandler.FixLiveCaptions(Window);
+                LiveCaptionsHandler.HideLiveCaptions(Window);
+            }
 
             if (!File.Exists(Path.Combine(Directory.GetCurrentDirectory(), models.Setting.FILENAME)))
                 FirstUseFlag = true;

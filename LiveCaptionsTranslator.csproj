@@ -29,6 +29,8 @@
 		</ApplicationDefinition>
 		<Content Include="src\LiveCaptions-Translator.ico" />
 		
+		<Content Include="SteamVR-TransView-master\SteamVR-TransView-master\SteamVR-TransView.exe" Link="SteamVR\SteamVR-TransView.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+
 		<PackageReference Include="Interop.UIAutomationClient" Version="10.19041.0" />
 		
 		<PackageReference Include="CsvHelper" Version="33.0.1" />
